@@ -1,3 +1,63 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Carrot VTuber｜臉部九軸</title><link rel="stylesheet" href="style.css"></head><body><main><header><div><small>LIVE2D FACE LAB / 3 × 3</small><h1>臉部九軸角度測試</h1></div><b>● Angle X / Y active</b></header><section class="workspace"><section id="stage"><div id="face-rig">
-<img data-x="-1" data-y="-1" src="../assets/face_9axis/up_left.png"><img data-x="0" data-y="-1" src="../assets/face_9axis/up_center.png"><img data-x="1" data-y="-1" src="../assets/face_9axis/up_right.png"><img data-x="-1" data-y="0" src="../assets/face_9axis/center_left.png"><img class="active" data-x="0" data-y="0" src="../assets/face_9axis/center.png"><img data-x="1" data-y="0" src="../assets/face_9axis/center_right.png"><img data-x="-1" data-y="1" src="../assets/face_9axis/down_left.png"><img data-x="0" data-y="1" src="../assets/face_9axis/down_center.png"><img data-x="1" data-y="1" src="../assets/face_9axis/down_right.png">
-</div><div class="crosshair"><i></i></div><em>MOVE POINTER<br><span>左右轉頭／抬頭低頭</span></em></section><aside><section><small>ANGLE PARAMETERS</small><label>Angle X <output id="x-out">0</output><input id="angle-x" type="range" min="-1" max="1" step="1" value="0"></label><label>Angle Y <output id="y-out">0</output><input id="angle-y" type="range" min="-1" max="1" step="1" value="0"></label><label><input id="tracking" type="checkbox" checked>滑鼠自動追蹤</label></section><section><small>3 × 3 DEFORMATION MAP</small><div id="grid">↖<b>↑</b>↗<b>←</b><strong>●</strong><b>→</b>↙<b>↓</b>↘</div></section><section><small>CURRENT STATE</small><h2 id="state">CENTER</h2><p>使用九張實際角度圖，不是對單張正臉做 skew 或 scale。</p></section></aside></section></main><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrot Inochi2D Native Head Rig Preview</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <small>CARROT PUPPET LAB / NATIVE INOCHI2D</small>
+        <h1>分層 ArtMesh 頭部綁定預覽</h1>
+      </div>
+      <a class="model-link" href="../models/carrot_vtuber_detailed_head.inx" download>下載 .inx 模型</a>
+    </header>
+
+    <section class="workspace">
+      <section id="stage" aria-label="layered head rig preview">
+        <div id="rig">
+          <img class="layer hair-back" src="../assets/native_head_layers/hair_back.png" alt="">
+          <img class="layer face" src="../assets/native_head_layers/face_base.png" alt="">
+          <img class="layer brow brow-l" src="../assets/native_head_layers/brow_l.png" alt="">
+          <img class="layer brow brow-r" src="../assets/native_head_layers/brow_r.png" alt="">
+          <img class="layer eye eye-l" src="../assets/native_head_layers/eye_l.png" alt="">
+          <img class="layer eye eye-r" src="../assets/native_head_layers/eye_r.png" alt="">
+          <img class="layer nose" src="../assets/native_head_layers/nose.png" alt="">
+          <img class="layer mouth" src="../assets/native_head_layers/mouth.png" alt="">
+          <img class="layer hair-front" src="../assets/native_head_layers/hair_front.png" alt="">
+        </div>
+        <em>MOVE POINTER<br><span>滑鼠移動控制 Angle X / Y</span></em>
+      </section>
+
+      <aside>
+        <section>
+          <small>ANGLE PARAMETERS</small>
+          <label>Angle X <output id="x-out">0.00</output>
+            <input id="angle-x" type="range" min="-1" max="1" step="0.01" value="0">
+          </label>
+          <label>Angle Y <output id="y-out">0.00</output>
+            <input id="angle-y" type="range" min="-1" max="1" step="0.01" value="0">
+          </label>
+          <label class="check"><input id="tracking" type="checkbox" checked> 滑鼠追蹤</label>
+        </section>
+
+        <section>
+          <small>NATIVE MODEL</small>
+          <p>這頁是瀏覽器預覽；真正的高密度 ArtMesh、9 點 Angle X/Y 變形資料在 <code>carrot_vtuber_detailed_head.inx</code>。</p>
+          <p>已分層：臉型、左右眼、左右眉、鼻、嘴、前髮、後髮。</p>
+        </section>
+
+        <section>
+          <small>CURRENT STATE</small>
+          <h2 id="state">CENTER</h2>
+          <p>此版不再使用九張角度圖切換；畫面由分層素材即時位移、縮放與透視補償。</p>
+        </section>
+      </aside>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
