@@ -11,23 +11,18 @@
     <header>
       <div>
         <small>CARROT PUPPET LAB / NATIVE INOCHI2D</small>
-        <h1>分層 ArtMesh 頭部綁定預覽</h1>
+        <h1 id="main-title">作品一 (頭部綁定預覽)</h1>
+        <div class="tabs">
+          <button class="tab-btn active" data-work="1">作品一 (頭部模組)</button>
+          <button class="tab-btn" data-work="2">作品二 (全身分層 PSD)</button>
+        </div>
       </div>
-      <a class="model-link" href="../models/carrot_vtuber_detailed_head.inx" download>下載 .inx 模型</a>
+      <a id="download-btn" class="model-link" href="../models/carrot_vtuber_detailed_head.inx" download>下載 .inx 模型</a>
     </header>
 
     <section class="workspace">
       <section id="stage" aria-label="layered head rig preview">
-        <div id="rig">
-          <img class="layer hair-back" src="../assets/native_head_layers/hair_back.png" alt="">
-          <img class="layer face" src="../assets/native_head_layers/face_base.png" alt="">
-          <img class="layer brow brow-l" src="../assets/native_head_layers/brow_l.png" alt="">
-          <img class="layer brow brow-r" src="../assets/native_head_layers/brow_r.png" alt="">
-          <img class="layer eye eye-l" src="../assets/native_head_layers/eye_l.png" alt="">
-          <img class="layer eye eye-r" src="../assets/native_head_layers/eye_r.png" alt="">
-          <img class="layer nose" src="../assets/native_head_layers/nose.png" alt="">
-          <img class="layer mouth" src="../assets/native_head_layers/mouth.png" alt="">
-          <img class="layer hair-front" src="../assets/native_head_layers/hair_front.png" alt="">
+        <div id="rig" class="work-1">
         </div>
         <em>MOVE POINTER<br><span>滑鼠移動控制 Angle X / Y</span></em>
       </section>

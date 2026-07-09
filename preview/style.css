@@ -82,10 +82,49 @@ aside section {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(74vmin, 650px);
-  aspect-ratio: 1;
   transform: translate(-50%, -52%);
   transform-style: preserve-3d;
+}
+
+#rig.work-1 {
+  width: min(74vmin, 600px);
+  aspect-ratio: 1;
+}
+
+#rig.work-2 {
+  width: min(74vmin * 0.5627, 338px);
+  height: min(74vmin, 600px);
+  aspect-ratio: 941/1672;
+}
+
+/* Tabs Styling */
+.tabs {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.tab-btn {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
 }
 
 .layer {
