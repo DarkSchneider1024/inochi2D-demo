@@ -57,8 +57,16 @@ function applyRig() {
   setLayer(layers.mouth, x * -20, y * 16, 1 - Math.abs(x) * .045, 1 + y * .025, x * -1.6, x * 1.5);
 
   const shade = Math.abs(x) * 0.12 + Math.max(y, 0) * 0.06;
-  Object.values(layers).forEach((el) => {
-    el.style.filter = `drop-shadow(${x * -4}px ${4 + y * 2}px ${10 + Math.abs(x) * 6}px rgba(84,38,12,${0.12 + shade}))`;
+  const shadowFilter = `drop-shadow(${x * -4}px ${4 + y * 2}px ${10 + Math.abs(x) * 6}px rgba(84,38,12,${0.12 + shade}))`;
+  
+  // Apply drop-shadow only to the main head and hair parts
+  [layers.face, layers.hairBack, layers.hairFront].forEach((el) => {
+    el.style.filter = shadowFilter;
+  });
+  
+  // Clear filter for facial features to prevent ugly seams
+  [layers.eyeL, layers.eyeR, layers.browL, layers.browR, layers.nose, layers.mouth].forEach((el) => {
+    el.style.filter = "none";
   });
 }
 
