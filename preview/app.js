@@ -10,6 +10,17 @@ const mainTitle = document.querySelector("#main-title");
 const downloadBtn = document.querySelector("#download-btn");
 const tabBtns = document.querySelectorAll(".tab-btn");
 
+// Expressions controls
+const eyeOpenLInput = document.querySelector("#eye-open-l");
+const eyeOpenRInput = document.querySelector("#eye-open-r");
+const mouthOpenInput = document.querySelector("#mouth-open");
+const mouthFormInput = document.querySelector("#mouth-form");
+
+const eyeLOut = document.querySelector("#eye-l-out");
+const eyeROut = document.querySelector("#eye-r-out");
+const mouthOpenOut = document.querySelector("#mouth-open-out");
+const mouthFormOut = document.querySelector("#mouth-form-out");
+
 let currentWork = "1";
 let activeLayers = {};
 
@@ -106,9 +117,21 @@ function applyRig() {
   const x = Number(xInput.value);
   const y = Number(yInput.value);
 
+  // Expression values
+  const eyeOpenL = Number(eyeOpenLInput.value);
+  const eyeOpenR = Number(eyeOpenRInput.value);
+  const mouthOpen = Number(mouthOpenInput.value);
+  const mouthForm = Number(mouthFormInput.value);
+
   xOut.value = x.toFixed(2);
   yOut.value = y.toFixed(2);
   state.textContent = labelFor(x, y);
+
+  // Update expression labels
+  eyeLOut.value = eyeOpenL.toFixed(2);
+  eyeROut.value = eyeOpenR.toFixed(2);
+  mouthOpenOut.value = mouthOpen.toFixed(2);
+  mouthFormOut.value = mouthForm.toFixed(2);
 
   if (currentWork === "1") {
     // WORK 1 (Head Only Rig)
@@ -117,12 +140,17 @@ function applyRig() {
     setLayer(activeLayers.hairBack, x * -22, y * 8, 1 + Math.abs(x) * .015, 1 + y * .015, x * -2.2, x * 1.2);
     setLayer(activeLayers.face, x * -10, y * 7, 1 - Math.abs(x) * .018, 1 + y * .012, x * -1.0, x * .8);
     setLayer(activeLayers.hairFront, x * -17, y * 12, 1 + Math.abs(x) * .01, 1 + y * .018, x * -2.8, x * 1.5);
-    setLayer(activeLayers.eyeL, x * -18 + Math.max(x, 0) * -7, y * 10, 1 - x * .05, 1 - Math.abs(x) * .04, x * -1.8, x * 1.6);
-    setLayer(activeLayers.eyeR, x * -18 + Math.min(x, 0) * -7, y * 10, 1 + x * .05, 1 - Math.abs(x) * .04, x * -1.8, x * 1.6);
+    
+    // Animate left/right eyes blinking with vertical scaling (sy * eyeOpen)
+    setLayer(activeLayers.eyeL, x * -18 + Math.max(x, 0) * -7, y * 10, 1 - x * .05, (1 - Math.abs(x) * .04) * eyeOpenL, x * -1.8, x * 1.6);
+    setLayer(activeLayers.eyeR, x * -18 + Math.min(x, 0) * -7, y * 10, 1 + x * .05, (1 - Math.abs(x) * .04) * eyeOpenR, x * -1.8, x * 1.6);
+    
     setLayer(activeLayers.browL, x * -17 + Math.max(x, 0) * -6, y * 9 - 2, 1 - x * .04, 1, x * -2, x * 1.5);
     setLayer(activeLayers.browR, x * -17 + Math.min(x, 0) * -6, y * 9 - 2, 1 + x * .04, 1, x * -2, x * 1.5);
     setLayer(activeLayers.nose, x * -28, y * 12, 1 - Math.abs(x) * .06, 1 + y * .03, x * -2.5, x * 2.8);
-    setLayer(activeLayers.mouth, x * -20, y * 16, 1 - Math.abs(x) * .045, 1 + y * .025, x * -1.6, x * 1.5);
+    
+    // Animate mouth opening (sy * (1 + mouthOpen)) and smiling (sx * (1 + mouthForm * 0.1))
+    setLayer(activeLayers.mouth, x * -20, y * 16, 1 - Math.abs(x) * .045 + mouthForm * 0.1, (1 + y * .025) * (1 + mouthOpen * 0.8), x * -1.6, x * 1.5);
 
     const shade = Math.abs(x) * 0.12 + Math.max(y, 0) * 0.06;
     const shadowFilter = `drop-shadow(${x * -4}px ${4 + y * 2}px ${10 + Math.abs(x) * 6}px rgba(84,38,12,${0.12 + shade}))`;
@@ -141,29 +169,35 @@ function applyRig() {
     // Dynamic 3D tilt for the entire body
     rig.style.transform = `translate(-50%, -52%) rotateY(${x * -6}deg) rotateX(${y * 4}deg)`;
 
-    // Ribbons back (Z-index 1): moves opposite direction to exaggerate depth
+    // Ribbons back (Z-index 1)
     setLayer(activeLayers.ribbonsBack, x * 8, y * -6, 1 + Math.abs(x) * .02, 1, x * 1.2, x * -0.8);
     
-    // Legs (Z-index 2-3): very stable, anchored to the ground
+    // Legs (Z-index 2-3)
     setLayer(activeLayers.legLeft, x * -1.5, y * 1.2, 1, 1, x * -0.2, 0);
     setLayer(activeLayers.legRight, x * -1.5, y * 1.2, 1, 1, x * -0.2, 0);
     
-    // Torso (Z-index 4): main body pivot
+    // Torso (Z-index 4)
     setLayer(activeLayers.torso, x * -6, y * 3.5, 1 - Math.abs(x) * .01, 1 + y * .006, x * -0.8, x * 0.5);
     
-    // Arms (Z-index 5-6): pivot with torso, but slightly higher movement
+    // Arms (Z-index 5-6)
     setLayer(activeLayers.armLeft, x * -8, y * 4.5, 1, 1, x * -1.2, x * 0.8);
     setLayer(activeLayers.armRight, x * -8, y * 4.5, 1, 1, x * -1.2, x * 0.8);
     
-    // Head parts (Z-index 7-15): follow head parallax (similar coordinates as Work 1 but adjusted for full-body layout scale)
+    // Head parts (Z-index 7-15)
     setLayer(activeLayers.hairBack, x * -14, y * 6, 1 + Math.abs(x) * .012, 1 + y * .012, x * -1.8, x * 1.0);
     setLayer(activeLayers.face, x * -22, y * 14, 1 - Math.abs(x) * .018, 1 + y * .012, x * -1.0, x * .8);
-    setLayer(activeLayers.eyeL, x * -18 + Math.max(x, 0) * -7, y * 10, 1 - x * .05, 1 - Math.abs(x) * .04, x * -1.8, x * 1.6);
-    setLayer(activeLayers.eyeR, x * -18 + Math.min(x, 0) * -7, y * 10, 1 + x * .05, 1 - Math.abs(x) * .04, x * -1.8, x * 1.6);
+    
+    // Blink/scale eyes
+    setLayer(activeLayers.eyeL, x * -18 + Math.max(x, 0) * -7, y * 10, 1 - x * .05, (1 - Math.abs(x) * .04) * eyeOpenL, x * -1.8, x * 1.6);
+    setLayer(activeLayers.eyeR, x * -18 + Math.min(x, 0) * -7, y * 10, 1 + x * .05, (1 - Math.abs(x) * .04) * eyeOpenR, x * -1.8, x * 1.6);
+    
     setLayer(activeLayers.browL, x * -17 + Math.max(x, 0) * -6, y * 9 - 2, 1 - x * .04, 1, x * -2, x * 1.5);
     setLayer(activeLayers.browR, x * -17 + Math.min(x, 0) * -6, y * 9 - 2, 1 + x * .04, 1, x * -2, x * 1.5);
     setLayer(activeLayers.nose, x * -28, y * 12, 1 - Math.abs(x) * .06, 1 + y * .03, x * -2.5, x * 2.8);
-    setLayer(activeLayers.mouth, x * -20, y * 16, 1 - Math.abs(x) * .045, 1 + y * .025, x * -1.6, x * 1.5);
+    
+    // Open/scale mouth
+    setLayer(activeLayers.mouth, x * -20, y * 16, 1 - Math.abs(x) * .045 + mouthForm * 0.1, (1 + y * .025) * (1 + mouthOpen * 0.8), x * -1.6, x * 1.5);
+    
     setLayer(activeLayers.hairFront, x * -26, y * 20, 1 + Math.abs(x) * .015, 1 + y * .02, x * -2.6, x * 1.5);
 
     const shade = Math.abs(x) * 0.12 + Math.max(y, 0) * 0.06;
@@ -192,6 +226,11 @@ stage.addEventListener("pointermove", (event) => {
 });
 
 [xInput, yInput].forEach((input) => input.addEventListener("input", applyRig));
+
+// Listen to expression inputs
+[eyeOpenLInput, eyeOpenRInput, mouthOpenInput, mouthFormInput].forEach((input) => {
+  input.addEventListener("input", applyRig);
+});
 
 // Hook up tab click events
 tabBtns.forEach(btn => {
