@@ -116,6 +116,11 @@ aside section {
   transition: all 0.2s ease;
 }
 
+a.tab-btn {
+  text-decoration: none;
+  display: inline-block;
+}
+
 .tab-btn:hover {
   border-color: var(--accent);
   color: var(--text);
