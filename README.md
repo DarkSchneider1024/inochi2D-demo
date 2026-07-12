@@ -1,12 +1,13 @@
-# Carrot Inochi2D Demo
+﻿# Carrot Inochi2D Demo
 
-Carrot VTuber 的臉部角度展示與原生 Inochi2D 模型。
+Carrot VTuber v3 全身分層模型展示。素材由「同比例炸開圖」pipeline 產出:
+Gemini 生成炸開圖 → Python manifest 切圖(flood 去背 + defringe)→ layout 對齊 → pytoshop 組 PSD。
 
-- `preview/`：免建置 HTML 九方向視覺比較。
-- `models/carrot_vtuber_detailed_head.inx`：原生 Inochi2D 頭部模型。
-- `assets/native_head_layers/`：獨立臉部透明圖層。
-- `tools/build_detailed_native_head.py`：建立 9×9 ArtMesh 與 Angle X/Y 九點 deformation binding。
+- `preview/`:分層動態預覽(滑鼠視差、呼吸、自動眨眼)
+- `assets/carrot_v3/layers/`:28 張全畫布圖層 PNG(由後到前)
+- `assets/carrot_v3/extras/`:眨眼用閉眼圖層
+- `models/carrot_v3.psd`:rig-ready 28 層 PSD,可匯入 Inochi Creator / Live2D
 
-HTML 九方向圖只供瀏覽器比較；真正的 ArtMesh 與連續參數內插位於 `.inx`，請使用 Inochi Creator 開啟。
+本機預覽:`python -m http.server 8000`,開啟 `http://localhost:8000/`。
 
-本機執行 `python -m http.server 8000`，再開啟 `http://localhost:8000/`。
+線上版:https://darkschneider1024.github.io/inochi2D-demo/preview/

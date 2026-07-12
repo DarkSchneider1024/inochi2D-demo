@@ -3,73 +3,55 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Carrot Inochi2D Native Head Rig Preview</title>
+  <title>Carrot VTuber｜v3 分層動態預覽</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    #rig.carrot-v3 {
+      width: min(74vmin * 0.3857, 232px);
+      height: min(74vmin, 600px);
+      aspect-ratio: 1080/2800;
+    }
+  </style>
 </head>
 <body>
   <main>
     <header>
       <div>
-        <small>CARROT PUPPET LAB / NATIVE INOCHI2D</small>
-        <h1 id="main-title">作品一 (頭部綁定預覽)</h1>
-        <div class="tabs">
-          <button class="tab-btn active" data-work="1">作品一 (頭部模組)</button>
-          <button class="tab-btn" data-work="2">作品二 (全身分層 PSD)</button>
-          <a class="tab-btn" href="carrot_v2.html">作品三 (V2 全身分層)</a>
-        </div>
+        <small>CARROT PUPPET LAB / EXPLODED-VIEW PIPELINE</small>
+        <h1>Carrot v3 全身分層模型</h1>
       </div>
-      <a id="download-btn" class="model-link" href="../models/carrot_vtuber_detailed_head.inx" download>下載 .inx 模型</a>
+      <a class="model-link" href="../models/carrot_v3.psd" download>下載 .psd (28 圖層)</a>
     </header>
 
     <section class="workspace">
-      <section id="stage" aria-label="layered head rig preview">
-        <div id="rig" class="work-1">
-        </div>
-        <em>MOVE POINTER<br><span>滑鼠移動控制 Angle X / Y</span></em>
+      <section id="stage" aria-label="carrot v3 layered preview">
+        <div id="rig" class="carrot-v3"></div>
+        <em>MOVE POINTER<br><span>視差跟隨・自動呼吸・眨眼</span></em>
       </section>
 
       <aside>
         <section>
-          <small>ANGLE PARAMETERS</small>
-          <label>Angle X <output id="x-out">0.00</output>
-            <input id="angle-x" type="range" min="-1" max="1" step="0.01" value="0">
+          <small>MOTION</small>
+          <label>視差強度 <output id="p-out">14</output>
+            <input id="parallax" type="range" min="0" max="30" step="1" value="14">
           </label>
-          <label>Angle Y <output id="y-out">0.00</output>
-            <input id="angle-y" type="range" min="-1" max="1" step="0.01" value="0">
-          </label>
-          <label class="check"><input id="tracking" type="checkbox" checked> 滑鼠追蹤</label>
+          <label class="check"><input id="tracking" type="checkbox" checked> 滑鼠視差跟隨</label>
+          <label class="check"><input id="breath" type="checkbox" checked> 呼吸</label>
+          <label class="check"><input id="blink" type="checkbox" checked> 自動眨眼</label>
         </section>
-
         <section>
-          <small>EXPRESSIONS (表情與變形)</small>
-          <label>Eye Open L <output id="eye-l-out">1.00</output>
-            <input id="eye-open-l" type="range" min="0" max="1" step="0.01" value="1">
-          </label>
-          <label>Eye Open R <output id="eye-r-out">1.00</output>
-            <input id="eye-open-r" type="range" min="0" max="1" step="0.01" value="1">
-          </label>
-          <label>Mouth Open <output id="mouth-open-out">0.00</output>
-            <input id="mouth-open" type="range" min="0" max="1" step="0.01" value="0">
-          </label>
-          <label>Mouth Form <output id="mouth-form-out">0.00</output>
-            <input id="mouth-form" type="range" min="-1" max="1" step="0.01" value="0">
-          </label>
+          <small>SOURCE</small>
+          <h2>28 全畫布圖層</h2>
+          <p>Gemini 同比例炸開圖 → manifest 自動切圖(flood 去背 + defringe)→ layout 對齊 → pytoshop 組 PSD。月藏藏流拆件:光頭底、獨立眼嘴、三段手臂、吊帶襪整腿。</p>
         </section>
-
-        <section>
-          <small>NATIVE MODEL</small>
-          <p>這頁是瀏覽器預覽；真正的高密度 ArtMesh、9 點 Angle X/Y 變形資料在 <code>carrot_vtuber_detailed_head.inx</code>。</p>
-          <p>已分層：臉型、左右眼、左右眉、鼻、嘴、前髮、後髮。</p>
-        </section>
-
         <section>
           <small>CURRENT STATE</small>
-          <h2 id="state">CENTER</h2>
-          <p>此版不再使用九張角度圖切換；畫面由分層素材即時位移、縮放與透視補償。</p>
+          <h2 id="state">IDLE</h2>
+          <p id="hint">圖層載入中…</p>
         </section>
       </aside>
     </section>
   </main>
-  <script src="app.js"></script>
+  <script src="carrot_v3.js"></script>
 </body>
 </html>
