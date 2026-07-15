@@ -18,8 +18,6 @@ const LAYERS = [
   { n: "blouse", d: 0.7, g: "body" },
   { n: "shorts", d: 0.66, g: "body" },
   { n: "face_base", d: 0.95, g: "head" },
-  { n: "eye_L", d: 1.05, g: "eyesOpen" },
-  { n: "eye_R", d: 1.05, g: "eyesOpen" },
   { n: "eye_closed_L", d: 1.0, g: "eyesClosed", extra: true },
   { n: "eye_closed_R", d: 1.0, g: "eyesClosed", extra: true },
   { n: "hair_bangs", d: 1.08, g: "hairF" },
