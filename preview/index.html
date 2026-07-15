@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Carrot VTuber｜v3 分層動態預覽</title>
+  <title>Lily VTuber｜v1 分層動態預覽</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    #rig.carrot-v3 {
-      width: min(74vmin * 0.3857, 232px);
+    #rig.lily-v1 {
+      width: min(74vmin * 0.3724, 224px);
       height: min(74vmin, 600px);
-      aspect-ratio: 1080/2800;
+      aspect-ratio: 1080/2900;
     }
   </style>
 </head>
@@ -17,15 +17,15 @@
   <main>
     <header>
       <div>
-        <small>CARROT PUPPET LAB / EXPLODED-VIEW PIPELINE</small>
-        <h1>Carrot v3 全身分層模型</h1>
+        <small>LILY PUPPET LAB / EXPLODED-VIEW PIPELINE</small>
+        <h1>Lily v1 全身分層模型</h1>
       </div>
-      <a class="model-link" href="../models/carrot_v3.psd" download>下載 .psd (28 圖層)</a>
+      <a class="model-link" href="../models/lily_v1.psd" download>下載 .psd (26 圖層)</a>
     </header>
 
     <section class="workspace">
-      <section id="stage" aria-label="carrot v3 layered preview">
-        <div id="rig" class="carrot-v3"></div>
+      <section id="stage" aria-label="lily v1 layered preview">
+        <div id="rig" class="lily-v1"></div>
         <em>MOVE POINTER<br><span>視差跟隨・自動呼吸・眨眼</span></em>
       </section>
 
@@ -41,8 +41,8 @@
         </section>
         <section>
           <small>SOURCE</small>
-          <h2>28 全畫布圖層</h2>
-          <p>Gemini 同比例炸開圖 → manifest 自動切圖(flood 去背 + defringe)→ layout 對齊 → pytoshop 組 PSD。月藏藏流拆件:光頭底、獨立眼嘴、三段手臂、吊帶襪整腿。</p>
+          <h2>26 全畫布圖層</h2>
+          <p>agy(Nano Banana)同比例炸開圖 → manifest 自動切圖(flood 去背,格狀多點種子)→ layout 對齊 → pytoshop 組 PSD。黑長直、高挑蜂腰、深藍削肩洋裝美女角色,依 Cubism 骨架參考拆出獨立光頭底、眉毛、眼睛、嘴巴、腮紅。</p>
         </section>
         <section>
           <small>CURRENT STATE</small>
@@ -52,6 +52,6 @@
       </aside>
     </section>
   </main>
-  <script src="carrot_v3.js"></script>
+  <script src="lily_v1.js"></script>
 </body>
 </html>
