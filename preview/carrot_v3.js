@@ -24,7 +24,6 @@ const LAYERS = [
   { n: "eye_closed_R", d: 1.0, g: "eyesClosed", extra: true },
   { n: "hair_bangs", d: 1.08, g: "hairF" },
   { n: "ahoge", d: 1.12, g: "hairF" },
-  { n: "hair_clip", d: 1.1, g: "hairF" },
 ];
 
 const rig = document.getElementById("rig");
