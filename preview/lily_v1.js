@@ -1,5 +1,6 @@
 const BASE = "../assets/lily_v1/layers/";
 const EXTRA = "../assets/lily_v1/extras/";
+const V = "20260716-armfix";
 
 // back -> front, d = parallax depth, g = motion group
 const LAYERS = [
@@ -46,7 +47,7 @@ let loaded = 0;
 const imgs = LAYERS.map((spec) => {
   const img = document.createElement("img");
   img.className = "layer";
-  img.src = (spec.extra ? EXTRA : BASE) + spec.n + ".png";
+  img.src = (spec.extra ? EXTRA : BASE) + spec.n + ".png?v=" + V;
   img.alt = spec.n;
   if (spec.g === "eyesClosed") img.style.opacity = 0;
   img.onload = () => { hint.textContent = `已載入 ${++loaded}/${LAYERS.length} 圖層`; };
