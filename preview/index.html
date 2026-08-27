@@ -3,13 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lily VTuber｜v1 分層動態預覽</title>
+  <title>藍髮 VTuber｜全身分層 PSD 預覽</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    #rig.lily-v1 {
-      width: min(74vmin * 0.3724, 224px);
-      height: min(74vmin, 600px);
-      aspect-ratio: 1080/2900;
+    #rig {
+      width: min(72vmin * 0.5628, 338px);
+      height: min(72vmin, 600px);
+      aspect-ratio: 941/1672;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    .layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      will-change: transform;
+      transition: transform 0.05s ease-out;
     }
   </style>
 </head>
@@ -17,40 +33,59 @@
   <main>
     <header>
       <div>
-        <small>LILY PUPPET LAB / EXPLODED-VIEW PIPELINE</small>
-        <h1>Lily v1 全身分層模型</h1>
+        <small>BLUE HAIR VTUBER / EXPLODED-VIEW FULL BODY RIG</small>
+        <h1 id="main-title">藍髮 VTuber (全身分層 PSD)</h1>
       </div>
-      <a class="model-link" href="../models/lily_v1.psd" download>下載 .psd</a>
+      <a id="download-btn" class="model-link" href="../models/carrot_vtuber_detailed_head.psd" download>下載 .psd 圖層檔</a>
     </header>
 
     <section class="workspace">
-      <section id="stage" aria-label="lily v1 layered preview">
-        <div id="rig" class="lily-v1"></div>
-        <em>MOVE POINTER<br><span>視差跟隨・自動呼吸</span></em>
+      <section id="stage" aria-label="3D Live2D Parallax Stage">
+        <div id="rig"></div>
+        <em>MOVE POINTER<br><span>滑鼠視差追蹤・表情變形</span></em>
       </section>
 
       <aside>
         <section>
-          <small>MOTION</small>
-          <label>視差強度 <output id="p-out">14</output>
-            <input id="parallax" type="range" min="0" max="30" step="1" value="14">
+          <small>ANGLE PARAMETERS (頭部與全身視差)</small>
+          <label>Angle X <output id="x-out">0.00</output>
+            <input id="angle-x" type="range" min="-1" max="1" step="0.01" value="0">
           </label>
-          <label class="check"><input id="tracking" type="checkbox" checked> 滑鼠視差跟隨</label>
-          <label class="check"><input id="breath" type="checkbox" checked> 呼吸</label>
+          <label>Angle Y <output id="y-out">0.00</output>
+            <input id="angle-y" type="range" min="-1" max="1" step="0.01" value="0">
+          </label>
+          <label class="check"><input id="tracking" type="checkbox" checked> 滑鼠追蹤</label>
         </section>
+
         <section>
-          <small>SOURCE</small>
-          <h2>單層完整插圖</h2>
-          <p>agy(Nano Banana)生成的完整比例插圖直接作為底圖,不再切件重拼——黑長直、高挑蜂腰、深藍削肩洋裝美女角色。獨立分件的手腳/表情動作留待後續用局部重繪的方式另外處理。</p>
+          <small>EXPRESSIONS (表情與變形)</small>
+          <label>Eye Open L <output id="eye-l-out">1.00</output>
+            <input id="eye-open-l" type="range" min="0" max="1" step="0.01" value="1">
+          </label>
+          <label>Eye Open R <output id="eye-r-out">1.00</output>
+            <input id="eye-open-r" type="range" min="0" max="1" step="0.01" value="1">
+          </label>
+          <label>Mouth Open <output id="mouth-open-out">0.00</output>
+            <input id="mouth-open" type="range" min="0" max="1" step="0.01" value="0">
+          </label>
+          <label>Mouth Form <output id="mouth-form-out">0.00</output>
+            <input id="mouth-form" type="range" min="-1" max="1" step="0.01" value="0">
+          </label>
         </section>
+
+        <section>
+          <small>MODEL INFO</small>
+          <h2>全身 15 圖層獨立分層</h2>
+          <p>已完整分層：前髮、後髮、臉底、左右眼、左右眉、鼻、嘴、軀幹（G罩杯）、雙臂、雙腿（細腿高筒襪）、後腰緞帶。</p>
+        </section>
+
         <section>
           <small>CURRENT STATE</small>
-          <h2 id="state">IDLE</h2>
-          <p id="hint">圖層載入中…</p>
+          <h2 id="state">CENTER</h2>
         </section>
       </aside>
     </section>
   </main>
-  <script src="lily_v1.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
