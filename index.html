@@ -51,6 +51,7 @@
       <label><input type="checkbox" id="tBlink" checked> 自動眨眼</label>
       <label><input type="checkbox" id="tBreath" checked> 呼吸</label>
       <label><input type="checkbox" id="tPhys" checked> 頭髮物理</label>
+      <label><input type="checkbox" id="tArms" checked> 手臂自然擺動</label>
       <label><input type="checkbox" id="tTalk"> 說話</label>
     </div>
     <h2>參數</h2>
@@ -65,7 +66,9 @@ import { loadINP, Puppet, Renderer } from './inochi-lite.js';
 const canvas = document.getElementById('c'), status = document.getElementById('status');
 const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head:: Roll': ['頭部 歪斜'],
   'Eye:: Left:: Blink': ['左眼 閉合'], 'Eye:: Right:: Blink': ['右眼 閉合'], 'Mouth:: Open': ['嘴巴 張開'],
-  'Body:: Breath': ['呼吸'], 'Hair:: Sway': ['頭髮 擺動'] };
+  'Body:: Breath': ['呼吸'], 'Hair:: Sway': ['頭髮 擺動'],
+  'Arm:: Right:: Swing': ['右臂 擺動'], 'Arm:: Right:: Bend': ['右臂 彎曲'], 'Hand:: Right:: Wrist': ['右手腕'],
+  'Arm:: Left:: Swing': ['左臂 擺動'], 'Arm:: Left:: Bend': ['左臂 彎曲'], 'Hand:: Left:: Wrist': ['左手腕'] };
 
 let puppet, gl, view = { cx: 0, cy: 0, scale: 1 }, autoFit = true;
 try {
@@ -119,6 +122,11 @@ canvas.addEventListener('pointermove', (e) => {
 canvas.addEventListener('wheel', (e) => { e.preventDefault(); autoFit = false; view.scale *= Math.exp(-e.deltaY * 0.0015); }, { passive: false });
 
 // ---- animation loop
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+function spring(s, target, dt, k, c) { const acc = k * k * (target - s.x) - 2 * c * s.v; s.v += acc * dt; s.x += s.v * dt; }
+const mk = () => ({ x: 0, v: 0 });
+const arms = [{ name: 'Right', side: 1, w: 0.95, phase: 0.0, swing: mk(), bend: mk(), wrist: mk() },
+              { name: 'Left', side: -1, w: 0.83, phase: 2.2, swing: mk(), bend: mk(), wrist: mk() }];
 let last = performance.now(), blinkT = 2, blinkPhase = -1, look = [0, 0], prevYaw = 0, prevRoll = 0;
 function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now; const t = now / 1000;
@@ -142,6 +150,25 @@ function frame(now) {
   if (T('tTalk').checked) set('Mouth:: Open', Math.max(0, Math.sin(t * 13) * 0.5 + Math.sin(t * 7.3) * 0.35));
   else if (!manual.has('Mouth:: Open')) puppet.set('Mouth:: Open', 0);
 
+  if (T('tArms').checked) {
+    // Each joint follows its target through a damped spring; the forearm and wrist lag behind the
+    // upper arm (overlapping action) and the two arms run at different rates, so it never reads as a
+    // symmetric, rigid puppet.
+    const breath = puppet.byName['Body:: Breath'].value[0];
+    const yawVel = (puppet.byName['Head:: Yaw-Pitch'].value[0] - prevYaw) / Math.max(dt, 1e-3);
+    for (const a of arms) {
+      const ph = t * a.w + a.phase;
+      const swingT = 0.30 * Math.sin(ph) + 0.12 * Math.sin(ph * 2.3 + 1.1) - 0.25 * (breath - 0.5) + a.side * 0.06 * yawVel;
+      spring(a.swing, swingT, dt, 9, 4.2);
+      const bendT = 0.22 + 0.16 * Math.sin(ph - 0.9) + 0.35 * Math.max(0, a.swing.v * a.side * 0.12);
+      spring(a.bend, bendT, dt, 7, 3.6);
+      const wristT = 0.28 * Math.sin(ph - 1.8) - 0.10 * a.swing.v;
+      spring(a.wrist, wristT, dt, 6, 3.0);
+      set(`Arm:: ${a.name}:: Swing`, clamp(a.swing.x, -1, 1));
+      set(`Arm:: ${a.name}:: Bend`, clamp(a.bend.x, 0, 1));
+      set(`Hand:: ${a.name}:: Wrist`, clamp(a.wrist.x, -1, 1));
+    }
+  }
   if (T('tPhys').checked && !manual.has('Hair:: Sway')) {
     const yaw = puppet.byName['Head:: Yaw-Pitch'].value[0], roll = puppet.byName['Head:: Roll'].value[0];
     const vel = (yaw - prevYaw) / Math.max(dt, 1e-3);                      // hair lags behind the head motion
