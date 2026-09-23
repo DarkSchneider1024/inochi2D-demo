@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>作品集 · Inochi2D Demo</title>
+<style>
+  :root { --bg: #f7efe8; --bg2: #efd9dc; --card: rgba(255,255,255,.82); --ink: #2d2436; --muted: #6f6479;
+          --accent: #8a6fd1; --line: rgba(60,40,80,.14); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1d1826; --bg2: #2c2034; --card: rgba(34,27,45,.86); --ink: #efe8f6;
+      --muted: #b3a8c2; --accent: #b39cf5; --line: rgba(255,255,255,.12); }
+  }
+  :root[data-theme="dark"] { --bg: #1d1826; --bg2: #2c2034; --card: rgba(34,27,45,.86); --ink: #efe8f6;
+      --muted: #b3a8c2; --accent: #b39cf5; --line: rgba(255,255,255,.12); }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; color: var(--ink);
+         background: radial-gradient(120% 90% at 20% 10%, var(--bg) 0%, var(--bg2) 100%) fixed;
+         font: 15px/1.6 system-ui, "Segoe UI", "Microsoft JhengHei", sans-serif; }
+  main { max-width: 1040px; margin: 0 auto; padding: 24px 16px 48px; }
+  nav.tabs { display: flex; gap: 6px; margin-bottom: 18px; }
+  nav.tabs a { text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 999px;
+               padding: 4px 12px; font-size: 13px; }
+  nav.tabs a[aria-current="page"] { color: var(--ink); border-color: var(--accent);
+               background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 22px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  a.card { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--card);
+           border: 1px solid var(--line); border-radius: 14px; overflow: hidden; transition: transform .15s, border-color .15s; }
+  a.card:hover, a.card:focus-visible { transform: translateY(-3px); border-color: var(--accent); outline: none; }
+  .thumb { height: 300px; display: flex; justify-content: center; align-items: center; padding: 14px; overflow: hidden;
+           background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent); }
+  .thumb img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+  .info { padding: 12px 14px 16px; }
+  .info h2 { font-size: 16px; margin: 0 0 4px; }
+  .info p { margin: 0; color: var(--muted); font-size: 13px; }
+  .cta { margin-top: 10px; font-size: 13px; color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <nav class="tabs"><a href="./">Demo</a><a href="gallery.html" aria-current="page">作品集</a></nav>
+  <h1>作品集</h1>
+  <p class="lead">用 Python 從零畫、拆成 Live2D 圖層、再綁定成 Inochi2D 模型的角色。點一張卡片就能在 Demo 裡操作它。</p>
+  <div class="grid" id="grid"></div>
+</main>
+<script type="module">
+const models = await (await fetch('./models.json')).json();
+const grid = document.getElementById('grid');
+for (const m of models) {
+  const a = document.createElement('a');
+  a.className = 'card';
+  a.href = `./?model=${encodeURIComponent(m.id)}`;
+  a.innerHTML = `<div class="thumb"><img alt="" loading="lazy"></div>
+    <div class="info"><h2></h2><p></p><div class="cta">開啟 Demo →</div></div>`;
+  a.querySelector('img').src = m.thumb;
+  a.querySelector('img').alt = m.name;
+  a.querySelector('h2').textContent = m.name;
+  a.querySelector('p').textContent = m.desc;
+  grid.appendChild(a);
+}
+</script>
+</body>
+</html>

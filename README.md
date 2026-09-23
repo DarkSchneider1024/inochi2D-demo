@@ -6,10 +6,14 @@
 
 | 檔案 | 說明 |
 | --- | --- |
-| `index.html` | demo 頁面：參數滑桿、視線跟著滑鼠或手指、自動眨眼、呼吸、頭髮物理、手臂自然擺動、說話 |
+| `index.html` | Demo 頁：可切換角色（`?model=<id>` 或下拉選單），有參數滑桿、視線跟著滑鼠或手指、自動眨眼、呼吸、頭髮物理、手臂自然擺動、說話 |
+| `gallery.html` | 作品集頁：用卡片列出所有角色，點一下就在 Demo 裡開啟 |
+| `models.json` | 角色清單（兩個頁面共用）：id、名稱、說明、模型檔、縮圖 |
 | `inochi-lite.js` | 自寫的精簡 WebGL 播放器，直接讀取 `.inp` 模型 |
-| `girl_v4.inp` | Inochi2D 模型（INP 0.8 格式，1200×2000，83 個零件、13 個參數） |
-| `girl_v4.inx` | 同一個模型，存成 Inochi Creator 專案的副檔名 |
+| `models/*.inp`、`models/*.inx` | Inochi2D 模型：girl_v4（紫髮水手服少女）、red_hood（小紅帽）、wolf（大野狼） |
+| `thumbs/*.png` | 作品集縮圖 |
+
+新增角色：把 `.inp` 放進 `models/`、縮圖放進 `thumbs/`，再在 `models.json` 加一筆就會出現在作品集。
 
 ## 本機執行
 
@@ -33,6 +37,7 @@ python -m http.server 8765
 | `Arm:: Right/Left:: Swing` | −1..1 | 手臂以肩膀為軸往外、往內擺（網格變形，越往下角度越大） |
 | `Arm:: Right/Left:: Bend` | 0..1 | 以手肘為軸彎曲，只作用在手肘以下，並做平滑過渡 |
 | `Hand:: Right/Left:: Wrist` | −1..1 | 以手腕為軸轉動手掌和手指 |
+| `Basket:: Swing` / `Tail:: Sway` | −1..1 | 小紅帽的籃子、大野狼的尾巴擺動（只有該角色才有） |
 | `Hair:: Sway` | −1..1 | 頭髮擺動（網格變形），由物理驅動 |
 
 ## 播放器支援範圍
