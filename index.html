@@ -1,1 +1,159 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=preview/"><title>Lily Inochi2D Demo</title></head><body><a href="preview/">開啟展示</a></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inochi2D 角色 Demo</title>
+<style>
+  :root {
+    --bg: #f7efe8; --bg2: #efd9dc; --panel: rgba(255,255,255,.78); --ink: #2d2436; --muted: #6f6479;
+    --accent: #8a6fd1; --line: rgba(60,40,80,.14);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1d1826; --bg2: #2c2034; --panel: rgba(30,24,40,.82); --ink: #efe8f6; --muted: #b3a8c2; --accent: #b39cf5; --line: rgba(255,255,255,.12); }
+  }
+  :root[data-theme="dark"] { --bg: #1d1826; --bg2: #2c2034; --panel: rgba(30,24,40,.82); --ink: #efe8f6; --muted: #b3a8c2; --accent: #b39cf5; --line: rgba(255,255,255,.12); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: radial-gradient(120% 90% at 20% 10%, var(--bg) 0%, var(--bg2) 100%); color: var(--ink);
+         font: 14px/1.5 system-ui, "Segoe UI", "Microsoft JhengHei", sans-serif; }
+  .wrap { display: grid; grid-template-columns: 1fr 320px; height: 100%; }
+  .stage { position: relative; min-height: 60vh; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+  .status { position: absolute; left: 16px; top: 12px; color: var(--muted); font-size: 12px; }
+  aside { background: var(--panel); border-left: 1px solid var(--line); padding: 16px; overflow: auto; backdrop-filter: blur(8px); }
+  h1 { font-size: 17px; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 12px; margin: 0 0 14px; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 8px; }
+  label.row { display: grid; grid-template-columns: 1fr 44px; gap: 2px 8px; align-items: center; margin: 8px 0; }
+  label.row span.v { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12px; }
+  label.row input { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
+  .toggles label { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
+  .toggles input { accent-color: var(--accent); }
+  button { font: inherit; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  .note { color: var(--muted); font-size: 12px; margin-top: 16px; }
+  @media (max-width: 760px) {
+    .wrap { grid-template-columns: 1fr; grid-template-rows: 62vh auto; height: auto; }
+    aside { border-left: 0; border-top: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage"><canvas id="c"></canvas><div class="status" id="status">載入模型中…</div></div>
+  <aside>
+    <h1>girl_v4 · Inochi2D</h1>
+    <p class="sub">由 PSD 自動綁定的 Inochi2D 模型（<code>girl_v4.inp</code>），用自寫的 WebGL 播放器即時渲染。</p>
+    <h2>自動動作</h2>
+    <div class="toggles">
+      <label><input type="checkbox" id="tLook" checked> 視線跟著滑鼠／手指</label>
+      <label><input type="checkbox" id="tBlink" checked> 自動眨眼</label>
+      <label><input type="checkbox" id="tBreath" checked> 呼吸</label>
+      <label><input type="checkbox" id="tPhys" checked> 頭髮物理</label>
+      <label><input type="checkbox" id="tTalk"> 說話</label>
+    </div>
+    <h2>參數</h2>
+    <div id="params"></div>
+    <p><button id="reset">重設參數</button></p>
+    <p class="note">勾選的自動動作會接管對應參數；想手動拉滑桿時，先取消勾選。拖曳畫面可平移，滾輪縮放。</p>
+  </aside>
+</div>
+<script type="module">
+import { loadINP, Puppet, Renderer } from './inochi-lite.js';
+
+const canvas = document.getElementById('c'), status = document.getElementById('status');
+const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head:: Roll': ['頭部 歪斜'],
+  'Eye:: Left:: Blink': ['左眼 閉合'], 'Eye:: Right:: Blink': ['右眼 閉合'], 'Mouth:: Open': ['嘴巴 張開'],
+  'Body:: Breath': ['呼吸'], 'Hair:: Sway': ['頭髮 擺動'] };
+
+let puppet, gl, view = { cx: 0, cy: 0, scale: 1 }, autoFit = true;
+try {
+  const data = await loadINP('./girl_v4.inp');
+  puppet = new Puppet(data);
+  gl = new Renderer(canvas);
+  gl.attach(puppet);
+  status.textContent = `${puppet.parts.length} 個零件 · ${puppet.params.length} 個參數 · ${(data.bytes / 1024).toFixed(0)} KB`;
+} catch (e) {
+  status.textContent = '載入失敗：' + e.message + '（請用本機伺服器開啟，例如 python -m http.server）';
+  throw e;
+}
+
+// ---- controls built from the puppet's own parameters
+const box = document.getElementById('params'), sliders = [];
+for (const p of puppet.params) {
+  const axes = p.is_vec2 ? [0, 1] : [0];
+  for (const ax of axes) {
+    const lab = document.createElement('label'); lab.className = 'row';
+    const name = (LABELS[p.name] || [p.name, p.name + ' Y'])[ax];
+    lab.innerHTML = `<span>${name}</span><span class="v"></span><input type="range" step="0.01">`;
+    const inp = lab.querySelector('input'), out = lab.querySelector('.v');
+    inp.min = p.min[ax]; inp.max = p.max[ax]; inp.value = p.defaults[ax];
+    inp.setAttribute('aria-label', name);
+    inp.addEventListener('input', () => { p.value[ax] = +inp.value; manual.add(p.name); });
+    sliders.push({ p, ax, inp, out });
+    box.appendChild(lab);
+  }
+}
+const manual = new Set();
+document.getElementById('reset').onclick = () => { for (const p of puppet.params) p.value = [...p.defaults]; manual.clear(); };
+const T = (id) => document.getElementById(id);
+window.demo = { puppet, view, manual, renderer: gl, noFit() { autoFit = false; } };   // handy for scripted checks
+
+// ---- camera: fit the figure, drag to pan, wheel to zoom
+function resize() {
+  const r = canvas.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+  canvas.width = Math.max(1, r.width * dpr); canvas.height = Math.max(1, r.height * dpr);
+  if (autoFit) { view.scale = Math.min(canvas.width / 1250, canvas.height / 2050); view.cx = 0; view.cy = 0; }
+}
+addEventListener('resize', resize); resize();
+let drag = null, pointer = { x: 0, y: -0.3 };
+canvas.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, cx: view.cx, cy: view.cy }; canvas.setPointerCapture(e.pointerId); });
+canvas.addEventListener('pointerup', () => (drag = null));
+canvas.addEventListener('pointermove', (e) => {
+  const r = canvas.getBoundingClientRect();
+  pointer = { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: ((e.clientY - r.top) / r.height) * 2 - 1 };
+  if (drag) { autoFit = false; const d = devicePixelRatio || 1;
+    view.cx = drag.cx - ((e.clientX - drag.x) * d) / view.scale; view.cy = drag.cy - ((e.clientY - drag.y) * d) / view.scale; }
+});
+canvas.addEventListener('wheel', (e) => { e.preventDefault(); autoFit = false; view.scale *= Math.exp(-e.deltaY * 0.0015); }, { passive: false });
+
+// ---- animation loop
+let last = performance.now(), blinkT = 2, blinkPhase = -1, look = [0, 0], prevYaw = 0, prevRoll = 0;
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now; const t = now / 1000;
+  const set = (name, x, y = 0) => { if (!manual.has(name)) puppet.set(name, x, y); };
+
+  if (T('tLook').checked) {
+    const headY = (-0.62 * canvas.height / 2) / (canvas.height / 2);        // head sits in the upper part of the view
+    const tx = Math.max(-1, Math.min(1, pointer.x * 1.4)), ty = Math.max(-1, Math.min(1, (pointer.y - headY) * 1.2));
+    look[0] += (tx - look[0]) * Math.min(1, dt * 6); look[1] += (ty - look[1]) * Math.min(1, dt * 6);
+    set('Head:: Yaw-Pitch', look[0], look[1]);
+    set('Head:: Roll', -look[0] * 0.25);
+  }
+  if (T('tBlink').checked) {
+    blinkT -= dt;
+    if (blinkT <= 0 && blinkPhase < 0) { blinkPhase = 0; blinkT = 2 + Math.random() * 3.5; }
+    let v = 0;
+    if (blinkPhase >= 0) { blinkPhase += dt / 0.16; v = blinkPhase < 0.5 ? blinkPhase * 2 : 2 - blinkPhase * 2; if (blinkPhase >= 1) { blinkPhase = -1; v = 0; } }
+    set('Eye:: Left:: Blink', Math.max(0, v)); set('Eye:: Right:: Blink', Math.max(0, v));
+  }
+  if (T('tBreath').checked) set('Body:: Breath', 0.5 + 0.5 * Math.sin(t * 2 * Math.PI / 3.6));
+  if (T('tTalk').checked) set('Mouth:: Open', Math.max(0, Math.sin(t * 13) * 0.5 + Math.sin(t * 7.3) * 0.35));
+  else if (!manual.has('Mouth:: Open')) puppet.set('Mouth:: Open', 0);
+
+  if (T('tPhys').checked && !manual.has('Hair:: Sway')) {
+    const yaw = puppet.byName['Head:: Yaw-Pitch'].value[0], roll = puppet.byName['Head:: Roll'].value[0];
+    const vel = (yaw - prevYaw) / Math.max(dt, 1e-3);                      // hair lags behind the head motion
+    puppet.stepPhysics(dt, Math.max(-1, Math.min(1, -0.35 * vel - 0.9 * roll + 0.05 * Math.sin(t * 1.3))));
+    prevYaw = yaw; prevRoll = roll;
+  }
+  puppet.update();
+  gl.draw(view);
+  for (const s of sliders) { s.inp.value = s.p.value[s.ax]; s.out.textContent = (+s.p.value[s.ax]).toFixed(2); }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
