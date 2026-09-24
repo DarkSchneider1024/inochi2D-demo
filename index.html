@@ -64,7 +64,7 @@
     <select id="pick"></select>
     <h2>自動動作</h2>
     <div class="toggles">
-      <label><input type="checkbox" id="tLook" checked> 視線跟著滑鼠／手指</label>
+      <label><input type="checkbox" id="tLook" checked> 視線跟著滑鼠／手指（手機：點或滑角色畫面）</label>
       <label><input type="checkbox" id="tBlink" checked> 自動眨眼</label>
       <label><input type="checkbox" id="tBreath" checked> 呼吸</label>
       <label><input type="checkbox" id="tPhys" checked> 頭髮物理</label>
@@ -140,7 +140,7 @@ for (const p of puppet.params) {
 const manual = new Set();
 document.getElementById('reset').onclick = () => { for (const p of puppet.params) p.value = [...p.defaults]; manual.clear(); };
 const T = (id) => document.getElementById(id);
-window.demo = { puppet, view, manual, renderer: gl, noFit() { autoFit = false; } };   // handy for scripted checks
+window.demo = { puppet, view, manual, renderer: gl, noFit() { autoFit = false; }, get pointer() { return pointer; } };   // handy for scripted checks
 
 // ---- camera: fit the figure, drag to pan, wheel to zoom
 function resize() {
@@ -153,15 +153,20 @@ function resize() {
 }
 addEventListener('resize', resize); resize();
 let drag = null, pointer = { x: 0, y: -0.3 };
+const aim = (e) => {                                // pointer -> -1..1 in the character pane (gaze target)
+  const r = canvas.getBoundingClientRect();
+  pointer = { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: ((e.clientY - r.top) / r.height) * 2 - 1 };
+};
 canvas.addEventListener('pointerdown', (e) => {
-  if (e.pointerType !== 'mouse') return;          // touch: the finger only steers the gaze, never moves the character
-  drag = { x: e.clientX, y: e.clientY, cx: view.cx, cy: view.cy }; canvas.setPointerCapture(e.pointerId);
+  aim(e);                                           // a tap turns the gaze right away, like hovering with a mouse
+  try { canvas.setPointerCapture(e.pointerId); } catch (_) {}   // keep following if the finger slides off the pane
+  if (e.pointerType !== 'mouse') return;            // touch: the finger only steers the gaze, never moves the character
+  drag = { x: e.clientX, y: e.clientY, cx: view.cx, cy: view.cy };
 });
 canvas.addEventListener('dblclick', () => { autoFit = true; resize(); });
 canvas.addEventListener('pointerup', () => (drag = null));
 canvas.addEventListener('pointermove', (e) => {
-  const r = canvas.getBoundingClientRect();
-  pointer = { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: ((e.clientY - r.top) / r.height) * 2 - 1 };
+  aim(e);
   if (drag) { autoFit = false; const d = devicePixelRatio || 1;
     view.cx = drag.cx - ((e.clientX - drag.x) * d) / view.scale; view.cy = drag.cy - ((e.clientY - drag.y) * d) / view.scale; }
 });
