@@ -1,8 +1,6 @@
 [
-  {"id": "girl_v4", "name": "紫髮水手服少女", "file": "models/girl_v4.inp", "thumb": "thumbs/girl_v4.png",
-   "desc": "日系比例的水手服少女：眨眼、張嘴、轉頭、呼吸、手臂與頭髮擺動。"},
-  {"id": "red_hood", "name": "小紅帽", "file": "models/red_hood.inp", "thumb": "thumbs/red_hood.png",
-   "desc": "紅色連帽斗篷、麻花辮、手提籃子。童話動畫《小紅帽》的主角。"},
-  {"id": "wolf", "name": "大野狼", "file": "models/wolf.inp", "thumb": "thumbs/wolf.png",
-   "desc": "擬人化的大野狼：狡猾的笑、黃色直瞳、會擺動的尾巴。"}
+  {"id": "girl_v4", "name": "紫髮水手服少女", "file": "models/girl_v4.inp", "thumb": "thumbs/girl_v4.png", "desc": "日系比例的水手服少女：眨眼、張嘴、轉頭、呼吸、手臂與頭髮擺動。"},
+  {"id": "girl_dress", "name": "紫髮少女・平口洋裝", "file": "models/girl_dress.inp", "thumb": "thumbs/girl_dress.png", "desc": "水手服少女的平口洋裝版：九軸轉頭 ±30°、胸部物理（左右晃／上下彈／寬窄，衣服跟著動）。雙擊畫面讓她跳一下。"},
+  {"id": "red_hood", "name": "小紅帽", "file": "models/red_hood.inp", "thumb": "thumbs/red_hood.png", "desc": "紅色連帽斗篷、麻花辮、手提籃子。童話動畫《小紅帽》的主角。九軸轉頭 ±30°。"},
+  {"id": "wolf", "name": "大野狼", "file": "models/wolf.inp", "thumb": "thumbs/wolf.png", "desc": "擬人化的大野狼：狡猾的笑、黃色直瞳、會擺動的尾巴。九軸轉頭 ±30°。"}
 ]
