@@ -39,6 +39,7 @@
   h1.sec { margin-top: 36px; }
   .video { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
   .video video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+  .video + .video { margin-top: 18px; }
 </style>
 </head>
 <body>
@@ -50,6 +51,10 @@
 
   <h1 class="sec">動畫短片</h1>
   <p class="lead">用上面的角色做的 Vyond 風格短片：多層視差背景、鏡頭運動、走路、手勢、眨眼，配音依音量自動對嘴。</p>
+  <div class="video">
+    <video src="videos/red_hood_3am_beef_noodles.mp4" poster="videos/red_hood_3am_beef_noodles.jpg" controls preload="none" playsinline></video>
+    <div class="info"><h2>小紅帽：半夜三點的牛肉麵</h2><p>約 8 分鐘、5 幕的荒謬喜劇：半夜被外婆情勒去熱牛肉麵的小紅帽，遇上動不動就問「到底有什麼毛病啊」的自清系大野狼。手機聊天視窗、手電筒夜景、限動卡片等畫面效果都由舞台即時繪製。配音為 edge-tts 暫代。</p></div>
+  </div>
   <div class="video">
     <video src="videos/red_hood_pilot.mp4" poster="videos/red_hood_pilot.jpg" controls preload="none" playsinline></video>
     <div class="info"><h2>小紅帽（試作版）</h2><p>約 72 秒、4 幕。正面九軸轉頭，起步先轉 30° 再接到 70° 半側面、轉到 90° 正側面（真關節步行循環）。配音為 edge-tts 暫代。</p></div>

@@ -1,7 +1,7 @@
 [
   {"id": "carrot_girl", "name": "胡蘿蔔女孩", "file": "models/carrot_girl.inp", "thumb": "thumbs/carrot_girl.png", "desc": "卡洛特工作室 (Carrot Studio) 官方形象角色：活力雙馬尾、蘿蔔呆毛與耳機、眨眼、張嘴、呼吸、九軸轉頭 ±30°、手臂與頭髮擺動。"},
   {"id": "girl_v4", "name": "紫髮水手服少女", "file": "models/girl_v4.inp", "thumb": "thumbs/girl_v4.png", "desc": "日系比例的水手服少女：眨眼、張嘴、轉頭、呼吸、手臂與頭髮擺動。"},
-  {"id": "girl_dress", "name": "紫髮少女・平口洋裝", "file": "models/girl_dress.inp", "thumb": "thumbs/girl_dress.png", "desc": "水手服少女的平口洋裝版：九軸轉頭 ±30°、胸部物理（左右晃／上下彈／寬窄，衣服跟著動）。雙擊畫面讓她跳一下。"},
+  {"id": "girl_dress", "name": "紫髮少女・平口洋裝", "file": "models/girl_dress.inp", "thumb": "thumbs/girl_dress.png", "desc": "水手服少女的平口洋裝版：九軸轉頭 ±30°。"},
   {"id": "red_hood", "name": "小紅帽", "file": "models/red_hood.inp", "thumb": "thumbs/red_hood.png", "desc": "紅色連帽斗篷、麻花辮、手提籃子。童話動畫《小紅帽》的主角。九軸轉頭 ±30°。", "side": "red_hood_side"},
   {"id": "red_hood_side", "name": "小紅帽（側面）", "file": "models/red_hood_side.inp", "thumb": "thumbs/red_hood_side.png", "desc": "走路用的側面模型：真關節（髖、膝、腳踝、肩、肘）步行循環，頭部可在 70° 半側面與 90° 正側面之間轉動。"},
   {"id": "wolf", "name": "大野狼", "file": "models/wolf.inp", "thumb": "thumbs/wolf.png", "desc": "擬人化的大野狼：狡猾的笑、黃色直瞳、會擺動的尾巴。九軸轉頭 ±30°。", "side": "wolf_side"},
