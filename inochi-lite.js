@@ -6,7 +6,7 @@
 //   * node transforms: world = parent * T(trans + t_off) * Rz(rot + r_off) * S(scale * s_off)
 //   * parameters: value -> normalised 0..1 (clamped), axis points normalised, bilinear interpolation
 //     between the neighbouring set keyframes; "transform.t.*"/"transform.r.*" add, "transform.s.*"
-//     multiply, "deform" adds per-vertex offsets
+//     multiply, "opacity" multiplies the part's opacity (pose switches), "deform" adds per-vertex offsets
 //   * drawing: every Part, back to front by DESCENDING accumulated zsort, "Normal" blending,
 //     premultiplied alpha
 //   * SimplePhysics: approximated by a damped pendulum driven by the head motion (see stepPhysics)
@@ -69,7 +69,7 @@ export class Puppet {
 
   update() {
     for (const n of this.nodes.values()) {
-      n.off = { tx: 0, ty: 0, rz: 0, sx: 1, sy: 1, z: 0 };
+      n.off = { tx: 0, ty: 0, rz: 0, sx: 1, sy: 1, z: 0, op: 1 };
       n.deform = null;
     }
     for (const p of this.params) {
@@ -98,6 +98,7 @@ export class Puppet {
           case 'transform.s.x': n.off.sx *= v; break;
           case 'transform.s.y': n.off.sy *= v; break;
           case 'zSort': n.off.z += v; break;
+          case 'opacity': n.off.op *= v; break;
         }
       }
     }
@@ -110,6 +111,7 @@ export class Puppet {
       const c = Math.cos(r), s = Math.sin(r);
       n.world = mul(M, [c * sx, s * sx, -s * sy, c * sy, t.trans[0] + o.tx, t.trans[1] + o.ty]);
       n.z = z + n.zsort + o.z;
+      n.alpha = (n.opacity ?? 1) * o.op;
       for (const k of n.kids) rec(k, n.world, n.z);
     };
     rec(this.root, [1, 0, 0, 1, 0, 0], 0);
@@ -185,7 +187,7 @@ export class Renderer {
     gl.useProgram(this.prog);
     const sx = (2 * view.scale) / c.width, sy = (2 * view.scale) / c.height;
     gl.uniform4f(this.loc.view, sx, sy, -view.cx * sx, -view.cy * sy);
-    const order = [...p.parts].filter((n) => n.enabled).sort((a, b) => b.z - a.z);   // back to front
+    const order = [...p.parts].filter((n) => n.enabled && n.alpha > 0).sort((a, b) => b.z - a.z);   // back to front
     for (const n of order) {
       const m = n.mesh, M = n.world, nv = m.verts.length / 2;
       const pos = new Float32Array(nv * 2);
@@ -202,7 +204,7 @@ export class Renderer {
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.idxBuf);
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(m.indices), gl.DYNAMIC_DRAW);
       gl.bindTexture(gl.TEXTURE_2D, this.tex[n.textures[0]]);
-      gl.uniform1f(this.loc.op, n.opacity ?? 1);
+      gl.uniform1f(this.loc.op, n.alpha);
       gl.drawElements(gl.TRIANGLES, m.indices.length, gl.UNSIGNED_SHORT, 0);
     }
   }

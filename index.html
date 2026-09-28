@@ -70,6 +70,8 @@
       <label><input type="checkbox" id="tPhys" checked> 頭髮物理</label>
       <label><input type="checkbox" id="tArms" checked> 手臂自然擺動</label>
       <label><input type="checkbox" id="tTalk"> 說話</label>
+      <label class="raise-only"><input type="checkbox" id="tRaise"> 舉手打招呼（放下 ↔ 舉手 自然轉場，舉起後揮手）</label>
+      <label class="raise-only"><input type="checkbox" id="tRaiseLoop"> 自動循環舉手／放下（每 6 秒）</label>
       <label class="front-only"><input type="checkbox" id="tStroll" checked> 走路（自然轉身：先轉頭 30°，有側面模型的角色會轉成側面走）</label>
       <label class="side-only"><input type="checkbox" id="tWalk" checked> 原地走路（側面模型）</label>
       <label class="side-only"><input type="checkbox" id="tTurn" checked> 70°↔90° 轉頭（側面模型）</label>
@@ -89,7 +91,7 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
   'Eye:: Left:: Blink': ['左眼 閉合'], 'Eye:: Right:: Blink': ['右眼 閉合'], 'Mouth:: Open': ['嘴巴 張開'],
   'Body:: Breath': ['呼吸'], 'Hair:: Sway': ['頭髮 擺動'],
   'Arm:: Right:: Swing': ['右臂 擺動'], 'Arm:: Right:: Bend': ['右臂 彎曲'], 'Hand:: Right:: Wrist': ['右手腕'],
-  'Arm:: Left:: Swing': ['左臂 擺動'], 'Arm:: Left:: Bend': ['左臂 彎曲'], 'Hand:: Left:: Wrist': ['左手腕'],
+  'Arm:: Left:: Raise': ['左手 舉起（0 放下 → 1 舉手）'], 'Arm:: Left:: Swing': ['左臂 擺動'], 'Arm:: Left:: Bend': ['左臂 彎曲'], 'Hand:: Left:: Wrist': ['左手腕'],
   'Basket:: Swing': ['籃子 擺動'], 'Tail:: Sway': ['尾巴 擺動'],
   'Chest:: Sway X': ['胸部 左右晃'], 'Chest:: Bounce Y': ['胸部 上下彈'], 'Chest:: Squash': ['胸部 寬窄'],
   'Head:: Turn': ['頭部 90°→70°'], 'Head:: Nod': ['點頭'], 'Body:: Lean': ['身體 前傾'], 'Eye:: Blink': ['眨眼'],
@@ -124,6 +126,7 @@ try {
   isSide = !!puppet.byName['Leg:: Front:: Hip'];
   for (const el of document.querySelectorAll('.side-only')) el.style.display = isSide ? '' : 'none';
   for (const el of document.querySelectorAll('.front-only')) el.style.display = isSide ? 'none' : '';
+  for (const el of document.querySelectorAll('.raise-only')) el.style.display = puppet.byName['Arm:: Left:: Raise'] ? '' : 'none';
   status.textContent = `${puppet.parts.length} 個零件 · ${puppet.params.length} 個參數 · ${(data.bytes / 1024).toFixed(0)} KB`;
 } catch (e) {
   status.textContent = '載入失敗：' + e.message + '（請用本機伺服器開啟，例如 python -m http.server）';
@@ -216,6 +219,9 @@ function sideWalk(setP, t, wk, sd) {
 const CYC = 10, W0 = 3.5, W1 = 8.5, TURN_FADE = 0.16;
 const ez = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
 let strollYaw = 0;
+// arm raise: an eased move between the two poses (never a cut), then a friendly wave while the hand is up
+const raise = { v: 0, from: 0, to: 0, t0: 0 }, RAISE_T = 0.9;
+const ezio = (x) => { x = clamp(x, 0, 1); return x < 0.5 ? 4 * x * x * x : 1 - (-2 * x + 2) ** 3 / 2; };
 let last = performance.now(), blinkT = 2, blinkPhase = -1, look = [0, 0], prevYaw = 0, prevRoll = 0;
 function frame(now, forced) {
   if (window.demo?.paused && !forced) { requestAnimationFrame(frame); return; }   // scripted checks drive frameAt
@@ -224,7 +230,8 @@ function frame(now, forced) {
 
   if (T('tLook').checked) {
     const headY = (-0.62 * canvas.height / 2) / (canvas.height / 2);        // head sits in the upper part of the view
-    const tx = Math.max(-1, Math.min(1, pointer.x * 1.4)), ty = Math.max(-1, Math.min(1, (pointer.y - headY) * 1.2));
+    // pointer.y is screen-down; the rigs' Yaw-Pitch Y is + = looking up (a nod sets it negative), so flip it
+    const tx = Math.max(-1, Math.min(1, pointer.x * 1.4)), ty = Math.max(-1, Math.min(1, -(pointer.y - headY) * 1.2));
     look[0] += (tx - look[0]) * Math.min(1, dt * 6); look[1] += (ty - look[1]) * Math.min(1, dt * 6);
     set('Head:: Yaw-Pitch', look[0], look[1]);
     set('Head:: Roll', -look[0] * 0.25);
@@ -257,6 +264,19 @@ function frame(now, forced) {
       set(`Arm:: ${a.name}:: Swing`, clamp(a.swing.x, -1, 1));
       set(`Arm:: ${a.name}:: Bend`, clamp(a.bend.x, 0, 1));
       set(`Hand:: ${a.name}:: Wrist`, clamp(a.wrist.x, -1, 1));
+    }
+  }
+  if (puppet.byName['Arm:: Left:: Raise']) {
+    let want = T('tRaise').checked ? 1 : 0;
+    if (T('tRaiseLoop').checked) want = (t % 6) < 3.2 ? 1 : 0;
+    if (want !== raise.to) { raise.from = raise.v; raise.to = want; raise.t0 = t; }
+    raise.v = raise.from + (raise.to - raise.from) * ezio((t - raise.t0) / RAISE_T);
+    set('Arm:: Left:: Raise', raise.v);
+    const up = clamp((raise.v - 0.85) / 0.15, 0, 1);            // wave only once the hand is up
+    if (up > 0) {
+      const wv = Math.sin(t * 7.5);
+      set('Arm:: Left:: Bend', clamp(pv('Arm:: Left:: Bend') * (1 - up) + up * (0.28 + 0.22 * wv), 0, 1));
+      set('Hand:: Left:: Wrist', clamp(pv('Hand:: Left:: Wrist') * (1 - up) + up * 0.55 * Math.sin(t * 7.5 - 0.7), -1, 1));
     }
   }
   if (T('tArms').checked) {        // extras: basket follows the right arm's motion, tail sways lazily

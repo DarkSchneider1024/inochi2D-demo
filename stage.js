@@ -134,7 +134,7 @@ export class GL {                     // also used by the web demo (transparent 
     }
     const keep = (n) => !only || (only === 'body' ? !n.inHead
       : n.inHead && ((only === 'headBack') === (n.z > p._neckZ)));
-    const order = [...p.parts].filter((n) => n.enabled && keep(n)).sort((a, b) => b.z - a.z);
+    const order = [...p.parts].filter((n) => n.enabled && (n.alpha ?? 1) > 0 && keep(n)).sort((a, b) => b.z - a.z);
     for (const n of order) {
       const m = n.mesh, M = n.world, nv = m.verts.length / 2;
       const pos = new Float32Array(nv * 2);
@@ -145,7 +145,7 @@ export class GL {                     // also used by the web demo (transparent 
         pos[2 * i + 1] = M[1] * x + M[3] * y + M[5];
       }
       if (!m._uv) { m._uv = new Float32Array(m.uvs); m._idx = new Uint16Array(m.indices); }
-      this.mesh(pos, m._uv, m._idx, texs[n.textures[0]], k, ox, oy, n.opacity ?? 1);
+      this.mesh(pos, m._uv, m._idx, texs[n.textures[0]], k, ox, oy, n.alpha ?? n.opacity ?? 1);
     }
   }
 }
