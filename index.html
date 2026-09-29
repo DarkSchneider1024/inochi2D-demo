@@ -40,6 +40,12 @@
   button:hover { border-color: var(--accent); }
   .exprs { display: flex; flex-wrap: wrap; gap: 6px; }
   .exprs button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
+  .zoombtn { position: absolute; right: 10px; top: 8px; z-index: 5; font-size: 13px; padding: 5px 10px; border-radius: 999px;
+             background: var(--panel); backdrop-filter: blur(6px); }
+  /* full view: the character pane takes the whole screen, the controls are hidden (phones: the split is too small) */
+  body.full .wrap { grid-template-columns: 1fr !important; }
+  body.full aside { display: none; }
+  body.full .stage { height: 100dvh; }
   .note { color: var(--muted); font-size: 12px; margin-top: 16px; }
   /* phones: character on the left, parameters on the right, two independent panes; the page itself never
      scrolls, so swiping the controls can't move the character */
@@ -57,7 +63,9 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="stage"><canvas id="c"></canvas><div class="status" id="status">載入模型中…</div></div>
+  <div class="stage"><canvas id="c"></canvas><div class="status" id="status">載入模型中…</div>
+    <button class="zoombtn" id="zoom" aria-pressed="false" title="放大全景（隱藏控制面板）">⛶ 放大</button>
+    <button class="zoombtn" id="bust" aria-pressed="false" style="top:46px;display:none" title="全身 / 半身特寫">半身</button></div>
   <aside>
     <nav class="tabs"><a href="./" aria-current="page">Demo</a><a href="gallery.html">作品集</a></nav>
     <h1 id="title">Inochi2D</h1>
@@ -179,12 +187,29 @@ window.demo = { puppet, get side() { return side; }, view, manual, renderer: gl,
 function resize() {
   const r = canvas.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
   canvas.width = Math.max(1, r.width * dpr); canvas.height = Math.max(1, r.height * dpr);
-  if (autoFit) {       // stand on the ground: feet (puppet y ~ +1000) sit on the ground line at the bottom
-    view.scale = Math.min(canvas.width / (isSide ? 1500 : 1250), canvas.height / 2080);
+  if (autoFit && document.body.classList.contains('full') && bust) {   // full view, upper-body close-up
+    view.scale = Math.min(canvas.width / 620, canvas.height / 900);
+    view.cx = 0; view.cy = -930 + (canvas.height * 0.46) / view.scale;   // the head's top near the top edge
+  } else if (autoFit) {       // stand on the ground: feet (puppet y ~ +1000) sit on the ground line at the bottom
+    const full = document.body.classList.contains('full');
+    view.scale = Math.min(canvas.width / (isSide ? 1500 : full ? 960 : 1250), canvas.height / (full ? 2000 : 2080));
     view.cx = 0; view.cy = (FEET[model.id] ?? 1000) - (canvas.height * (0.5 - 0.035)) / view.scale;
   }
 }
+let bust = false;
 addEventListener('resize', resize); resize();
+// full view toggle (phones especially): hide the controls, the character fills the screen; tap again to go back
+const zoomBtn = document.getElementById('zoom'), bustBtn = document.getElementById('bust');
+bustBtn.onclick = () => { bust = !bust; bustBtn.textContent = bust ? '全身' : '半身'; autoFit = true; resize(); };
+zoomBtn.onclick = async () => {
+  const on = !document.body.classList.contains('full');
+  document.body.classList.toggle('full', on);
+  zoomBtn.textContent = on ? '✕ 返回' : '⛶ 放大'; zoomBtn.setAttribute('aria-pressed', on);
+  bustBtn.style.display = on ? '' : 'none'; if (!on) { bust = false; bustBtn.textContent = '半身'; }
+  try { if (on && document.documentElement.requestFullscreen && matchMedia('(max-width: 760px)').matches) await document.documentElement.requestFullscreen(); else if (!on && document.fullscreenElement) await document.exitFullscreen(); } catch (_) {}
+  autoFit = true; requestAnimationFrame(resize);
+};
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && document.body.classList.contains('full') && matchMedia('(max-width: 760px)').matches) zoomBtn.click(); });
 let drag = null, pointer = { x: 0, y: -0.3 };
 const aim = (e) => {                                // pointer -> -1..1 in the character pane (gaze target)
   const r = canvas.getBoundingClientRect();
