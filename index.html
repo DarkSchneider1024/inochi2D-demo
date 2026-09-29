@@ -38,6 +38,8 @@
   .toggles input { accent-color: var(--accent); }
   button { font: inherit; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
   button:hover { border-color: var(--accent); }
+  .exprs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .exprs button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
   .note { color: var(--muted); font-size: 12px; margin-top: 16px; }
   /* phones: character on the left, parameters on the right, two independent panes; the page itself never
      scrolls, so swiping the controls can't move the character */
@@ -75,6 +77,12 @@
       <label class="front-only"><input type="checkbox" id="tStroll" checked> 走路（自然轉身：先轉頭 30°，有側面模型的角色會轉成側面走）</label>
       <label class="side-only"><input type="checkbox" id="tWalk" checked> 原地走路（側面模型）</label>
       <label class="side-only"><input type="checkbox" id="tTurn" checked> 70°↔90° 轉頭（側面模型）</label>
+      <label class="body-only"><input type="checkbox" id="tBody" checked> 身體跟著轉（身體角度，約頭部的一半、慢半拍）</label>
+      <label class="ear-only"><input type="checkbox" id="tEar" checked> 耳朵偶爾抖一下</label>
+    </div>
+    <div class="expr-only">
+      <h2>表情</h2>
+      <div class="exprs" id="exprs"></div>
     </div>
     <h2>參數</h2>
     <div id="params"></div>
@@ -98,7 +106,10 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
   'Leg:: Front:: Hip': ['前腳 髖'], 'Leg:: Front:: Knee': ['前腳 膝'], 'Leg:: Front:: Foot': ['前腳 腳踝'],
   'Leg:: Back:: Hip': ['後腳 髖'], 'Leg:: Back:: Knee': ['後腳 膝'], 'Leg:: Back:: Foot': ['後腳 腳踝'],
   'Arm:: Front:: Swing': ['前手 擺動'], 'Arm:: Front:: Elbow': ['前手 手肘'], 'Arm:: Back:: Swing': ['後手 擺動'],
-  'Arm:: Back:: Elbow': ['後手 手肘'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'] };
+  'Arm:: Back:: Elbow': ['後手 手肘'],
+  'Body:: Angle X-Y': ['身體 左右轉', '身體 上下'], 'Eye:: Smile': ['笑眼 ^^'], 'Eye:: Wide': ['眼睛 睜大（− 瞇眼）'],
+  'Brow:: Raise': ['眉毛 上揚'], 'Brow:: Angry': ['眉毛 生氣（− 難過）'], 'Mouth:: Form': ['嘴角 上揚（− 下垂）'],
+  'Face:: Blush': ['臉紅'], 'Ear:: Twitch': ['耳朵 抖動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'] };
 
 // ---- which model: ?model=<id> (listed in models.json, shared with the gallery page)
 const models = await (await fetch('./models.json')).json();
@@ -127,6 +138,9 @@ try {
   for (const el of document.querySelectorAll('.side-only')) el.style.display = isSide ? '' : 'none';
   for (const el of document.querySelectorAll('.front-only')) el.style.display = isSide ? 'none' : '';
   for (const el of document.querySelectorAll('.raise-only')) el.style.display = puppet.byName['Arm:: Left:: Raise'] ? '' : 'none';
+  for (const el of document.querySelectorAll('.body-only')) el.style.display = puppet.byName['Body:: Angle X-Y'] ? '' : 'none';
+  for (const el of document.querySelectorAll('.ear-only')) el.style.display = puppet.byName['Ear:: Twitch'] ? '' : 'none';
+  for (const el of document.querySelectorAll('.expr-only')) el.style.display = puppet.byName['Eye:: Smile'] ? '' : 'none';
   status.textContent = `${puppet.parts.length} 個零件 · ${puppet.params.length} 個參數 · ${(data.bytes / 1024).toFixed(0)} KB`;
 } catch (e) {
   status.textContent = '載入失敗：' + e.message + '（請用本機伺服器開啟，例如 python -m http.server）';
@@ -160,7 +174,7 @@ function resize() {
   canvas.width = Math.max(1, r.width * dpr); canvas.height = Math.max(1, r.height * dpr);
   if (autoFit) {       // stand on the ground: feet (puppet y ~ +1000) sit on the ground line at the bottom
     view.scale = Math.min(canvas.width / (isSide ? 1500 : 1250), canvas.height / 2080);
-    view.cx = 0; view.cy = 1000 - (canvas.height * (0.5 - 0.035)) / view.scale;
+    view.cx = 0; view.cy = (FEET[model.id] ?? 1000) - (canvas.height * (0.5 - 0.035)) / view.scale;
   }
 }
 addEventListener('resize', resize); resize();
@@ -222,6 +236,25 @@ let strollYaw = 0;
 // arm raise: an eased move between the two poses (never a cut), then a friendly wave while the hand is up
 const raise = { v: 0, from: 0, to: 0, t0: 0 }, RAISE_T = 0.9;
 const ezio = (x) => { x = clamp(x, 0, 1); return x < 0.5 ? 4 * x * x * x : 1 - (-2 * x + 2) ** 3 / 2; };
+// expressions: every preset is a target for the face params; the face eases between them (never a cut)
+const EXPR_PARAMS = ['Eye:: Smile', 'Eye:: Wide', 'Brow:: Raise', 'Brow:: Angry', 'Mouth:: Form', 'Face:: Blush'];
+const EXPRS = {
+  '平常': {},
+  '開心': { 'Eye:: Smile': 1, 'Mouth:: Form': 1, 'Brow:: Raise': 0.4, 'Face:: Blush': 0.35, mouth: 0.35 },
+  '生氣': { 'Brow:: Angry': 1, 'Eye:: Wide': -0.5, 'Mouth:: Form': -0.7 },
+  '難過': { 'Brow:: Angry': -1, 'Eye:: Wide': -0.35, 'Mouth:: Form': -1, pitch: -0.35 },
+  '驚訝': { 'Eye:: Wide': 1, 'Brow:: Raise': 1, mouth: 0.8, ear: 1 },
+  '害羞': { 'Face:: Blush': 1, 'Eye:: Smile': 0.45, 'Brow:: Angry': -0.45, 'Mouth:: Form': 0.4, pitch: -0.3, yaw: 0.25 },
+};
+const expr = { name: '平常', cur: {} };
+for (const k of [...EXPR_PARAMS, 'mouth', 'pitch', 'yaw', 'ear']) expr.cur[k] = 0;
+const exprBox = document.getElementById('exprs');
+for (const name of Object.keys(EXPRS)) {
+  const b = document.createElement('button'); b.textContent = name; b.setAttribute('aria-pressed', name === expr.name);
+  b.onclick = () => { expr.name = name; for (const x of exprBox.children) x.setAttribute('aria-pressed', x === b); };
+  exprBox.appendChild(b);
+}
+const body = { x: mk(), y: mk() }, ear = { t: 3, v: 0, until: 0, twice: false };
 let last = performance.now(), blinkT = 2, blinkPhase = -1, look = [0, 0], prevYaw = 0, prevRoll = 0;
 function frame(now, forced) {
   if (window.demo?.paused && !forced) { requestAnimationFrame(frame); return; }   // scripted checks drive frameAt
@@ -233,19 +266,41 @@ function frame(now, forced) {
     // pointer.y is screen-down; the rigs' Yaw-Pitch Y is + = looking up (a nod sets it negative), so flip it
     const tx = Math.max(-1, Math.min(1, pointer.x * 1.4)), ty = Math.max(-1, Math.min(1, -(pointer.y - headY) * 1.2));
     look[0] += (tx - look[0]) * Math.min(1, dt * 6); look[1] += (ty - look[1]) * Math.min(1, dt * 6);
-    set('Head:: Yaw-Pitch', look[0], look[1]);
+    set('Head:: Yaw-Pitch', clamp(look[0] + expr.cur.yaw, -1, 1), clamp(look[1] + expr.cur.pitch, -1, 1));
     set('Head:: Roll', -look[0] * 0.25);
+  }
+  if (puppet.byName['Eye:: Smile']) {
+    const tgt = EXPRS[expr.name];
+    for (const k of Object.keys(expr.cur)) expr.cur[k] += ((tgt[k] ?? 0) - expr.cur[k]) * Math.min(1, dt * 7);
+    for (const k of EXPR_PARAMS) set(k, expr.cur[k]);
   }
   if (T('tBlink').checked) {
     blinkT -= dt;
     if (blinkT <= 0 && blinkPhase < 0) { blinkPhase = 0; blinkT = 2 + Math.random() * 3.5; }
     let v = 0;
     if (blinkPhase >= 0) { blinkPhase += dt / 0.16; v = blinkPhase < 0.5 ? blinkPhase * 2 : 2 - blinkPhase * 2; if (blinkPhase >= 1) { blinkPhase = -1; v = 0; } }
-    set('Eye:: Left:: Blink', Math.max(0, v)); set('Eye:: Right:: Blink', Math.max(0, v)); set('Eye:: Blink', Math.max(0, v));
+    v = Math.max(0, v) * (1 - clamp(expr.cur['Eye:: Smile'], 0, 1));     // ^^ eyes are already closed
+    set('Eye:: Left:: Blink', v); set('Eye:: Right:: Blink', v); set('Eye:: Blink', v);
   }
   if (T('tBreath').checked) set('Body:: Breath', 0.5 + 0.5 * Math.sin(t * 2 * Math.PI / 3.6));
-  if (T('tTalk').checked) set('Mouth:: Open', Math.max(0, Math.sin(t * 13) * 0.5 + Math.sin(t * 7.3) * 0.35));
-  else if (!manual.has('Mouth:: Open')) puppet.set('Mouth:: Open', 0);
+  if (T('tTalk').checked) set('Mouth:: Open', Math.max(expr.cur.mouth, Math.sin(t * 13) * 0.5 + Math.sin(t * 7.3) * 0.35));
+  else if (!manual.has('Mouth:: Open')) puppet.set('Mouth:: Open', expr.cur.mouth);
+  // body angle: about half the head's angle (body +-15 deg vs head +-30 deg), on a slower spring (lags behind)
+  if (puppet.byName['Body:: Angle X-Y'] && T('tBody').checked) {
+    spring(body.x, 0.9 * pv('Head:: Yaw-Pitch', 0), dt, 3.2, 2.6);
+    spring(body.y, 0.45 * pv('Head:: Yaw-Pitch', 1), dt, 3.2, 2.6);
+    set('Body:: Angle X-Y', clamp(body.x.x, -1, 1), clamp(body.y.x, -1, 1));
+  }
+  // ear twitch: a quick flick now and then (sometimes twice), or held while surprised
+  if (puppet.byName['Ear:: Twitch']) {
+    let v = 0;
+    if (T('tEar').checked) {
+      ear.t -= dt;
+      if (ear.t <= 0) { ear.until = t + (Math.random() < 0.3 ? 0.5 : 0.24); ear.start = t; ear.t = 2.5 + Math.random() * 4; }
+      if (t < ear.until) v = Math.abs(Math.sin(((t - ear.start) / 0.24) * Math.PI));
+    }
+    set('Ear:: Twitch', clamp(Math.max(v, 0.6 * expr.cur.ear), 0, 1));
+  }
 
   if (T('tArms').checked) {
     // Each joint follows its target through a damped spring; the forearm and wrist lag behind the

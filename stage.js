@@ -6,7 +6,7 @@ import { loadINP, Puppet } from './inochi-lite.js';
 const W = 1920, H = 1080;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const ease = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
-export const FEET = { red_hood: 996, wolf: 999, red_hood_side: 961, wolf_side: 971 };
+export const FEET = { red_hood: 996, wolf: 999, red_hood_side: 961, wolf_side: 971, fox_yuzuno: 925 };
 const TURN_AT = 0.18, TURN_FADE = 0.16;   // walk start: head turns 30 deg first, then front -> profile cross-fade         // lowest opaque row of the puppet (puppet units, y down)
 const TALL = { red_hood: 1901, wolf: 1886 };       // head top -> feet, puppet units
 
