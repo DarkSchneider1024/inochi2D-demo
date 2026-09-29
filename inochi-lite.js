@@ -52,8 +52,9 @@ export class Puppet {
   }
 
   set(name, x, y = 0) {
-    const p = this.byName[name];
-    if (p) p.value = [x, y];
+    const p = this.byName[name];                              // clamped to the model's own range (a rig may
+    if (p) p.value = [Math.min(p.max[0], Math.max(p.min[0], x)),   // allow less on one side, e.g. the fox's yaw)
+                      Math.min(p.max[1], Math.max(p.min[1], y))];
   }
 
   // ---- parameter evaluation -------------------------------------------------------------
