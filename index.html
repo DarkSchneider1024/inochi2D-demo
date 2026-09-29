@@ -118,7 +118,7 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
   'Hand:: Right:: Wave': ['右手 揮動'], 'Hand:: Left:: Wave': ['左手 揮動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'] };
 
 // ---- which model: ?model=<id> (listed in models.json, shared with the gallery page)
-const models = await (await fetch('./models.json')).json();
+const models = await (await fetch('./models.json', { cache: 'no-cache' })).json();
 const wanted = new URLSearchParams(location.search).get('model');
 const model = models.find((m) => m.id === wanted) || models[0];
 const pick = document.getElementById('pick');

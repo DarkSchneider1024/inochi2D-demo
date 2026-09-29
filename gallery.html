@@ -61,7 +61,7 @@
   </div>
 </main>
 <script type="module">
-const models = await (await fetch('./models.json')).json();
+const models = await (await fetch('./models.json', { cache: 'no-cache' })).json();
 const grid = document.getElementById('grid');
 for (const m of models) {
   const a = document.createElement('a');

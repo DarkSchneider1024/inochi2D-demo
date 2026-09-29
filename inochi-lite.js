@@ -13,7 +13,7 @@
 // Not implemented (unused by this puppet): masks, composites, mesh groups, other blend modes, animations.
 
 export async function loadINP(url) {
-  const buf = new Uint8Array(await (await fetch(url)).arrayBuffer());
+  const buf = new Uint8Array(await (await fetch(url, { cache: 'no-cache' })).arrayBuffer());   // revalidate: a re-rigged model shows at once
   const dv = new DataView(buf.buffer);
   const tag = (o) => String.fromCharCode(...buf.slice(o, o + 8));
   if (tag(0) !== 'TRNSRTS\0') throw new Error('not an Inochi2D INP file');
