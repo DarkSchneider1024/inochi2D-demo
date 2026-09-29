@@ -84,6 +84,10 @@
       <h2>表情</h2>
       <div class="exprs" id="exprs"></div>
     </div>
+    <div class="gest-only">
+      <h2>手勢</h2>
+      <div class="exprs" id="gests"></div>
+    </div>
     <h2>參數</h2>
     <div id="params"></div>
     <p><button id="reset">重設參數</button></p>
@@ -109,7 +113,9 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
   'Arm:: Back:: Elbow': ['後手 手肘'],
   'Body:: Angle X-Y': ['身體 左右轉', '身體 上下'], 'Eye:: Smile': ['笑眼 ^^'], 'Eye:: Wide': ['眼睛 睜大（− 瞇眼）'],
   'Brow:: Raise': ['眉毛 上揚'], 'Brow:: Angry': ['眉毛 生氣（− 難過）'], 'Mouth:: Form': ['嘴角 上揚（− 下垂）'],
-  'Face:: Blush': ['臉紅'], 'Ear:: Twitch': ['耳朵 抖動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'] };
+  'Face:: Blush': ['臉紅'], 'Ear:: Twitch': ['耳朵 抖動'],
+  'Arm:: Right:: Raise': ['右手 舉起（0 放下 → 1 揮手）'], 'Arm:: Chest': ['雙手 胸前合掌'], 'Arm:: Left:: Cheek': ['左手 托臉頰'],
+  'Hand:: Right:: Wave': ['右手 揮動'], 'Hand:: Left:: Wave': ['左手 揮動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'] };
 
 // ---- which model: ?model=<id> (listed in models.json, shared with the gallery page)
 const models = await (await fetch('./models.json')).json();
@@ -137,10 +143,11 @@ try {
   isSide = !!puppet.byName['Leg:: Front:: Hip'];
   for (const el of document.querySelectorAll('.side-only')) el.style.display = isSide ? '' : 'none';
   for (const el of document.querySelectorAll('.front-only')) el.style.display = isSide ? 'none' : '';
-  for (const el of document.querySelectorAll('.raise-only')) el.style.display = puppet.byName['Arm:: Left:: Raise'] ? '' : 'none';
+  for (const el of document.querySelectorAll('.raise-only')) el.style.display = puppet.byName['Arm:: Left:: Raise'] && !puppet.byName['Arm:: Chest'] ? '' : 'none';
   for (const el of document.querySelectorAll('.body-only')) el.style.display = puppet.byName['Body:: Angle X-Y'] ? '' : 'none';
   for (const el of document.querySelectorAll('.ear-only')) el.style.display = puppet.byName['Ear:: Twitch'] ? '' : 'none';
   for (const el of document.querySelectorAll('.expr-only')) el.style.display = puppet.byName['Eye:: Smile'] ? '' : 'none';
+  for (const el of document.querySelectorAll('.gest-only')) el.style.display = puppet.byName['Arm:: Chest'] ? '' : 'none';
   status.textContent = `${puppet.parts.length} 個零件 · ${puppet.params.length} 個參數 · ${(data.bytes / 1024).toFixed(0)} KB`;
 } catch (e) {
   status.textContent = '載入失敗：' + e.message + '（請用本機伺服器開啟，例如 python -m http.server）';
@@ -251,8 +258,22 @@ for (const k of [...EXPR_PARAMS, 'mouth', 'pitch', 'yaw', 'ear']) expr.cur[k] = 
 const exprBox = document.getElementById('exprs');
 for (const name of Object.keys(EXPRS)) {
   const b = document.createElement('button'); b.textContent = name; b.setAttribute('aria-pressed', name === expr.name);
-  b.onclick = () => { expr.name = name; for (const x of exprBox.children) x.setAttribute('aria-pressed', x === b); };
+  b.onclick = () => { expr.name = name; for (const x of exprBox.children) x.setAttribute('aria-pressed', x === b);
+    if (puppet.byName['Arm:: Chest']) pickGest({ '害羞': '托臉頰', '開心': '雙手揮', '驚訝': '胸前合掌' }[name] || '放下'); };
   exprBox.appendChild(b);
+}
+// gestures (arm pose variants, like a Live2D pose switch): each is a set of targets for the pose params; the
+// params ease there (the rig itself turns the hanging arm up and fades it into the raised one mid-way)
+const GEST_PARAMS = ['Arm:: Right:: Raise', 'Arm:: Left:: Raise', 'Arm:: Chest', 'Arm:: Left:: Cheek'];
+const GESTS = { '放下': {}, '揮右手': { 'Arm:: Right:: Raise': 1 }, '揮左手': { 'Arm:: Left:: Raise': 1 },
+  '雙手揮': { 'Arm:: Right:: Raise': 1, 'Arm:: Left:: Raise': 1 }, '胸前合掌': { 'Arm:: Chest': 1 },
+  '托臉頰': { 'Arm:: Left:: Cheek': 1 } };
+const gest = { name: '放下', cur: Object.fromEntries(GEST_PARAMS.map((k) => [k, 0])) };
+const gestBox = document.getElementById('gests');
+const pickGest = (name) => { gest.name = name; for (const x of gestBox.children) x.setAttribute('aria-pressed', x.textContent === name); };
+for (const name of Object.keys(GESTS)) {
+  const b = document.createElement('button'); b.textContent = name; b.setAttribute('aria-pressed', name === gest.name);
+  b.onclick = () => pickGest(name); gestBox.appendChild(b);
 }
 const body = { x: mk(), y: mk() }, ear = { t: 3, v: 0, until: 0, twice: false };
 let last = performance.now(), blinkT = 2, blinkPhase = -1, look = [0, 0], prevYaw = 0, prevRoll = 0;
@@ -321,7 +342,21 @@ function frame(now, forced) {
       set(`Hand:: ${a.name}:: Wrist`, clamp(a.wrist.x, -1, 1));
     }
   }
-  if (puppet.byName['Arm:: Left:: Raise']) {
+  if (puppet.byName['Arm:: Chest']) {
+    const tg = GESTS[gest.name];
+    for (const k of GEST_PARAMS) {                     // ~0.6 s per change, eased at both ends by the spring
+      const d = (tg[k] ?? 0) - gest.cur[k];
+      gest.cur[k] += Math.sign(d) * Math.min(Math.abs(d), dt / 0.6);
+      set(k, ez(gest.cur[k]));
+    }
+    const wv = Math.sin(t * 7.5);                      // wave once the hand is up (the two hands a little apart)
+    set('Hand:: Right:: Wave', clamp(wv * clamp((gest.cur['Arm:: Right:: Raise'] - 0.8) / 0.2, 0, 1), -1, 1));
+    set('Hand:: Left:: Wave', clamp(Math.sin(t * 7.5 + 0.9) * clamp((gest.cur['Arm:: Left:: Raise'] - 0.8) / 0.2, 0, 1), -1, 1));
+    const busyR = Math.max(gest.cur['Arm:: Right:: Raise'], gest.cur['Arm:: Chest']);
+    const busyL = Math.max(gest.cur['Arm:: Left:: Raise'], gest.cur['Arm:: Chest'], gest.cur['Arm:: Left:: Cheek']);
+    for (const [nm, busy] of [['Right', busyR], ['Left', busyL]])      // no idle swing on an arm that is posing
+      for (const q of [`Arm:: ${nm}:: Swing`, `Arm:: ${nm}:: Bend`, `Hand:: ${nm}:: Wrist`]) set(q, pv(q) * (1 - busy));
+  } else if (puppet.byName['Arm:: Left:: Raise']) {
     let want = T('tRaise').checked ? 1 : 0;
     if (T('tRaiseLoop').checked) want = (t % 6) < 3.2 ? 1 : 0;
     if (want !== raise.to) { raise.from = raise.v; raise.to = want; raise.t0 = t; }
