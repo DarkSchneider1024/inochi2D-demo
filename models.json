@@ -21,6 +21,13 @@
     "desc": "卡洛特工作室 (Carrot Studio) 第三位形象角色：銀白髮尾染青的狐耳巫女。九軸轉頭 ±30°、身體角度（立體轉身）、表情（開心／生氣／難過／驚訝／害羞）、狐耳擺動與抖耳、狐尾晃動、胸部物理、手臂擺動。"
   },
   {
+    "id": "carrot_bikini",
+    "name": "卡洛特比基尼女郎",
+    "file": "models/carrot_bikini.inp",
+    "thumb": "thumbs/carrot_bikini.png",
+    "desc": "卡洛特工作室 (Carrot Studio) 第四位形象角色：橘色大波浪長髮的比基尼女孩。九軸轉頭 ±30°、身體角度（立體轉身）、表情（開心／生氣／難過／驚訝／害羞）、手勢（揮手／胸前合掌／托臉頰）、長髮擺動、胸部物理、原地踏步。"
+  },
+  {
     "id": "girl_v4",
     "name": "紫髮水手服少女",
     "file": "models/girl_v4.inp",
