@@ -12,6 +12,9 @@
 | `inochi-lite.js` | 自寫的精簡 WebGL 播放器，直接讀取 `.inp` 模型 |
 | `models/*.inp`、`models/*.inx` | Inochi2D 模型：girl_v4（紫髮水手服少女）、red_hood（小紅帽）、wolf（大野狼） |
 | `thumbs/*.png` | 作品集縮圖 |
+| `model3d.html` | 3D 角色頁（`?model=<id>`）：VRM 角色用 three-vrm 播放（眨眼、表情、嘴型、視線、頭髮物理），另有程式建模的卡洛特女孩；邊緣光、Bloom、視角切換 |
+| `models3d/*.vrm` | VRoid 範例角色：`vroid_girl`（VRM1_Constraint_Twist_Sample © pixiv Inc.，VRM Public License 1.0）、`avatar_a/b/c`（AvatarSample © VRoid Project）。皆允許修改與再散佈、可商用、不需標註 |
+| `models3d/carrot_girl.glb` | 卡洛特女孩 3D 模型，由 `../Blender/build_carrot_girl.py` 以 Blender 5.2 產生 |
 
 新增角色：把 `.inp` 放進 `models/`、縮圖放進 `thumbs/`，再在 `models.json` 加一筆就會出現在作品集。
 

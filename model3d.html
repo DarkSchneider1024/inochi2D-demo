@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D 角色展示</title>
+<style>
+  :root {
+    --bg: #f7efe8; --bg2: #efd9dc; --panel: rgba(255,255,255,.78); --ink: #2d2436; --muted: #6f6479;
+    --accent: #e8781c; --line: rgba(60,40,80,.14);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1d1826; --bg2: #2c2034; --panel: rgba(30,24,40,.82); --ink: #efe8f6; --muted: #b3a8c2; --accent: #ff9a45; --line: rgba(255,255,255,.12); }
+  }
+  :root[data-theme="dark"] { --bg: #1d1826; --bg2: #2c2034; --panel: rgba(30,24,40,.82); --ink: #efe8f6; --muted: #b3a8c2; --accent: #ff9a45; --line: rgba(255,255,255,.12); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: radial-gradient(120% 90% at 20% 10%, var(--bg) 0%, var(--bg2) 100%); color: var(--ink);
+         font: 14px/1.5 system-ui, "Segoe UI", "Microsoft JhengHei", sans-serif; }
+  .wrap { display: grid; grid-template-columns: 1fr 320px; grid-template-rows: 100%; height: 100%; }
+  aside { min-height: 0; }
+  .stage { position: relative; min-height: 60vh; overflow: hidden; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; display: block; }
+  .status { position: absolute; left: 16px; top: 12px; color: var(--muted); font-size: 12px; }
+  .hint { position: absolute; left: 16px; bottom: 12px; color: var(--muted); font-size: 12px; pointer-events: none; }
+  aside { background: var(--panel); border-left: 1px solid var(--line); padding: 16px; overflow: auto; backdrop-filter: blur(8px); }
+  h1 { font-size: 17px; margin: 0 0 4px; }
+  nav.tabs { display: flex; gap: 6px; margin: 0 0 14px; flex-wrap: wrap; }
+  nav.tabs a { text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 13px; }
+  nav.tabs a[aria-current="page"] { color: var(--ink); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .sub { color: var(--muted); font-size: 12px; margin: 0 0 14px; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 8px; }
+  .toggles label { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
+  .toggles input, label.row input { accent-color: var(--accent); }
+  label.row { display: grid; grid-template-columns: 1fr 44px; gap: 2px 8px; align-items: center; margin: 8px 0; }
+  label.row span.v { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12px; }
+  label.row input { grid-column: 1 / -1; width: 100%; }
+  .btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  button, a.btn { font: inherit; font-size: 13px; border: 1px solid var(--line); background: transparent; color: var(--ink);
+           border-radius: 8px; padding: 5px 10px; cursor: pointer; text-decoration: none; }
+  button:hover, a.btn:hover { border-color: var(--accent); }
+  button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
+  .note { color: var(--muted); font-size: 12px; margin-top: 16px; }
+  .ref { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+  .ref img { height: 120px; border-radius: 8px; border: 1px solid var(--line); background: rgba(255,255,255,.5); }
+  @media (max-width: 760px) {
+    .wrap { grid-template-columns: 1fr; grid-template-rows: 62vh auto; height: auto; }
+    .stage { min-height: 62vh; }
+    aside { border-left: 0; border-top: 1px solid var(--line); padding: 14px 16px; }
+    .hint { display: none; }
+  }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
+  "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.5.5/lib/three-vrm.module.min.js"
+} }
+</script>
+</head>
+<body>
+<style>
+  select { font: inherit; width: 100%; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--ink); }
+  select option { color: #2d2436; }
+  body:not(.vrm) .only-vrm, body:not(.glb) .only-glb { display: none !important; }
+  .credit { color: var(--muted); font-size: 11px; margin-top: 10px; }
+</style>
+<div class="wrap">
+  <div class="stage">
+    <canvas id="c"></canvas>
+    <div class="status" id="status">載入 3D 模型中…</div>
+    <div class="hint">拖曳旋轉・滾輪／雙指縮放・右鍵拖曳平移</div>
+  </div>
+  <aside>
+    <nav class="tabs"><a href="./">Demo</a><a href="gallery.html">作品集</a><a href="model3d.html" aria-current="page">3D 模型</a></nav>
+    <h1 id="title">3D 模型</h1>
+    <p class="sub" id="sub"></p>
+    <label for="pick" class="sub" style="display:block;margin-bottom:4px">角色</label>
+    <select id="pick">
+      <option value="vroid">VRoid 長髮女孩（VRM）</option>
+      <option value="avatar_a">AvatarSample A：短髮女孩（VRM）</option>
+      <option value="avatar_b">AvatarSample B：紫髮角角女孩（VRM）</option>
+      <option value="avatar_c">AvatarSample C：黑髮男孩（VRM）</option>
+      <option value="carrot">卡洛特女孩（Blender 程式建模）</option>
+    </select>
+
+    <h2>視角</h2>
+    <div class="btns">
+      <button data-view="front">正面</button>
+      <button data-view="three">斜側</button>
+      <button data-view="side">側面</button>
+      <button data-view="back">背面</button>
+      <button data-view="face">臉部特寫</button>
+    </div>
+
+    <div class="only-vrm">
+      <h2>表情</h2>
+      <div class="btns only-vrm" id="exprs">
+        <button data-expr="neutral" aria-pressed="true">平常</button>
+        <button data-expr="happy">開心</button>
+        <button data-expr="relaxed">溫柔</button>
+        <button data-expr="angry">生氣</button>
+        <button data-expr="sad">難過</button>
+        <button data-expr="surprised">驚訝</button>
+      </div>
+    </div>
+
+    <h2>動作與顯示</h2>
+    <div class="toggles">
+      <label><input type="checkbox" id="tRotate"> 自動旋轉</label>
+      <label><input type="checkbox" id="tIdle" checked> 待機動作（呼吸、擺頭、手臂晃動）</label>
+      <label><input type="checkbox" id="tLook" checked> 視線／頭部跟著滑鼠或手指</label>
+      <label class="only-vrm"><input type="checkbox" id="tBlink" checked> 自動眨眼</label>
+      <label class="only-vrm"><input type="checkbox" id="tTalk"> 說話（嘴型）</label>
+      <label class="only-vrm"><input type="checkbox" id="tRim" checked> 邊緣光</label>
+      <label><input type="checkbox" id="tBloom" checked> 柔光（Bloom）</label>
+      <label class="only-glb"><input type="checkbox" id="tToon" checked> 卡通著色</label>
+      <label><input type="checkbox" id="tOutline" checked> 描邊</label>
+      <label><input type="checkbox" id="tWire"> 線框</label>
+    </div>
+    <label class="row only-glb"><span>描邊粗細</span><span class="v" id="vOut">1.0</span>
+      <input type="range" id="rOut" min="0" max="3" step="0.1" value="1"></label>
+    <label class="row"><span>光線角度</span><span class="v" id="vLight">35°</span>
+      <input type="range" id="rLight" min="-180" max="180" step="1" value="35"></label>
+
+    <h2>檔案</h2>
+    <div class="btns"><a class="btn" id="dl" href="#" download>下載模型</a></div>
+    <p class="note" id="stats"></p>
+    <p class="credit only-vrm"><span id="credit"></span> 播放器：<a href="https://github.com/pixiv/three-vrm" target="_blank" rel="noopener">three-vrm</a>。</p>
+
+    <div class="only-glb">
+      <h2>參考圖</h2>
+      <div class="ref"><img src="thumbs/carrot_girl.png" alt="卡洛特女孩 2D 立繪"><img src="thumbs/carrot_girl_3d.png" alt="3D 模型預覽"></div>
+    </div>
+  </aside>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
+
+const MODELS = {
+  vroid: {
+    kind: 'vrm', url: 'models3d/vroid_girl.vrm', title: 'VRoid 長髮女孩',
+    sub: 'pixiv 以 VRoid 製作的範例角色，帶完整骨架、表情與頭髮物理（SpringBone），以 MToon 卡通材質即時渲染。Blender 版：<code>Blender/vroid_girl.blend</code>。',
+    credit: '模型：VRM1_Constraint_Twist_Sample © 2022 pixiv Inc.，<a href="https://vrm.dev/licenses/1.0/" target="_blank" rel="noopener">VRM Public License 1.0</a>（允許修改與再散佈）。',
+  },
+  avatar_a: {
+    kind: 'vrm', url: 'models3d/avatar_a.vrm', title: 'AvatarSample A',
+    sub: 'VRoid 官方範例模型 A：短髮女孩。帶完整骨架、表情與頭髮物理，以 MToon 卡通材質即時渲染。Blender 版：<code>Blender/avatar_a.blend</code>。',
+    credit: 'AvatarSample_A © VRoid Project（pixiv）。可商用、可修改與再散佈、不需標註（依 VRoid 範例模型使用條件）。',
+  },
+  avatar_b: {
+    kind: 'vrm', url: 'models3d/avatar_b.vrm', title: 'AvatarSample B',
+    sub: 'VRoid 官方範例模型 B：紫髮挑染、頭上有角的女孩。Blender 版：<code>Blender/avatar_b.blend</code>。',
+    credit: 'AvatarSample_B © VRoid Project（pixiv）。可商用、可修改與再散佈、不需標註（依 VRoid 範例模型使用條件）。',
+  },
+  avatar_c: {
+    kind: 'vrm', url: 'models3d/avatar_c.vrm', title: 'AvatarSample C',
+    sub: 'VRoid 官方範例模型 C：黑髮男孩。Blender 版：<code>Blender/avatar_c.blend</code>。',
+    credit: 'AvatarSample_C © VRoid Project（pixiv）。可商用、可修改與再散佈、不需標註（依 VRoid 範例模型使用條件）。',
+  },
+  carrot: {
+    kind: 'glb', url: 'models3d/carrot_girl.glb', title: '卡洛特女孩 3D',
+    sub: '以 2D 立繪為參考，用 Blender 5.2 腳本建模（<code>Blender/build_carrot_girl.py</code>），匯出 glTF 後以卡通著色即時渲染。',
+  },
+};
+
+const $ = (id) => document.getElementById(id);
+const canvas = $('c');
+const status = $('status');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+// 背景：跟頁面同色系的漸層（Bloom 後處理不保留透明，所以畫在場景裡）
+function makeBackground() {
+  const cs = getComputedStyle(document.documentElement);
+  const c = document.createElement('canvas');
+  c.width = 16; c.height = 256;
+  const g = c.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0, cs.getPropertyValue('--bg').trim() || '#f7efe8');
+  grad.addColorStop(1, cs.getPropertyValue('--bg2').trim() || '#efd9dc');
+  g.fillStyle = grad; g.fillRect(0, 0, 16, 256);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  scene.background = tex;
+}
+makeBackground();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', makeBackground);
+
+const camera = new THREE.PerspectiveCamera(32, 1, 0.05, 50);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.minDistance = 0.4;
+controls.maxDistance = 8;
+controls.autoRotateSpeed = 1.6;
+
+const hemi = new THREE.HemisphereLight(0xfff4ea, 0xd8b8c8, 1.4);
+const sun = new THREE.DirectionalLight(0xffffff, 2.2);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -1.2, right: 1.2, top: 2.2, bottom: -0.2, near: 0.1, far: 10 });
+sun.shadow.normalBias = 0.02;
+scene.add(hemi, sun, sun.target);
+const ground = new THREE.Mesh(new THREE.CircleGeometry(0.9, 64), new THREE.ShadowMaterial({ opacity: 0.18 }));
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+let sunDeg = 35;
+function placeSun(deg) {
+  sunDeg = deg;
+  const a = THREE.MathUtils.degToRad(deg);
+  sun.position.set(Math.sin(a) * 3, 4, Math.cos(a) * 3);
+  sun.target.position.set(0, 0.9, 0);
+}
+placeSun(35);
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.18, 0.5, 0.97);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+// ---------- 程式建模（glb）用的卡通著色與描邊 ----------
+const grad = new THREE.DataTexture(new Uint8Array([90, 90, 90, 255, 190, 190, 190, 255, 255, 255, 255, 255]), 3, 1);
+grad.minFilter = grad.magFilter = THREE.NearestFilter;
+grad.needsUpdate = true;
+const outlineUniforms = { thickness: { value: 0.0022 }, color: { value: new THREE.Color(0x6b3218) } };
+const outlineMat = new THREE.ShaderMaterial({
+  uniforms: outlineUniforms, side: THREE.BackSide,
+  vertexShader: `uniform float thickness;
+    void main() {
+      vec4 mv = modelViewMatrix * vec4(position, 1.0);
+      vec3 n = normalize(normalMatrix * normal);
+      mv.xyz += n * thickness * max(1.0, -mv.z);
+      gl_Position = projectionMatrix * mv;
+    }`,
+  fragmentShader: `uniform vec3 color; void main() { gl_FragColor = vec4(color, 1.0); }`,
+});
+const NO_OUTLINE = /Eye|Mouth|Tongue|Blush|Lash|Brow|Nose|Shine|Lace|SkirtCarrot|Badge/;
+
+// ---------- 目前載入的角色 ----------
+let cur = null;   // { id, kind, root, vrm, meshes, outlines, pivots, height }
+const loader = new GLTFLoader();
+loader.register((parser) => new VRMLoaderPlugin(parser));
+let loadToken = 0;
+
+function unload() {
+  if (!cur) return;
+  scene.remove(cur.root);
+  if (cur.vrm) VRMUtils.deepDispose(cur.root);
+  cur = null;
+}
+
+function load(id) {
+  const def = MODELS[id];
+  const token = ++loadToken;
+  document.body.classList.toggle('vrm', def.kind === 'vrm');
+  // MToon 本身已有明暗兩色，環境光要壓低才不會過曝
+  hemi.intensity = def.kind === 'vrm' ? 0.35 : 1.4;
+  sun.intensity = def.kind === 'vrm' ? 2.4 : 2.2;
+  document.body.classList.toggle('glb', def.kind === 'glb');
+  $('title').textContent = def.title;
+  $('sub').innerHTML = def.sub;
+  $('credit').innerHTML = def.credit || '';
+  $('dl').href = def.url;
+  $('dl').textContent = def.kind === 'vrm' ? '下載 VRM' : '下載 GLB';
+  $('stats').textContent = '';
+  status.textContent = '載入 3D 模型中…';
+  loader.load(def.url, (gltf) => {
+    if (token !== loadToken) return;
+    unload();
+    cur = def.kind === 'vrm' ? setupVRM(gltf) : setupGLB(gltf);
+    cur.id = id;
+    scene.add(cur.root);
+    const box = new THREE.Box3().setFromObject(cur.root);
+    cur.height = box.max.y;
+    let tris = 0;
+    cur.root.traverse((o) => {
+      if (o.isMesh && !o.name.endsWith('_outline')) {
+        const g = o.geometry;
+        tris += (g.index ? g.index.count : g.attributes.position.count) / 3;
+      }
+    });
+    $('stats').textContent = `${cur.meshes.length} 個網格・約 ${Math.round(tris).toLocaleString()} 個三角面`;
+    status.textContent = '';
+    applyToggles();
+    setView('three', false);
+  }, (e) => {
+    if (e.total && token === loadToken) status.textContent = `載入 3D 模型中… ${Math.round(e.loaded / e.total * 100)}%`;
+  }, (err) => { status.textContent = '模型載入失敗：' + err.message; });
+}
+
+function setupVRM(gltf) {
+  const vrm = gltf.userData.vrm;
+  VRMUtils.removeUnnecessaryVertices(gltf.scene);
+  VRMUtils.combineSkeletons(gltf.scene);
+  VRMUtils.rotateVRM0(vrm);
+  const meshes = [], outlines = [], mtoons = [];
+  vrm.scene.traverse((o) => {
+    o.frustumCulled = false;
+    if (!o.isMesh) return;
+    o.castShadow = true;
+    meshes.push(o);
+    (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => {
+      if (m.isOutline) outlines.push(m);
+      else if (m.isMToonMaterial) mtoons.push(m);
+    });
+  });
+  // 記住原本的邊緣光設定，方便開關
+  mtoons.forEach((m) => {
+    m.userData.rim0 = { color: m.parametricRimColorFactor.clone(), power: m.parametricRimFresnelPowerFactor, lift: m.parametricRimLiftFactor };
+  });
+  // 視線目標
+  const lookTarget = new THREE.Object3D();
+  scene.add(lookTarget);
+  if (vrm.lookAt) vrm.lookAt.target = lookTarget;
+  // T-pose → 手臂自然放下
+  const bone = (n) => vrm.humanoid.getNormalizedBoneNode(n);
+  // VRM 0.x 被 rotateVRM0 轉了 180°，X、Z 軸的旋轉方向相反
+  const sgn = vrm.meta?.metaVersion === '0' ? -1 : 1;
+  const pose = (n, x, y, z) => bone(n)?.rotation.set(x * sgn, y, z * sgn);
+  return { kind: 'vrm', root: vrm.scene, vrm, meshes, outlines, mtoons, lookTarget, bone, pose };
+}
+
+function setupGLB(gltf) {
+  const root = gltf.scene;
+  const nodes = [];
+  root.traverse((o) => nodes.push(o));
+  const meshes = [], outlines = [], pivots = {};
+  nodes.forEach((o) => {
+    if (o.name.startsWith('Pivot_')) pivots[o.name] = { node: o, base: o.rotation.clone(), pos: o.position.clone() };
+    if (!o.isMesh) return;
+    const src = o.material;
+    const toon = new THREE.MeshToonMaterial({ color: src.color, gradientMap: grad, side: THREE.DoubleSide });
+    o.userData.mats = { toon, std: src };
+    src.side = THREE.DoubleSide;
+    o.material = toon;
+    o.castShadow = true;
+    meshes.push(o);
+    if (!NO_OUTLINE.test(o.name) && !NO_OUTLINE.test(o.parent?.name || '')) {
+      const ol = new THREE.Mesh(o.geometry, outlineMat);
+      ol.name = o.name + '_outline';
+      ol.raycast = () => {};
+      o.add(ol);
+      outlines.push(ol);
+    }
+  });
+  return { kind: 'glb', root, meshes, outlines, pivots };
+}
+
+// ---------- 開關 ----------
+function applyToggles() {
+  if (!cur) return;
+  const outlineOn = $('tOutline').checked, wire = $('tWire').checked;
+  if (cur.kind === 'vrm') {
+    cur.outlines.forEach((m) => m.visible = outlineOn);
+    const rim = $('tRim').checked;
+    cur.mtoons.forEach((m) => {
+      const r0 = m.userData.rim0;
+      if (rim) { m.parametricRimColorFactor.setRGB(0.32, 0.24, 0.2); m.parametricRimFresnelPowerFactor = 5.0; m.parametricRimLiftFactor = 0.0; }
+      else { m.parametricRimColorFactor.copy(r0.color); m.parametricRimFresnelPowerFactor = r0.power; m.parametricRimLiftFactor = r0.lift; }
+      m.wireframe = wire;
+    });
+  } else {
+    cur.outlines.forEach((o) => o.visible = outlineOn);
+    cur.meshes.forEach((m) => {
+      m.material = $('tToon').checked ? m.userData.mats.toon : m.userData.mats.std;
+      m.userData.mats.toon.wireframe = m.userData.mats.std.wireframe = wire;
+    });
+  }
+}
+['tOutline', 'tWire', 'tRim', 'tToon'].forEach((id) => $(id).onchange = applyToggles);
+$('tRotate').onchange = (e) => controls.autoRotate = e.target.checked;
+$('rOut').oninput = (e) => { outlineUniforms.thickness.value = 0.0022 * +e.target.value; $('vOut').textContent = (+e.target.value).toFixed(1); };
+$('rLight').oninput = (e) => { placeSun(+e.target.value); $('vLight').textContent = e.target.value + '°'; };
+$('pick').onchange = (e) => { history.replaceState(null, '', '?model=' + e.target.value); load(e.target.value); };
+
+// 表情：平滑過渡到目標值
+const EXPRS = ['happy', 'relaxed', 'angry', 'sad', 'surprised'];
+let exprTarget = 'neutral';
+const exprVal = Object.fromEntries(EXPRS.map((k) => [k, 0]));
+document.querySelectorAll('[data-expr]').forEach((b) => b.onclick = () => {
+  exprTarget = b.dataset.expr;
+  document.querySelectorAll('[data-expr]').forEach((x) => x.setAttribute('aria-pressed', x === b));
+});
+
+// ---------- 視角（依角色身高縮放） ----------
+const VIEWS = {
+  front: [[0, 0.62, 2.45], 0.54],
+  three: [[1.15, 0.72, 2.2], 0.54],
+  side: [[2.45, 0.62, 0], 0.54],
+  back: [[0, 0.66, -2.45], 0.54],
+  face: [[0.22, 0.92, 1.0], 0.88],
+};
+let tween = null;
+function setView(name, animate = true) {
+  const H = cur?.height || 1.6;
+  const [p, ty] = VIEWS[name];
+  const to = { p: new THREE.Vector3(p[0] * H, p[1] * H, p[2] * H), t: new THREE.Vector3(0, ty * H, 0) };
+  if (!animate) { camera.position.copy(to.p); controls.target.copy(to.t); controls.update(); return; }
+  tween = { from: { p: camera.position.clone(), t: controls.target.clone() }, to, t0: performance.now() };
+}
+document.querySelectorAll('[data-view]').forEach((b) => b.onclick = () => setView(b.dataset.view));
+
+const pointer = new THREE.Vector2();
+canvas.addEventListener('pointermove', (e) => {
+  const r = canvas.getBoundingClientRect();
+  pointer.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+});
+
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  const pr = renderer.getPixelRatio();
+  if (canvas.width !== Math.round(w * pr) || canvas.height !== Math.round(h * pr)) {
+    renderer.setSize(w, h, false);
+    composer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+}
+
+const ease = (x) => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+const look = new THREE.Vector2();
+let blinkT = 2, blinkPhase = -1;
+const clock = new THREE.Clock();
+
+function animateVRM(t, dt, idle) {
+  const { vrm, bone, pose } = cur;
+  const em = vrm.expressionManager;
+  // 姿勢：手臂放下 + 呼吸 + 擺動
+  const breath = Math.sin(t * 2.0);
+  pose('leftUpperArm', 0, 0, -1.22 + idle * 0.035 * Math.sin(t * 1.1));
+  pose('rightUpperArm', 0, 0, 1.22 - idle * 0.035 * Math.sin(t * 1.1 + 0.8));
+  pose('leftLowerArm', 0, -0.25, -0.12);
+  pose('rightLowerArm', 0, 0.25, 0.12);
+  pose('leftHand', 0, 0, -0.12);
+  pose('rightHand', 0, 0, 0.12);
+  pose('spine', idle * 0.012 * breath, 0, idle * 0.015 * Math.sin(t * 0.7));
+  pose('chest', idle * 0.015 * breath, 0, 0);
+  pose('hips', 0, 0, -idle * 0.015 * Math.sin(t * 0.7));
+  for (const [n, s] of [['leftUpperLeg', 1], ['rightUpperLeg', -1]]) pose(n, 0, 0, s * 0.03);
+  // 頭與視線跟著指標
+  const tgt = new THREE.Vector2();
+  const az = Math.atan2(camera.position.x - controls.target.x, camera.position.z - controls.target.z);
+  if ($('tLook').checked && Math.abs(az) < 1.3) tgt.set(THREE.MathUtils.clamp(pointer.x * 0.45 + az * 0.4, -0.55, 0.55), THREE.MathUtils.clamp(pointer.y * 0.3, -0.3, 0.3));
+  look.lerp(tgt, 0.08);
+  pose('neck', -look.y * 0.35, look.x * 0.4, 0);
+  pose('head', -look.y * 0.35 + idle * 0.03 * Math.sin(t * 1.1), look.x * 0.4 + idle * 0.04 * Math.sin(t * 0.6), idle * 0.05 * Math.sin(t * 0.8));
+  // 眼睛看向相機方向（加上指標偏移）
+  const head = bone('head').getWorldPosition(new THREE.Vector3());
+  const dir = camera.position.clone().sub(head).normalize();
+  const right = new THREE.Vector3().crossVectors(dir, new THREE.Vector3(0, 1, 0)).normalize();
+  cur.lookTarget.position.copy(head).addScaledVector(dir, 1.5)
+    .addScaledVector(right, $('tLook').checked ? -pointer.x * 0.6 : 0)
+    .add(new THREE.Vector3(0, $('tLook').checked ? pointer.y * 0.5 : 0, 0));
+  // 表情
+  for (const k of EXPRS) {
+    exprVal[k] += ((k === exprTarget ? 1 : 0) - exprVal[k]) * Math.min(1, dt * 8);
+    em.setValue(k, exprVal[k]);
+  }
+  // 眨眼（表情太強時不眨）
+  let blink = 0;
+  if ($('tBlink').checked && exprVal.happy < 0.5 && exprVal.relaxed < 0.5) {
+    blinkT -= dt;
+    if (blinkT <= 0 && blinkPhase < 0) { blinkPhase = 0; blinkT = 2 + Math.random() * 3; }
+    if (blinkPhase >= 0) {
+      blinkPhase += dt / 0.16;
+      blink = Math.sin(Math.min(1, blinkPhase) * Math.PI);
+      if (blinkPhase >= 1) blinkPhase = -1;
+    }
+  }
+  em.setValue('blink', blink);
+  // 說話
+  const vow = ['aa', 'ih', 'ou', 'ee', 'oh'];
+  const talk = $('tTalk').checked;
+  const k = Math.floor(t * 7) % vow.length, open = talk ? 0.35 + 0.45 * Math.abs(Math.sin(t * 11)) : 0;
+  vow.forEach((v, i) => em.setValue(v, i === k ? open : 0));
+  vrm.update(dt);
+}
+
+function animateGLB(t, idle) {
+  const set = (name, rx, ry, rz) => {
+    const p = cur.pivots[name];
+    if (p) p.node.rotation.set(p.base.x + rx, p.base.y + ry, p.base.z + rz);
+  };
+  const tgt = new THREE.Vector2();
+  if ($('tLook').checked) {
+    const az = Math.atan2(camera.position.x - controls.target.x, camera.position.z - controls.target.z);
+    if (Math.abs(az) < 1.2) tgt.set(THREE.MathUtils.clamp(pointer.x * 0.45 + az * 0.5, -0.5, 0.5), -pointer.y * 0.25);
+  }
+  look.lerp(tgt, 0.08);
+  set('Pivot_Head', look.y + idle * 0.03 * Math.sin(t * 1.1), look.x + idle * 0.05 * Math.sin(t * 0.6), idle * 0.05 * Math.sin(t * 0.8));
+  const sway = idle * 0.07 * Math.sin(t * 1.6 - 0.6) - look.x * 0.15;
+  set('Pivot_Tail_L', idle * 0.03 * Math.sin(t * 1.3), 0, sway + idle * 0.02);
+  set('Pivot_Tail_R', idle * 0.03 * Math.sin(t * 1.3 + 0.4), 0, sway - idle * 0.02);
+  set('Pivot_Arm_L', idle * 0.04 * Math.sin(t * 1.2), 0, idle * 0.04 * Math.sin(t * 1.9));
+  set('Pivot_Arm_R', idle * 0.04 * Math.sin(t * 1.2 + 1), 0, -idle * 0.04 * Math.sin(t * 1.9 + 0.5));
+  const body = cur.pivots['Pivot_Body'];
+  if (body) {
+    body.node.position.y = body.pos.y + idle * 0.004 * Math.sin(t * 2.2);
+    body.node.rotation.z = body.base.z + idle * 0.015 * Math.sin(t * 0.7);
+  }
+}
+
+renderer.setAnimationLoop(() => {
+  resize();
+  const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime, now = performance.now();
+  if (tween) {
+    const k = Math.min(1, (now - tween.t0) / 700), e = ease(k);
+    camera.position.lerpVectors(tween.from.p, tween.to.p, e);
+    controls.target.lerpVectors(tween.from.t, tween.to.t, e);
+    if (k >= 1) tween = null;
+  }
+  controls.update();
+  if (cur) {
+    const idle = $('tIdle').checked ? 1 : 0;
+    if (cur.kind === 'vrm') animateVRM(t, dt, idle); else animateGLB(t, idle);
+  }
+  if ($('tBloom').checked) composer.render(); else renderer.render(scene, camera);
+});
+
+const start = new URLSearchParams(location.search).get('model');
+const first = MODELS[start] ? start : 'vroid';
+$('pick').value = first;
+load(first);
+</script>
+</body>
+</html>
