@@ -42,6 +42,33 @@
   .exprs button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
   .zoombtn { position: absolute; right: 10px; top: 8px; z-index: 5; font-size: 13px; padding: 5px 10px; border-radius: 999px;
              background: var(--panel); backdrop-filter: blur(6px); }
+  /* 前後角色切換浮動按鈕（對應實體「前」「後」按鈕） */
+  .nav-btn {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    padding: 12px 14px; font: inherit; font-size: 15px; font-weight: 600; line-height: 1;
+    border-radius: 12px; background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--line); color: var(--ink); cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    transition: transform .18s cubic-bezier(0.16, 1, 0.3, 1), background .18s, border-color .18s, color .18s, box-shadow .18s;
+    user-select: none;
+  }
+  .nav-btn .nav-arrow { font-size: 18px; line-height: 1; color: var(--accent); }
+  .nav-btn:hover {
+    border-color: var(--accent); color: var(--accent);
+    background: color-mix(in srgb, var(--panel) 82%, var(--accent));
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 6px 20px rgba(0,0,0,.22);
+  }
+  .nav-btn:active { transform: translateY(-50%) scale(0.95); }
+  .nav-prev { left: 16px; }
+  .nav-next { right: 16px; }
+  @media (max-width: 760px) {
+    .nav-btn { padding: 9px 8px; font-size: 13px; }
+    .nav-btn .nav-arrow { font-size: 14px; }
+    .nav-prev { left: 6px; }
+    .nav-next { right: 6px; }
+  }
   /* full view: the character pane takes the whole screen, the controls are hidden (phones: the split is too small) */
   body.full .wrap { grid-template-columns: 1fr !important; }
   body.full aside { display: none; }
@@ -64,6 +91,8 @@
 <body>
 <div class="wrap">
   <div class="stage"><canvas id="c"></canvas><div class="status" id="status">載入模型中…</div>
+    <button class="nav-btn nav-prev" id="navPrev" aria-label="切換至上一個角色（前）" title="切換至上一個角色（前）"><span class="nav-arrow">‹</span><span class="nav-text">前</span></button>
+    <button class="nav-btn nav-next" id="navNext" aria-label="切換至下一個角色（後）" title="切換至下一個角色（後）"><span class="nav-text">後</span><span class="nav-arrow">›</span></button>
     <button class="zoombtn" id="zoom" aria-pressed="false" title="放大全景（隱藏控制面板）">⛶ 放大</button>
     <button class="zoombtn" id="bust" aria-pressed="false" style="top:46px;display:none" title="全身 / 半身特寫">半身</button></div>
   <aside>
@@ -123,15 +152,51 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
   'Brow:: Raise': ['眉毛 上揚'], 'Brow:: Angry': ['眉毛 生氣（− 難過）'], 'Mouth:: Form': ['嘴角 上揚（− 下垂）'],
   'Face:: Blush': ['臉紅'], 'Ear:: Twitch': ['耳朵 抖動'],
   'Arm:: Right:: Raise': ['右手 舉起（0 放下 → 1 揮手）'], 'Arm:: Chest': ['雙手 胸前合掌'], 'Arm:: Left:: Cheek': ['左手 托臉頰'],
-  'Hand:: Right:: Wave': ['右手 揮動'], 'Hand:: Left:: Wave': ['左手 揮動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'] };
+  'Hand:: Right:: Wave': ['右手 揮動'], 'Hand:: Left:: Wave': ['左手 揮動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'],
+  'Leg:: Open': ['雙腿 開合（連動乳搖）'], 'Arm:: Right:: Bend': ['右臂 彎曲'], 'Arm:: Left:: Bend': ['左臂 彎曲'] };
 
 // ---- which model: ?model=<id> (listed in models.json, shared with the gallery page)
 const models = await (await fetch('./models.json', { cache: 'no-cache' })).json();
 const wanted = new URLSearchParams(location.search).get('model');
+if (wanted === 'bikini_garter' && !models.some((m) => m.id === 'bikini_garter')) {
+  models.push({
+    id: 'bikini_garter',
+    name: '夏日甜心・黑絲吊帶比基尼',
+    file: 'models/bikini_garter.inp',
+    thumb: 'thumbs/bikini_garter.png',
+    desc: '原創角色・夏日甜心：精緻動漫美少女、白皙肌膚與純白掛頸比基尼、性感黑絲吊帶襪。開腿晃動連動垂直落差乳搖、無轉頭破圖、獨立肢體素體拆件。'
+  });
+}
 const model = models.find((m) => m.id === wanted) || models[0];
 const pick = document.getElementById('pick');
 for (const m of models) pick.add(new Option(m.name, m.id, false, m.id === model.id));
 pick.onchange = () => { location.search = '?model=' + pick.value; };
+
+// 前後切換按鈕控制（對應畫面上「前」「後」按鈕）
+const curIdx = models.findIndex((m) => m.id === model.id);
+const prevModel = models[(curIdx - 1 + models.length) % models.length];
+const nextModel = models[(curIdx + 1) % models.length];
+const navPrev = document.getElementById('navPrev');
+const navNext = document.getElementById('navNext');
+function switchModel(delta) {
+  const cIdx = models.findIndex((m) => m.id === model.id);
+  const targetIdx = (cIdx + delta + models.length) % models.length;
+  location.search = '?model=' + models[targetIdx].id;
+}
+if (navPrev) {
+  navPrev.title = `切換至上一個角色（前）：${prevModel.name}`;
+  navPrev.onclick = () => switchModel(-1);
+}
+if (navNext) {
+  navNext.title = `切換至下一個角色（後）：${nextModel.name}`;
+  navNext.onclick = () => switchModel(1);
+}
+window.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'ArrowLeft') switchModel(-1);
+  else if (e.key === 'ArrowRight') switchModel(1);
+});
+
 document.getElementById('title').textContent = `${model.name} · Inochi2D`;
 document.getElementById('sub').innerHTML = `${model.desc}<br>模型檔：<code>${model.file}</code>`;
 document.title = `${model.name} · Inochi2D Demo`;
