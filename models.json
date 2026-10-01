@@ -7,6 +7,13 @@
     "desc": "卡洛特工作室 (Carrot Studio) 官方形象角色：活力雙馬尾、蘿蔔呆毛與耳機、眨眼、張嘴、呼吸、九軸轉頭 ±30°、手臂與頭髮擺動，左手可自然轉場舉手揮手／放下。"
   },
   {
+    "id": "carol_v2",
+    "name": "卡洛兒姐姐 v2",
+    "file": "models/carol_v2.inp",
+    "thumb": "thumbs/carol_v2.png",
+    "desc": "卡洛兒姐姐 v2（卡洛特說故事用）：說故事站姿，素體、主體、素髮、後髮、前髮分層描圖；笑眼 ^ 眨眼（可單眼）、D 形嘴說話（啊／喔、小虎牙）、九軸轉頭 ±30°、雙馬尾與葉子擺動、手臂與腳步。"
+  },
+  {
     "id": "carrot_bunny",
     "name": "卡洛特兔女郎",
     "file": "models/carrot_bunny.inp",
