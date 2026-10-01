@@ -14,32 +14,11 @@
     "desc": "卡洛兒姐姐 v2（卡洛特說故事用）：說故事站姿，素體、主體、素髮、後髮、前髮分層描圖；笑眼 ^ 眨眼（可單眼）、D 形嘴說話（啊／喔、小虎牙）、九軸轉頭 ±30°、雙馬尾與葉子擺動、手臂與腳步。"
   },
   {
-    "id": "carrot_bunny",
-    "name": "卡洛特兔女郎",
-    "file": "models/carrot_bunny.inp",
-    "thumb": "thumbs/carrot_bunny.png",
-    "desc": "卡洛特工作室 (Carrot Studio) 第二位形象角色：成熟大姊姊路線的胡蘿蔔兔女郎。眨眼、張嘴、呼吸、九軸轉頭 ±30°、兔耳與長髮擺動、兔尾晃動、胸部物理、手臂擺動。"
-  },
-  {
-    "id": "carrot_bunny_v2",
-    "name": "卡洛特兔女郎 v2",
-    "file": "models/carrot_bunny_v2.inp",
-    "thumb": "thumbs/carrot_bunny_v2.png",
-    "desc": "卡洛特兔女郎 v2：先生素體、主體、素髮、後髮、前髮，分層描圖再合成。背後頭髮完整、左右胸分開晃動、眨眼、說話、九軸轉頭 ±30°、兔耳與長髮擺動、兔尾晃動。"
-  },
-  {
     "id": "fox_yuzuno",
     "name": "狐姬柚乃",
     "file": "models/fox_yuzuno.inp",
     "thumb": "thumbs/fox_yuzuno.png",
     "desc": "卡洛特工作室 (Carrot Studio) 第三位形象角色：銀白髮尾染青的狐耳巫女。九軸轉頭 ±30°、身體角度（立體轉身）、表情（開心／生氣／難過／驚訝／害羞）、狐耳擺動與抖耳、狐尾晃動、胸部物理、手臂擺動。"
-  },
-  {
-    "id": "carrot_bikini",
-    "name": "卡洛特比基尼女郎",
-    "file": "models/carrot_bikini.inp",
-    "thumb": "thumbs/carrot_bikini.png",
-    "desc": "卡洛特工作室 (Carrot Studio) 第四位形象角色：橘色大波浪長髮的比基尼女孩。九軸轉頭 ±30°、身體角度（立體轉身）、表情（開心／生氣／難過／驚訝／害羞）、手勢（揮手／胸前合掌／托臉頰）、長髮擺動、胸部物理、原地踏步。"
   },
   {
     "id": "blue_senpai",
