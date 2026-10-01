@@ -45,13 +45,30 @@ export class Puppet {
       return node;
     };
     this.root = walk(json.nodes, null);
-    this.params = json.param.map((p) => ({ ...p, value: [...p.defaults] }));
+    this.params = json.param.map((p) => {
+      const param = { ...p, value: [...p.defaults] };
+      Object.defineProperty(param, 'v', {
+        get() { return this.value; },
+        set(val) { this.value = val; },
+        enumerable: true,
+        configurable: true
+      });
+      return param;
+    });
     this.byName = Object.fromEntries(this.params.map((p) => [p.name, p]));
     this.physics = [...this.nodes.values()].filter((n) => n.type === 'SimplePhysics')
       .map((n) => ({ node: n, param: this.params.find((p) => p.uuid === n.param), angle: 0, vel: 0 }));
   }
 
+  has(name) {
+    return !!this.byName[name];
+  }
+
   set(name, x, y = 0) {
+    if (Array.isArray(x)) {
+      y = x[1] ?? 0;
+      x = x[0] ?? 0;
+    }
     const p = this.byName[name];                              // clamped to the model's own range (a rig may
     if (p) p.value = [Math.min(p.max[0], Math.max(p.min[0], x)),   // allow less on one side, e.g. the fox's yaw)
                       Math.min(p.max[1], Math.max(p.min[1], y))];

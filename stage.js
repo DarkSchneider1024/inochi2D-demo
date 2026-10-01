@@ -68,6 +68,14 @@ export class GL {                     // also used by the web demo (transparent 
     gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA); gl.useProgram(this.prog);
   }
 
+  clear(r = 0, g = 0, b = 0, a = 0) {
+    this.begin(Array.isArray(r) ? r : [r, g, b, a]);
+  }
+
+  resize(w, h) {
+    // Dynamic getters (this.w, this.h) read canvas.width and canvas.height directly
+  }
+
   // local px -> screen px = p * k + (ox, oy)
   mesh(pos, uvs, idx, tex, k, ox, oy, opacity = 1) {      // k: scale, or [kx, ky] (kx < 0 mirrors)
     const gl = this.gl, kx = Array.isArray(k) ? k[0] : k, ky = Array.isArray(k) ? k[1] : k, w = this.w, h = this.h;
