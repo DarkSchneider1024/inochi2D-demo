@@ -46,7 +46,12 @@ export class Puppet {
     };
     this.root = walk(json.nodes, null);
     this.params = json.param.map((p) => {
-      const param = { ...p, value: [...p.defaults] };
+      const dflt = Array.isArray(p.defaults) ? p.defaults : [p.defaults ?? 0, 0];
+      const mn = Array.isArray(p.min) ? p.min : [p.min ?? 0, 0];
+      const mx = Array.isArray(p.max) ? p.max : [p.max ?? 1, 1];
+      const ax = Array.isArray(p.axis_points?.[0]) ? p.axis_points[0] : (Array.isArray(p.axis_points) ? p.axis_points : [0, 1]);
+      const ay = Array.isArray(p.axis_points?.[1]) ? p.axis_points[1] : [0];
+      const param = { ...p, defaults: dflt, min: mn, max: mx, axis_points: [ax, ay], value: [...dflt] };
       Object.defineProperty(param, 'v', {
         get() { return this.value; },
         set(val) { this.value = val; },

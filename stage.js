@@ -313,7 +313,30 @@ class Actor {
     p.set('Head:: Yaw-Pitch', clamp(st.yaw, -1, 1), clamp(-st.pitch, -1, 1));
     p.set('Head:: Roll', clamp(st.roll, -1, 1));
     p.set('Eye:: Left:: Blink', blink); p.set('Eye:: Right:: Blink', blink);
-    p.set('Mouth:: Open', clamp(talk * 1.1, 0, 1));
+    if (p.byName['Mouth:: Form']) {
+      // VTuber lip-sync: 閉嘴 -> O -> 大開 -> O -> 閉嘴
+      // Syllable modulation (~4.5 Hz natural Mandarin speech cadence)
+      let openVal = 0;
+      let formVal = 1;
+      if (talk > 0.06) {
+        const syl = 0.5 + 0.5 * Math.sin(lt * 2 * Math.PI * 4.6);
+        const level = talk * (0.42 + 0.58 * syl);
+        if (level > 0.52) {
+          openVal = 1.0;
+          formVal = 0.0; // 大開 (嘴_啊)
+        } else if (level > 0.08) {
+          openVal = 0.75;
+          formVal = 1.0; // O (嘴_喔)
+        } else {
+          openVal = 0.0;
+          formVal = 1.0; // 閉嘴 (嘴唇線)
+        }
+      }
+      p.set('Mouth:: Open', openVal);
+      p.set('Mouth:: Form', formVal);
+    } else {
+      p.set('Mouth:: Open', clamp(talk * 1.1, 0, 1));
+    }
     p.set('Body:: Breath', 0.5 + 0.5 * Math.sin((lt / 3.4) * Math.PI * 2));
     p.set('Arm:: Right:: Swing', clamp(st.armR, -1, 1)); p.set('Arm:: Left:: Swing', clamp(st.armL, -1, 1));
     p.set('Arm:: Right:: Bend', clamp(st.bendR, 0, 1)); p.set('Arm:: Left:: Bend', clamp(st.bendL, 0, 1));
