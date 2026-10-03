@@ -1,5 +1,12 @@
 [
   {
+    "id": "mr_carrot_chibi",
+    "name": "卡洛特先生（Q版）",
+    "file": "models/mr_carrot_chibi.inp",
+    "thumb": "thumbs/mr_carrot_chibi.png",
+    "desc": "卡洛特先生 (Mr. Carrot) 官方 Q 版形象：探索家綠髮、極簡黑框眼鏡、冒險領巾、工裝背心與巨型胡蘿蔔。1600x1600 Unity-chan 規格拆件，支援瞳孔凝視追蹤、呼吸、眨眼閉眼與胡蘿蔔物理搖晃。"
+  },
+  {
     "id": "carrot_girl",
     "name": "胡蘿蔔女孩",
     "file": "models/carrot_girl.inp",
