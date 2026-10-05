@@ -107,7 +107,7 @@
       <label><input type="checkbox" id="tBlink" checked> 自動眨眼</label>
       <label><input type="checkbox" id="tBreath" checked> 呼吸</label>
       <label><input type="checkbox" id="tPhys" checked> 頭髮物理</label>
-      <label><input type="checkbox" id="tArms" checked> 手臂自然擺動</label>
+      <label id="tArmsLab"><input type="checkbox" id="tArms" checked> 手臂自然擺動</label>
       <label><input type="checkbox" id="tTalk"> 說話</label>
       <label class="raise-only"><input type="checkbox" id="tRaise"> 舉手打招呼（放下 ↔ 舉手 自然轉場，舉起後揮手）</label>
       <label class="raise-only"><input type="checkbox" id="tRaiseLoop"> 自動循環舉手／放下（每 6 秒）</label>
@@ -212,6 +212,7 @@ try {
   isSide = !!puppet.byName['Leg:: Front:: Hip'];
   for (const el of document.querySelectorAll('.side-only')) el.style.display = isSide ? '' : 'none';
   for (const el of document.querySelectorAll('.front-only')) el.style.display = isSide ? 'none' : '';
+  if (model.noIdleArms) { document.getElementById('tArms').checked = false; document.getElementById('tArmsLab').style.display = 'none'; }   // 卡洛兒姐姐: wave only, no idle sway (user)
   for (const el of document.querySelectorAll('.raise-only')) el.style.display = puppet.byName['Arm:: Left:: Raise'] && !puppet.byName['Arm:: Chest'] ? '' : 'none';
   for (const el of document.querySelectorAll('.body-only')) el.style.display = puppet.byName['Body:: Angle X-Y'] ? '' : 'none';
   for (const el of document.querySelectorAll('.ear-only')) el.style.display = puppet.byName['Ear:: Twitch'] ? '' : 'none';
