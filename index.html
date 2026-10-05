@@ -121,6 +121,10 @@
       <h2>表情</h2>
       <div class="exprs" id="exprs"></div>
     </div>
+    <div class="raise-only">
+      <h2>手勢</h2>
+      <div class="exprs"><button id="waveBtn" aria-pressed="false">👋 揮手</button></div>
+    </div>
     <div class="gest-only">
       <h2>手勢</h2>
       <div class="exprs" id="gests"></div>
@@ -159,15 +163,6 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
 // ---- which model: ?model=<id> (listed in models.json, shared with the gallery page)
 const models = await (await fetch('./models.json', { cache: 'no-cache' })).json();
 const wanted = new URLSearchParams(location.search).get('model');
-if (wanted === 'bikini_garter' && !models.some((m) => m.id === 'bikini_garter')) {
-  models.push({
-    id: 'bikini_garter',
-    name: '夏日甜心・黑絲吊帶比基尼',
-    file: 'models/bikini_garter.inp',
-    thumb: 'thumbs/bikini_garter.png',
-    desc: '原創角色・夏日甜心：精緻動漫美少女、白皙肌膚與純白掛頸比基尼、性感黑絲吊帶襪。開腿晃動連動垂直落差乳搖、無轉頭破圖、獨立肢體素體拆件。'
-  });
-}
 const model = models.find((m) => m.id === wanted) || models[0];
 const pick = document.getElementById('pick');
 for (const m of models) pick.add(new Option(m.name, m.id, false, m.id === model.id));
@@ -333,6 +328,9 @@ const ez = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
 let strollYaw = 0;
 // arm raise: an eased move between the two poses (never a cut), then a friendly wave while the hand is up
 const raise = { v: 0, from: 0, to: 0, t0: 0 }, RAISE_T = 0.9;
+let waveUntil = 0;
+const waveBtn = document.getElementById('waveBtn');
+waveBtn.onclick = () => { const now = performance.now() / 1000; waveUntil = now < waveUntil ? 0 : now + 4.4; };
 const ezio = (x) => { x = clamp(x, 0, 1); return x < 0.5 ? 4 * x * x * x : 1 - (-2 * x + 2) ** 3 / 2; };
 // expressions: every preset is a target for the face params; the face eases between them (never a cut)
 const EXPR_PARAMS = ['Eye:: Smile', 'Eye:: Wide', 'Brow:: Raise', 'Brow:: Angry', 'Mouth:: Form', 'Face:: Blush'];
@@ -450,11 +448,18 @@ function frame(now, forced) {
   } else if (puppet.byName['Arm:: Left:: Raise']) {
     let want = T('tRaise').checked ? 1 : 0;
     if (T('tRaiseLoop').checked) want = (t % 6) < 3.2 ? 1 : 0;
+    if (t < waveUntil) want = 1;                                   // 揮手 button: raise, wave ~3 s, put it down
+    waveBtn.setAttribute('aria-pressed', t < waveUntil);
+    const waveP = !!puppet.byName['Hand:: Left:: Wave'];      // carol_v2: hang -> open -> wave on one skeleton
     if (want !== raise.to) { raise.from = raise.v; raise.to = want; raise.t0 = t; }
-    raise.v = raise.from + (raise.to - raise.from) * ezio((t - raise.t0) / RAISE_T);
+    raise.v = raise.from + (raise.to - raise.from) * ezio((t - raise.t0) / (waveP ? 1.4 : RAISE_T));
     set('Arm:: Left:: Raise', raise.v);
     const up = clamp((raise.v - 0.85) / 0.15, 0, 1);            // wave only once the hand is up
-    if (up > 0) {
+    if (waveP) {
+      // no idle swing on the arm that is posing (it would pull the hanging drawing off the shared skeleton)
+      for (const q of ['Arm:: Left:: Swing', 'Arm:: Left:: Bend', 'Hand:: Left:: Wrist']) set(q, pv(q) * (1 - clamp(raise.v * 4, 0, 1)));
+      set('Hand:: Left:: Wave', up * Math.sin(t * 7.5));
+    } else if (up > 0) {
       const wv = Math.sin(t * 7.5);
       set('Arm:: Left:: Bend', clamp(pv('Arm:: Left:: Bend') * (1 - up) + up * (0.28 + 0.22 * wv), 0, 1));
       set('Hand:: Left:: Wrist', clamp(pv('Hand:: Left:: Wrist') * (1 - up) + up * 0.55 * Math.sin(t * 7.5 - 0.7), -1, 1));

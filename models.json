@@ -1,5 +1,12 @@
 [
   {
+    "id": "carol_v2",
+    "name": "卡洛兒姐姐",
+    "file": "models/carol_v2.inp",
+    "thumb": "thumbs/carol_v2.png",
+    "desc": "卡洛兒姐姐（卡洛特說故事用）：說故事站姿，素體、主體、素髮、後髮、前髮分層描圖；笑眼 ^ 眨眼（可單眼）、D 形嘴說話（啊／喔、小虎牙）、九軸轉頭 ±30°、雙馬尾與葉子擺動、手臂與腳步；左手舉手揮手：垂手 → 張開（三視圖手打開）→ 揮手，三張圖共用同一副骨架連續轉場，不硬切。"
+  },
+  {
     "id": "mr_carrot_chibi",
     "name": "卡洛特先生（Q版）",
     "file": "models/mr_carrot_chibi.inp",
@@ -7,46 +14,11 @@
     "desc": "卡洛特先生 (Mr. Carrot) 官方 Q 版形象：探索家綠髮、極簡黑框眼鏡、冒險領巾、工裝背心與巨型胡蘿蔔。1600x1600 Unity-chan 規格拆件，支援瞳孔凝視追蹤、呼吸、眨眼閉眼與胡蘿蔔物理搖晃。"
   },
   {
-    "id": "carrot_girl",
-    "name": "胡蘿蔔女孩",
-    "file": "models/carrot_girl.inp",
-    "thumb": "thumbs/carrot_girl.png",
-    "desc": "卡洛特工作室 (Carrot Studio) 官方形象角色：活力雙馬尾、蘿蔔呆毛與耳機、眨眼、張嘴、呼吸、九軸轉頭 ±30°、手臂與頭髮擺動，左手可自然轉場舉手揮手／放下。"
-  },
-  {
-    "id": "carol_v2",
-    "name": "卡洛兒姐姐 v2",
-    "file": "models/carol_v2.inp",
-    "thumb": "thumbs/carol_v2.png",
-    "desc": "卡洛兒姐姐 v2（卡洛特說故事用）：說故事站姿，素體、主體、素髮、後髮、前髮分層描圖；笑眼 ^ 眨眼（可單眼）、D 形嘴說話（啊／喔、小虎牙）、九軸轉頭 ±30°、雙馬尾與葉子擺動、手臂與腳步。"
-  },
-  {
-    "id": "bikini_garter",
-    "name": "夏日甜心・黑絲吊帶比基尼",
-    "file": "models/bikini_garter.inp",
-    "thumb": "thumbs/bikini_garter.png",
-    "desc": "原創角色・夏日甜心：白皙肌膚與純白比基尼、性感黑絲吊帶襪。開腿連動乳搖物理、呼吸起伏、真實關節折彎手臂、瞳孔凝視追蹤，34層純淨素體拆件 0 破圖。"
-  },
-  {
     "id": "fox_yuzuno",
     "name": "狐姬柚乃",
     "file": "models/fox_yuzuno.inp",
     "thumb": "thumbs/fox_yuzuno.png",
     "desc": "卡洛特工作室 (Carrot Studio) 第三位形象角色：銀白髮尾染青的狐耳巫女。九軸轉頭 ±30°、身體角度（立體轉身）、表情（開心／生氣／難過／驚訝／害羞）、狐耳擺動與抖耳、狐尾晃動、胸部物理、手臂擺動。"
-  },
-  {
-    "id": "blue_senpai",
-    "name": "冰藍學姊",
-    "file": "models/blue_senpai.inp",
-    "thumb": "thumbs/blue_senpai.png",
-    "desc": "冰藍色直長髮的學園風原創角色：水手領白襯衫、紅領帶、黑百褶裙、過膝襪。九軸轉頭 ±30°、身體角度（立體轉身）、表情（開心／生氣／難過／驚訝／害羞）、手勢（揮手／胸前合掌／托臉頰）、長髮擺動、原地踏步。"
-  },
-  {
-    "id": "carrot_home",
-    "name": "卡洛特居家女孩",
-    "file": "models/carrot_home.inp",
-    "thumb": "thumbs/carrot_home.png",
-    "desc": "卡洛特工作室 (Carrot Studio) 的鄰家女孩：深咖啡色長直髮、齊瀏海、夏天居家服。九軸轉頭 ±30°、身體角度（立體轉身）、表情（開心／生氣／難過／驚訝／害羞）、手勢（揮手／胸前合掌／托臉頰）、長髮擺動、胸部物理、原地踏步。"
   },
   {
     "id": "girl_v4",
