@@ -156,7 +156,7 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
   'Brow:: Raise': ['眉毛 上揚'], 'Brow:: Angry': ['眉毛 生氣（− 難過）'], 'Mouth:: Form': ['嘴角 上揚（− 下垂）'],
   'Face:: Blush': ['臉紅'], 'Ear:: Twitch': ['耳朵 抖動'],
   'Arm:: Right:: Raise': ['右手 舉起（0 放下 → 1 揮手）'], 'Arm:: Chest': ['雙手 胸前合掌'], 'Arm:: Left:: Cheek': ['左手 托臉頰'],
-  'Hand:: Right:: Wave': ['右手 揮動'], 'Hand:: Left:: Wave': ['左手 揮動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'],
+  'Hand:: Right:: Wave': ['右手 揮動'], 'Hand:: Left:: Wave': ['左手 揮動'], 'Hand:: Left:: Wave Wrist': ['左手 揮動（手腕跟隨）'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'],
   'Leg:: Open': ['雙腿 開合（連動乳搖）'], 'Arm:: Right:: Bend': ['右臂 彎曲'], 'Arm:: Left:: Bend': ['左臂 彎曲'],
   'Prop:: Carrot:: Sway': ['胡蘿蔔 擺動'] };
 
@@ -454,13 +454,15 @@ function frame(now, forced) {
     const waveP = !!puppet.byName['Hand:: Left:: Wave'];      // carol_v2: hang -> open -> wave on one skeleton
     if (want !== raise.to) { raise.from = raise.v; raise.to = want; raise.t0 = t; }
     // key drawings (carol_v2) switch on a linear 0.5 s ramp: each in-between holds a few frames, like limited anime
-    raise.v = raise.from + (raise.to - raise.from) * (waveP ? clamp((t - raise.t0) / 0.5, 0, 1) : ezio((t - raise.t0) / RAISE_T));
+    raise.v = raise.from + (raise.to - raise.from) * (waveP ? clamp((t - raise.t0) / 0.7, 0, 1) : ezio((t - raise.t0) / RAISE_T));
     set('Arm:: Left:: Raise', raise.v);
     const up = clamp((raise.v - 0.85) / 0.15, 0, 1);            // wave only once the hand is up
     if (waveP) {
       // no idle swing on the arm that is posing (it would pull the hanging drawing off the shared skeleton)
       for (const q of ['Arm:: Left:: Swing', 'Arm:: Left:: Bend', 'Hand:: Left:: Wrist']) set(q, pv(q) * (1 - clamp(raise.v * 4, 0, 1)));
-      set('Hand:: Left:: Wave', up * Math.sin(t * 7.5));
+      // smooth Live2D wave: forearm about the elbow, the hand a beat later about the wrist (follow-through)
+      set('Hand:: Left:: Wave', up * Math.sin(t * 6.2));
+      set('Hand:: Left:: Wave Wrist', up * 0.9 * Math.sin(t * 6.2 - 0.75));
     } else if (up > 0) {
       const wv = Math.sin(t * 7.5);
       set('Arm:: Left:: Bend', clamp(pv('Arm:: Left:: Bend') * (1 - up) + up * (0.28 + 0.22 * wv), 0, 1));
