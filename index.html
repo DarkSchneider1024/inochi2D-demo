@@ -160,7 +160,7 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
   'Brow:: Raise': ['眉毛 上揚'], 'Brow:: Angry': ['眉毛 生氣（− 難過）'], 'Mouth:: Form': ['嘴角 上揚（− 下垂）'],
   'Face:: Blush': ['臉紅'], 'Ear:: Twitch': ['耳朵 抖動'],
   'Arm:: Right:: Raise': ['右手 舉起（0 放下 → 1 揮手）'], 'Arm:: Chest': ['雙手 胸前合掌'], 'Arm:: Left:: Cheek': ['左手 托臉頰'],
-  'Hand:: Right:: Wave': ['右手 揮動'], 'Hand:: Left:: Wave': ['左手 揮動'], 'Hand:: Left:: Wave Wrist': ['左手 揮動（手腕跟隨）'], 'Arm:: Left:: Eat': ['左手 吃胡蘿蔔（0 放下 → 1 咬）'], 'Mouth:: Chew': ['咀嚼（0 咬一口 / 1 嚼）'], 'Arm:: Left:: Eat Bob': ['咀嚼時手晃動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'],
+  'Hand:: Right:: Wave': ['右手 揮動'], 'Hand:: Left:: Wave': ['左手 揮動'], 'Hand:: Left:: Wave Wrist': ['左手 揮動（手腕跟隨）'], 'Arm:: Left:: Eat': ['左手 吃胡蘿蔔（0 放下 → 1 咬）'], 'Mouth:: Chew': ['咀嚼（0 咬一口 / 0.5 拉開 / 1 嚼）'], 'Arm:: Left:: Eat Bob': ['咀嚼時手晃動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'],
   'Leg:: Open': ['雙腿 開合（連動乳搖）'], 'Arm:: Right:: Bend': ['右臂 彎曲'], 'Arm:: Left:: Bend': ['左臂 彎曲'],
   'Prop:: Carrot:: Sway': ['胡蘿蔔 擺動'] };
 
@@ -345,9 +345,15 @@ function eatState(t) {
   const eat = Math.min(1, u / 0.6, (EAT_LEN - u) / 0.6);
   const c = (u - 0.6) % 2.6;                                 // one bite (0.55 s) + chewing (2.05 s)
   const atMouth = u > 0.6 && u < EAT_LEN - 0.6;
-  const chewing = atMouth && c > 0.55;
-  const w = chewing ? Math.sin((c - 0.55) * 13) : 0;
-  return { eat: Math.max(0, eat), chew: chewing ? 1 : 0, bob: w, nod: chewing ? 0.06 * Math.abs(w) : 0, on: true };
+  // chew 0 bite -> 0.5 pulled away (in-between key) -> 1 chewing over 0.3 s; back through it before the next bite
+  let chew = 0;
+  if (atMouth) {
+    if (c > 0.4) chew = Math.min(1, (c - 0.4) / 0.3);
+    if (c > 2.4 && u + 0.6 < EAT_LEN - 0.6) chew = Math.max(0, 1 - (c - 2.4) / 0.2);
+  }
+  const chewing = chew >= 1;
+  const w = chewing ? Math.sin((c - 0.7) * 13) : 0;
+  return { eat: Math.max(0, eat), chew, bob: w, nod: chewing ? 0.06 * Math.abs(w) : 0, on: true };
 }
 const waveBtn = document.getElementById('waveBtn');
 waveBtn.onclick = () => { const now = performance.now() / 1000; waveUntil = now < waveUntil ? 0 : now + 4.4; };
