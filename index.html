@@ -453,7 +453,8 @@ function frame(now, forced) {
     waveBtn.setAttribute('aria-pressed', t < waveUntil);
     const waveP = !!puppet.byName['Hand:: Left:: Wave'];      // carol_v2: hang -> open -> wave on one skeleton
     if (want !== raise.to) { raise.from = raise.v; raise.to = want; raise.t0 = t; }
-    raise.v = raise.from + (raise.to - raise.from) * ezio((t - raise.t0) / (waveP ? 1.4 : RAISE_T));
+    // key drawings (carol_v2) switch on a linear 0.5 s ramp: each in-between holds a few frames, like limited anime
+    raise.v = raise.from + (raise.to - raise.from) * (waveP ? clamp((t - raise.t0) / 0.5, 0, 1) : ezio((t - raise.t0) / RAISE_T));
     set('Arm:: Left:: Raise', raise.v);
     const up = clamp((raise.v - 0.85) / 0.15, 0, 1);            // wave only once the hand is up
     if (waveP) {
