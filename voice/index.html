@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🥕 卡洛特娛樂 • 全角色預設聲音庫 | Gemini 3.8 Flash TTS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ff6b35;
+      --primary-light: #ff8c42;
+      --accent: #2ec4b6;
+      --pink: #ec4899;
+      --bg-dark: #0b0f17;
+      --card-bg: #141b26;
+      --card-border: #212c3d;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --ready-color: #10b981;
+      --ready-bg: rgba(16, 185, 129, 0.12);
+      --pending-color: #f59e0b;
+      --pending-bg: rgba(245, 158, 11, 0.12);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+      background: radial-gradient(circle at 50% 0%, #151d2c 0%, #0a0d14 70%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 120px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 107, 53, 0.12);
+      color: var(--primary-light);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 40%, #ffc1a1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.12rem;
+      max-width: 780px;
+      margin: 0 auto 24px;
+    }
+
+    /* Stats Banner */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .stat-pill {
+      background: rgba(20, 27, 38, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-pill strong { color: #ffffff; }
+    .stat-pill.ready strong { color: var(--ready-color); }
+    .stat-pill.pending strong { color: var(--pending-color); }
+
+    /* Control & Filter Bar */
+    .filter-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      background: rgba(20, 27, 38, 0.6);
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+    }
+
+    .tab-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    }
+
+    .search-input {
+      background: #0f141d;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      width: 220px;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .card.is-ready {
+      border-left: 4px solid var(--ready-color);
+    }
+
+    .card.is-pending {
+      border-left: 4px solid var(--pending-color);
+      border-style: dashed;
+      background: rgba(20, 27, 38, 0.65);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .avatar-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .character-info {
+      flex: 1;
+    }
+
+    .character-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.3;
+    }
+
+    .character-role {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .status-badge.ready {
+      background: var(--ready-bg);
+      color: var(--ready-color);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-badge.pending {
+      background: var(--pending-bg);
+      color: var(--pending-color);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* Spec tags */
+    .spec-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .spec-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #0f141d;
+      border: 1px solid var(--card-border);
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: #cbd5e1;
+    }
+
+    .spec-tag.highlight {
+      color: var(--primary-light);
+      border-color: rgba(255, 107, 53, 0.25);
+    }
+
+    /* Quote Box */
+    .quote-box {
+      background: rgba(11, 15, 23, 0.7);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      border-left: 3px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .quote-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .quote-text {
+      font-size: 0.92rem;
+      color: #f1f5f9;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    /* Audio Player Widget */
+    .player-widget {
+      background: #0d121b;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-play-sm {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+      transition: transform 0.15s;
+    }
+    .btn-play-sm:hover { transform: scale(1.08); }
+
+    .player-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .player-track-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 5px;
+      background: #243042;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      border-radius: 999px;
+      transition: width 0.1s linear;
+    }
+
+    /* Sub variant select for Mr Carrot */
+    .variant-select {
+      background: #0f141d;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      width: 100%;
+      margin-top: 4px;
+      cursor: pointer;
+    }
+
+    /* Pending action banner */
+    .pending-action-box {
+      background: rgba(245, 158, 11, 0.05);
+      border: 1px dashed rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pending-hint {
+      font-size: 0.8rem;
+      color: #fbbf24;
+    }
+
+    .btn-action {
+      background: #1e2838;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .btn-action:hover {
+      background: #2b394e;
+      border-color: #3f526d;
+    }
+
+    /* Notes Drawer */
+    details.notes-drawer {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 8px;
+    }
+    details.notes-drawer summary {
+      cursor: pointer;
+      color: var(--text-dim);
+      font-weight: 600;
+      user-select: none;
+    }
+    details.notes-drawer summary:hover { color: var(--text-muted); }
+    details.notes-drawer p {
+      margin-top: 6px;
+      background: rgba(0,0,0,0.2);
+      padding: 8px;
+      border-radius: 6px;
+      font-family: monospace;
+      color: #94a3b8;
+      white-space: pre-wrap;
+    }
+
+    /* Bottom master bar */
+    .master-player {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(11, 15, 23, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 24px;
+      z-index: 99;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .master-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .master-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .master-sub {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: white;
+      border: 1px solid var(--primary);
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      z-index: 999;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+<a href="../" style="position:fixed;top:10px;right:12px;z-index:9999;font:13px system-ui,'Microsoft JhengHei',sans-serif;color:#ff8c42;background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.12);border-radius:999px;padding:4px 12px;text-decoration:none">← Inochi2D Demo 首頁</a>
+
+  <div id="toast" class="toast"></div>
+
+  <div class="container">
+    <header>
+      <div class="brand-badge">🥕 CARROT ENTERTAINMENT • TTS REGISTRY</div>
+      <h1>卡洛特娛樂 • 全角色預設聲音庫</h1>
+      <p class="subtitle">
+        全面整合 <strong>Gemini 3.8 Flash TTS</strong> 多模態模型之角色聲線規範。核心主角即開即聽，童話角色標準統一，未製作者隨時一鍵拓展！
+      </p>
+
+      <div class="stats-bar">
+        <div class="stat-pill">👥 總收錄角色：<strong id="stat-total">10</strong> 位</div>
+        <div class="stat-pill ready">✅ 已製作完成：<strong id="stat-ready">3</strong> 位 (卡洛兒姐姐 / 卡洛特20款 / 🌟 青蛙王子雙形態)</div>
+        <div class="stat-pill pending">🚧 待製作備料：<strong id="stat-pending">7</strong> 位</div>
+      </div>
+    </header>
+
+    <div class="filter-wrapper">
+      <div class="tab-group" id="tabs">
+        <button class="tab-btn active" onclick="setFilter('all')">全部角色</button>
+        <button class="tab-btn" onclick="setFilter('ready')">✅ 已製作</button>
+        <button class="tab-btn" onclick="setFilter('pending')">🚧 待製作</button>
+        <button class="tab-btn" onclick="setFilter('female')">👧 女生 (卡洛兒)</button>
+        <button class="tab-btn" onclick="setFilter('male')">👨 男生 (卡洛特)</button>
+        <button class="tab-btn" onclick="setFilter('creature')">🐰 萌寵 / 兒童</button>
+      </div>
+      <input type="text" class="search-input" id="search-box" placeholder="🔍 搜尋角色或音色..." oninput="filterCards()">
+    </div>
+
+    <div class="grid" id="characters-grid">
+      <!-- Injected by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Master Player -->
+  <div class="master-player">
+    <div class="master-inner">
+      <div>
+        <div class="master-title" id="master-title">請選擇上方已製作角色點擊播放</div>
+        <div class="master-sub" id="master-sub">Gemini 3.8 Flash TTS 角色預設庫</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <button class="btn-play-sm" id="master-btn" onclick="toggleGlobalAudio()">▶</button>
+        <div style="width: 260px;">
+          <div class="progress-bar-wrap" onclick="seekGlobalAudio(event)">
+            <div class="progress-bar-fill" id="master-progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="global-audio"></audio>
+
+  <script>
+    const EMBEDDED_REGISTRY = {
+  "version": "1.0.0",
+  "updated_at": "2026-10-11",
+  "engine": "Gemini 3.8 Flash TTS Ecosystem",
+  "characters": [
+    {
+      "id": "sister_carol",
+      "name": "卡洛兒姐姐 (Sister Carol)",
+      "role": "頻道首席看板娘・金牌說書人",
+      "category": "channel_core",
+      "gender": "female",
+      "status": "ready",
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Aoede",
+      "avatar_emoji": "👧",
+      "color_theme": "#ff7a00",
+      "sample_quote": "哈囉小朋友！歡迎收聽卡洛兒姐姐說故事！今天我們要聽什麼好聽的故事呢？",
+      "audio_file": "audio/carol_sister.mp3",
+      "director_notes": "Voice Profile: Sister Carol (卡洛兒姐姐), an 18-year-old vibrant anime big sister with orange pigtails. Tone MUST be very youthful, high-spirited, lively, bubbly, and full of sweet girlish charm (18歲年輕活潑、甜滋滋、元氣滿滿的可愛撒嬌ㄋㄞ音大姐姐). Speak in fast-paced, bright, modern Taiwanese Mandarin with high energy and affectionate teasing sweetness. Full of personality and cheerful anime big sister vibes!",
+      "notes": "全頻道首席女聲代表，語調甜美微撒嬌，語速輕快有朝氣，帶有標誌性台灣國語腔調。"
+    },
+    {
+      "id": "mr_carrot",
+      "name": "卡洛特先生 (Mr. Carrot)",
+      "role": "探險領隊・科普客座導師",
+      "category": "channel_core",
+      "gender": "male",
+      "status": "ready",
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Puck",
+      "fallback_voice": "Achird",
+      "avatar_emoji": "🥕",
+      "color_theme": "#f97316",
+      "sample_quote": "大家好我是卡洛特先生，小朋友準備好出發去探險了嗎？跟上我，Let's go！",
+      "audio_file": "audio/voice_01_puck.mp3",
+      "alternate_audio_files": [
+        {
+          "name": "01. 陽光元氣大哥哥 (Puck)",
+          "file": "audio/voice_01_puck.mp3"
+        },
+        {
+          "name": "02. 溫暖親切大哥哥 (Achird)",
+          "file": "audio/voice_02_achird.mp3"
+        },
+        {
+          "name": "03. 熱血冒險探險家 (Fenrir)",
+          "file": "audio/voice_03_fenrir.mp3"
+        },
+        {
+          "name": "04. 穩重大哥哥導師 (Charon)",
+          "file": "audio/voice_04_charon.mp3"
+        },
+        {
+          "name": "05. 正義號召隊長 (Alnilam)",
+          "file": "audio/voice_05_alnilam.mp3"
+        },
+        {
+          "name": "06. 優雅知性大哥哥 (Algieba)",
+          "file": "audio/voice_06_algieba.mp3"
+        },
+        {
+          "name": "07. 溫柔耳語守護者 (Enceladus)",
+          "file": "audio/voice_07_enceladus.mp3"
+        },
+        {
+          "name": "08. 幽默風趣大頑童 (Sadachbia)",
+          "file": "audio/voice_08_sadachbia.mp3"
+        },
+        {
+          "name": "09. 傳奇故事家 (Algenib)",
+          "file": "audio/voice_09_algenib.mp3"
+        },
+        {
+          "name": "10. 果敢探險先鋒 (Orus)",
+          "file": "audio/voice_10_orus.mp3"
+        },
+        {
+          "name": "11. 科技領航員 (Iapetus)",
+          "file": "audio/voice_11_iapetus.mp3"
+        },
+        {
+          "name": "12. 博物院小博士 (Rasalgethi)",
+          "file": "audio/voice_12_rasalgethi.mp3"
+        },
+        {
+          "name": "13. 奇趣發明家 (Sadaltager)",
+          "file": "audio/voice_13_sadaltager.mp3"
+        },
+        {
+          "name": "14. 森林護林員 (Schedar)",
+          "file": "audio/voice_14_schedar.mp3"
+        },
+        {
+          "name": "15. 滑板陽光少年 (Umbriel)",
+          "file": "audio/voice_15_umbriel.mp3"
+        },
+        {
+          "name": "16. 鄰家好學長 (Zubenelgenubi)",
+          "file": "audio/voice_16_zubenelgenubi.mp3"
+        },
+        {
+          "name": "17. 動漫王道男主 (Fenrir)",
+          "file": "audio/voice_17_fenrir_anime.mp3"
+        },
+        {
+          "name": "18. 遊樂園魔術師 (Puck)",
+          "file": "audio/voice_18_puck_magician.mp3"
+        },
+        {
+          "name": "19. 營火民謠哥哥 (Achird)",
+          "file": "audio/voice_19_achird_folk.mp3"
+        },
+        {
+          "name": "20. 騎士團長 (Charon)",
+          "file": "audio/voice_20_charon_knight.mp3"
+        }
+      ],
+      "director_notes": "Voice Profile: Mr. Carrot (卡洛特先生), a 22-year-old high-spirited, cheerful, and radiant children's show host. Tone is bright, smiling, warm, and highly engaging for young kids. Speak in modern, expressive Taiwanese Mandarin with joyful, inviting cadence. Anime big brother hero vibes!",
+      "notes": "全頻道首席男聲代表，已備齊 10 款細分候選聲線（預設推薦 01 Puck 陽光元氣 或 02 Achird 溫暖暖男）。"
+    },
+    {
+      "id": "frog_prince",
+      "name": "青蛙王子 (Frog Prince)",
+      "role": "童話主角・落難王子（雙形態）",
+      "category": "fairytale_classic",
+      "gender": "male",
+      "status": "ready",
+      "is_spotlight": true,
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Puck (青蛙) / Achird (王子)",
+      "avatar_emoji": "🐸",
+      "color_theme": "#10b981",
+      "sample_quote": "呱！美麗的公主，妳為什麼哭得這麼傷心呢？... 公主，我就是那隻小青蛙呀！我本來是一位王子！",
+      "audio_file": "audio/frog_prince_showcase.mp3",
+      "alternate_audio_files": [
+        {
+          "name": "🌟 雙形態完整試聽 (青蛙+王子)",
+          "file": "audio/frog_prince_showcase.mp3"
+        },
+        {
+          "name": "🐸 小青蛙形態 (Puck) - 呱！為什麼哭呢？",
+          "file": "audio/frog_prince_frog.mp3"
+        },
+        {
+          "name": "🐸 小青蛙形態 (Puck) - 讓我當妳好朋友",
+          "file": "audio/frog_prince_frog_friend.mp3"
+        },
+        {
+          "name": "👑 王子形態 (Achird) - 解除魔法真誠致謝",
+          "file": "audio/frog_prince_human.mp3"
+        }
+      ],
+      "director_notes": "【小青蛙形態】Voice: Puck\nPrompt: 用台灣可愛、帶一點鼻音、呱呱叫的小青蛙聲音，熱情友善又有點調皮，像卡通裡的小動物，語速輕快。\n\n【王子形態】Voice: Achird\nPrompt: 用台灣年輕王子的聲音，溫柔、爽朗、帥氣有禮貌，帶著真誠的感謝，語速自然。",
+      "notes": "已製作完成（採用青蛙王子正片實機音檔）。包含小青蛙形態 (Puck 卡通鼻音呱呱叫) 與 解除詛咒王子形態 (Achird 溫柔爽朗紳士)。"
+    },
+    {
+      "id": "bobo_rabbit",
+      "name": "兔子波波 (Bobo)",
+      "role": "頻道吉祥物・可愛歡樂小夥伴",
+      "category": "channel_core",
+      "gender": "creature",
+      "status": "pending",
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Leda",
+      "avatar_emoji": "🐰",
+      "color_theme": "#ec4899",
+      "sample_quote": "哇～胡蘿蔔最好吃了！卡洛兒姐姐，今天我們去哪裡玩呀？波波準備好了，出發！",
+      "audio_file": null,
+      "director_notes": "Voice Profile: Bobo the Rabbit (兔子波波), a hyper-cute, fluffy, and innocent baby bunny mascot. Tone is high-pitched, child-like, joyful, curious, and bubbly (4~6歲天真爛漫小幼童音，奶萌甜潤、好奇心旺盛). Speak in bouncy Taiwanese Mandarin with playful squeaks and cute giggles.",
+      "notes": "待製作。預計採用高頻萌萌奶音或小動物正太音，適合片頭片尾撒嬌互動與日常短劇。"
+    },
+    {
+      "id": "big_bad_wolf",
+      "name": "大野狼 (Big Bad Wolf)",
+      "role": "童話反派・滑稽搞怪大野狼",
+      "category": "fairytale_classic",
+      "gender": "male",
+      "status": "pending",
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Algenib",
+      "avatar_emoji": "🐺",
+      "color_theme": "#64748b",
+      "sample_quote": "嘿嘿嘿～小紅帽，妳提籃子裡裝著什麼香噴噴的點心呀？分本大爺聞一聞吧！",
+      "audio_file": null,
+      "director_notes": "Voice Profile: Big Bad Wolf (大野狼), a comical, sneaky, and slightly raspy cartoon villain. Tone is gravelly, sneaky, boastful, but funny rather than truly terrifying (滑稽逗趣、狡黠略帶沙啞的卡通反派狼). Expressive theatrical Taiwanese Mandarin with comical gasps and scheming chuckles.",
+      "notes": "待製作。卡通版非恐怖反派，聲音沙啞低沉帶有逗趣奸笑感，適合《小紅帽》、《三隻小豬》。"
+    },
+    {
+      "id": "sweet_grandma",
+      "name": "慈祥奶奶 (Grandma)",
+      "role": "長輩守護者・溫和慈祥老奶奶",
+      "category": "fairytale_classic",
+      "gender": "elder",
+      "status": "pending",
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Kore",
+      "avatar_emoji": "👵",
+      "color_theme": "#84cc16",
+      "sample_quote": "乖孫女，快進來坐，外頭風大，奶奶剛烤好熱騰騰的胡蘿蔔餅乾喔！",
+      "audio_file": null,
+      "director_notes": "Voice Profile: Sweet Grandma (慈祥老奶奶), a 70-year-old gentle, loving, and slow-paced grandmother. Tone is warm, frail yet deeply comforting, smiling, and tender (慈祥和藹、語速緩慢、充滿愛意與包容的老奶奶). Soft, measured Taiwanese Mandarin with reassuring elderly warmth.",
+      "notes": "待製作。語調緩慢溫潤、帶有長者關愛的氣息，適合《小紅帽》、《賣火柴的小女孩》外婆。"
+    },
+    {
+      "id": "brave_hunter",
+      "name": "英勇獵人 (Hunter)",
+      "role": "正義守護者・森林巡警大叔",
+      "category": "fairytale_classic",
+      "gender": "male",
+      "status": "pending",
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Charon",
+      "avatar_emoji": "🏹",
+      "color_theme": "#059669",
+      "sample_quote": "別害怕！有我在這裡巡守森林，大野狼休想做壞事欺負大家！",
+      "audio_file": null,
+      "director_notes": "Voice Profile: Brave Hunter (英勇獵人), a 35-year-old rugged, reliable, and justice-driven forest protector. Tone is deep, grounded, bold, and protective (深沉有力、充滿正義感與擔當的可靠大叔). Clear, resonant Taiwanese Mandarin with unwavering courage.",
+      "notes": "待製作。低音沉穩、具備保護者氣場的大叔音，適合《小紅帽》、《白雪公主》。"
+    },
+    {
+      "id": "three_pigs",
+      "name": "小豬三兄弟 (Three Little Pigs)",
+      "role": "童話夥伴・萌萌三隻小豬",
+      "category": "fairytale_classic",
+      "gender": "child",
+      "status": "pending",
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Puck",
+      "avatar_emoji": "🐷",
+      "color_theme": "#f472b6",
+      "sample_quote": "哼！我的磚頭房子最堅固了，任憑大風怎麼吹都吹不倒！哥哥們快躲進來！",
+      "audio_file": null,
+      "director_notes": "Voice Profile: Three Little Pigs (小豬兄弟), lively, spirited 8-year-old boy characters. Tone is cheeky, energetic, slightly stubborn, and squeaky (活潑可愛的小正太童音，帶著小豬的哼哼鼻音感). Fast, bouncy Taiwanese Mandarin full of youthful pride.",
+      "notes": "待製作。小男孩正太音，適合《三隻小豬》兄弟群戲。"
+    },
+    {
+      "id": "wise_king",
+      "name": "睿智國王 (The King)",
+      "role": "皇家長者・威嚴慈愛國王",
+      "category": "fairytale_classic",
+      "gender": "elder",
+      "status": "pending",
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Alnilam",
+      "avatar_emoji": "👑",
+      "color_theme": "#eab308",
+      "sample_quote": "卡洛特王國的子民們！善良與誠實是世上最珍貴的寶藏，值得我們一生守護！",
+      "audio_file": null,
+      "director_notes": "Voice Profile: Wise King (睿智國王), a 60-year-old majestic, noble, and benevolent monarch. Tone is regal, booming, stately, and deeply compassionate (威嚴崇高、字句宏亮、充滿仁慈胸懷的明君). Stately Taiwanese Mandarin with royal gravity.",
+      "notes": "待製作。宏亮威嚴、適合國王、長老、大智者角色。"
+    },
+    {
+      "id": "fairy_narrator",
+      "name": "奇幻繪本旁白 (Story Narrator)",
+      "role": "故事講述者・沉浸式經典旁白",
+      "category": "support_role",
+      "gender": "female",
+      "status": "pending",
+      "model": "gemini-3.8-flash-tts",
+      "voice_name": "Zephyr",
+      "avatar_emoji": "📖",
+      "color_theme": "#8b5cf6",
+      "sample_quote": "在很久很久以前，一座充滿魔法與歡笑的奇幻森林深處，住著一位善良的小女孩……",
+      "audio_file": null,
+      "director_notes": "Voice Profile: Story Narrator (繪本旁白), an elegant, magical, and captivating bedtime storyteller. Tone is gentle, rhythmic, poetic, clear, and soothing like a gentle breeze (優雅知性、如春風般溫暖清澈的童話繪本講述者). Melodic Taiwanese Mandarin that draws listeners into fantasy realms.",
+      "notes": "待製作。溫暖治癒、中性優雅，適合繪本開場、情境鋪陳與轉場介紹。"
+    }
+  ]
+};
+    let registryData = null;
+    let currentFilter = 'all';
+    let currentActiveId = null;
+    let currentActiveSrc = null;
+    const cardCurrentTrack = {};
+    const audio = document.getElementById('global-audio');
+
+    async function loadData() {
+      try {
+        const resp = await fetch('voice_registry.json');
+        if (resp.ok) {
+          registryData = await resp.json();
+        }
+      } catch (err) {
+        console.warn("Local fetch blocked/failed (normal in file:/// protocol). Using embedded data.", err);
+      }
+      if (!registryData) {
+        registryData = EMBEDDED_REGISTRY;
+      }
+      if (registryData && registryData.characters) {
+        const total = registryData.characters.length;
+        const ready = registryData.characters.filter(c => c.status === 'ready').length;
+        const pending = total - ready;
+        document.getElementById('stat-total').innerText = total;
+        document.getElementById('stat-ready').innerText = ready;
+        document.getElementById('stat-pending').innerText = pending;
+      }
+      renderCards();
+    }
+
+    function setFilter(f, btnElem) {
+      currentFilter = f;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = btnElem || (window.event && window.event.currentTarget) || (window.event && window.event.target);
+      if (activeBtn) activeBtn.classList.add('active');
+      filterCards();
+    }
+
+    function filterCards() {
+      const q = document.getElementById('search-box').value.trim().toLowerCase();
+      const cards = document.querySelectorAll('.card');
+
+      cards.forEach(card => {
+        const status = card.dataset.status;
+        const gender = card.dataset.gender;
+        const text = card.innerText.toLowerCase();
+
+        let matchTab = true;
+        if (currentFilter === 'ready' && status !== 'ready') matchTab = false;
+        if (currentFilter === 'pending' && status !== 'pending') matchTab = false;
+        if (currentFilter === 'female' && gender !== 'female') matchTab = false;
+        if (currentFilter === 'male' && gender !== 'male') matchTab = false;
+        if (currentFilter === 'creature' && !['creature', 'child'].includes(gender)) matchTab = false;
+
+        const matchSearch = !q || text.includes(q);
+
+        card.style.display = (matchTab && matchSearch) ? 'flex' : 'none';
+      });
+    }
+
+    function renderCards() {
+      if (!registryData) return;
+      const grid = document.getElementById('characters-grid');
+      grid.innerHTML = '';
+
+      registryData.characters.forEach(c => {
+        const isReady = c.status === 'ready';
+        const card = document.createElement('div');
+        card.className = `card ${isReady ? 'is-ready' : 'is-pending'}`;
+        card.dataset.status = c.status;
+        card.dataset.gender = c.gender;
+        card.id = `card-${c.id}`;
+
+        let playerHtml = '';
+        if (isReady && c.audio_file) {
+          playerHtml = `
+            <div class="player-widget">
+              <button class="btn-play-sm" id="btn-play-${c.id}" onclick="togglePlayCard('${c.id}')">▶</button>
+              <div class="player-info">
+                <div class="player-track-name" id="track-name-${c.id}">示範音檔：${c.name}</div>
+                <div class="progress-bar-wrap" onclick="seekCard(event, '${c.id}')">
+                  <div class="progress-bar-fill" id="prog-${c.id}"></div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          if (c.alternate_audio_files) {
+            playerHtml += `
+              <div style="margin-top: 8px;">
+                <label style="font-size:0.75rem; color:var(--primary-light); font-weight:700; display:block; margin-bottom:4px;">🎧 切換候選聲線試聽 (${c.alternate_audio_files.length} 款)：</label>
+                <select class="variant-select" id="select-${c.id}" onchange="changeVariant('${c.id}', this.value, '${c.name}', this)">
+                  ${c.alternate_audio_files.map(opt => `
+                    <option value="${opt.file}">${opt.name}</option>
+                  `).join('')}
+                </select>
+              </div>
+            `;
+            if (c.id === 'mr_carrot') {
+              playerHtml += `
+                <div style="margin-top:6px; text-align:right;">
+                  <a href="mr_carrot_audition/" target="_blank" style="font-size:0.78rem; color:#ff8c42; text-decoration:none; font-weight:700;">
+                    📊 開啟卡洛特 20 款獨立大評選與評分面板 ↗
+                  </a>
+                </div>
+              `;
+            }
+          }
+        } else {
+          playerHtml = `
+            <div class="pending-action-box">
+              <div class="pending-hint">🚧 待製作（人設指令已配置）</div>
+              <button class="btn-action" onclick="copyPrompt('${c.id}')">📋 複製生成指令</button>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="avatar-wrap">${c.avatar_emoji}</div>
+            <div class="character-info">
+              <h3 class="character-name">${c.name}</h3>
+              <div class="character-role">${c.role}</div>
+            </div>
+            <div>
+              ${c.is_spotlight ? '<span class="status-badge" style="background:rgba(16,185,129,0.18); color:#10b981; border:1px solid rgba(16,185,129,0.4); margin-right:4px;">🌟 正片實機音檔</span>' : ''}
+              <span class="status-badge ${c.status}">${isReady ? '✅ 已製作' : '🚧 待製作'}</span>
+            </div>
+          </div>
+
+          <div class="spec-tags">
+            <span class="spec-tag highlight">音色：${c.voice_name}</span>
+            <span class="spec-tag">模型：${c.model}</span>
+            <span class="spec-tag">${getGenderLabel(c.gender)}</span>
+          </div>
+
+          <div class="quote-box">
+            <span class="quote-label">標誌台詞 (Quote)</span>
+            <p class="quote-text">「${c.sample_quote}」</p>
+          </div>
+
+          ${playerHtml}
+
+          <details class="notes-drawer">
+            <summary>查看導演指示詞 (Director's Notes)</summary>
+            <p>${c.director_notes}</p>
+          </details>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function getGenderLabel(g) {
+      if (g === 'female') return '女聲';
+      if (g === 'male') return '男聲';
+      if (g === 'creature') return '萌寵/動物';
+      if (g === 'child') return '童音/正太';
+      if (g === 'elder') return '長者';
+      return g;
+    }
+
+    function togglePlayCard(id) {
+      const char = registryData.characters.find(c => c.id === id);
+      if (!char) return;
+      const track = cardCurrentTrack[id] || { src: char.audio_file, title: `示範音檔：${char.name}` };
+      playTrack(id, track.src, track.title);
+    }
+
+    function playTrack(id, src, title) {
+      if (currentActiveId === id && currentActiveSrc === src) {
+        if (audio.paused) {
+          audio.play().catch(e => showToast("播放受限：" + e.message));
+        } else {
+          audio.pause();
+        }
+        updateUI();
+        return;
+      }
+
+      currentActiveId = id;
+      currentActiveSrc = src;
+      audio.src = src;
+      audio.currentTime = 0;
+      audio.play().catch(e => showToast("播放受限或檔案讀取中：" + e.message));
+
+      document.getElementById('master-title').innerText = title;
+      document.getElementById('master-sub').innerText = src;
+      updateUI();
+    }
+
+    function changeVariant(id, newSrc, baseTitle, selectElem) {
+      const el = selectElem || (window.event && (window.event.currentTarget || window.event.target)) || document.getElementById(`select-${id}`);
+      const optName = el && el.options ? el.options[el.selectedIndex].text : '';
+      const fullTitle = `${baseTitle} - ${optName}`;
+
+      cardCurrentTrack[id] = { src: newSrc, title: fullTitle };
+      const trackElem = document.getElementById(`track-name-${id}`);
+      if (trackElem) {
+        trackElem.innerText = `示範音檔：${optName}`;
+      }
+
+      playTrack(id, newSrc, fullTitle);
+    }
+
+    function playAudio(id, src, title) {
+      playTrack(id, src, title);
+    }
+
+    function toggleGlobalAudio() {
+      if (!audio.src) return;
+      if (audio.paused) audio.play();
+      else audio.pause();
+      updateUI();
+    }
+
+    function updateUI() {
+      const isPaused = audio.paused;
+      document.getElementById('master-btn').innerText = isPaused ? '▶' : '⏸';
+
+      registryData.characters.forEach(c => {
+        const btn = document.getElementById(`btn-play-${c.id}`);
+        if (btn) {
+          btn.innerText = (c.id === currentActiveId && !isPaused) ? '⏸' : '▶';
+        }
+      });
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      const pct = (audio.currentTime / audio.duration) * 100;
+      document.getElementById('master-progress').style.width = pct + '%';
+      if (currentActiveId) {
+        const p = document.getElementById(`prog-${currentActiveId}`);
+        if (p) p.style.width = pct + '%';
+      }
+    });
+
+    audio.addEventListener('play', updateUI);
+    audio.addEventListener('pause', updateUI);
+    audio.addEventListener('ended', () => {
+      updateUI();
+      if (currentActiveId) {
+        const p = document.getElementById(`prog-${currentActiveId}`);
+        if (p) p.style.width = '0%';
+      }
+    });
+
+    function seekGlobalAudio(e) {
+      if (!audio.duration) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+    }
+
+    function seekCard(e, id) {
+      if (currentActiveId !== id) return;
+      seekGlobalAudio(e);
+    }
+
+    function copyPrompt(id) {
+      const char = registryData.characters.find(c => c.id === id);
+      if (!char) return;
+
+      const snippet = `### DIRECTOR'S NOTES\n${char.director_notes}\n\n### TRANSCRIPT\n${char.sample_quote}`;
+      navigator.clipboard.writeText(snippet).then(() => {
+        showToast(`已複製「${char.name}」的語音生成 Prompt！直接貼入即可調用。`);
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3000);
+    }
+
+    loadData();
+  </script>
+</body>
+</html>

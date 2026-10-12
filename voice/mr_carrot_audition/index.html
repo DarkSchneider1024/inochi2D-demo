@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🥕 卡洛特先生 (Mr. Carrot) 20款角色語音海選評選器 | Gemini 3.8 Flash TTS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ff6b35;
+      --primary-light: #ff8c42;
+      --primary-dark: #d84a1b;
+      --primary-glow: rgba(255, 107, 53, 0.25);
+      --accent: #2ec4b6;
+      --accent-glow: rgba(46, 196, 182, 0.2);
+      --bg-dark: #0f141c;
+      --card-bg: #18202c;
+      --card-border: #243042;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --success: #10b981;
+      --gold: #fbbf24;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #0a0d14 0%, #121824 50%, #0d131f 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 120px;
+      line-height: 1.6;
+    }
+
+    .glow-sphere {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+    .glow-1 { top: -100px; left: -100px; background: var(--primary); }
+    .glow-2 { bottom: 10%; right: -100px; background: var(--accent); }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header { text-align: center; margin-bottom: 32px; }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 107, 53, 0.12);
+      color: var(--primary-light);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 30%, #ffd0b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 760px;
+      margin: 0 auto 20px;
+    }
+
+    /* Script highlight */
+    .script-box {
+      background: rgba(24, 32, 44, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 4px solid var(--primary);
+      padding: 16px 24px;
+      border-radius: var(--radius-md);
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .script-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .script-content {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* Filter & Controls */
+    .controls-panel {
+      background: rgba(24, 32, 44, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      margin: 28px 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .tab-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-secondary {
+      background: #1e2838;
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+    }
+    .btn-secondary:hover { background: #273448; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(24, 32, 44, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 107, 53, 0.4);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .card.is-playing {
+      border-color: var(--primary);
+      box-shadow: 0 0 25px var(--primary-glow);
+      background: linear-gradient(180deg, rgba(32, 43, 60, 0.95) 0%, rgba(24, 32, 44, 0.95) 100%);
+    }
+
+    .card.is-favorite { border-color: var(--gold); }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .batch-badge {
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .batch-1 { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .batch-2 { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+
+    .voice-id-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      background: rgba(46, 196, 182, 0.15);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    .card-title {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.35;
+      margin-top: 4px;
+    }
+
+    .btn-fav {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.35rem;
+      color: var(--text-dim);
+      transition: all 0.2s;
+    }
+    .btn-fav:hover, .btn-fav.active {
+      color: var(--gold);
+      transform: scale(1.15);
+    }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 0.74rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .tag.highlight {
+      background: rgba(255, 107, 53, 0.1);
+      color: var(--primary-light);
+      border: 1px solid rgba(255, 107, 53, 0.2);
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.45;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Player */
+    .card-player {
+      background: rgba(15, 20, 28, 0.8);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-play {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px var(--primary-glow);
+    }
+    .btn-play:hover { transform: scale(1.06); }
+
+    .player-progress-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 5px;
+      background: #243042;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      width: 0%;
+      border-radius: 999px;
+    }
+
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      font-family: monospace;
+    }
+
+    .stars { display: flex; gap: 3px; cursor: pointer; }
+    .star { font-size: 1.1rem; color: #334155; }
+    .star.selected { color: var(--gold); }
+
+    .note-input {
+      width: 100%;
+      background: #111722;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-family: inherit;
+      resize: none;
+      height: 38px;
+    }
+    .note-input:focus { outline: none; border-color: var(--primary); }
+
+    /* Sticky Master bar */
+    .master-player {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 20, 28, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 24px;
+      z-index: 99;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .master-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #ffffff;
+      border: 1px solid var(--primary);
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      z-index: 999;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body>
+<a href="../" style="position:fixed;top:10px;right:12px;z-index:9999;font:13px system-ui,'Microsoft JhengHei',sans-serif;color:#ff8c42;background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.12);border-radius:999px;padding:4px 12px;text-decoration:none">← 角色聲音庫</a>
+
+  <div class="glow-sphere glow-1"></div>
+  <div class="glow-sphere glow-2"></div>
+  <div id="toast" class="toast"></div>
+
+  <div class="container">
+    <header>
+      <div class="brand-badge">🥕 卡洛特娛樂 • CARROT ENTERTAINMENT</div>
+      <h1>卡洛特先生 (Mr. Carrot) 20款角色語音海選評選器</h1>
+      <p class="subtitle">
+        全面擴充至 <strong>20 款截然不同的男生風格聲線</strong>（第 1 批 10 款經典款 + 第 2 批 10 款進階特色款）。
+      </p>
+
+      <div class="script-box">
+        <div class="script-label"><span>📢</span> 試音指定台詞</div>
+        <div class="script-content">「大家好我是卡洛特先生，小朋友準備好出發去探險了嗎？跟上我，Let's go！」</div>
+      </div>
+    </header>
+
+    <div class="controls-panel">
+      <div class="tab-group" id="tab-filters">
+        <button class="tab-btn active" onclick="setFilter('all')">全部 20 款</button>
+        <button class="tab-btn" onclick="setFilter('batch1')">第 1 批 (01~10 經典)</button>
+        <button class="tab-btn" onclick="setFilter('batch2')">第 2 批 (11~20 進階)</button>
+        <button class="tab-btn" onclick="setFilter('energetic')">🔥 活力熱血</button>
+        <button class="tab-btn" onclick="setFilter('warm')">🌱 溫暖陪伴</button>
+        <button class="tab-btn" onclick="setFilter('smart')">💡 知性博學</button>
+      </div>
+      <div class="action-buttons">
+        <button class="btn btn-secondary" onclick="exportFeedback()">📋 複製評選結果</button>
+        <button class="btn btn-primary" onclick="playAllSequential()">▶ 連續播放全部試聽</button>
+      </div>
+    </div>
+
+    <div class="grid" id="cards-grid"></div>
+  </div>
+
+  <!-- Master Player -->
+  <div class="master-player">
+    <div class="master-inner">
+      <div style="min-width:240px;">
+        <h4 id="master-title" style="color:#fff; font-size:0.95rem;">請點擊卡片試聽</h4>
+        <p id="master-subtitle" style="color:var(--text-muted); font-size:0.76rem;">Gemini 3.8 Flash TTS</p>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:14px; flex:1; max-width:600px;">
+        <button onclick="prevVoice()" style="background:none; border:none; color:#fff; cursor:pointer; font-size:1.1rem;">⏮</button>
+        <button id="master-play-btn" onclick="togglePlayPause()" style="width:40px; height:40px; border-radius:50%; background:var(--primary); color:#fff; border:none; cursor:pointer;">▶</button>
+        <button onclick="nextVoice()" style="background:none; border:none; color:#fff; cursor:pointer; font-size:1.1rem;">⏭</button>
+
+        <div style="flex:1;">
+          <div class="progress-bar-container" onclick="seekAudio(event)">
+            <div class="progress-bar" id="master-progress"></div>
+          </div>
+          <div class="time-display">
+            <span id="cur-time">0:00</span>
+            <span id="dur-time">0:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <select onchange="changeSpeed(this.value)" style="background:#1e2838; color:#fff; border:1px solid var(--card-border); padding:6px 10px; border-radius:6px; font-size:0.8rem;">
+          <option value="0.8">0.8x 慢速</option>
+          <option value="1.0" selected>1.0x 正常</option>
+          <option value="1.15">1.15x 輕快</option>
+          <option value="1.25">1.25x 加速</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <audio id="global-audio" preload="auto"></audio>
+
+  <script>
+    const VOICES = [
+      // Batch 1 (01 ~ 10)
+      { id: "voice_01_puck", batch: 1, type: "energetic", voice: "Puck", name: "01. 陽光元氣大哥哥（活力孩子王）", tag: "活潑熱情 / 幼兒主持", pitch: "高亢明朗", file: "../audio/voice_01_puck.mp3", desc: "充滿朝氣與笑容的熱血孩子王，像兒童台招牌主持人，極具親和力與號召力！" },
+      { id: "voice_02_achird", batch: 1, type: "warm", voice: "Achird", name: "02. 溫暖親切大哥哥（暖男陪伴者）", tag: "溫柔耐心 / 治癒親切", pitch: "中音溫潤", file: "../audio/voice_02_achird.mp3", desc: "如沐春風的溫柔大哥哥，語氣溫潤踏實，能給小朋友滿滿的陪伴感與安全感。" },
+      { id: "voice_03_fenrir", batch: 1, type: "energetic", voice: "Fenrir", name: "03. 熱血冒險探險家（衝勁破表）", tag: "熱血激昂 / 動感探險", pitch: "高亢爆發", file: "../audio/voice_03_fenrir.mp3", desc: "冒險魂爆發的探險先鋒，語調充滿驚喜與動能，最能帶動小朋友歡呼出發！" },
+      { id: "voice_04_charon", batch: 1, type: "smart", voice: "Charon", name: "04. 穩重大哥哥（知性導師）", tag: "沉穩厚實 / 信賴可靠", pitch: "低沉磁性", file: "../audio/voice_04_charon.mp3", desc: "低沉富磁性的穩重大哥哥，散發值得信賴的導師氣質，適合科普與正經探險引導。" },
+      { id: "voice_05_alnilam", batch: 1, type: "energetic", voice: "Alnilam", name: "05. 正義號召隊長（英勇先鋒）", tag: "堅定自信 / 英雄領袖", pitch: "中高音有力", file: "../audio/voice_05_alnilam.mp3", desc: "正氣凜然的隊長風範，節奏分明、號召力十足，讓人忍不住立刻起立跟隨。" },
+      { id: "voice_06_algieba", batch: 1, type: "smart", voice: "Algieba", name: "06. 優雅知性大哥哥（溫文儒雅）", tag: "清新儒雅 / 現代知性", pitch: "低中音順滑", file: "../audio/voice_06_algieba.mp3", desc: "溫文儒雅的知性大哥哥，咬字乾淨流暢，給人聰明且溫和的學霸哥哥印象。" },
+      { id: "voice_07_enceladus", batch: 1, type: "warm", voice: "Enceladus", name: "07. 溫柔耳語守護者（輕柔呢喃）", tag: "輕柔磁性 / 治癒陪伴", pitch: "低音輕柔", file: "../audio/voice_07_enceladus.mp3", desc: "磁性中帶有一絲輕柔氣音，彷彿在身邊說悄悄話，特別適合溫馨或睡前探險篇章。" },
+      { id: "voice_08_sadachbia", batch: 1, type: "energetic", voice: "Sadachbia", name: "08. 幽默風趣大頑童（歡樂DJ）", tag: "幽默逗趣 / 節奏感強", pitch: "中音跳躍", file: "../audio/voice_08_sadachbia.mp3", desc: "語調生動、充滿節奏感的幽默主持人，隨時帶著笑意，把探險講得像一場好玩的大遊戲。" },
+      { id: "voice_09_algenib", batch: 1, type: "smart", voice: "Algenib", name: "09. 傳奇故事家（低沉沙啞）", tag: "歷練滄桑 / 戲劇張力", pitch: "超低音沉厚", file: "../audio/voice_09_algenib.mp3", desc: "低沉且略帶沙啞質感的史詩探險家，自帶電影感與神秘色彩，充滿傳奇大冒險的氛圍。" },
+      { id: "voice_10_orus", batch: 1, type: "energetic", voice: "Orus", name: "10. 果敢探險先鋒（堅毅幹練）", tag: "果斷俐落 / 幹練直爽", pitch: "中低音沉厚", file: "../audio/voice_10_orus.mp3", desc: "幹練直爽、行動力爆表的探險先鋒，語氣果決充滿自信，給人一往無前的勇氣。" },
+
+      // Batch 2 (11 ~ 20)
+      { id: "voice_11_iapetus", batch: 2, type: "smart", voice: "Iapetus", name: "11. 科技領航員（清晰爽朗）", tag: "清晰俐落 / 未來領航", pitch: "中音清晰", file: "../audio/voice_11_iapetus.mp3", desc: "咬字清晰俐落、充滿現代科技感，像太空探險基地的領航員大哥哥，節奏明快。" },
+      { id: "voice_12_rasalgethi", batch: 2, type: "smart", voice: "Rasalgethi", name: "12. 博物院小博士（知性博學）", tag: "博學好奇 / 博物館導覽", pitch: "中音溫和", file: "../audio/voice_12_rasalgethi.mp3", desc: "知性溫和、自帶探索世界的好奇感，像自然科學博物館的明星導覽哥哥。" },
+      { id: "voice_13_sadaltager", batch: 2, type: "energetic", voice: "Sadaltager", name: "13. 奇趣發明家（驚喜連連）", tag: "古靈精怪 / 創意發明", pitch: "中高音跳動", file: "../audio/voice_13_sadaltager.mp3", desc: "充滿創意與求知欲，語調常帶有發現新事物的驚喜感，像身邊的點子王發明家。" },
+      { id: "voice_14_schedar", batch: 2, type: "warm", voice: "Schedar", name: "14. 森林護林員（純粹自然）", tag: "平靜均勻 / 大自然風", pitch: "中低音穩定", file: "../audio/voice_14_schedar.mp3", desc: "不疾不徐、安穩平靜，像長年在森林裡巡護大自然的護林大哥哥，讓孩子很安定。" },
+      { id: "voice_15_umbriel", batch: 2, type: "warm", voice: "Umbriel", name: "15. 滑板陽光少年（隨性自在）", tag: "隨性酷帥 / 街頭陽光", pitch: "中音微低", file: "../audio/voice_15_umbriel.mp3", desc: "隨性自在、毫無距離感，像帶著滑板、在公園隨時跟小朋友玩成一片的酷帥大哥哥。" },
+      { id: "voice_16_zubenelgenubi", batch: 2, type: "warm", voice: "Zubenelgenubi", name: "16. 鄰家好學長（真誠溫暖）", tag: "生活日常 / 零距離感", pitch: "中低音親和", file: "../audio/voice_16_zubenelgenubi.mp3", desc: "生活感最強的鄰家大男孩，語氣誠懇日常，像放學後陪你聊天、教你功課的好學長。" },
+      { id: "voice_17_fenrir_anime", batch: 2, type: "energetic", voice: "Fenrir", name: "17. 動漫王道男主角（超燃爆發）", tag: "王道動漫 / 超燃熱血", pitch: "極高亢燃點", file: "../audio/voice_17_fenrir_anime.mp3", desc: "動漫王道熱血番主角！朝氣與勇氣衝破天際，讓人聽了熱血沸騰、立刻想跳起來出發！" },
+      { id: "voice_18_puck_magician", batch: 2, type: "energetic", voice: "Puck", name: "18. 遊樂園魔術師（俏皮搞怪）", tag: "綜藝俏皮 / 舞台魔術", pitch: "高音跳躍", file: "../audio/voice_18_puck_magician.mp3", desc: "自帶笑意與眨眼感的綜藝魔術師哥哥，語氣高低起伏極富舞台效果，最受低齡兒童喜愛。" },
+      { id: "voice_19_achird_folk", batch: 2, type: "warm", voice: "Achird", name: "19. 營火民謠哥哥（深情治癒）", tag: "文藝溫暖 / 營火吉他", pitch: "中音柔和", file: "../audio/voice_19_achird_folk.mp3", desc: "像抱著木吉他在營火旁唱歌的大哥哥，嗓音微暖如歌，充滿治癒感與溫馨氛圍。" },
+      { id: "voice_20_charon_knight", batch: 2, type: "smart", voice: "Charon", name: "20. 騎士團長（厚重守護）", tag: "英勇守護 / 莊重威信", pitch: "沉厚低音", file: "../audio/voice_20_charon_knight.mp3", desc: "嗓音厚重深沉、誓死守護全隊的探險騎士長，給予孩子最強大、最可靠的安全感。" }
+    ];
+
+    let currentIdx = -1;
+    let currentFilter = 'all';
+    let isSequentialMode = false;
+    const audio = document.getElementById('global-audio');
+    const userRatings = JSON.parse(localStorage.getItem('mr_carrot_ratings') || '{}');
+    const userFavs = JSON.parse(localStorage.getItem('mr_carrot_favs') || '{}');
+    const userNotes = JSON.parse(localStorage.getItem('mr_carrot_notes') || '{}');
+
+    function setFilter(f) {
+      currentFilter = f;
+      document.querySelectorAll('#tab-filters .tab-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      renderCards();
+    }
+
+    function renderCards() {
+      const grid = document.getElementById('cards-grid');
+      grid.innerHTML = '';
+
+      VOICES.forEach((v, index) => {
+        if (currentFilter === 'batch1' && v.batch !== 1) return;
+        if (currentFilter === 'batch2' && v.batch !== 2) return;
+        if (currentFilter === 'energetic' && v.type !== 'energetic') return;
+        if (currentFilter === 'warm' && v.type !== 'warm') return;
+        if (currentFilter === 'smart' && v.type !== 'smart') return;
+
+        const isFav = userFavs[v.id] || false;
+        const rating = userRatings[v.id] || 0;
+        const note = userNotes[v.id] || '';
+
+        const card = document.createElement('div');
+        card.className = `card ${isFav ? 'is-favorite' : ''}`;
+        card.id = `card-${index}`;
+
+        card.innerHTML = `
+          <div class="card-top">
+            <div>
+              <span class="batch-badge batch-${v.batch}">第 ${v.batch} 批</span>
+              <span class="voice-id-badge">Voice: ${v.voice}</span>
+              <h3 class="card-title">${v.name}</h3>
+            </div>
+            <button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFav(${index})" title="加入最愛">
+              ${isFav ? '★' : '☆'}
+            </button>
+          </div>
+
+          <div class="tag-row">
+            <span class="tag highlight">${v.tag}</span>
+            <span class="tag">音高: ${v.pitch}</span>
+            <span class="tag">Gemini 3.8 Flash</span>
+          </div>
+
+          <div class="card-desc">${v.desc}</div>
+
+          <div class="card-player">
+            <button class="btn-play" id="play-btn-${index}" onclick="playVoice(${index})">▶</button>
+            <div class="player-progress-area">
+              <div class="progress-bar-container" onclick="seekCard(event, ${index})">
+                <div class="progress-bar" id="card-progress-${index}"></div>
+              </div>
+              <div class="time-display">
+                <span id="card-cur-${index}">0:00</span>
+                <span id="card-dur-${index}">--:--</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+            <span style="font-size:0.78rem; color:var(--text-muted);">評分：</span>
+            <div class="stars">
+              ${[1, 2, 3, 4, 5].map(star => `
+                <span class="star ${star <= rating ? 'selected' : ''}" onclick="setRating(${index}, ${star})">★</span>
+              `).join('')}
+            </div>
+          </div>
+          <textarea class="note-input" placeholder="寫下備註..." onchange="saveNote(${index}, this.value)">${note}</textarea>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function playVoice(index) {
+      if (currentIdx === index && !audio.paused) {
+        audio.pause();
+        updateUI();
+        return;
+      }
+      currentIdx = index;
+      const v = VOICES[index];
+      audio.src = v.file;
+      audio.play().catch(e => showToast("音檔加載中或尚未完成：" + e.message));
+
+      document.getElementById('master-title').innerText = v.name;
+      document.getElementById('master-subtitle').innerText = `第 ${v.batch} 批 | Voice: ${v.voice} | ${v.tag}`;
+      updateUI();
+    }
+
+    function togglePlayPause() {
+      if (currentIdx === -1) { playVoice(0); return; }
+      if (audio.paused) audio.play();
+      else audio.pause();
+      updateUI();
+    }
+
+    function prevVoice() {
+      let next = currentIdx - 1;
+      if (next < 0) next = VOICES.length - 1;
+      playVoice(next);
+    }
+
+    function nextVoice() {
+      let next = currentIdx + 1;
+      if (next >= VOICES.length) next = 0;
+      playVoice(next);
+    }
+
+    function playAllSequential() {
+      isSequentialMode = true;
+      playVoice(0);
+      showToast("已啟動連續播放模式！");
+    }
+
+    function updateUI() {
+      VOICES.forEach((_, i) => {
+        const card = document.getElementById(`card-${i}`);
+        const btn = document.getElementById(`play-btn-${i}`);
+        if (!card || !btn) return;
+        if (i === currentIdx && !audio.paused) {
+          card.classList.add('is-playing');
+          btn.innerText = '⏸';
+        } else {
+          card.classList.remove('is-playing');
+          btn.innerText = '▶';
+        }
+      });
+      document.getElementById('master-play-btn').innerText = audio.paused ? '▶' : '⏸';
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      const pct = (audio.currentTime / audio.duration) * 100;
+      document.getElementById('master-progress').style.width = pct + '%';
+      document.getElementById('cur-time').innerText = formatTime(audio.currentTime);
+      document.getElementById('dur-time').innerText = formatTime(audio.duration);
+
+      if (currentIdx !== -1) {
+        const bar = document.getElementById(`card-progress-${currentIdx}`);
+        if (bar) bar.style.width = pct + '%';
+        const cur = document.getElementById(`card-cur-${currentIdx}`);
+        if (cur) cur.innerText = formatTime(audio.currentTime);
+        const dur = document.getElementById(`card-dur-${currentIdx}`);
+        if (dur) dur.innerText = formatTime(audio.duration);
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      updateUI();
+      if (isSequentialMode) {
+        if (currentIdx + 1 < VOICES.length) playVoice(currentIdx + 1);
+        else { isSequentialMode = false; showToast("全部播放完畢！"); }
+      }
+    });
+
+    audio.addEventListener('play', updateUI);
+    audio.addEventListener('pause', updateUI);
+
+    function seekAudio(e) {
+      if (!audio.duration) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+    }
+
+    function seekCard(e, idx) {
+      if (currentIdx !== idx) { playVoice(idx); return; }
+      seekAudio(e);
+    }
+
+    function changeSpeed(val) { audio.playbackRate = parseFloat(val); }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function toggleFav(idx) {
+      const v = VOICES[idx];
+      userFavs[v.id] = !userFavs[v.id];
+      localStorage.setItem('mr_carrot_favs', JSON.stringify(userFavs));
+      renderCards();
+    }
+
+    function setRating(idx, st) {
+      const v = VOICES[idx];
+      userRatings[v.id] = st;
+      localStorage.setItem('mr_carrot_ratings', JSON.stringify(userRatings));
+      renderCards();
+    }
+
+    function saveNote(idx, txt) {
+      const v = VOICES[idx];
+      userNotes[v.id] = txt;
+      localStorage.setItem('mr_carrot_notes', JSON.stringify(userNotes));
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3000);
+    }
+
+    function exportFeedback() {
+      let text = `【卡洛特先生 (Mr. Carrot) 20款聲音海選評選反饋】\n\n`;
+      let count = 0;
+      VOICES.forEach((v) => {
+        const isFav = userFavs[v.id];
+        const rating = userRatings[v.id] || 0;
+        const note = userNotes[v.id] || '';
+        if (isFav || rating > 0 || note) {
+          count++;
+          text += `★ ${v.name} (${v.voice})\n`;
+          if (isFav) text += `   - 是否推薦: ★ 喜愛推薦\n`;
+          if (rating > 0) text += `   - 評分: ${'★'.repeat(rating)} (${rating}/5)\n`;
+          if (note) text += `   - 備註: ${note}\n`;
+          text += `\n`;
+        }
+      });
+      if (count === 0) text += `（請先點擊星號評分或打勾最愛後再複製！）\n`;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("已成功複製評選心得至剪貼簿！");
+      }).catch(() => alert(text));
+    }
+
+    renderCards();
+  </script>
+</body>
+</html>
