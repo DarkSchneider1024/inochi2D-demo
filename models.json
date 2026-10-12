@@ -111,6 +111,21 @@
     "desc": "走路用的 3/4 側身模型（奧丁領域畫法）：頭和帽子轉 32°、獵裝轉 50°並補近側面，圓肩袖子，真關節步行循環。"
   },
   {
+    "id": "gardener",
+    "name": "麥格雷戈先生（園丁）",
+    "file": "models/gardener.inp",
+    "thumb": "thumbs/gardener.png",
+    "side": "gardener_side",
+    "desc": "《卡洛特時光機 EP01》追兔子的園丁：以獵人的骨架重新畫衣服——灰髮灰鬍、紅色大鼻子、格紋鴨舌帽、白襯衫捲袖、深棕背心、橄欖綠工作圍裙、手拿耙子。H3 影片的參考圖就是由這張 Live2D 圖用 Gemini 生成三視圖，所以影片和人偶造型一致。"
+  },
+  {
+    "id": "gardener_side",
+    "name": "麥格雷戈先生（側面）",
+    "file": "models/gardener_side.inp",
+    "thumb": "thumbs/gardener_side.png",
+    "desc": "走路用的 3/4 側面模型（同獵人的轉身方式）：頭和帽子轉 32°、身體 50°；耙子保持筆直跟著手。"
+  },
+  {
     "id": "frog_prince",
     "name": "青蛙王子",
     "file": "models/frog_prince.inp",
