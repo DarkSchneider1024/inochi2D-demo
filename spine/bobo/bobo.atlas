@@ -1,0 +1,64 @@
+bobo.png
+	size: 2048, 2048
+	filter: Linear, Linear
+	pma: true
+torso
+	bounds: 4, 4, 640, 716
+torso_empty
+	bounds: 648, 4, 640, 716
+face
+	bounds: 1292, 4, 643, 572
+ear_R
+	bounds: 4, 724, 241, 502
+ear_L
+	bounds: 249, 724, 246, 502
+carrot
+	bounds: 499, 724, 380, 312
+scarf
+	bounds: 883, 724, 609, 221
+hug_L
+	bounds: 1496, 724, 235, 211
+hug_R
+	bounds: 1735, 724, 228, 210
+leaves
+	bounds: 4, 1230, 230, 207
+neck
+	bounds: 238, 1230, 475, 192
+paw_L
+	bounds: 717, 1230, 221, 180
+tuft
+	bounds: 942, 1230, 232, 176
+eye_white_R
+	bounds: 1178, 1230, 148, 154
+eye_white_L
+	bounds: 1330, 1230, 148, 154
+paw_R
+	bounds: 1482, 1230, 208, 150
+iris_R
+	bounds: 1694, 1230, 102, 138
+iris_L
+	bounds: 1800, 1230, 102, 138
+foot_R
+	bounds: 4, 1441, 216, 120
+foot_L
+	bounds: 224, 1441, 219, 120
+mouth_ah
+	bounds: 447, 1441, 148, 100
+mouth_oh
+	bounds: 599, 1441, 92, 96
+lash_R
+	bounds: 695, 1441, 140, 85
+lash_L
+	bounds: 839, 1441, 140, 85
+eye_closed_R
+	bounds: 983, 1441, 156, 66
+eye_closed_L
+	bounds: 1143, 1441, 159, 66
+nose
+	bounds: 1306, 1441, 63, 37
+brow_R
+	bounds: 1373, 1441, 57, 36
+brow_L
+	bounds: 1434, 1441, 62, 36
+mouth_line
+	bounds: 1500, 1441, 130, 36

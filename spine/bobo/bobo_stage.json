@@ -1,0 +1,15 @@
+{
+ "phased": {},
+ "anims": [
+  "happy",
+  "idle",
+  "look_scrub",
+  "nod",
+  "raise_paw",
+  "shy",
+  "slam",
+  "surprise",
+  "talk",
+  "wave"
+ ]
+}
