@@ -34,26 +34,94 @@
       "sample_quote": "大家好我是卡洛特先生，小朋友準備好出發去探險了嗎？跟上我，Let's go！",
       "audio_file": "audio/voice_01_puck.mp3",
       "alternate_audio_files": [
-        {"name": "01. 陽光元氣大哥哥 (Puck)", "file": "audio/voice_01_puck.mp3"},
-        {"name": "02. 溫暖親切大哥哥 (Achird)", "file": "audio/voice_02_achird.mp3"},
-        {"name": "03. 熱血冒險探險家 (Fenrir)", "file": "audio/voice_03_fenrir.mp3"},
-        {"name": "04. 穩重大哥哥導師 (Charon)", "file": "audio/voice_04_charon.mp3"},
-        {"name": "05. 正義號召隊長 (Alnilam)", "file": "audio/voice_05_alnilam.mp3"},
-        {"name": "06. 優雅知性大哥哥 (Algieba)", "file": "audio/voice_06_algieba.mp3"},
-        {"name": "07. 溫柔耳語守護者 (Enceladus)", "file": "audio/voice_07_enceladus.mp3"},
-        {"name": "08. 幽默風趣大頑童 (Sadachbia)", "file": "audio/voice_08_sadachbia.mp3"},
-        {"name": "09. 傳奇故事家 (Algenib)", "file": "audio/voice_09_algenib.mp3"},
-        {"name": "10. 果敢探險先鋒 (Orus)", "file": "audio/voice_10_orus.mp3"},
-        {"name": "11. 科技領航員 (Iapetus)", "file": "audio/voice_11_iapetus.mp3"},
-        {"name": "12. 博物院小博士 (Rasalgethi)", "file": "audio/voice_12_rasalgethi.mp3"},
-        {"name": "13. 奇趣發明家 (Sadaltager)", "file": "audio/voice_13_sadaltager.mp3"},
-        {"name": "14. 森林護林員 (Schedar)", "file": "audio/voice_14_schedar.mp3"},
-        {"name": "15. 滑板陽光少年 (Umbriel)", "file": "audio/voice_15_umbriel.mp3"},
-        {"name": "16. 鄰家好學長 (Zubenelgenubi)", "file": "audio/voice_16_zubenelgenubi.mp3"},
-        {"name": "17. 動漫王道男主 (Fenrir)", "file": "audio/voice_17_fenrir_anime.mp3"},
-        {"name": "18. 遊樂園魔術師 (Puck)", "file": "audio/voice_18_puck_magician.mp3"},
-        {"name": "19. 營火民謠哥哥 (Achird)", "file": "audio/voice_19_achird_folk.mp3"},
-        {"name": "20. 騎士團長 (Charon)", "file": "audio/voice_20_charon_knight.mp3"}
+        {
+          "name": "01. 陽光元氣大哥哥 (Puck)",
+          "file": "audio/voice_01_puck.mp3"
+        },
+        {
+          "name": "02. 溫暖親切大哥哥 (Achird)",
+          "file": "audio/voice_02_achird.mp3"
+        },
+        {
+          "name": "03. 熱血冒險探險家 (Fenrir)",
+          "file": "audio/voice_03_fenrir.mp3"
+        },
+        {
+          "name": "04. 穩重大哥哥導師 (Charon)",
+          "file": "audio/voice_04_charon.mp3"
+        },
+        {
+          "name": "05. 正義號召隊長 (Alnilam)",
+          "file": "audio/voice_05_alnilam.mp3"
+        },
+        {
+          "name": "06. 優雅知性大哥哥 (Algieba)",
+          "file": "audio/voice_06_algieba.mp3"
+        },
+        {
+          "name": "07. 溫柔耳語守護者 (Enceladus)",
+          "file": "audio/voice_07_enceladus.mp3"
+        },
+        {
+          "name": "08. 幽默風趣大頑童 (Sadachbia)",
+          "file": "audio/voice_08_sadachbia.mp3"
+        },
+        {
+          "name": "09. 傳奇故事家 (Algenib)",
+          "file": "audio/voice_09_algenib.mp3"
+        },
+        {
+          "name": "10. 果敢探險先鋒 (Orus)",
+          "file": "audio/voice_10_orus.mp3"
+        },
+        {
+          "name": "11. 科技領航員 (Iapetus)",
+          "file": "audio/voice_11_iapetus.mp3"
+        },
+        {
+          "name": "12. 博物院小博士 (Rasalgethi)",
+          "file": "audio/voice_12_rasalgethi.mp3"
+        },
+        {
+          "name": "13. 奇趣發明家 (Sadaltager)",
+          "file": "audio/voice_13_sadaltager.mp3"
+        },
+        {
+          "name": "14. 森林護林員 (Schedar)",
+          "file": "audio/voice_14_schedar.mp3"
+        },
+        {
+          "name": "15. 滑板陽光少年 (Umbriel)",
+          "file": "audio/voice_15_umbriel.mp3"
+        },
+        {
+          "name": "16. 鄰家好學長 (Zubenelgenubi)",
+          "file": "audio/voice_16_zubenelgenubi.mp3"
+        },
+        {
+          "name": "17. 動漫王道男主 (Fenrir)",
+          "file": "audio/voice_17_fenrir_anime.mp3"
+        },
+        {
+          "name": "18. 遊樂園魔術師 (Puck)",
+          "file": "audio/voice_18_puck_magician.mp3"
+        },
+        {
+          "name": "19. 營火民謠哥哥 (Achird)",
+          "file": "audio/voice_19_achird_folk.mp3"
+        },
+        {
+          "name": "20. 騎士團長 (Charon)",
+          "file": "audio/voice_20_charon_knight.mp3"
+        },
+        {
+          "name": "21. 👑 青蛙王子演繹 (Achird 王子形態)",
+          "file": "audio/carrot_by_frog_prince_human.mp3"
+        },
+        {
+          "name": "22. 🐸 小青蛙演繹 (Puck 鼻音呱呱形態)",
+          "file": "audio/carrot_by_frog_prince_frog.mp3"
+        }
       ],
       "director_notes": "Voice Profile: Mr. Carrot (卡洛特先生), a 22-year-old high-spirited, cheerful, and radiant children's show host. Tone is bright, smiling, warm, and highly engaging for young kids. Speak in modern, expressive Taiwanese Mandarin with joyful, inviting cadence. Anime big brother hero vibes!",
       "notes": "全頻道首席男聲代表，已備齊 10 款細分候選聲線（預設推薦 01 Puck 陽光元氣 或 02 Achird 溫暖暖男）。"
@@ -73,10 +141,30 @@
       "sample_quote": "呱！美麗的公主，妳為什麼哭得這麼傷心呢？... 公主，我就是那隻小青蛙呀！我本來是一位王子！",
       "audio_file": "audio/frog_prince_showcase.mp3",
       "alternate_audio_files": [
-        {"name": "🌟 雙形態完整試聽 (青蛙+王子)", "file": "audio/frog_prince_showcase.mp3"},
-        {"name": "🐸 小青蛙形態 (Puck) - 呱！為什麼哭呢？", "file": "audio/frog_prince_frog.mp3"},
-        {"name": "🐸 小青蛙形態 (Puck) - 讓我當妳好朋友", "file": "audio/frog_prince_frog_friend.mp3"},
-        {"name": "👑 王子形態 (Achird) - 解除魔法真誠致謝", "file": "audio/frog_prince_human.mp3"}
+        {
+          "name": "🌟 雙形態完整試聽 (青蛙+王子)",
+          "file": "audio/frog_prince_showcase.mp3"
+        },
+        {
+          "name": "👑 王子形態 (Achird) - 配音卡洛特：大家好我是卡洛特先生...",
+          "file": "audio/carrot_by_frog_prince_human.mp3"
+        },
+        {
+          "name": "🐸 小青蛙形態 (Puck) - 配音卡洛特：大家好我是卡洛特先生...",
+          "file": "audio/carrot_by_frog_prince_frog.mp3"
+        },
+        {
+          "name": "🐸 小青蛙形態 (Puck) - 呱！為什麼哭呢？",
+          "file": "audio/frog_prince_frog.mp3"
+        },
+        {
+          "name": "🐸 小青蛙形態 (Puck) - 讓我當妳好朋友",
+          "file": "audio/frog_prince_frog_friend.mp3"
+        },
+        {
+          "name": "👑 王子形態 (Achird) - 解除魔法真誠致謝",
+          "file": "audio/frog_prince_human.mp3"
+        }
       ],
       "director_notes": "【小青蛙形態】Voice: Puck\nPrompt: 用台灣可愛、帶一點鼻音、呱呱叫的小青蛙聲音，熱情友善又有點調皮，像卡通裡的小動物，語速輕快。\n\n【王子形態】Voice: Achird\nPrompt: 用台灣年輕王子的聲音，溫柔、爽朗、帥氣有禮貌，帶著真誠的感謝，語速自然。",
       "notes": "已製作完成（採用青蛙王子正片實機音檔）。包含小青蛙形態 (Puck 卡通鼻音呱呱叫) 與 解除詛咒王子形態 (Achird 溫柔爽朗紳士)。"
