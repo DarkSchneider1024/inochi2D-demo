@@ -74,6 +74,35 @@
   body.full aside { display: none; }
   body.full .stage { height: 100dvh; }
   .note { color: var(--muted); font-size: 12px; margin-top: 16px; }
+  /* 晃動檢核：大晃動＋即時截圖（找破圖、殘塊） */
+  .shakebar { position: absolute; left: 16px; bottom: 16px; z-index: 6; display: flex; gap: 8px; flex-wrap: wrap; }
+  .shakebar button { font-size: 14px; padding: 7px 14px; border-radius: 999px; background: var(--panel); backdrop-filter: blur(6px);
+                     box-shadow: 0 3px 12px rgba(0,0,0,.12); }
+  .shakebar button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .shakebar .snapping { background: #d9364a; color: #fff; border-color: #d9364a; }
+  .shakebar .snapcount { align-self: center; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .qa { position: fixed; inset: 0; z-index: 50; background: rgba(20,14,28,.72); display: none; padding: 24px; overflow: auto; }
+  .qa.open { display: block; }
+  .qa-box { max-width: 1280px; margin: 0 auto; background: var(--bg); color: var(--ink); border-radius: 16px; padding: 18px 20px 22px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+  .qa-head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+  .qa-head h3 { margin: 0 auto 0 0; font-size: 17px; }
+  .qa-sum { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+  .qa-sum b.bad { color: #d9364a; } .qa-sum b.ok { color: #2e9a5b; }
+  .qa-filter { display: inline-flex; gap: 6px; }
+  .qa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .qa-cell { background: var(--panel); border: 2px solid var(--line); border-radius: 10px; padding: 4px; cursor: zoom-in; }
+  .qa-cell.bad { border-color: #d9364a; } .qa-cell.warn { border-color: #e2a400; }
+  .qa-cell canvas { position: static; width: 100%; height: auto; display: block; border-radius: 6px;
+                    background: repeating-conic-gradient(#ddd 0 25%, #fff 0 50%) 0 0 / 16px 16px; touch-action: auto; }
+  .qa-cell small { display: block; font-size: 11px; line-height: 1.35; color: var(--muted); padding: 3px 2px 0; font-variant-numeric: tabular-nums; }
+  .qa-cell small b { color: #d9364a; font-weight: 600; } .qa-cell small i { color: #b88400; font-style: normal; }
+  .qa-big { position: fixed; inset: 0; z-index: 60; background: rgba(10,8,14,.9); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 10px; }
+  .qa-big.open { display: flex; }
+  .qa-big canvas { position: static; max-width: 94vw; max-height: 82vh; width: auto; height: auto;
+                   background: repeating-conic-gradient(#ccc 0 25%, #fff 0 50%) 0 0 / 24px 24px; touch-action: auto; }
+  .qa-big .bar { display: flex; gap: 8px; color: #fff; align-items: center; flex-wrap: wrap; justify-content: center; }
+  .qa-big .bar button { color: #fff; border-color: rgba(255,255,255,.4); }
   /* phones: character on the left, parameters on the right, two independent panes; the page itself never
      scrolls, so swiping the controls can't move the character */
   @media (max-width: 760px) {
@@ -94,7 +123,12 @@
     <button class="nav-btn nav-prev" id="navPrev" aria-label="切換至上一個角色（前）" title="切換至上一個角色（前）"><span class="nav-arrow">‹</span><span class="nav-text">前</span></button>
     <button class="nav-btn nav-next" id="navNext" aria-label="切換至下一個角色（後）" title="切換至下一個角色（後）"><span class="nav-text">後</span><span class="nav-arrow">›</span></button>
     <button class="zoombtn" id="zoom" aria-pressed="false" title="放大全景（隱藏控制面板）">⛶ 放大</button>
-    <button class="zoombtn" id="bust" aria-pressed="false" style="top:46px;display:none" title="全身 / 半身特寫">半身</button></div>
+    <button class="zoombtn" id="bust" aria-pressed="false" style="top:46px;display:none" title="全身 / 半身特寫">半身</button>
+    <div class="shakebar">
+      <button id="shakeBtn" aria-pressed="false" title="大晃動：頭快速左右甩、繞圈、歪頭到極限，身體跟著晃，頭髮甩起來，最後把頭髮、尾巴等擺動零件掃到極限（約 10 秒）">🌀 晃動</button>
+      <button id="snapBtn" aria-pressed="false" title="晃動過程中每 0.1 秒擷取一張，結束後自動檢查有沒有殘塊、破洞（沒在晃動時按下會自動開始晃動）">📸 即時截圖</button>
+      <span class="snapcount" id="snapCount"></span>
+    </div></div>
   <aside>
     <nav class="tabs"><a href="./" aria-current="page">Demo</a><a href="gallery.html">作品集</a><a href="spine/">Spine 動畫</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
     <h1 id="title">Inochi2D</h1>
@@ -133,6 +167,10 @@
       <h2>手勢</h2>
       <div class="exprs" id="gests"></div>
     </div>
+    <div class="act-only">
+      <h2>動作（與 Spine 版相同）</h2>
+      <div class="exprs" id="acts"></div>
+    </div>
     <h2>參數</h2>
     <div id="params"></div>
     <p><button id="reset">重設參數</button></p>
@@ -142,6 +180,7 @@
 <script type="module">
 import { loadINP, Puppet } from './inochi-lite.js';
 import { GL, FEET } from './stage.js';          // same renderer as the video stage (cross-fades, one head)
+import { ACTIONS } from './actions.js';         // 2026-10-13: the Spine desk actions (cheer, ask, slam ...)
 
 const canvas = document.getElementById('c'), status = document.getElementById('status');
 const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head:: Roll': ['頭部 歪斜'],
@@ -162,7 +201,8 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
   'Arm:: Right:: Raise': ['右手 舉起（0 放下 → 1 揮手）'], 'Arm:: Chest': ['雙手 胸前合掌'], 'Arm:: Left:: Cheek': ['左手 托臉頰'],
   'Hand:: Right:: Wave': ['右手 揮動'], 'Hand:: Left:: Wave': ['左手 揮動'], 'Hand:: Left:: Wave Wrist': ['左手 揮動（手腕跟隨）'], 'Arm:: Left:: Eat': ['左手 吃胡蘿蔔（0 放下 → 1 咬）'], 'Mouth:: Chew': ['咀嚼（0 咬一口 / 0.5 拉開 / 1 嚼）'], 'Arm:: Left:: Eat Bob': ['咀嚼時手晃動'], 'Leg:: Right:: Step': ['右腳 抬起'], 'Leg:: Left:: Step': ['左腳 抬起'],
   'Leg:: Open': ['雙腿 開合（連動乳搖）'], 'Arm:: Right:: Bend': ['右臂 彎曲'], 'Arm:: Left:: Bend': ['左臂 彎曲'],
-  'Prop:: Carrot:: Sway': ['胡蘿蔔 擺動'] };
+  'Prop:: Carrot:: Sway': ['胡蘿蔔 擺動'], 'Arm:: Right:: Point': ['右手 食指（0 手掌 → 1 食指）'],
+  'Carrot:: Hold': ['抱胡蘿蔔（0 空手）'], 'Ears:: Droop': ['耳朵 下垂'], 'Body:: Hop': ['身體 跳（− 往上）'] };
 
 // ---- which model: ?model=<id> (listed in models.json, shared with the gallery page)
 const models = await (await fetch('./models.json', { cache: 'no-cache' })).json();
@@ -218,7 +258,8 @@ try {
   for (const el of document.querySelectorAll('.front-only')) el.style.display = isSide ? 'none' : '';
   if (model.noIdleArms) { document.getElementById('tArms').checked = false; document.getElementById('tArmsLab').style.display = 'none'; }   // 卡洛兒姐姐: wave only, no idle sway (user)
   for (const el of document.querySelectorAll('.eat-only')) el.style.display = puppet.byName['Arm:: Left:: Eat'] ? '' : 'none';
-  for (const el of document.querySelectorAll('.raise-only')) el.style.display = puppet.byName['Arm:: Left:: Raise'] && !puppet.byName['Arm:: Chest'] ? '' : 'none';
+  for (const el of document.querySelectorAll('.raise-only')) el.style.display = puppet.byName['Arm:: Left:: Raise'] && !puppet.byName['Arm:: Chest'] && !puppet.byName['Carrot:: Hold'] ? '' : 'none';
+  for (const el of document.querySelectorAll('.act-only')) el.style.display = ACTIONS[model.id] ? '' : 'none';
   for (const el of document.querySelectorAll('.body-only')) el.style.display = puppet.byName['Body:: Angle X-Y'] ? '' : 'none';
   for (const el of document.querySelectorAll('.ear-only')) el.style.display = puppet.byName['Ear:: Twitch'] ? '' : 'none';
   for (const el of document.querySelectorAll('.expr-only')) el.style.display = puppet.byName['Eye:: Smile'] ? '' : 'none';
@@ -248,7 +289,7 @@ for (const p of puppet.params) {
 const manual = new Set();
 document.getElementById('reset').onclick = () => { for (const p of puppet.params) p.value = [...p.defaults]; manual.clear(); };
 const T = (id) => document.getElementById(id);
-window.demo = { puppet, get side() { return side; }, view, manual, renderer: gl, noFit() { autoFit = false; }, get pointer() { return pointer; } };   // handy for scripted checks
+window.demo = { get shakeSnap() { return snap; }, puppet, get side() { return side; }, view, manual, renderer: gl, noFit() { autoFit = false; }, get pointer() { return pointer; } };   // handy for scripted checks
 
 // ---- camera: fit the figure, drag to pan, wheel to zoom
 function resize() {
@@ -356,6 +397,37 @@ function eatState(t) {
   return { eat: Math.max(0, eat), chew, bob: w, nod: chewing ? 0.06 * Math.abs(w) : 0, on: true };
 }
 const waveBtn = document.getElementById('waveBtn');
+// ---- 動作: one action at a time; it overrides its own parameters on top of everything else, then hands back
+const act = { a: null, t0: 0, btns: [], touched: new Set() };
+for (const a of ACTIONS[model.id] || []) {
+  const b = document.createElement('button'); b.textContent = a.label; b.title = a.hint; b.setAttribute('aria-pressed', 'false');
+  b.onclick = () => { const now = performance.now() / 1000; if (act.a === a) act.a = null; else { act.a = a; act.t0 = now; } };
+  document.getElementById('acts').appendChild(b); act.btns.push([a, b]);
+}
+window.demo.act = (id) => { act.a = (ACTIONS[model.id] || []).find((a) => a.id === id) || null; act.t0 = performance.now() / 1000; };
+function applyAction(t) {
+  if (act.a && t - act.t0 > act.a.dur) act.a = null;
+  if (act.touched.size && act.touched.a !== act.a) {   // ended / switched: hand its params back at their rest values
+    for (const name of act.touched) { const p = puppet.byName[name]; if (p && !manual.has(name)) p.value = [...p.defaults]; }
+    act.touched.clear();
+  }
+  for (const [a, b] of act.btns) b.setAttribute('aria-pressed', act.a === a);
+  if (!act.a) return false;
+  const vals = act.a.f(t - act.t0);
+  for (const [name, v] of Object.entries(vals)) {
+    const p = puppet.byName[name];
+    if (!p || manual.has(name)) continue;
+    act.touched.add(name); act.touched.a = act.a;
+    if (Array.isArray(v)) puppet.set(name, clamp(v[0], p.min[0], p.max[0]), clamp(v[1], p.min[1], p.max[1]));
+    else if (/Blink$/.test(name)) puppet.set(name, Math.max(p.value[0], clamp(v, p.min[0], p.max[0])));   // auto blinks still happen
+    else puppet.set(name, clamp(v, p.min[0], p.max[0]));
+  }
+  for (const nm of ['Right', 'Left']) {            // no idle swing on an arm that is posing
+    const busy = clamp(Math.abs(vals[`Arm:: ${nm}:: Raise`] ?? 0) * 4, 0, 1);
+    if (busy > 0) for (const q of [`Arm:: ${nm}:: Swing`, `Arm:: ${nm}:: Bend`, `Hand:: ${nm}:: Wrist`]) if (puppet.byName[q]) puppet.set(q, pv(q) * (1 - busy));
+  }
+  return true;
+}
 waveBtn.onclick = () => { const now = performance.now() / 1000; waveUntil = now < waveUntil ? 0 : now + 4.4; };
 const ezio = (x) => { x = clamp(x, 0, 1); return x < 0.5 ? 4 * x * x * x : 1 - (-2 * x + 2) ** 3 / 2; };
 // expressions: every preset is a target for the face params; the face eases between them (never a cut)
@@ -390,20 +462,242 @@ for (const name of Object.keys(GESTS)) {
   const b = document.createElement('button'); b.textContent = name; b.setAttribute('aria-pressed', name === gest.name);
   b.onclick = () => pickGest(name); gestBox.appendChild(b);
 }
+// ---- 晃動檢核：大晃動（像 VTuber 模型展示影片那樣甩頭、繞圈、歪頭到極限），配合即時截圖找破圖／殘塊
+// 0–0.5 s 漸入 → 0.5–3.3 s 快速左右甩頭（身體慢半拍、頭髮甩起來）→ 3.3–5.9 s 大繞圈（上下左右轉到底）
+// → 5.9–7.4 s 歪頭＋上下點頭到極限 → 7.4–9.0 s 極限掃描（頭髮／尾巴等所有擺動參數從 −1 掃到 +1，頭跟著到四個角）
+// → 9.0–9.6 s 回正。物理不一定每次都甩到底，所以最後的掃描保證每個擺動零件都檢查到極限。
+const SHAKE_LEN = 9.6, SNAP_DT = 0.1, SWEEP0 = 7.4, SWEEP1 = 9.0;
+let shakeT0 = -1;
+function shakeState(t) {
+  const u = t - shakeT0;
+  if (shakeT0 < 0 || u < 0 || u > SHAKE_LEN) return null;
+  const env = Math.min(1, u / 0.5, (SHAKE_LEN - u) / 0.8);
+  const TAU = Math.PI * 2;
+  let yaw = 0, pitch = 0, roll = 0, dx = 0;
+  if (u < 3.3) {                                   // fast side-to-side whip
+    const ph = TAU * 1.5 * u;
+    yaw = Math.sin(ph); roll = -0.85 * Math.sin(ph - 0.5); pitch = 0.35 * Math.sin(2 * ph);
+    dx = 70 * Math.sin(ph - 0.9);
+  } else if (u < 5.9) {                            // big circles, both directions
+    const v = u - 3.3, dir = v < 1.3 ? 1 : -1, ph = TAU * 0.77 * v * dir;
+    yaw = Math.cos(ph); pitch = Math.sin(ph); roll = 0.7 * Math.cos(ph + 0.6);
+    dx = 45 * Math.cos(ph - 0.7);
+  } else if (u < SWEEP0) {                         // head tilt + nod to the limits
+    const v = u - 5.9, ph = TAU * 1.2 * v;
+    roll = Math.sin(ph); pitch = Math.sin(TAU * 0.6 * v + 1.2); yaw = 0.6 * Math.sin(TAU * 0.6 * v);
+    dx = 30 * Math.sin(ph - 0.8);
+  } else {                                         // extreme sweep: sway params -1 -> +1, head through the corners
+    const v = Math.min(1, (u - SWEEP0) / (SWEEP1 - SWEEP0));
+    const hair = Math.max(-1, Math.min(1, -Math.cos(Math.PI * v) * 1.15));
+    const corner = [[1, 1], [-1, 1], [-1, -1], [1, -1]][Math.min(3, Math.floor(v * 4))];
+    yaw = corner[0]; pitch = corner[1]; roll = corner[0] * 0.8;
+    return { u, yaw: yaw * env, pitch: pitch * env, roll: roll * env, dx: 0, mouth: 0.6 * env, hair, sweep: true };
+  }
+  return { u, yaw: yaw * env, pitch: pitch * env, roll: roll * env, dx: dx * env,
+           mouth: Math.max(0, Math.sin(u * 9)) * 0.9 * env };
+}
+const shakeBtn = document.getElementById('shakeBtn'), snapBtn = document.getElementById('snapBtn'), snapCount = document.getElementById('snapCount');
+const snap = { on: false, last: -1, list: [], ref: null };
+function startShake() { shakeT0 = performance.now() / 1000; }
+shakeBtn.onclick = () => { if (shakeState(performance.now() / 1000)) shakeT0 = -1; else startShake(); };
+snapBtn.onclick = () => {
+  if (snap.on) { finishSnap(); return; }
+  snap.list = []; snap.last = -1; snap.on = true; snap.ref = null;
+  if (!shakeState(performance.now() / 1000)) { snap.wantRef = true; startShake(); }
+};
+function grabFrame(t, sh) {                      // runs right after drawing, so the canvas holds this frame
+  const c = document.createElement('canvas'); c.width = canvas.width; c.height = canvas.height;
+  c.getContext('2d').drawImage(canvas, 0, 0);
+  return { c, t: sh ? sh.u : 0, yaw: pv('Head:: Yaw-Pitch', 0), pitch: pv('Head:: Yaw-Pitch', 1), roll: pv('Head:: Roll', 0),
+           body: pv('Body:: Angle X-Y', 0), hair: pv('Hair:: Sway', 0), sweep: !!(sh && sh.sweep) };
+}
+function finishSnap() {
+  snap.on = false;
+  if (snap.list.length) showQA();
+}
+// -- automatic check: connected pieces of the drawn figure (alpha mask, scaled down)
+//    殘塊 = a piece not connected to the body that the resting pose does not have; 破洞 = an enclosed gap
+//    (transparent pixels walled in by the figure) bigger than any in the resting pose
+const QA_W = 480;
+function maskOf(c, box) {
+  const s = QA_W / box.w, w = QA_W, h = Math.max(1, Math.round(box.h * s));
+  const m = document.createElement('canvas'); m.width = w; m.height = h;
+  const x = m.getContext('2d', { willReadFrequently: true });
+  x.drawImage(c, box.x, box.y, box.w, box.h, 0, 0, w, h);
+  const d = x.getImageData(0, 0, w, h).data, a = new Uint8Array(w * h);
+  for (let i = 0; i < w * h; i++) a[i] = d[i * 4 + 3] > 40 ? 1 : 0;
+  return { a, w, h, s };
+}
+function components(mask, want) {               // 4-connected components of pixels equal to `want`
+  const { a, w, h } = mask, lab = new Int32Array(w * h).fill(-1), out = [], st = [];
+  for (let i = 0; i < w * h; i++) {
+    if (a[i] !== want || lab[i] >= 0) continue;
+    const id = out.length; let n = 0, x0 = w, y0 = h, x1 = 0, y1 = 0, border = false, sx = 0, sy = 0;
+    st.push(i); lab[i] = id;
+    while (st.length) {
+      const j = st.pop(), x = j % w, y = (j / w) | 0; n++; sx += x; sy += y;
+      if (x < x0) x0 = x; if (y < y0) y0 = y; if (x > x1) x1 = x; if (y > y1) y1 = y;
+      if (x === 0 || y === 0 || x === w - 1 || y === h - 1) border = true;
+      for (const k of [x > 0 ? j - 1 : -1, x < w - 1 ? j + 1 : -1, y > 0 ? j - w : -1, y < h - 1 ? j + w : -1])
+        if (k >= 0 && a[k] === want && lab[k] < 0) { lab[k] = id; st.push(k); }
+    }
+    out.push({ n, x0, y0, x1, y1, border, cx: sx / n, cy: sy / n });
+  }
+  return out;
+}
+function erode(mask) {                            // shave 1 px: a piece hanging on by a thin sliver comes loose
+  const { a, w, h } = mask, b = new Uint8Array(w * h);
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+    const i = y * w + x;
+    b[i] = a[i] && a[i - 1] && a[i + 1] && a[i - w] && a[i + w] ? 1 : 0;
+  }
+  return { ...mask, a: b };
+}
+function analyse(c, box, ref) {
+  const m = maskOf(c, box);
+  const fg = components(m, 1).sort((p, q) => q.n - p.n);
+  const main = fg[0] ? fg[0].n : 1;
+  const thin = components(erode(m), 1).sort((p, q) => q.n - p.n).slice(1).filter((p) => p.n >= 20);
+  const islands = [...fg.slice(1).filter((p) => p.n >= 6),
+    ...thin.filter((t) => !fg.slice(1).some((p) => Math.abs(p.cx - t.cx) < 6 && Math.abs(p.cy - t.cy) < 6)).map((t) => ({ ...t, thin: true }))];
+  const holes = components(m, 0).filter((p) => !p.border && p.n >= 24 && p.cy < m.h * 0.34);   // head / neck only (arm-to-body gaps are normal)
+  if (!ref) return { m, islands, holes, main };
+  const issues = [];
+  for (const p of islands) {                     // a detached piece the resting pose has no counterpart for
+    const known = ref.islands.some((q) => q.n >= p.n * 0.4 && q.n <= p.n * 2.5 && Math.hypot(q.cx - p.cx, q.cy - p.cy) < m.w * 0.18);
+    if (!known) issues.push({ kind: 'bad', what: p.thin ? '殘塊（快斷開）' : '殘塊', p });
+  }
+  const refHole = Math.max(0, ...ref.holes.map((q) => q.n));
+  for (const p of holes) if (p.n > Math.max(48, refHole * 1.6)) issues.push({ kind: 'warn', what: '破洞', p });
+  return { m, islands, holes, main, issues };   // m: mask, issues: [{kind, what, p: {x0,y0,x1,y1,...}}]
+}
+function unionBox(list) {                         // crop all frames to the area the figure ever covers
+  let x0 = Infinity, y0 = Infinity, x1 = -1, y1 = -1;
+  for (const f of list) {
+    const c = f.c, w = c.width, h = c.height, sc = Math.max(1, Math.round(w / 480));
+    const t = document.createElement('canvas'); t.width = Math.ceil(w / sc); t.height = Math.ceil(h / sc);
+    const x = t.getContext('2d', { willReadFrequently: true }); x.drawImage(c, 0, 0, t.width, t.height);
+    const d = x.getImageData(0, 0, t.width, t.height).data;
+    for (let y = 0; y < t.height; y++) for (let k = 0; k < t.width; k++) if (d[(y * t.width + k) * 4 + 3] > 20) {
+      if (k < x0) x0 = k; if (k > x1) x1 = k; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    f.sc = sc;
+  }
+  const sc = list[0].sc, pad = 12;
+  if (x1 < 0) return { x: 0, y: 0, w: list[0].c.width, h: list[0].c.height };
+  const x = Math.max(0, x0 * sc - pad), y = Math.max(0, y0 * sc - pad);
+  return { x, y, w: Math.min(list[0].c.width - x, (x1 - x0 + 1) * sc + 2 * pad), h: Math.min(list[0].c.height - y, (y1 - y0 + 1) * sc + 2 * pad) };
+}
+const qa = document.getElementById('qa'), qaGrid = document.getElementById('qaGrid'), qaBig = document.getElementById('qaBig');
+let qaView = [], qaIdx = 0, qaBox = null, qaOnlyBad = false;
+function drawMarks(x, f, s) {                     // red / yellow boxes around suspects (s = canvas px per mask px)
+  for (const it of f.res.issues || []) {
+    const p = it.p, r = Math.max(6, 4 * s);
+    x.lineWidth = Math.max(2, s * 0.9); x.strokeStyle = it.kind === 'bad' ? '#ff2a44' : '#ffb300';
+    x.strokeRect(p.x0 * s - r, p.y0 * s - r, (p.x1 - p.x0 + 1) * s + 2 * r, (p.y1 - p.y0 + 1) * s + 2 * r);
+  }
+}
+function label(f) {
+  const bad = (f.res.issues || []).filter((i) => i.kind === 'bad').length, warn = (f.res.issues || []).length - bad;
+  return `${f.t.toFixed(1)}s${f.sweep ? '［極限］' : ''}　髮 ${f.hair.toFixed(2)}　轉 ${f.yaw.toFixed(2)}／俯仰 ${f.pitch.toFixed(2)}／歪 ${f.roll.toFixed(2)}` +
+         (bad ? `<br><b>殘塊 ×${bad}</b>` : '') + (warn ? `${bad ? '　' : '<br>'}<i>破洞 ×${warn}</i>` : '');
+}
+function thumb(f, w) {
+  const c = document.createElement('canvas'), s = w / qaBox.w; c.width = w; c.height = Math.round(qaBox.h * s);
+  const x = c.getContext('2d'); x.drawImage(f.c, qaBox.x, qaBox.y, qaBox.w, qaBox.h, 0, 0, c.width, c.height);
+  drawMarks(x, f, w / QA_W);
+  return c;
+}
+function showQA() {
+  const list = snap.list;
+  qaBox = unionBox(snap.ref ? [snap.ref, ...list] : list);
+  const ref = analyse((snap.ref || list[0]).c, qaBox, null);
+  for (const f of list) f.res = analyse(f.c, qaBox, ref);
+  const bad = list.filter((f) => f.res.issues.some((i) => i.kind === 'bad')).length;
+  const warn = list.filter((f) => f.res.issues.length && !f.res.issues.some((i) => i.kind === 'bad')).length;
+  document.getElementById('qaTitle').textContent = `晃動截圖檢核 · ${model.name}`;
+  document.getElementById('qaSum').innerHTML = `共 ${list.length} 張（每 ${SNAP_DT} 秒一張）。` +
+    (bad || warn ? `疑似<b class="bad">殘塊 ${bad} 張</b>、疑似<b class="bad">破洞 ${warn} 張</b>（紅框＝跟身體分離、或只剩細細一條連著的碎片；黃框＝頭和脖子附近比站姿多出來的封閉空洞）。點縮圖放大確認，自動檢查只是幫忙找，最後請用眼睛看。`
+                 : `<b class="ok">自動檢查沒有找到殘塊或破洞</b>。還是建議點幾張放大看看接縫（脖子、髮際、手肘）。`) +
+    `參考站姿：${snap.ref ? '晃動開始前的畫面' : '第一張截圖'}。`;
+  renderGrid(); qa.classList.add('open');
+}
+function renderGrid() {
+  qaGrid.innerHTML = '';
+  qaView = qaOnlyBad ? snap.list.filter((f) => f.res.issues.length) : snap.list;
+  qaView.forEach((f, i) => {
+    const d = document.createElement('div');
+    d.className = 'qa-cell' + (f.res.issues.some((x) => x.kind === 'bad') ? ' bad' : f.res.issues.length ? ' warn' : '');
+    d.appendChild(thumb(f, 300));
+    const sm = document.createElement('small'); sm.innerHTML = label(f); d.appendChild(sm);
+    d.onclick = () => openBig(i); qaGrid.appendChild(d);
+  });
+  if (!qaView.length) qaGrid.innerHTML = '<p class="qa-sum">沒有疑點。</p>';
+  document.getElementById('qaAll').setAttribute('aria-pressed', !qaOnlyBad);
+  document.getElementById('qaBad').setAttribute('aria-pressed', qaOnlyBad);
+}
+function openBig(i) {
+  qaIdx = (i + qaView.length) % qaView.length; const f = qaView[qaIdx];
+  const c = document.getElementById('qaBigC'); c.width = qaBox.w; c.height = qaBox.h;
+  const x = c.getContext('2d'); x.clearRect(0, 0, c.width, c.height);
+  x.drawImage(f.c, qaBox.x, qaBox.y, qaBox.w, qaBox.h, 0, 0, qaBox.w, qaBox.h);
+  drawMarks(x, f, qaBox.w / QA_W);
+  document.getElementById('qaBigLab').innerHTML = `${qaIdx + 1} / ${qaView.length}　` + label(f).replace('<br>', '　');
+  qaBig.classList.add('open');
+}
+function download(c, name) { c.toBlob((b) => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }, 'image/png'); }
+document.getElementById('qaPrev').onclick = () => openBig(qaIdx - 1);
+document.getElementById('qaNext').onclick = () => openBig(qaIdx + 1);
+document.getElementById('qaBigClose').onclick = () => qaBig.classList.remove('open');
+qaBig.addEventListener('click', (e) => { if (e.target === qaBig) qaBig.classList.remove('open'); });
+document.getElementById('qaDl').onclick = () => { const f = qaView[qaIdx]; download(f.c, `${model.id}_shake_${f.t.toFixed(1)}s.png`); };
+document.getElementById('qaClose').onclick = () => qa.classList.remove('open');
+document.getElementById('qaAll').onclick = () => { qaOnlyBad = false; renderGrid(); };
+document.getElementById('qaBad').onclick = () => { qaOnlyBad = true; renderGrid(); };
+document.getElementById('qaAgain').onclick = () => { qa.classList.remove('open'); snapBtn.click(); };
+addEventListener('keydown', (e) => {
+  if (qaBig.classList.contains('open')) { if (e.key === 'Escape') qaBig.classList.remove('open'); if (e.key === 'ArrowLeft') openBig(qaIdx - 1); if (e.key === 'ArrowRight') openBig(qaIdx + 1); e.stopImmediatePropagation(); }
+  else if (qa.classList.contains('open') && e.key === 'Escape') qa.classList.remove('open');
+}, true);
+document.getElementById('qaSheet').onclick = () => {            // contact sheet: every frame, labelled, marks included
+  const cols = 8, tw = 240, list = snap.list, th = Math.round(qaBox.h * tw / qaBox.w), lh = 34, head = 56;
+  const c = document.createElement('canvas'); c.width = cols * tw; c.height = head + Math.ceil(list.length / cols) * (th + lh);
+  const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+  x.fillStyle = '#2d2436'; x.font = 'bold 22px system-ui, "Microsoft JhengHei", sans-serif';
+  x.fillText(`晃動截圖檢核 · ${model.name}（${model.id}）· ${new Date().toLocaleString()}`, 12, 34);
+  list.forEach((f, i) => {
+    const gx = (i % cols) * tw, gy = head + Math.floor(i / cols) * (th + lh), t = thumb(f, tw);
+    const bad = f.res.issues.some((q) => q.kind === 'bad'), warn = f.res.issues.length && !bad;
+    x.fillStyle = bad ? '#ffe3e7' : warn ? '#fff4d6' : '#f3f0f6'; x.fillRect(gx + 2, gy + 2, tw - 4, th + lh - 4);
+    x.drawImage(t, gx, gy);
+    x.fillStyle = bad ? '#d9364a' : warn ? '#9a7000' : '#555'; x.font = '13px system-ui, "Microsoft JhengHei", sans-serif';
+    x.fillText(`${f.t.toFixed(1)}s 轉${f.yaw.toFixed(2)} 仰${f.pitch.toFixed(2)} 歪${f.roll.toFixed(2)}`, gx + 6, gy + th + 14);
+    if (f.res.issues.length) x.fillText(f.res.issues.map((q) => q.what).join('、'), gx + 6, gy + th + 29);
+  });
+  download(c, `${model.id}_shake_contact_sheet.png`);
+};
+
 const body = { x: mk(), y: mk() }, ear = { t: 3, v: 0, until: 0, twice: false };
+let prevShakeDx = null;
 let last = performance.now(), blinkT = 2, blinkPhase = -1, look = [0, 0], prevYaw = 0, prevRoll = 0;
 function frame(now, forced) {
   if (window.demo?.paused && !forced) { requestAnimationFrame(frame); return; }   // scripted checks drive frameAt
   const dt = Math.min(0.05, (now - last) / 1000); last = now; const t = now / 1000;
   const set = (name, x, y = 0) => { if (!manual.has(name)) puppet.set(name, x, y); };
+  const sh = shakeState(t);
+  shakeBtn.setAttribute('aria-pressed', !!sh);
+  if (!sh && snap.on && shakeT0 >= 0 && t - shakeT0 > SHAKE_LEN) finishSnap();
 
-  if (T('tLook').checked) {
+  if (T('tLook').checked && !sh) {
     const headY = (-0.62 * canvas.height / 2) / (canvas.height / 2);        // head sits in the upper part of the view
     // pointer.y is screen-down; the rigs' Yaw-Pitch Y is + = looking up (a nod sets it negative), so flip it
     const tx = Math.max(-1, Math.min(1, pointer.x * 1.4)), ty = Math.max(-1, Math.min(1, -(pointer.y - headY) * 1.2));
     look[0] += (tx - look[0]) * Math.min(1, dt * 6); look[1] += (ty - look[1]) * Math.min(1, dt * 6);
     set('Head:: Yaw-Pitch', clamp(look[0] + expr.cur.yaw, -1, 1), clamp(look[1] + expr.cur.pitch, -1, 1));
     set('Head:: Roll', -look[0] * 0.25);
+  }
+  if (sh) {                                         // 晃動: head to the limits (overrides sliders and gaze)
+    puppet.set('Head:: Yaw-Pitch', sh.yaw, sh.pitch); puppet.set('Head:: Roll', sh.roll);
+    if (isSide) { puppet.set('Head:: Turn', 0.5 + 0.5 * sh.yaw); puppet.set('Head:: Nod', 0.25 * sh.pitch); puppet.set('Body:: Lean', 0.3 * sh.roll); }
   }
   if (puppet.byName['Eye:: Smile']) {
     const tgt = EXPRS[expr.name];
@@ -419,10 +713,11 @@ function frame(now, forced) {
     set('Eye:: Left:: Blink', v); set('Eye:: Right:: Blink', v); set('Eye:: Blink', v);
   }
   if (T('tBreath').checked) set('Body:: Breath', 0.5 + 0.5 * Math.sin(t * 2 * Math.PI / 3.6));
-  if (T('tTalk').checked) set('Mouth:: Open', Math.max(expr.cur.mouth, Math.sin(t * 13) * 0.5 + Math.sin(t * 7.3) * 0.35));
+  if (sh) puppet.set('Mouth:: Open', sh.mouth);
+  else if (T('tTalk').checked) set('Mouth:: Open', Math.max(expr.cur.mouth, Math.sin(t * 13) * 0.5 + Math.sin(t * 7.3) * 0.35));
   else if (!manual.has('Mouth:: Open')) puppet.set('Mouth:: Open', expr.cur.mouth);
   // body angle: about half the head's angle (body +-15 deg vs head +-30 deg), on a slower spring (lags behind)
-  if (puppet.byName['Body:: Angle X-Y'] && T('tBody').checked) {
+  if (puppet.byName['Body:: Angle X-Y'] && (T('tBody').checked || sh)) {
     spring(body.x, 0.9 * pv('Head:: Yaw-Pitch', 0), dt, 3.2, 2.6);
     spring(body.y, 0.45 * pv('Head:: Yaw-Pitch', 1), dt, 3.2, 2.6);
     set('Body:: Angle X-Y', clamp(body.x.x, -1, 1), clamp(body.y.x, -1, 1));
@@ -511,15 +806,21 @@ function frame(now, forced) {
       for (const q of ['Arm:: Left:: Swing', 'Arm:: Left:: Bend', 'Hand:: Left:: Wrist']) set(q, pv(q) * (1 - e.eat));
     }
   }
-  if (T('tPhys').checked && !manual.has('Hair:: Sway')) {
+  const acting = !sh && applyAction(t);
+  if (sh && sh.sweep) {                            // 極限掃描: every sway / swing part straight to its limits
+    for (const pr of puppet.params) if (/Sway|Swing|Bounce/.test(pr.name) && !/^Arm::/.test(pr.name)) puppet.set(pr.name, sh.hair, pr.is_vec2 ? sh.hair : 0);
+    for (const nm of ['Right', 'Left']) puppet.set(`Arm:: ${nm}:: Swing`, (nm === 'Right' ? 1 : -1) * sh.hair);
+    prevYaw = pv('Head:: Yaw-Pitch', 0);
+  } else if ((T('tPhys').checked || sh) && !manual.has('Hair:: Sway')) {
     const yaw = pv('Head:: Yaw-Pitch', 0), roll = pv('Head:: Roll', 0);
     const vel = (yaw - prevYaw) / Math.max(dt, 1e-3);                      // hair lags behind the head motion
-    puppet.stepPhysics(dt, Math.max(-1, Math.min(1, -0.35 * vel - 0.9 * roll + 0.05 * Math.sin(t * 1.3))));
+    const sway = sh ? -0.004 * (sh.dx - (prevShakeDx ?? sh.dx)) / Math.max(dt, 1e-3) : 0;   // whole-body sway whips it too
+    puppet.stepPhysics(dt, Math.max(-1, Math.min(1, -0.35 * vel - 0.9 * roll + sway + 0.05 * Math.sin(t * 1.3))));
     prevYaw = yaw; prevRoll = roll;
   }
   if (isSide && T('tWalk').checked) sideWalk(set, t, 1);
-  if (isSide && T('tTurn').checked) set('Head:: Turn', 0.5 - 0.5 * Math.cos(t * 2 * Math.PI / 5));
-  if (T('tPhys').checked && puppet.byName['Chest:: Sway X']) {
+  if (isSide && T('tTurn').checked && !sh) set('Head:: Turn', 0.5 - 0.5 * Math.cos(t * 2 * Math.PI / 5));
+  if ((T('tPhys').checked || sh) && !(sh && sh.sweep) && puppet.byName['Chest:: Sway X']) {
     const yawNow = pv('Head:: Yaw-Pitch', 0), pitchNow = pv('Head:: Yaw-Pitch', 1);
     const rollNow = pv('Head:: Roll', 0), br = pv('Body:: Breath', 0);
     spring(chest.x1, 0.7 * yawNow + 0.3 * rollNow * 2, dt, 11, 1.3);                    // SK1
@@ -535,7 +836,7 @@ function frame(now, forced) {
   }
   // ---- walking
   let sw = 0, bob = 0, drop = 0;
-  const stroll = !isSide && T('tStroll').checked;
+  const stroll = !isSide && T('tStroll').checked && !sh && !acting;
   if (stroll) {
     const u = t % CYC, inWalk = u >= W0 && u < W1;
     const wk = inWalk ? Math.min(1, (u - W0) / 0.4, (W1 - u) / 0.4) : 0;
@@ -560,7 +861,7 @@ function frame(now, forced) {
       bob = -wk * Math.abs(Math.cos(ph)) * 18;
     }
   }
-  const k = view.scale, ox = canvas.width / 2 - view.cx * k, oy = canvas.height / 2 - view.cy * k;
+  const k = view.scale, ox = canvas.width / 2 - view.cx * k + (sh ? sh.dx * k : 0), oy = canvas.height / 2 - view.cy * k;
   gl.begin([0, 0, 0, 0]);
   const drawFront = (only) => { puppet.update(); gl.puppet(puppet, tex, k, ox, oy + bob * k, only); };
   const drawSide = (only) => {
@@ -576,11 +877,33 @@ function frame(now, forced) {
     gl.showLayer(0, 1 - sw); gl.showLayer(1, sw);
     head('headFront');
   }
+  prevShakeDx = sh ? sh.dx : null;
+  if (snap.on) {                                    // 即時截圖: grab this frame (the reference pose right before the shake)
+    if (snap.wantRef) { snap.ref = grabFrame(t, null); snap.wantRef = false; }
+    else if (sh && t - snap.last >= SNAP_DT - 1e-3) { snap.last = t; snap.list.push(grabFrame(t, sh)); }
+    snapBtn.classList.toggle('snapping', true); snapBtn.textContent = '■ 停止截圖'; snapCount.textContent = `已擷取 ${snap.list.length} 張`;
+  } else if (snapBtn.classList.contains('snapping')) { snapBtn.classList.remove('snapping'); snapBtn.textContent = '📸 即時截圖'; snapCount.textContent = ''; }
   for (const s of sliders) { s.inp.value = s.p.value[s.ax]; s.out.textContent = (+s.p.value[s.ax]).toFixed(2); }
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
 window.demo.frameAt = (sec) => { window.demo.paused = true; last = sec * 1000 - 16; frame(sec * 1000, true); };   // scripted checks
 </script>
+<div class="qa" id="qa" role="dialog" aria-label="晃動截圖檢核">
+  <div class="qa-box">
+    <div class="qa-head">
+      <h3 id="qaTitle">晃動截圖檢核</h3>
+      <span class="qa-filter"><button id="qaAll" aria-pressed="true">全部</button><button id="qaBad" aria-pressed="false">只看疑點</button></span>
+      <button id="qaSheet">⬇ 下載聯絡表 PNG</button>
+      <button id="qaAgain">🔁 再晃一次</button>
+      <button id="qaClose">✕ 關閉</button>
+    </div>
+    <p class="qa-sum" id="qaSum"></p>
+    <div class="qa-grid" id="qaGrid"></div>
+  </div>
+</div>
+<div class="qa-big" id="qaBig"><canvas id="qaBigC"></canvas>
+  <div class="bar"><span id="qaBigLab"></span><button id="qaPrev">‹ 上一張</button><button id="qaNext">下一張 ›</button><button id="qaDl">⬇ 下載這張原圖</button><button id="qaBigClose">✕</button></div>
+</div>
 </body>
 </html>
