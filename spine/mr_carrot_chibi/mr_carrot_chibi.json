@@ -1,0 +1,1667 @@
+{
+  "skeleton": {
+    "hash": "mr_carrot_chibi_spine_v1",
+    "spine": "4.1.24",
+    "x": -500.0,
+    "y": 0.0,
+    "width": 1000.0,
+    "height": 1350.0,
+    "images": "./images/"
+  },
+  "bones": [
+    {
+      "name": "root",
+      "x": 0.0,
+      "y": 0.0,
+      "length": 80
+    },
+    {
+      "name": "hip",
+      "x": 0.0,
+      "y": 340.0,
+      "parent": "root",
+      "length": 90
+    },
+    {
+      "name": "shorts",
+      "x": -5.0,
+      "y": 0.0,
+      "parent": "hip",
+      "length": 50
+    },
+    {
+      "name": "belt",
+      "x": -15.0,
+      "y": 40.0,
+      "parent": "hip",
+      "length": 30
+    },
+    {
+      "name": "torso",
+      "x": 0.0,
+      "y": 180.0,
+      "parent": "hip",
+      "length": 120
+    },
+    {
+      "name": "scarf",
+      "x": -4.0,
+      "y": 100.0,
+      "parent": "torso",
+      "length": 40
+    },
+    {
+      "name": "neck",
+      "x": 0.0,
+      "y": 200.0,
+      "parent": "torso",
+      "length": 50
+    },
+    {
+      "name": "head",
+      "x": 0.0,
+      "y": 120.0,
+      "parent": "neck",
+      "length": 180
+    },
+    {
+      "name": "hair_back",
+      "x": 0.0,
+      "y": 120.0,
+      "parent": "head",
+      "length": 100
+    },
+    {
+      "name": "face",
+      "x": 0.0,
+      "y": 60.0,
+      "parent": "head",
+      "length": 80
+    },
+    {
+      "name": "ear_r",
+      "x": -260.0,
+      "y": -10.0,
+      "parent": "head",
+      "length": 40
+    },
+    {
+      "name": "ear_l",
+      "x": 240.0,
+      "y": -10.0,
+      "parent": "head",
+      "length": 40
+    },
+    {
+      "name": "eye_r",
+      "x": -145.0,
+      "y": 10.0,
+      "parent": "head",
+      "length": 40
+    },
+    {
+      "name": "eye_l",
+      "x": 115.0,
+      "y": 10.0,
+      "parent": "head",
+      "length": 40
+    },
+    {
+      "name": "eyebrow_r",
+      "x": -145.0,
+      "y": 130.0,
+      "parent": "head",
+      "length": 40
+    },
+    {
+      "name": "eyebrow_l",
+      "x": 115.0,
+      "y": 130.0,
+      "parent": "head",
+      "length": 40
+    },
+    {
+      "name": "mouth",
+      "x": -6.0,
+      "y": -90.0,
+      "parent": "head",
+      "length": 30
+    },
+    {
+      "name": "blush_r",
+      "x": -160.0,
+      "y": -50.0,
+      "parent": "head",
+      "length": 30
+    },
+    {
+      "name": "blush_l",
+      "x": 120.0,
+      "y": -50.0,
+      "parent": "head",
+      "length": 30
+    },
+    {
+      "name": "glasses",
+      "x": -15.0,
+      "y": 10.0,
+      "parent": "head",
+      "length": 80
+    },
+    {
+      "name": "hair_side_r",
+      "x": -290.0,
+      "y": 40.0,
+      "parent": "head",
+      "length": 90
+    },
+    {
+      "name": "hair_side_l",
+      "x": 280.0,
+      "y": 40.0,
+      "parent": "head",
+      "length": 90
+    },
+    {
+      "name": "hair_bangs",
+      "x": 0.0,
+      "y": 160.0,
+      "parent": "head",
+      "length": 120
+    },
+    {
+      "name": "hair_ahoge",
+      "x": 0.0,
+      "y": 240.0,
+      "parent": "hair_bangs",
+      "length": 100
+    },
+    {
+      "name": "arm_r",
+      "x": -160.0,
+      "y": 120.0,
+      "parent": "torso",
+      "length": 130
+    },
+    {
+      "name": "forearm_r",
+      "x": -50.0,
+      "y": -140.0,
+      "parent": "arm_r",
+      "length": 90
+    },
+    {
+      "name": "arm_l",
+      "x": 180.0,
+      "y": 110.0,
+      "parent": "torso",
+      "length": 100
+    },
+    {
+      "name": "prop_carrot",
+      "x": 140.0,
+      "y": -50.0,
+      "parent": "arm_l",
+      "length": 200
+    },
+    {
+      "name": "leg_r",
+      "x": -100.0,
+      "y": -70.0,
+      "parent": "hip",
+      "length": 90
+    },
+    {
+      "name": "foot_r",
+      "x": 0.0,
+      "y": -150.0,
+      "parent": "leg_r",
+      "length": 60
+    },
+    {
+      "name": "leg_l",
+      "x": 85.0,
+      "y": -70.0,
+      "parent": "hip",
+      "length": 90
+    },
+    {
+      "name": "foot_l",
+      "x": 0.0,
+      "y": -150.0,
+      "parent": "leg_l",
+      "length": 60
+    }
+  ],
+  "slots": [
+    {
+      "name": "hair_back",
+      "bone": "hair_back",
+      "attachment": "hair_back"
+    },
+    {
+      "name": "boot_r",
+      "bone": "foot_r",
+      "attachment": "boot_r"
+    },
+    {
+      "name": "boot_l",
+      "bone": "foot_l",
+      "attachment": "boot_l"
+    },
+    {
+      "name": "legs",
+      "bone": "hip",
+      "attachment": "legs"
+    },
+    {
+      "name": "shorts",
+      "bone": "shorts",
+      "attachment": "shorts"
+    },
+    {
+      "name": "torso",
+      "bone": "torso",
+      "attachment": "torso"
+    },
+    {
+      "name": "belt_compass",
+      "bone": "belt",
+      "attachment": "belt_compass"
+    },
+    {
+      "name": "scarf",
+      "bone": "scarf",
+      "attachment": "scarf"
+    },
+    {
+      "name": "arm_r",
+      "bone": "arm_r",
+      "attachment": "arm_r"
+    },
+    {
+      "name": "arm_l",
+      "bone": "arm_l",
+      "attachment": "arm_l"
+    },
+    {
+      "name": "face",
+      "bone": "face",
+      "attachment": "face"
+    },
+    {
+      "name": "ear_r",
+      "bone": "ear_r",
+      "attachment": "ear_r"
+    },
+    {
+      "name": "ear_l",
+      "bone": "ear_l",
+      "attachment": "ear_l"
+    },
+    {
+      "name": "eye_white_r",
+      "bone": "eye_r",
+      "attachment": "eye_white_r"
+    },
+    {
+      "name": "eye_white_l",
+      "bone": "eye_l",
+      "attachment": "eye_white_l"
+    },
+    {
+      "name": "pupil_r",
+      "bone": "eye_r",
+      "attachment": "pupil_r"
+    },
+    {
+      "name": "pupil_l",
+      "bone": "eye_l",
+      "attachment": "pupil_l"
+    },
+    {
+      "name": "lash_r",
+      "bone": "eye_r",
+      "attachment": "lash_r"
+    },
+    {
+      "name": "lash_l",
+      "bone": "eye_l",
+      "attachment": "lash_l"
+    },
+    {
+      "name": "smile_r",
+      "bone": "eye_r",
+      "attachment": null
+    },
+    {
+      "name": "smile_l",
+      "bone": "eye_l",
+      "attachment": null
+    },
+    {
+      "name": "eyebrow_r",
+      "bone": "eyebrow_r",
+      "attachment": "eyebrow_r"
+    },
+    {
+      "name": "eyebrow_l",
+      "bone": "eyebrow_l",
+      "attachment": "eyebrow_l"
+    },
+    {
+      "name": "mouth",
+      "bone": "mouth",
+      "attachment": "mouth"
+    },
+    {
+      "name": "blush_r",
+      "bone": "blush_r",
+      "attachment": "blush_r"
+    },
+    {
+      "name": "blush_l",
+      "bone": "blush_l",
+      "attachment": "blush_l"
+    },
+    {
+      "name": "glasses",
+      "bone": "glasses",
+      "attachment": "glasses"
+    },
+    {
+      "name": "glasses_glare",
+      "bone": "glasses",
+      "attachment": "glasses_glare"
+    },
+    {
+      "name": "hair_side_r",
+      "bone": "hair_side_r",
+      "attachment": "hair_side_r"
+    },
+    {
+      "name": "hair_side_l",
+      "bone": "hair_side_l",
+      "attachment": "hair_side_l"
+    },
+    {
+      "name": "hair_bangs",
+      "bone": "hair_bangs",
+      "attachment": "hair_bangs"
+    },
+    {
+      "name": "carrot",
+      "bone": "prop_carrot",
+      "attachment": "carrot"
+    },
+    {
+      "name": "hand_l",
+      "bone": "prop_carrot",
+      "attachment": "hand_l"
+    }
+  ],
+  "skins": [
+    {
+      "name": "default",
+      "attachments": {
+        "hair_back": {
+          "hair_back": {
+            "x": -4.0,
+            "y": 10.0,
+            "width": 802,
+            "height": 612
+          }
+        },
+        "boot_r": {
+          "boot_r": {
+            "x": -2.0,
+            "y": 0.0,
+            "width": 174,
+            "height": 240
+          }
+        },
+        "boot_l": {
+          "boot_l": {
+            "x": -1.5,
+            "y": 0.0,
+            "width": 207,
+            "height": 240
+          }
+        },
+        "legs": {
+          "legs": {
+            "x": -16.5,
+            "y": -113.0,
+            "width": 333,
+            "height": 70
+          }
+        },
+        "shorts": {
+          "shorts": {
+            "x": -3.5,
+            "y": -8.5,
+            "width": 423,
+            "height": 189
+          }
+        },
+        "torso": {
+          "torso": {
+            "x": -11.0,
+            "y": 46.0,
+            "width": 426,
+            "height": 294
+          }
+        },
+        "belt_compass": {
+          "belt_compass": {
+            "x": -4.5,
+            "y": 0.0,
+            "width": 357,
+            "height": 136
+          }
+        },
+        "scarf": {
+          "scarf": {
+            "x": 0.0,
+            "y": 2.0,
+            "width": 108,
+            "height": 116
+          }
+        },
+        "arm_r": {
+          "arm_r": {
+            "x": -55.0,
+            "y": -141.5,
+            "width": 176,
+            "height": 369
+          }
+        },
+        "arm_l": {
+          "arm_l": {
+            "x": 54.0,
+            "y": -32.0,
+            "width": 132,
+            "height": 184
+          }
+        },
+        "face": {
+          "face": {
+            "x": -9.0,
+            "y": 1.0,
+            "width": 530,
+            "height": 450
+          }
+        },
+        "ear_r": {
+          "ear_r": {
+            "x": -10.0,
+            "y": -2.5,
+            "width": 84,
+            "height": 117
+          }
+        },
+        "ear_l": {
+          "ear_l": {
+            "x": -4.0,
+            "y": -2.5,
+            "width": 84,
+            "height": 117
+          }
+        },
+        "eye_white_r": {
+          "eye_white_r": {
+            "x": 0.0,
+            "y": -2.0,
+            "width": 154,
+            "height": 104
+          }
+        },
+        "eye_white_l": {
+          "eye_white_l": {
+            "x": -5.0,
+            "y": -2.0,
+            "width": 154,
+            "height": 104
+          }
+        },
+        "pupil_r": {
+          "pupil_r": {
+            "x": -2.0,
+            "y": 1.0,
+            "width": 86,
+            "height": 94
+          }
+        },
+        "pupil_l": {
+          "pupil_l": {
+            "x": -2.0,
+            "y": 1.0,
+            "width": 86,
+            "height": 94
+          }
+        },
+        "lash_r": {
+          "lash_r": {
+            "x": -8.0,
+            "y": 30.0,
+            "width": 168,
+            "height": 62
+          }
+        },
+        "lash_l": {
+          "lash_l": {
+            "x": 3.0,
+            "y": 30.0,
+            "width": 168,
+            "height": 62
+          }
+        },
+        "smile_r": {
+          "smile_r": {
+            "x": -2.0,
+            "y": 16.0,
+            "width": 122,
+            "height": 36
+          }
+        },
+        "smile_l": {
+          "smile_l": {
+            "x": -2.0,
+            "y": 16.0,
+            "width": 122,
+            "height": 36
+          }
+        },
+        "eyebrow_r": {
+          "eyebrow_r": {
+            "x": 0.0,
+            "y": 2.0,
+            "width": 136,
+            "height": 44
+          }
+        },
+        "eyebrow_l": {
+          "eyebrow_l": {
+            "x": -5.0,
+            "y": 2.0,
+            "width": 136,
+            "height": 44
+          }
+        },
+        "mouth": {
+          "mouth": {
+            "x": 0.0,
+            "y": 2.0,
+            "width": 92,
+            "height": 28
+          }
+        },
+        "blush_r": {
+          "blush_r": {
+            "x": -3.5,
+            "y": 3.0,
+            "width": 63,
+            "height": 34
+          }
+        },
+        "blush_l": {
+          "blush_l": {
+            "x": 1.5,
+            "y": 3.0,
+            "width": 63,
+            "height": 34
+          }
+        },
+        "glasses": {
+          "glasses": {
+            "x": -2.0,
+            "y": -1.0,
+            "width": 494,
+            "height": 94
+          }
+        },
+        "glasses_glare": {
+          "glasses_glare": {
+            "x": -30.0,
+            "y": 9.0,
+            "width": 318,
+            "height": 62
+          }
+        },
+        "hair_side_r": {
+          "hair_side_r": {
+            "x": -21.0,
+            "y": -20.5,
+            "width": 186,
+            "height": 321
+          }
+        },
+        "hair_side_l": {
+          "hair_side_l": {
+            "x": 18.0,
+            "y": -38.5,
+            "width": 200,
+            "height": 357
+          }
+        },
+        "hair_bangs": {
+          "hair_bangs": {
+            "x": -9.0,
+            "y": 49.0,
+            "width": 530,
+            "height": 454
+          }
+        },
+        "carrot": {
+          "carrot": {
+            "x": 11.0,
+            "y": 3.0,
+            "width": 356,
+            "height": 500
+          }
+        },
+        "hand_l": {
+          "hand_l": {
+            "x": -41.5,
+            "y": -120.5,
+            "width": 117,
+            "height": 117
+          }
+        }
+      }
+    }
+  ],
+  "animations": {
+    "idle": {
+      "bones": {
+        "torso": {
+          "translate": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 1.2,
+              "x": 0.0,
+              "y": 4.0
+            },
+            {
+              "time": 2.4,
+              "x": 0.0,
+              "y": 0.0
+            }
+          ],
+          "scale": [
+            {
+              "time": 0.0,
+              "x": 1.0,
+              "y": 1.0
+            },
+            {
+              "time": 1.2,
+              "x": 1.015,
+              "y": 1.02
+            },
+            {
+              "time": 2.4,
+              "x": 1.0,
+              "y": 1.0
+            }
+          ]
+        },
+        "head": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 1.2,
+              "value": 1.8
+            },
+            {
+              "time": 2.4,
+              "value": 0.0
+            }
+          ]
+        },
+        "hair_ahoge": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.6,
+              "value": 4.5
+            },
+            {
+              "time": 1.8,
+              "value": -4.0
+            },
+            {
+              "time": 2.4,
+              "value": 0.0
+            }
+          ]
+        },
+        "prop_carrot": {
+          "translate": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 1.2,
+              "x": 0.0,
+              "y": 5.0
+            },
+            {
+              "time": 2.4,
+              "x": 0.0,
+              "y": 0.0
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 1.2,
+              "value": -2.5
+            },
+            {
+              "time": 2.4,
+              "value": 0.0
+            }
+          ]
+        },
+        "scarf": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 1.0,
+              "value": 3.0
+            },
+            {
+              "time": 2.4,
+              "value": 0.0
+            }
+          ]
+        },
+        "arm_r": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 1.2,
+              "value": -4.0
+            },
+            {
+              "time": 2.4,
+              "value": 0.0
+            }
+          ]
+        }
+      },
+      "slots": {
+        "eye_white_r": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "eye_white_r"
+            },
+            {
+              "time": 1.4,
+              "name": null
+            },
+            {
+              "time": 1.55,
+              "name": "eye_white_r"
+            }
+          ]
+        },
+        "eye_white_l": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "eye_white_l"
+            },
+            {
+              "time": 1.4,
+              "name": null
+            },
+            {
+              "time": 1.55,
+              "name": "eye_white_l"
+            }
+          ]
+        },
+        "pupil_r": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "pupil_r"
+            },
+            {
+              "time": 1.4,
+              "name": null
+            },
+            {
+              "time": 1.55,
+              "name": "pupil_r"
+            }
+          ]
+        },
+        "pupil_l": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "pupil_l"
+            },
+            {
+              "time": 1.4,
+              "name": null
+            },
+            {
+              "time": 1.55,
+              "name": "pupil_l"
+            }
+          ]
+        },
+        "lash_r": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "lash_r"
+            },
+            {
+              "time": 1.4,
+              "name": null
+            },
+            {
+              "time": 1.55,
+              "name": "lash_r"
+            }
+          ]
+        },
+        "lash_l": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "lash_l"
+            },
+            {
+              "time": 1.4,
+              "name": null
+            },
+            {
+              "time": 1.55,
+              "name": "lash_l"
+            }
+          ]
+        },
+        "smile_r": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": null
+            },
+            {
+              "time": 1.4,
+              "name": "smile_r"
+            },
+            {
+              "time": 1.55,
+              "name": null
+            }
+          ]
+        },
+        "smile_l": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": null
+            },
+            {
+              "time": 1.4,
+              "name": "smile_l"
+            },
+            {
+              "time": 1.55,
+              "name": null
+            }
+          ]
+        }
+      }
+    },
+    "wave": {
+      "bones": {
+        "arm_r": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.4,
+              "value": -26.0
+            },
+            {
+              "time": 0.8,
+              "value": -38.0
+            },
+            {
+              "time": 1.2,
+              "value": -24.0
+            },
+            {
+              "time": 1.6,
+              "value": -38.0
+            },
+            {
+              "time": 2.0,
+              "value": 0.0
+            }
+          ],
+          "translate": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 0.4,
+              "x": -6.0,
+              "y": 8.0
+            },
+            {
+              "time": 0.8,
+              "x": -10.0,
+              "y": 14.0
+            },
+            {
+              "time": 1.2,
+              "x": -6.0,
+              "y": 8.0
+            },
+            {
+              "time": 1.6,
+              "x": -10.0,
+              "y": 14.0
+            },
+            {
+              "time": 2.0,
+              "x": 0.0,
+              "y": 0.0
+            }
+          ]
+        },
+        "prop_carrot": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.4,
+              "value": -8.0
+            },
+            {
+              "time": 0.8,
+              "value": 6.0
+            },
+            {
+              "time": 1.2,
+              "value": -8.0
+            },
+            {
+              "time": 1.6,
+              "value": 6.0
+            },
+            {
+              "time": 2.0,
+              "value": 0.0
+            }
+          ],
+          "translate": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 0.4,
+              "x": 0.0,
+              "y": 8.0
+            },
+            {
+              "time": 0.8,
+              "x": 0.0,
+              "y": 14.0
+            },
+            {
+              "time": 1.2,
+              "x": 0.0,
+              "y": 8.0
+            },
+            {
+              "time": 1.6,
+              "x": 0.0,
+              "y": 14.0
+            },
+            {
+              "time": 2.0,
+              "x": 0.0,
+              "y": 0.0
+            }
+          ]
+        },
+        "torso": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.5,
+              "value": -2.0
+            },
+            {
+              "time": 1.0,
+              "value": 2.0
+            },
+            {
+              "time": 1.5,
+              "value": -2.0
+            },
+            {
+              "time": 2.0,
+              "value": 0.0
+            }
+          ],
+          "translate": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 0.5,
+              "x": -3.0,
+              "y": 3.0
+            },
+            {
+              "time": 1.0,
+              "x": 3.0,
+              "y": 3.0
+            },
+            {
+              "time": 1.5,
+              "x": -3.0,
+              "y": 3.0
+            },
+            {
+              "time": 2.0,
+              "x": 0.0,
+              "y": 0.0
+            }
+          ]
+        },
+        "head": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.4,
+              "value": -4.5
+            },
+            {
+              "time": 1.0,
+              "value": 4.0
+            },
+            {
+              "time": 1.6,
+              "value": -4.5
+            },
+            {
+              "time": 2.0,
+              "value": 0.0
+            }
+          ]
+        },
+        "hair_ahoge": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.4,
+              "value": 14.0
+            },
+            {
+              "time": 0.9,
+              "value": -12.0
+            },
+            {
+              "time": 1.4,
+              "value": 14.0
+            },
+            {
+              "time": 2.0,
+              "value": 0.0
+            }
+          ]
+        }
+      },
+      "slots": {
+        "eye_white_r": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "eye_white_r"
+            },
+            {
+              "time": 0.2,
+              "name": null
+            },
+            {
+              "time": 1.8,
+              "name": "eye_white_r"
+            }
+          ]
+        },
+        "eye_white_l": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "eye_white_l"
+            },
+            {
+              "time": 0.2,
+              "name": null
+            },
+            {
+              "time": 1.8,
+              "name": "eye_white_l"
+            }
+          ]
+        },
+        "pupil_r": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "pupil_r"
+            },
+            {
+              "time": 0.2,
+              "name": null
+            },
+            {
+              "time": 1.8,
+              "name": "pupil_r"
+            }
+          ]
+        },
+        "pupil_l": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "pupil_l"
+            },
+            {
+              "time": 0.2,
+              "name": null
+            },
+            {
+              "time": 1.8,
+              "name": "pupil_l"
+            }
+          ]
+        },
+        "lash_r": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "lash_r"
+            },
+            {
+              "time": 0.2,
+              "name": null
+            },
+            {
+              "time": 1.8,
+              "name": "lash_r"
+            }
+          ]
+        },
+        "lash_l": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": "lash_l"
+            },
+            {
+              "time": 0.2,
+              "name": null
+            },
+            {
+              "time": 1.8,
+              "name": "lash_l"
+            }
+          ]
+        },
+        "smile_r": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": null
+            },
+            {
+              "time": 0.2,
+              "name": "smile_r"
+            },
+            {
+              "time": 1.8,
+              "name": null
+            }
+          ]
+        },
+        "smile_l": {
+          "attachment": [
+            {
+              "time": 0.0,
+              "name": null
+            },
+            {
+              "time": 0.2,
+              "name": "smile_l"
+            },
+            {
+              "time": 1.8,
+              "name": null
+            }
+          ]
+        }
+      }
+    },
+    "jump": {
+      "bones": {
+        "hip": {
+          "translate": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 0.25,
+              "x": 0.0,
+              "y": -30.0
+            },
+            {
+              "time": 0.55,
+              "x": 0.0,
+              "y": 140.0
+            },
+            {
+              "time": 0.85,
+              "x": 0.0,
+              "y": -25.0
+            },
+            {
+              "time": 1.1,
+              "x": 0.0,
+              "y": 10.0
+            },
+            {
+              "time": 1.5,
+              "x": 0.0,
+              "y": 0.0
+            }
+          ],
+          "scale": [
+            {
+              "time": 0.0,
+              "x": 1.0,
+              "y": 1.0
+            },
+            {
+              "time": 0.25,
+              "x": 1.08,
+              "y": 0.88
+            },
+            {
+              "time": 0.45,
+              "x": 0.94,
+              "y": 1.12
+            },
+            {
+              "time": 0.85,
+              "x": 1.07,
+              "y": 0.9
+            },
+            {
+              "time": 1.5,
+              "x": 1.0,
+              "y": 1.0
+            }
+          ]
+        },
+        "leg_r": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.25,
+              "value": -15.0
+            },
+            {
+              "time": 0.55,
+              "value": 10.0
+            },
+            {
+              "time": 0.85,
+              "value": -12.0
+            },
+            {
+              "time": 1.5,
+              "value": 0.0
+            }
+          ]
+        },
+        "leg_l": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.25,
+              "value": 15.0
+            },
+            {
+              "time": 0.55,
+              "value": -10.0
+            },
+            {
+              "time": 0.85,
+              "value": 12.0
+            },
+            {
+              "time": 1.5,
+              "value": 0.0
+            }
+          ]
+        },
+        "hair_ahoge": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.25,
+              "value": -20.0
+            },
+            {
+              "time": 0.6,
+              "value": 28.0
+            },
+            {
+              "time": 0.9,
+              "value": -25.0
+            },
+            {
+              "time": 1.2,
+              "value": 12.0
+            },
+            {
+              "time": 1.5,
+              "value": 0.0
+            }
+          ]
+        },
+        "prop_carrot": {
+          "translate": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 0.25,
+              "x": 0.0,
+              "y": -15.0
+            },
+            {
+              "time": 0.55,
+              "x": 0.0,
+              "y": 25.0
+            },
+            {
+              "time": 0.85,
+              "x": 0.0,
+              "y": -20.0
+            },
+            {
+              "time": 1.5,
+              "x": 0.0,
+              "y": 0.0
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.3,
+              "value": 10.0
+            },
+            {
+              "time": 0.6,
+              "value": -15.0
+            },
+            {
+              "time": 0.9,
+              "value": 12.0
+            },
+            {
+              "time": 1.5,
+              "value": 0.0
+            }
+          ]
+        }
+      }
+    },
+    "walk": {
+      "bones": {
+        "hip": {
+          "translate": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 0.25,
+              "x": -8.0,
+              "y": 8.0
+            },
+            {
+              "time": 0.5,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 0.75,
+              "x": 8.0,
+              "y": 8.0
+            },
+            {
+              "time": 1.0,
+              "x": 0.0,
+              "y": 0.0
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.25,
+              "value": -3.5
+            },
+            {
+              "time": 0.5,
+              "value": 0.0
+            },
+            {
+              "time": 0.75,
+              "value": 3.5
+            },
+            {
+              "time": 1.0,
+              "value": 0.0
+            }
+          ]
+        },
+        "leg_r": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.25,
+              "value": 22.0
+            },
+            {
+              "time": 0.5,
+              "value": 0.0
+            },
+            {
+              "time": 0.75,
+              "value": -22.0
+            },
+            {
+              "time": 1.0,
+              "value": 0.0
+            }
+          ]
+        },
+        "leg_l": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.25,
+              "value": -22.0
+            },
+            {
+              "time": 0.5,
+              "value": 0.0
+            },
+            {
+              "time": 0.75,
+              "value": 22.0
+            },
+            {
+              "time": 1.0,
+              "value": 0.0
+            }
+          ]
+        },
+        "arm_r": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.25,
+              "value": -18.0
+            },
+            {
+              "time": 0.5,
+              "value": 0.0
+            },
+            {
+              "time": 0.75,
+              "value": 22.0
+            },
+            {
+              "time": 1.0,
+              "value": 0.0
+            }
+          ]
+        },
+        "prop_carrot": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.25,
+              "value": 6.0
+            },
+            {
+              "time": 0.5,
+              "value": 0.0
+            },
+            {
+              "time": 0.75,
+              "value": -8.0
+            },
+            {
+              "time": 1.0,
+              "value": 0.0
+            }
+          ]
+        },
+        "hair_ahoge": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0
+            },
+            {
+              "time": 0.25,
+              "value": 7.0
+            },
+            {
+              "time": 0.5,
+              "value": -3.0
+            },
+            {
+              "time": 0.75,
+              "value": 7.0
+            },
+            {
+              "time": 1.0,
+              "value": 0.0
+            }
+          ]
+        }
+      }
+    }
+  }
+}
