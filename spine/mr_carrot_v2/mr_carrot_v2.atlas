@@ -1,0 +1,54 @@
+mr_carrot_v2.png
+	size: 2048, 2048
+	filter: Linear, Linear
+	pma: true
+leg_L
+	bounds: 4, 4, 324, 1063
+leg_R
+	bounds: 332, 4, 310, 1028
+torso
+	bounds: 646, 4, 398, 722
+arm_L
+	bounds: 1048, 4, 163, 686
+arm_R
+	bounds: 1215, 4, 162, 678
+back_hair
+	bounds: 1381, 4, 312, 309
+face
+	bounds: 1697, 4, 199, 258
+bangs
+	bounds: 4, 1071, 315, 237
+scarf
+	bounds: 323, 1071, 204, 196
+neck
+	bounds: 531, 1071, 80, 174
+compass
+	bounds: 615, 1071, 78, 136
+glasses
+	bounds: 697, 1071, 165, 54
+mouth_ah
+	bounds: 866, 1071, 64, 48
+mouth_oh
+	bounds: 934, 1071, 30, 35
+eye_white_R
+	bounds: 968, 1071, 47, 26
+iris_R
+	bounds: 1019, 1071, 26, 26
+brow_R
+	bounds: 1049, 1071, 56, 24
+eye_white_L
+	bounds: 1109, 1071, 48, 24
+iris_L
+	bounds: 1161, 1071, 26, 24
+brow_L
+	bounds: 1191, 1071, 53, 24
+mouth_line
+	bounds: 1248, 1071, 59, 24
+lash_R
+	bounds: 1311, 1071, 56, 22
+eye_closed_R
+	bounds: 1371, 1071, 43, 20
+lash_L
+	bounds: 1418, 1071, 58, 17
+eye_closed_L
+	bounds: 1480, 1071, 45, 17
