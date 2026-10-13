@@ -8,6 +8,28 @@
     "desc": "卡洛兒姐姐（卡洛特說故事用）：說故事站姿，素體、主體、素髮、後髮、前髮分層描圖；笑眼 ^ 眨眼（可單眼）、D 形嘴說話（啊／喔、小虎牙）、九軸轉頭 ±15°（脖子不動，照卡洛特先生）、眉毛獨立一層、雙馬尾與葉子擺動、手臂與腳步；左手舉手揮手：垂手 → 張開（三視圖手打開）→ 揮手，三張圖共用同一副骨架連續轉場，不硬切。"
   },
   {
+    "id": "carol_hand",
+    "name": "卡洛兒姐姐（手繪說故事版）",
+    "file": "models/carol_hand.inp",
+    "thumb": "thumbs/carol_hand.png",
+    "side": "carol_hand_side",
+    "desc": "《卡洛特時光機》用的 Python 筆刷手繪卡洛兒：白色水手服上衣、短鬢髮、上窄下蓬的雙馬尾綁綠色蝴蝶結（下面一小撮）、胡蘿蔔耳機。九軸轉頭、眨眼、說話、手勢、走路（會轉成 3/4 側面）。"
+  },
+  {
+    "id": "carol_hand_side",
+    "name": "卡洛兒姐姐（手繪・側面）",
+    "file": "models/carol_hand_side.inp",
+    "thumb": "thumbs/carol_hand_side.png",
+    "desc": "走路用的 3/4 側面模型：頭轉 32°、身體 50°。"
+  },
+  {
+    "id": "carol_hand_side_sit",
+    "name": "卡洛兒姐姐（手繪・側坐）",
+    "file": "models/carol_hand_side_sit.inp",
+    "thumb": "thumbs/carol_hand_side_sit.png",
+    "desc": "壁爐邊說故事的側坐姿勢：3/4 側面坐在紅色大扶手椅上，大腿往前、小腿垂下，裙子蓋在腿上；頭可轉、點頭、眨眼、說話、手臂擺動。"
+  },
+  {
     "id": "mr_carrot_v2",
     "name": "卡洛特先生 V2",
     "file": "models/mr_carrot_v2.inp",
