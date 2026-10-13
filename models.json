@@ -8,6 +8,22 @@
     "desc": "卡洛兒姐姐（卡洛特說故事用）：說故事站姿，素體、主體、素髮、後髮、前髮分層描圖；笑眼 ^ 眨眼（可單眼）、D 形嘴說話（啊／喔、小虎牙）、九軸轉頭 ±15°（脖子不動，照卡洛特先生）、眉毛獨立一層、雙馬尾與葉子擺動、手臂與腳步；左手舉手揮手：垂手 → 張開（三視圖手打開）→ 揮手，三張圖共用同一副骨架連續轉場，不硬切。"
   },
   {
+    "id": "mr_carrot_v2",
+    "name": "卡洛特先生 V2",
+    "file": "models/mr_carrot_v2.inp",
+    "thumb": "thumbs/mr_carrot_v2.png",
+    "noIdleArms": true,
+    "desc": "卡洛特先生 V2：依主題曲 seg04 的柔和臉型重畫（Gemini 原生 1536×2752、灰底差分、SAM＋LaMa 拆件）。肩膀固定，手臂只動手肘與手腕；九軸轉頭 ±15°、笑眼 ^ 眨眼、啊／喔 D 形嘴、眼鏡獨立一層、頭髮與領巾擺動、呼吸、腳步。右手關鍵原畫（請看／食指／揮手）以 match cut 轉場，可按「動作」播放打招呼、出題、回顧等。"
+  },
+  {
+    "id": "mr_carrot_v2_gold",
+    "name": "學霸卡洛特（超級賽亞人金髮）",
+    "file": "models/mr_carrot_v2_gold.inp",
+    "thumb": "thumbs/mr_carrot_v2_gold.png",
+    "noIdleArms": true,
+    "desc": "學霸卡洛特：卡洛特先生的金髮變身模式。頭部依官方形象圖重畫（ChatGPT 改圖：往上立起的尖刺金髮、自信眼神），表情差分用 Gemini 對齊改圖＋本機 Real-ESRGAN 放大；骨架、參數、動作與卡洛特先生 V2 相同。"
+  },
+  {
     "id": "carol_hand",
     "name": "卡洛兒姐姐（手繪說故事版）",
     "file": "models/carol_hand.inp",
@@ -28,14 +44,6 @@
     "file": "models/carol_hand_side_sit.inp",
     "thumb": "thumbs/carol_hand_side_sit.png",
     "desc": "壁爐邊說故事的側坐姿勢：3/4 側面坐在紅色大扶手椅上，大腿往前、小腿垂下，裙子蓋在腿上；頭可轉、點頭、眨眼、說話、手臂擺動。"
-  },
-  {
-    "id": "mr_carrot_v2",
-    "name": "卡洛特先生 V2",
-    "file": "models/mr_carrot_v2.inp",
-    "thumb": "thumbs/mr_carrot_v2.png",
-    "noIdleArms": true,
-    "desc": "卡洛特先生 V2：依主題曲 seg04 的柔和臉型重畫（Gemini 原生 1536×2752、灰底差分、SAM＋LaMa 拆件）。肩膀固定，手臂只動手肘與手腕；九軸轉頭 ±15°、笑眼 ^ 眨眼、啊／喔 D 形嘴、眼鏡獨立一層、頭髮與領巾擺動、呼吸、腳步。右手關鍵原畫（請看／食指／揮手）以 match cut 轉場，可按「動作」播放打招呼、出題、回顧等。"
   },
   {
     "id": "mr_carrot",
