@@ -21,7 +21,7 @@
     "file": "models/mr_carrot_v2_gold.inp",
     "thumb": "thumbs/mr_carrot_v2_gold.png",
     "noIdleArms": true,
-    "desc": "學霸卡洛特：卡洛特先生的金髮變身模式。頭部依官方形象圖重畫（ChatGPT 改圖：往上立起的尖刺金髮、自信眼神），表情差分用 Gemini 對齊改圖＋本機 Real-ESRGAN 放大；骨架、參數、動作與卡洛特先生 V2 相同。"
+    "desc": "學霸卡洛特（2026-10-19 新版頭）：卡洛特先生的金髮變身模式。身體沿用卡洛特先生，只換頭：依新官方形象圖（溫和笑臉、綠眼、細框眼鏡、立起的尖刺金髮），頭部裁切送 Gemini 網頁版做灰底對齊差分（素頭、無眼鏡、只有頭髮、啊／喔、笑眼），SAM＋LaMa 拆件；骨架、參數、動作與卡洛特先生相同。"
   },
   {
     "id": "carol_hand",
