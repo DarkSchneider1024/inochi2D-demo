@@ -171,6 +171,13 @@
     "side": "princess_side"
   },
   {
+    "id": "princess_noball",
+    "name": "公主（沒拿金球）",
+    "file": "models/princess_noball.inp",
+    "thumb": "thumbs/princess_noball.png",
+    "desc": "《青蛙王子》公主手上沒有金球的版本（金球掉進井裡之後用）：同一套紫色禮服、長髮與皇冠，眨眼、說話、九軸轉頭、呼吸、手臂擺動、腳步。"
+  },
+  {
     "id": "princess_side",
     "name": "紫髮公主（側面）",
     "file": "models/princess_side.inp",
@@ -183,6 +190,13 @@
     "file": "models/king.inp",
     "thumb": "thumbs/king.png",
     "desc": "《青蛙王子》的國王：銀白鬍子、寶石金冠、白貂毛領紅袍；頭身比例配合公主調整。眨眼、張嘴、呼吸、九軸轉頭 ±30°、手臂擺動。"
+  },
+  {
+    "id": "guard",
+    "name": "衛兵",
+    "file": "models/guard.inp",
+    "thumb": "thumbs/guard.png",
+    "desc": "《青蛙王子》城堡衛兵：鐵盔紅纓、銀肩甲、深藍制服、腰帶與長靴，手持長戟。眨眼、說話、九軸轉頭、呼吸、手臂擺動、腳步。"
   },
   {
     "id": "prince",
