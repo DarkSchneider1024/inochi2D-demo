@@ -190,7 +190,7 @@ const BOBO = [
       return o; } },
 ];
 
-export const ACTIONS = { carol_v2: CAROL, carol_lab: CAROL, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, bobo: BOBO };   // gold = same rig
+export const ACTIONS = { carol_v2: CAROL, carol_lab: CAROL, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, bobo: BOBO, bobo_lab: BOBO };   // gold = same rig
 
 // ---- 2026-10-19: generic actions for the story puppets (live2d/engine/rig.py: nine-axis head, arm swing / bend /
 // wrist, and the 喜怒哀樂 params Brow:: Mood / Raise, Mouth:: Mood, Eye:: Shock, Face:: Blush) -- any puppet without
