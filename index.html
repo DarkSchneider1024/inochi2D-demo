@@ -128,7 +128,7 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="stage"><canvas id="c"></canvas><div class="status" id="status">載入模型中…</div>
+  <div class="stage"><canvas id="c"></canvas><canvas id="emo" style="pointer-events: none"></canvas><div class="status" id="status">載入模型中…</div>
     <button class="nav-btn nav-prev" id="navPrev" aria-label="切換至上一個角色（前）" title="切換至上一個角色（前）"><span class="nav-arrow">‹</span><span class="nav-text">前</span></button>
     <button class="nav-btn nav-next" id="navNext" aria-label="切換至下一個角色（後）" title="切換至下一個角色（後）"><span class="nav-text">後</span><span class="nav-arrow">›</span></button>
     <button class="zoombtn" id="zoom" aria-pressed="false" title="放大全景（隱藏控制面板）">⛶ 放大</button>
@@ -178,8 +178,12 @@
       <div class="exprs" id="gests"></div>
     </div>
     <div class="act-only">
-      <h2>動作（與 Spine 版相同）</h2>
+      <h2 id="actsTitle">動作（與 Spine 版相同・連續播放，再按一次停止）</h2>
       <div class="exprs" id="acts"></div>
+    </div>
+    <div class="feel-only">
+      <h2>喜怒哀樂（表情＋漫畫符號，跟影片同一套）</h2>
+      <div class="exprs" id="feels"></div>
     </div>
     <h2>參數</h2>
     <div id="params"></div>
@@ -190,9 +194,15 @@
 <script type="module">
 import { loadINP, Puppet } from './inochi-lite.js';
 import { GL, FEET } from './stage.js';          // same renderer as the video stage (cross-fades, one head)
-import { ACTIONS } from './actions.js';         // 2026-10-13: the Spine desk actions (cheer, ask, slam ...)
+import { ACTIONS, GENERIC } from './actions.js';         // 2026-10-13: the Spine desk actions (cheer, ask, slam ...)
 
 const canvas = document.getElementById('c'), status = document.getElementById('status');
+// (2026-10-19) a model with its own Spine-ported actions uses them; the story puppets (nine-axis head + arms) get the
+// generic list: 點頭 / 搖頭 / 歪頭想想 / 揮手 / 開心 / 生氣 / 嚇一跳
+function myActs() {
+  if (ACTIONS[model.id]) return ACTIONS[model.id];
+  return puppet && puppet.byName['Head:: Yaw-Pitch'] && puppet.byName['Mouth:: Open'] ? GENERIC : null;
+}
 const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head:: Roll': ['頭部 歪斜'],
   'Eye:: Left:: Blink': ['左眼 閉合'], 'Eye:: Right:: Blink': ['右眼 閉合'], 'Mouth:: Open': ['嘴巴 張開'],
   'Body:: Breath': ['呼吸'], 'Hair:: Sway': ['頭髮 擺動'],
@@ -269,7 +279,9 @@ try {
   if (model.noIdleArms) { document.getElementById('tArms').checked = false; document.getElementById('tArmsLab').style.display = 'none'; }   // 卡洛兒姐姐: wave only, no idle sway (user)
   for (const el of document.querySelectorAll('.eat-only')) el.style.display = puppet.byName['Arm:: Left:: Eat'] ? '' : 'none';
   for (const el of document.querySelectorAll('.raise-only')) el.style.display = puppet.byName['Arm:: Left:: Raise'] && !puppet.byName['Arm:: Chest'] && !puppet.byName['Carrot:: Hold'] ? '' : 'none';
-  for (const el of document.querySelectorAll('.act-only')) el.style.display = ACTIONS[model.id] ? '' : 'none';
+  for (const el of document.querySelectorAll('.act-only')) el.style.display = myActs() ? '' : 'none';
+  if (!ACTIONS[model.id]) document.getElementById('actsTitle').textContent = '動作（點一下連續播放，再按一次停止）';
+  for (const el of document.querySelectorAll('.feel-only')) el.style.display = puppet.byName['Head:: Yaw-Pitch'] ? '' : 'none';
   for (const el of document.querySelectorAll('.body-only')) el.style.display = puppet.byName['Body:: Angle X-Y'] ? '' : 'none';
   for (const el of document.querySelectorAll('.ear-only')) el.style.display = puppet.byName['Ear:: Twitch'] ? '' : 'none';
   for (const el of document.querySelectorAll('.expr-only')) el.style.display = puppet.byName['Eye:: Smile'] ? '' : 'none';
@@ -409,14 +421,16 @@ function eatState(t) {
 const waveBtn = document.getElementById('waveBtn');
 // ---- 動作: one action at a time; it overrides its own parameters on top of everything else, then hands back
 const act = { a: null, t0: 0, btns: [], touched: new Set() };
-for (const a of ACTIONS[model.id] || []) {
+for (const a of myActs() || []) {
   const b = document.createElement('button'); b.textContent = a.label; b.title = a.hint; b.setAttribute('aria-pressed', 'false');
   b.onclick = () => { const now = performance.now() / 1000; if (act.a === a) act.a = null; else { act.a = a; act.t0 = now; } };
   document.getElementById('acts').appendChild(b); act.btns.push([a, b]);
 }
-window.demo.act = (id) => { act.a = (ACTIONS[model.id] || []).find((a) => a.id === id) || null; act.t0 = performance.now() / 1000; };
+window.demo.act = (id) => { act.a = (myActs() || []).find((a) => a.id === id) || null; act.t0 = performance.now() / 1000; };
 function applyAction(t) {
-  if (act.a && t - act.t0 > act.a.dur) act.a = null;
+  // (2026-10-13, user) an action plays on a loop until its button is pressed again (or another action is picked);
+  // every action starts and ends at rest, so the loop seam is clean
+  if (act.a && t - act.t0 > act.a.dur) act.t0 += act.a.dur * Math.floor((t - act.t0) / act.a.dur);
   if (act.touched.size && act.touched.a !== act.a) {   // ended / switched: hand its params back at their rest values
     for (const name of act.touched) { const p = puppet.byName[name]; if (p && !manual.has(name)) p.value = [...p.defaults]; }
     act.touched.clear();
@@ -708,7 +722,7 @@ const AQ_DT = 1 / 30, AQ_TH = 220, AQ_BIG = 560;
 const aq = { on: false, combo: false, stop: false, res: null };
 const aqBtn = document.getElementById('aqBtn');
 function aqItems() {
-  const items = (ACTIONS[model.id] || []).map((a) => ({ label: a.label, dur: a.dur, start: (t) => { act.a = a; act.t0 = t; } }));
+  const items = (myActs() || []).map((a) => ({ label: a.label, dur: a.dur, start: (t) => { act.a = a; act.t0 = t; } }));
   if (puppet.byName['Arm:: Left:: Raise'] && !puppet.byName['Arm:: Chest'] && !puppet.byName['Carrot:: Hold'])
     items.push({ label: '👋 揮手（按鈕）', dur: 5.4, start: (t) => { waveUntil = t + 4.4; } });
   if (puppet.byName['Arm:: Left:: Eat']) items.push({ label: '🥕 吃胡蘿蔔', dur: EAT_LEN + 0.4, start: (t) => { eatT0 = t; } });
@@ -921,6 +935,178 @@ document.getElementById('aqSheet').onclick = async () => {    // contact sheet o
   download(c, `${model.id}_action_qa_sheet.png`);
 };
 
+// ---- 喜怒哀樂 (2026-10-19): the same table as the video stage (carrot-video/live2d/player/stage.js EXPRS): face
+// params from engine/rig.py (Brow:: Mood / Raise, Mouth:: Mood, Eye:: Shock, Face:: Blush), eyelids, a held mouth,
+// a head attitude, and a manga symbol (漫符) drawn on the face on an overlay canvas
+const FEEL = {
+  neutral: { label: '😐 平常' },
+  happy: { label: '😊 微笑', brow: -0.15, raise: 0.3, mouth: 1.0, blush: 0.45, emote: 'sparkle' },
+  laugh: { label: '😆 大笑', raise: 0.5, mouth: 1.0, blush: 0.6, smile: 1, open: 0.85, laugh: 1, roll: 0.12, emote: 'notes' },
+  angry: { label: '😠 生氣', brow: 1.0, mouth: -0.8, lid: 0.3, pitch: 0.12, shake: 0.35, emote: 'vein' },
+  sad: { label: '😢 難過', brow: -1.0, mouth: -1.0, lid: 0.35, pitch: 0.45, emote: 'tears' },
+  surprise: { label: '😲 驚訝', raise: 1.0, shock: 0.6, open: 0.6, form: 1, pitch: -0.2, emote: 'bang' },
+  scared: { label: '😨 害怕', brow: -0.7, raise: 0.6, shock: 0.8, mouth: -0.6, open: 0.3, form: 1, tremble: 1, emote: 'sweat' },
+  smug: { label: '😏 得意', brow: 0.45, mouth: 0.9, lid: 0.38, roll: -0.12, emote: 'glint' },
+  shy: { label: '😳 害羞', brow: -0.4, mouth: 0.5, blush: 1.0, lid: 0.2, pitch: 0.3, emote: 'blush' },
+};
+const feel = { want: 'neutral', shown: 'neutral', w: 0, t0: 0 };
+const feelBox = document.getElementById('feels');
+for (const [id, f] of Object.entries(FEEL)) {
+  const b = document.createElement('button'); b.textContent = f.label; b.dataset.id = id;
+  b.setAttribute('aria-pressed', id === 'neutral');
+  b.onclick = () => { feel.want = id; for (const x of feelBox.children) x.setAttribute('aria-pressed', x.dataset.id === id); };
+  feelBox.appendChild(b);
+}
+window.demo.feel = (id) => { feel.want = id; };
+function applyFeel(t, dt, set) {
+  // a new feeling: the old one eases out first, then the new one eases in (never a cut)
+  if (feel.shown !== feel.want) { feel.w = Math.max(0, feel.w - dt * 6); if (feel.w <= 0) { feel.shown = feel.want; feel.t0 = t; } }
+  else feel.w = feel.shown === 'neutral' ? 0 : Math.min(1, feel.w + dt * 4);
+  const E = FEEL[feel.shown] || {}, w = feel.w, u = t - feel.t0;
+  set('Brow:: Mood', w * (E.brow || 0)); set('Brow:: Raise', w * (E.raise || 0));
+  set('Mouth:: Mood', w * (E.mouth || 0)); set('Eye:: Shock', w * (E.shock || 0)); set('Face:: Blush', w * (E.blush || 0));
+  if (w <= 0) return;
+  for (const n of ['Eye:: Left:: Blink', 'Eye:: Right:: Blink', 'Eye:: Blink']) {
+    if (!puppet.byName[n] || manual.has(n)) continue;
+    let v = pv(n);
+    if (E.lid) v = Math.max(v, w * E.lid);
+    if (E.smile) v = Math.max(v, w > 0.5 ? 1 : w * 1.2);
+    if (E.shock) v = Math.min(v, 1 - w);
+    puppet.set(n, v);
+  }
+  if (E.open && !T('tTalk').checked && !manual.has('Mouth:: Open')) {
+    puppet.set('Mouth:: Open', Math.max(pv('Mouth:: Open'), w * E.open * (E.laugh ? 0.7 + 0.3 * Math.abs(Math.sin(u * 9)) : 1)));
+    set('Mouth:: Form', E.form ?? 0);
+  }
+  if (puppet.byName['Head:: Yaw-Pitch'] && !manual.has('Head:: Yaw-Pitch')) {
+    let yaw = pv('Head:: Yaw-Pitch', 0), pitch = pv('Head:: Yaw-Pitch', 1);
+    pitch -= w * (E.pitch || 0);                                   // Yaw-Pitch y + = looking up
+    if (E.shake) yaw += w * E.shake * 0.1 * Math.sin(u * 23);
+    puppet.set('Head:: Yaw-Pitch', clamp(yaw, -1, 1), clamp(pitch, -1, 1));
+  }
+  if (puppet.byName['Head:: Roll'] && !manual.has('Head:: Roll')) {
+    let roll = pv('Head:: Roll') + w * (E.roll || 0);
+    if (E.laugh) roll += w * 0.06 * Math.sin(u * 9);
+    if (E.shake) roll += w * E.shake * 0.25 * Math.sin(u * 31);
+    if (E.tremble) roll += w * 0.05 * Math.sin(u * 47);
+    puppet.set('Head:: Roll', clamp(roll, -1, 1));
+  }
+}
+const emoC = document.getElementById('emo'), emoX = emoC.getContext('2d');
+function drawFeel(t, k, ox, oy) {                     // the 漫符 on the 臉 layer's screen box
+  if (emoC.width !== canvas.width || emoC.height !== canvas.height) { emoC.width = canvas.width; emoC.height = canvas.height; }
+  emoX.clearRect(0, 0, emoC.width, emoC.height);
+  const kind = (FEEL[feel.shown] || {}).emote;
+  if (!kind || feel.w <= 0) return;
+  const n = puppet.parts.find((q) => q.name === '臉');
+  let F;
+  if (n && n.world) {
+    const v = n.mesh.verts, M = n.world; let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (let i = 0; i < v.length; i += 2) {
+      const vx = v[i] + (n.deform ? n.deform[i] : 0), vy = v[i + 1] + (n.deform ? n.deform[i + 1] : 0);
+      const X = (M[0] * vx + M[2] * vy + M[4]) * k + ox, Y = (M[1] * vx + M[3] * vy + M[5]) * k + oy;
+      x0 = Math.min(x0, X); x1 = Math.max(x1, X); y0 = Math.min(y0, Y); y1 = Math.max(y1, Y);
+    }
+    F = { x0, y0, x1, y1 };
+  } else {                                            // no face layer: near the top of the figure
+    const cx = ox, top = oy - 930 * k;
+    F = { x0: cx - 110 * k, x1: cx + 110 * k, y0: top, y1: top + 260 * k };
+  }
+  const S = { face: F, h: 6 * (F.y1 - F.y0), dir: 1, sx: (F.x0 + F.x1) / 2, top: F.y0 };
+  stageEmote.uiEmote(emoX, { emo: { v: feel.shown, w: feel.w, u: t - feel.t0 } }, S, k);
+}
+// the video stage's drawing code (carrot-video/live2d/player/stage.js Stage.uiEmote), shared verbatim
+const stageEmote = {
+  // 漫符 (2026-10-19): the manga symbol of the actor's feeling, on its face box (fallback: the top of the figure)
+  uiEmote(c, a, S, z) {
+    const kind = (FEEL[a.emo.v] || {}).emote;
+    if (!kind) return;
+    const F = S.face || { x0: S.sx - 0.09 * S.h, x1: S.sx + 0.09 * S.h, y0: S.top, y1: S.top + 0.2 * S.h };
+    const r = Math.max(14 * z, (F.x1 - F.x0) / 2), cx = (F.x0 + F.x1) / 2, eyeY = F.y0 + 0.45 * (F.y1 - F.y0);
+    const w = a.emo.w, u = a.emo.u, d = S.dir || 1, front = d > 0 ? F.x1 : F.x0;   // the side the actor faces
+    const pop = (q) => { q = clamp(q, 0, 1); return 1 + 0.35 * Math.sin(q * Math.PI) * (1 - q); };
+    const A = clamp(w * 1.4, 0, 1);
+    c.save();
+    c.globalAlpha = A;
+    c.lineCap = 'round'; c.lineJoin = 'round';
+    const drop = (x, y, s, fill, ink) => {       // teardrop, point up
+      c.beginPath(); c.moveTo(x, y - s * 1.5);
+      c.bezierCurveTo(x + s * 0.2, y - s * 0.9, x + s, y - s * 0.3, x + s, y + s * 0.15);
+      c.arc(x, y + s * 0.15, s, 0, Math.PI);
+      c.bezierCurveTo(x - s, y - s * 0.3, x - s * 0.2, y - s * 0.9, x, y - s * 1.5);
+      c.fillStyle = fill; c.fill(); c.lineWidth = Math.max(1.5, s * 0.22); c.strokeStyle = ink; c.stroke();
+      c.beginPath(); c.ellipse(x - s * 0.35, y, s * 0.2, s * 0.32, -0.3, 0, Math.PI * 2); c.fillStyle = 'rgba(255,255,255,0.85)'; c.fill();
+    };
+    const star = (x, y, s, col) => {
+      c.beginPath();
+      for (let i = 0; i < 8; i++) { const ang = (i / 8) * Math.PI * 2, rr = i % 2 ? s * 0.28 : s; c.lineTo(x + rr * Math.cos(ang), y + rr * Math.sin(ang)); }
+      c.closePath(); c.fillStyle = col; c.fill(); c.lineWidth = Math.max(1.2, s * 0.12); c.strokeStyle = '#ffffff'; c.stroke();
+    };
+    if (kind === 'vein') {                         // 💢 four bulging arcs, pulsing
+      const s = 0.42 * r * pop(u / 0.3) * (1 + 0.1 * Math.sin(u * 11)), x = F.x1 - 0.05 * r, y = F.y0 + 0.12 * r;
+      c.translate(x, y); c.rotate(0.2);
+      for (const white of [true, false]) {
+        for (let k = 0; k < 4; k++) {
+          c.save(); c.rotate((k * Math.PI) / 2);
+          c.beginPath(); c.arc(s * 0.62, s * 0.62, s * 0.48, Math.PI * 1.02, Math.PI * 1.48);
+          c.lineWidth = white ? 0.34 * s : 0.17 * s; c.strokeStyle = white ? '#ffffff' : '#e3263a'; c.stroke();
+          c.restore();
+        }
+      }
+    } else if (kind === 'tears') {                 // falling tears + gloom lines on the forehead
+      for (const sx of [-1, 1]) for (let i = 0; i < 2; i++) {
+        const q = (u * 1.1 + i * 0.5) % 1;
+        c.globalAlpha = A * (1 - q * q);
+        drop(cx + sx * 0.36 * r, eyeY + 0.15 * r + q * 0.9 * r, 0.1 * r, '#8fd6ff', '#2f86c8');
+      }
+      c.globalAlpha = 0.55 * A;
+      c.strokeStyle = '#5a5fa8'; c.lineWidth = Math.max(1.5, 0.05 * r);
+      for (let i = 0; i < 5; i++) {
+        const x = F.x0 + (0.25 + 0.125 * i) * (F.x1 - F.x0);
+        c.beginPath(); c.moveTo(x, F.y0 + 0.08 * r); c.lineTo(x, F.y0 + (0.42 + 0.08 * (i % 2)) * r); c.stroke();
+      }
+    } else if (kind === 'bang') {                  // ! with burst lines, popping in
+      const s = r * pop(u / 0.25), x = front + d * 0.35 * r, y = F.y0 - 0.25 * r;
+      c.font = `900 ${Math.round(0.95 * s)}px "Microsoft JhengHei", "Noto Sans TC", sans-serif`;
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.lineWidth = 0.14 * s; c.strokeStyle = '#3a2410'; c.strokeText('!', x, y);
+      c.fillStyle = '#ffd23a'; c.fillText('!', x, y);
+      c.lineWidth = Math.max(2, 0.06 * s);
+      for (const q of [-2.3, -1.6, -0.9]) {
+        const ang = d > 0 ? q : -Math.PI - q;
+        c.beginPath(); c.moveTo(x + Math.cos(ang) * 0.55 * s, y + Math.sin(ang) * 0.55 * s);
+        c.lineTo(x + Math.cos(ang) * 0.8 * s, y + Math.sin(ang) * 0.8 * s); c.stroke();
+      }
+    } else if (kind === 'sweat') {                 // one big sweat drop sliding down the temple
+      const q = (u * 0.5) % 1;
+      drop((d > 0 ? F.x0 : F.x1) - d * 0.02 * r, F.y0 + (0.25 + 0.25 * q) * r, 0.17 * r, '#c7ecff', '#3b8fd0');
+    } else if (kind === 'sparkle' || kind === 'glint') {
+      const pts = kind === 'glint' ? [[front + d * 0.15 * r, eyeY - 0.25 * r, 0.22, 0]]
+        : [[F.x0 - 0.25 * r, F.y0 + 0.3 * r, 0.2, 0], [F.x1 + 0.3 * r, F.y0 + 0.05 * r, 0.26, 1.3], [F.x1 + 0.15 * r, F.y1 - 0.05 * r, 0.16, 2.4]];
+      for (const [x, y, s, ph] of pts) {
+        const tw = Math.max(0, Math.sin(u * (kind === 'glint' ? 5 : 4) + ph));
+        if (tw > 0.05) star(x, y, s * r * (0.4 + 0.6 * tw), '#ffe46b');
+      }
+    } else if (kind === 'notes') {                 // ♪ ♫ floating up
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      for (let i = 0; i < 2; i++) {
+        const q = (u * 0.7 + i * 0.5) % 1, x = front + d * (0.3 + 0.25 * q) * r + Math.sin(q * 6) * 0.08 * r, y = F.y0 + 0.2 * r - q * 0.9 * r;
+        c.globalAlpha = A * Math.sin(q * Math.PI);
+        c.font = `700 ${Math.round(0.55 * r)}px "Segoe UI Symbol", sans-serif`;
+        c.lineWidth = 0.08 * r; c.strokeStyle = '#ffffff'; c.strokeText(i ? '♫' : '♪', x, y);
+        c.fillStyle = '#ff6f91'; c.fillText(i ? '♫' : '♪', x, y);
+      }
+    } else if (kind === 'blush') {                 // /// hatching on both cheeks
+      c.strokeStyle = '#ff5f86'; c.lineWidth = Math.max(1.5, 0.045 * r);
+      for (const sx of [-1, 1]) for (let i = 0; i < 3; i++) {
+        const x = cx + sx * 0.45 * r + (i - 1) * 0.11 * r, y = eyeY + 0.3 * r;
+        c.beginPath(); c.moveTo(x + 0.05 * r, y - 0.09 * r); c.lineTo(x - 0.05 * r, y + 0.09 * r); c.stroke();
+      }
+    }
+    c.restore();
+  },
+};
+
 const body = { x: mk(), y: mk() }, ear = { t: 3, v: 0, until: 0, twice: false };
 let prevShakeDx = null;
 let last = performance.now(), blinkT = 2, blinkPhase = -1, look = [0, 0], prevYaw = 0, prevRoll = 0;
@@ -1052,6 +1238,7 @@ function frame(now, forced) {
     }
   }
   const acting = (!sh || aq.combo) && applyAction(t);
+  applyFeel(t, dt, set);
   if (sh && aq.combo) {                            // 全動作檢核: the shake rides on top of the action's own head moves
     const yp = pv('Head:: Yaw-Pitch', 0), pp = pv('Head:: Yaw-Pitch', 1);
     puppet.set('Head:: Yaw-Pitch', clamp(yp + 0.75 * sh.yaw, -1, 1), clamp(pp + 0.75 * sh.pitch, -1, 1));
@@ -1127,6 +1314,7 @@ function frame(now, forced) {
     gl.showLayer(0, 1 - sw); gl.showLayer(1, sw);
     head('headFront');
   }
+  drawFeel(t, k, ox, oy + bob * k);
   prevShakeDx = sh ? sh.dx : null;
   if (snap.on) {                                    // 即時截圖: grab this frame (the reference pose right before the shake)
     if (snap.wantRef) { snap.ref = grabFrame(t, null); snap.wantRef = false; }

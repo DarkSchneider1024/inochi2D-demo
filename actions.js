@@ -190,4 +190,41 @@ const BOBO = [
       return o; } },
 ];
 
-export const ACTIONS = { carol_v2: CAROL, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, bobo: BOBO };   // gold = same rig
+export const ACTIONS = { carol_v2: CAROL, carol_lab: CAROL, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, bobo: BOBO };   // gold = same rig
+
+// ---- 2026-10-19: generic actions for the story puppets (live2d/engine/rig.py: nine-axis head, arm swing / bend /
+// wrist, and the 喜怒哀樂 params Brow:: Mood / Raise, Mouth:: Mood, Eye:: Shock, Face:: Blush) -- any puppet without
+// its own list gets these. A rig without a param just ignores it.
+const both = (v) => ({ 'Eye:: Left:: Blink': v, 'Eye:: Right:: Blink': v });
+export const GENERIC = [
+  { id: 'nod', label: '點頭', hint: '嗯嗯！笑著點兩下', dur: 1.8, f: (u) => ({
+      'Head:: Yaw-Pitch': [0, NOD(u)], 'Mouth:: Mood': 0.8 * env(0, 1.8, 0.3)(u) }) },
+  { id: 'no', label: '搖頭', hint: '不要不要', dur: 1.9, f: (u) => {
+      const e = env(0, 1.9, 0.25)(u);
+      return { 'Head:: Yaw-Pitch': [0.75 * e * Math.sin(2 * Math.PI * u / 0.55), -0.1 * e], 'Brow:: Mood': -0.6 * e,
+               'Mouth:: Mood': -0.8 * e }; } },
+  { id: 'think', label: '歪頭想想', hint: '嗯……是什麼呢？', dur: 3.2, f: (u) => {
+      const e = env(0, 3.2, 0.5)(u);
+      return { 'Head:: Yaw-Pitch': [0.3 * e, 0.4 * e], 'Head:: Roll': e * (0.5 + 0.1 * Math.sin(2 * Math.PI * u / 1.4)),
+               'Brow:: Raise': 0.5 * e, 'Brow:: Mood': -0.2 * e, 'Mouth:: Mood': -0.3 * e }; } },
+  // (the story rigs' arms swing only ~6 deg / bend ~18 deg -- a raised-arm wave needs its own key drawings)
+  { id: 'hello', label: '打招呼', hint: '嗨～笑著歪頭、小幅擺手', dur: 2.6, f: (u) => {
+      const e = env(0, 2.6, 0.35)(u);
+      return { 'Arm:: Right:: Swing': 1.0 * e, 'Arm:: Right:: Bend': 1.0 * e,
+               'Hand:: Right:: Wrist': e * Math.sin(2 * Math.PI * u / 0.45), 'Head:: Roll': -0.2 * e, 'Mouth:: Mood': e,
+               'Brow:: Raise': 0.3 * e }; } },
+  { id: 'happy', label: '開心', hint: '笑眼、搖頭晃腦', dur: 2.4, f: (u) => {
+      const e = env(0, 2.4, 0.3)(u), s = Math.sin(2 * Math.PI * u / 0.8);
+      return { ...both(e > 0.5 ? 1 : 0), 'Mouth:: Mood': e, 'Mouth:: Open': 0.7 * e, 'Mouth:: Form': 0, 'Face:: Blush': 0.7 * e,
+               'Head:: Roll': 0.35 * e * s, 'Head:: Yaw-Pitch': [0.15 * e * s, 0.15 * e],
+               'Arm:: Right:: Swing': 0.5 * e * s, 'Arm:: Left:: Swing': -0.5 * e * s }; } },
+  { id: 'angry', label: '生氣', hint: '哼！氣噗噗', dur: 2.2, f: (u) => {
+      const e = env(0, 2.2, 0.2)(u);
+      return { 'Brow:: Mood': e, 'Mouth:: Mood': -0.8 * e, ...both(0.3 * e),
+               'Head:: Roll': 0.12 * e * Math.sin(u * 31), 'Head:: Yaw-Pitch': [0.08 * e * Math.sin(u * 23), -0.15 * e],
+               'Arm:: Right:: Bend': 0.8 * e, 'Arm:: Left:: Bend': 0.8 * e }; } },
+  { id: 'surprise', label: '嚇一跳', hint: '咦？！', dur: 2.0, f: (u) => {
+      const e = K([[0, 0], [0.12, 1], [1.5, 0.85], [2.0, 0]])(u);
+      return { 'Brow:: Raise': e, 'Eye:: Shock': 0.7 * e, 'Mouth:: Open': 0.65 * e, 'Mouth:: Form': 1,
+               'Head:: Yaw-Pitch': [0, 0.35 * e], 'Arm:: Right:: Swing': 0.4 * e, 'Arm:: Left:: Swing': -0.4 * e }; } },
+];
