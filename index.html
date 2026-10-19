@@ -99,6 +99,15 @@
   .qa-cell small b { color: #d9364a; font-weight: 600; } .qa-cell small i { color: #b88400; font-style: normal; }
   .qa-big { position: fixed; inset: 0; z-index: 60; background: rgba(10,8,14,.9); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 10px; }
   .qa-big.open { display: flex; }
+  .aq-table { border-collapse: collapse; font-size: 13px; margin: 0 0 10px; width: 100%; }
+  .aq-table th, .aq-table td { border-bottom: 1px solid var(--line); padding: 5px 8px; text-align: left; font-variant-numeric: tabular-nums; }
+  .aq-table tr:not(:first-child) { cursor: pointer; }
+  .aq-table td.bad { color: #d9364a; font-weight: 600; } .aq-table td.warn { color: #a87400; font-weight: 600; } .aq-table td.ok { color: #2e9a5b; }
+  .aq-pass h4 { margin: 18px 0 8px; font-size: 14px; } .aq-pass h4 .qa-sum { display: inline; margin: 0 0 0 6px; }
+  .aq-imgw { position: relative; } .aq-imgw img { display: block; width: 100%; height: auto; border-radius: 6px; }
+  .aq-bigw img { width: auto; max-width: 94vw; max-height: 82vh; }
+  .aq-mark { position: absolute; border: 2px solid #ffb300; border-radius: 3px; pointer-events: none; }
+  .aq-mark.bad { border-color: #ff2a44; } .aq-mark.ghost { border-color: #a43cff; } .aq-mark.jump { border-color: #1e7bff; }
   .qa-big canvas { position: static; max-width: 94vw; max-height: 82vh; width: auto; height: auto;
                    background: repeating-conic-gradient(#ccc 0 25%, #fff 0 50%) 0 0 / 24px 24px; touch-action: auto; }
   .qa-big .bar { display: flex; gap: 8px; color: #fff; align-items: center; flex-wrap: wrap; justify-content: center; }
@@ -127,6 +136,7 @@
     <div class="shakebar">
       <button id="shakeBtn" aria-pressed="false" title="大晃動：頭快速左右甩、繞圈、歪頭到極限，身體跟著晃，頭髮甩起來，最後把頭髮、尾巴等擺動零件掃到極限（約 10 秒）">🌀 晃動</button>
       <button id="snapBtn" aria-pressed="false" title="晃動過程中每 0.1 秒擷取一張，結束後自動檢查有沒有殘塊、破洞（沒在晃動時按下會自動開始晃動）">📸 即時截圖</button>
+      <button id="aqBtn" title="全動作檢核：每個動作先單獨播一次、再疊加大晃動播一次，每秒 30 幀逐幀檢查殘塊、破洞、半透明重影（換原畫時兩個輪廓同時出現）與突變（一兩幀內畫面突然跳）">🎬 全動作檢核</button>
       <span class="snapcount" id="snapCount"></span>
     </div></div>
   <aside>
@@ -519,14 +529,14 @@ function finishSnap() {
 //    殘塊 = a piece not connected to the body that the resting pose does not have; 破洞 = an enclosed gap
 //    (transparent pixels walled in by the figure) bigger than any in the resting pose
 const QA_W = 480;
-function maskOf(c, box) {
-  const s = QA_W / box.w, w = QA_W, h = Math.max(1, Math.round(box.h * s));
-  const m = document.createElement('canvas'); m.width = w; m.height = h;
-  const x = m.getContext('2d', { willReadFrequently: true });
-  x.drawImage(c, box.x, box.y, box.w, box.h, 0, 0, w, h);
-  const d = x.getImageData(0, 0, w, h).data, a = new Uint8Array(w * h);
-  for (let i = 0; i < w * h; i++) a[i] = d[i * 4 + 3] > 40 ? 1 : 0;
-  return { a, w, h, s };
+const maskCv = document.createElement('canvas'), maskCx = maskCv.getContext('2d', { willReadFrequently: true });
+function maskOf(c, box, W = QA_W) {
+  const s = W / box.w, w = W, h = Math.max(1, Math.round(box.h * s));
+  if (maskCv.width !== w || maskCv.height !== h) { maskCv.width = w; maskCv.height = h; } else maskCx.clearRect(0, 0, w, h);
+  maskCx.drawImage(c, box.x, box.y, box.w, box.h, 0, 0, w, h);
+  const d = maskCx.getImageData(0, 0, w, h).data, a = new Uint8Array(w * h), part = new Uint8Array(w * h);
+  for (let i = 0; i < w * h; i++) { const al = d[i * 4 + 3]; a[i] = al > 40 ? 1 : 0; part[i] = al > 30 && al < 200 ? 1 : 0; }
+  return { a, part, d, w, h, s };
 }
 function components(mask, want) {               // 4-connected components of pixels equal to `want`
   const { a, w, h } = mask, lab = new Int32Array(w * h).fill(-1), out = [], st = [];
@@ -553,15 +563,18 @@ function erode(mask) {                            // shave 1 px: a piece hanging
   }
   return { ...mask, a: b };
 }
-function analyse(c, box, ref) {
-  const m = maskOf(c, box);
+function analyse(c, box, ref, W = QA_W) {
+  const m = maskOf(c, box, W);
   const fg = components(m, 1).sort((p, q) => q.n - p.n);
   const main = fg[0] ? fg[0].n : 1;
   const thin = components(erode(m), 1).sort((p, q) => q.n - p.n).slice(1).filter((p) => p.n >= 20);
   const islands = [...fg.slice(1).filter((p) => p.n >= 6),
     ...thin.filter((t) => !fg.slice(1).some((p) => Math.abs(p.cx - t.cx) < 6 && Math.abs(p.cy - t.cy) < 6)).map((t) => ({ ...t, thin: true }))];
   const holes = components(m, 0).filter((p) => !p.border && p.n >= 24 && p.cy < m.h * 0.34);   // head / neck only (arm-to-body gaps are normal)
-  if (!ref) return { m, islands, holes, main };
+  // 半透明重影 (2026-10-19): see-through blobs -- a key drawing fading in over nothing at a match cut, so the two
+  // drawings' silhouettes (a sleeve, a hand) show at once. Two erosions drop the 1-2 px anti-aliased rim.
+  const ghosts = components(erode(erode({ ...m, a: m.part })), 1).filter((p) => p.n >= Math.max(16, 0.0015 * main));   // ~0.15 % of the figure
+  if (!ref) return { m, islands, holes, ghosts, main };
   const issues = [];
   for (const p of islands) {                     // a detached piece the resting pose has no counterpart for
     const known = ref.islands.some((q) => q.n >= p.n * 0.4 && q.n <= p.n * 2.5 && Math.hypot(q.cx - p.cx, q.cy - p.cy) < m.w * 0.18);
@@ -569,7 +582,11 @@ function analyse(c, box, ref) {
   }
   const refHole = Math.max(0, ...ref.holes.map((q) => q.n));
   for (const p of holes) if (p.n > Math.max(48, refHole * 1.6)) issues.push({ kind: 'warn', what: '破洞', p });
-  return { m, islands, holes, main, issues };   // m: mask, issues: [{kind, what, p: {x0,y0,x1,y1,...}}]
+  for (const p of ghosts) {
+    const known = (ref.ghosts || []).some((q) => q.n >= p.n * 0.4 && q.n <= p.n * 2.5 && Math.hypot(q.cx - p.cx, q.cy - p.cy) < m.w * 0.08);
+    if (!known) issues.push({ kind: 'warn', what: '半透明重影', p });
+  }
+  return { m, islands, holes, ghosts, main, issues };   // m: mask, issues: [{kind, what, p: {x0,y0,x1,y1,...}}]
 }
 function unionBox(list) {                         // crop all frames to the area the figure ever covers
   let x0 = Infinity, y0 = Infinity, x1 = -1, y1 = -1;
@@ -597,9 +614,15 @@ function drawMarks(x, f, s) {                     // red / yellow boxes around s
   }
 }
 function label(f) {
-  const bad = (f.res.issues || []).filter((i) => i.kind === 'bad').length, warn = (f.res.issues || []).length - bad;
+  const bad = (f.res.issues || []).filter((i) => i.kind === 'bad').length;
+  const warns = Object.entries(countWhat((f.res.issues || []).filter((i) => i.kind !== 'bad'))).map(([k, n]) => `${k} ×${n}`).join('　');
   return `${f.t.toFixed(1)}s${f.sweep ? '［極限］' : ''}　髮 ${f.hair.toFixed(2)}　轉 ${f.yaw.toFixed(2)}／俯仰 ${f.pitch.toFixed(2)}／歪 ${f.roll.toFixed(2)}` +
-         (bad ? `<br><b>殘塊 ×${bad}</b>` : '') + (warn ? `${bad ? '　' : '<br>'}<i>破洞 ×${warn}</i>` : '');
+         (bad ? `<br><b>殘塊 ×${bad}</b>` : '') + (warns ? `${bad ? '　' : '<br>'}<i>${warns}</i>` : '');
+}
+function countWhat(issues) {
+  const o = {};
+  for (const i of issues) { const k = i.what.replace('（快斷開）', ''); o[k] = (o[k] || 0) + 1; }
+  return o;
 }
 function thumb(f, w) {
   const c = document.createElement('canvas'), s = w / qaBox.w; c.width = w; c.height = Math.round(qaBox.h * s);
@@ -674,6 +697,228 @@ document.getElementById('qaSheet').onclick = () => {            // contact sheet
     if (f.res.issues.length) x.fillText(f.res.issues.map((q) => q.what).join('、'), gx + 6, gy + th + 29);
   });
   download(c, `${model.id}_shake_contact_sheet.png`);
+};
+
+// ---- 全動作檢核 (2026-10-19, user: 有些動作也會作畫失敗但沒有被發現 -- the shake alone never plays the actions):
+// every action (動作 list, 揮手 button, 吃胡蘿蔔, 手勢) twice -- once on its own, once looping under the big shake --
+// on a virtual 30 fps clock (every machine sees the same frames). Each frame: 殘塊 / 破洞 / 半透明重影 against the
+// resting pose; the solo pass also flags 突變: the picture changes far more in one or two frames than in the frames
+// around it (a key-drawing swap whose sleeve or hand does not line up reads as a two-step jump).
+const AQ_DT = 1 / 30, AQ_TH = 220, AQ_BIG = 560;
+const aq = { on: false, combo: false, stop: false, res: null };
+const aqBtn = document.getElementById('aqBtn');
+function aqItems() {
+  const items = (ACTIONS[model.id] || []).map((a) => ({ label: a.label, dur: a.dur, start: (t) => { act.a = a; act.t0 = t; } }));
+  if (puppet.byName['Arm:: Left:: Raise'] && !puppet.byName['Arm:: Chest'] && !puppet.byName['Carrot:: Hold'])
+    items.push({ label: '👋 揮手（按鈕）', dur: 5.4, start: (t) => { waveUntil = t + 4.4; } });
+  if (puppet.byName['Arm:: Left:: Eat']) items.push({ label: '🥕 吃胡蘿蔔', dur: EAT_LEN + 0.4, start: (t) => { eatT0 = t; } });
+  if (puppet.byName['Arm:: Chest'])
+    for (const name of Object.keys(GESTS).filter((n) => n !== '放下'))
+      items.push({ label: `手勢：${name}`, dur: 2.8, start: () => pickGest(name), tick: (u) => { if (u > 1.5) pickGest('放下'); } });
+  return items;
+}
+function aqReset(t) {
+  act.a = null; waveUntil = 0; eatT0 = -1; shakeT0 = -1; aq.combo = false;
+  if (puppet.byName['Arm:: Chest']) { pickGest('放下'); for (const k of GEST_PARAMS) gest.cur[k] = 0; }
+  Object.assign(raise, { v: 0, from: 0, to: 0, t0: t });
+}
+// yield to the page between frames; a MessageChannel is not throttled to 1 s like setTimeout in a background tab
+const aqCh = new MessageChannel(), aqWait = [];
+aqCh.port1.onmessage = () => aqWait.shift()?.();
+const aqYield = () => new Promise((r) => { aqWait.push(r); aqCh.port2.postMessage(0); });
+function aqStep(t) { last = (t - AQ_DT) * 1000; frame(t * 1000, true); }
+const aqCv = document.createElement('canvas'), aqCx = aqCv.getContext('2d');
+function aqShot(box, w) {                         // the crop on a light backdrop, as a small JPEG
+  aqCv.width = w; aqCv.height = Math.round(box.h * w / box.w);
+  aqCx.fillStyle = '#ece7f1'; aqCx.fillRect(0, 0, aqCv.width, aqCv.height);
+  aqCx.drawImage(canvas, box.x, box.y, box.w, box.h, 0, 0, aqCv.width, aqCv.height);
+  return aqCv.toDataURL('image/jpeg', 0.85);
+}
+function aqDiff(d0, d1, w) {                      // pixels that changed a lot since the last frame, and where
+  let n = 0, x0 = w, y0 = 1e9, x1 = -1, y1 = -1;
+  for (let i = 0, j = 0; i < d1.length; i += 4, j++) {
+    const v = Math.max(Math.abs(d1[i] - d0[i]), Math.abs(d1[i + 1] - d0[i + 1]), Math.abs(d1[i + 2] - d0[i + 2]), Math.abs(d1[i + 3] - d0[i + 3]));
+    if (v > 48) { n++; const x = j % w, y = (j / w) | 0; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  }
+  return { n, p: { x0, y0, x1, y1 } };
+}
+function aqSpikes(frames, minPix, H) {            // 突變: far above the frames 2-6 away on both sides
+  const ch = frames.map((f) => f.ch);
+  frames.forEach((f, i) => {
+    const nb = [...ch.slice(Math.max(0, i - 6), Math.max(0, i - 1)), ...ch.slice(i + 2, i + 7)].sort((a, b) => a - b);
+    if (nb.length < 4) return;
+    const med = nb[nb.length >> 1];
+    // a change spread over most of the figure is the whole head / body moving (nod, hop, ^^ eyes), not a bad swap
+    if (f.chP && f.chP.y1 - f.chP.y0 > 0.4 * H) return;
+    if (f.ch > minPix && f.ch > 2.6 * med + 0.3 * minPix) f.issues.push({ kind: 'warn', what: '突變', p: f.chP });
+  });
+}
+async function runActionQA(only) {
+  const items = aqItems().filter((it) => !only || only.includes(it.label));
+  if (!items.length) { status.textContent = '這個角色沒有可檢核的動作'; return null; }
+  aq.on = true; aq.stop = false; aqBtn.textContent = '■ 停止檢核'; aqBtn.classList.add('snapping');
+  const TOG = ['tLook', 'tStroll', 'tTalk', 'tRaise', 'tRaiseLoop', 'tBlink'], saved = {};
+  for (const id of TOG) { saved[id] = T(id).checked; T(id).checked = false; }
+  manual.clear(); for (const p of puppet.params) p.value = [...p.defaults];
+  const wasPaused = !!window.demo.paused, oldStatus = status.textContent; window.demo.paused = true;
+  let t = performance.now() / 1000;
+  const settle = (sec) => { for (let k = 0; k < Math.round(sec / AQ_DT); k++) { t += AQ_DT; aqStep(t); } };
+  aqReset(t); settle(1.2);
+  const fb = unionBox([{ c: canvas }]);           // the resting figure; the crop leaves room for raised arms + shake
+  const bx = Math.max(0, fb.x - 0.55 * fb.w), by = Math.max(0, fb.y - 0.14 * fb.h);
+  const box = { x: bx, y: by, w: Math.min(canvas.width, fb.x + 1.55 * fb.w) - bx, h: Math.min(canvas.height, fb.y + 1.03 * fb.h) - by };
+  const W = Math.min(900, Math.round(box.w * 0.8), Math.round(QA_W * box.w / fb.w));   // never upscale: a blurred rim reads as 重影
+  const ref = analyse(canvas, box, null, W), mH = ref.m.h, minPix = 0.006 * ref.main;
+  const out = { model: model.id, name: model.name, W, H: mH, ref: aqShot(box, AQ_TH), passes: [] };
+  for (const [i, it] of items.entries()) {
+    for (const combo of [false, true]) {
+      if (aq.stop) break;
+      aqReset(t); settle(0.6);
+      const len = combo ? SHAKE_LEN : it.dur, t0 = t, frames = [];
+      let ts = t0, prev = null;
+      it.start(t0);
+      if (combo) { shakeT0 = t0; aq.combo = true; }
+      for (let k = 1; ; k++) {
+        t = t0 + k * AQ_DT; const u = t - t0;
+        if (u > len) break;
+        if (t - ts > it.dur) { ts = t; it.start(t); }               // loop the action all through the shake
+        it.tick?.(t - ts);
+        aqStep(t);
+        const res = analyse(canvas, box, ref, W), f = { u, issues: res.issues, ch: 0 };
+        if (prev) { const df = aqDiff(prev, res.m.d, W); f.ch = df.n; f.chP = df.p; }
+        prev = combo ? null : new Uint8ClampedArray(res.m.d);        // 突變 only on the solo pass (the shake moves the camera)
+        if (k % 3 === 0 || res.issues.length) f.th = aqShot(box, AQ_TH);
+        if (res.issues.length || (!combo && f.ch > minPix)) f.big = aqShot(box, AQ_BIG);
+        frames.push(f);
+        if (k % 5 === 0) {
+          status.textContent = `全動作檢核 ${i + 1}/${items.length}：${it.label}${combo ? '＋晃動' : '（單獨）'} ${u.toFixed(1)}s`;
+          await aqYield();
+          if (aq.stop) break;
+        }
+      }
+      if (!combo) aqSpikes(frames, minPix, mH);
+      for (const f of frames) if (f.issues.length && !f.th) f.th = f.big;
+      for (const f of frames) if (!f.issues.length && combo) delete f.big;
+      for (const f of frames) if (!f.issues.length && !combo && f.big && !f.th) delete f.big;
+      out.passes.push({ label: it.label, combo, frames: frames.filter((f) => f.th || f.big) .map((f) => ({ u: f.u, th: f.th, big: f.big, issues: f.issues })),
+                        count: countWhat(frames.flatMap((f) => f.issues)), bad: frames.filter((f) => f.issues.length).length });
+    }
+    if (aq.stop) break;
+  }
+  aqReset(t); settle(0.3);
+  for (const id of TOG) T(id).checked = saved[id];
+  last = performance.now(); window.demo.paused = wasPaused; status.textContent = oldStatus;
+  aq.on = false; aqBtn.textContent = '🎬 全動作檢核'; aqBtn.classList.remove('snapping');
+  aq.res = out; showAQ(true);
+  return out;
+}
+aqBtn.onclick = () => { if (aq.on) aq.stop = true; else runActionQA(); };
+Object.defineProperty(window.demo, 'aqRes', { get: () => aq.res });
+window.demo.actionQA = async (only) => {         // scripted: run (optionally only some labels), then a compact summary
+  const r = await runActionQA(only);
+  return r && r.passes.map((p) => ({ label: p.label, pass: p.combo ? '＋晃動' : '單獨', bad: p.bad, count: p.count,
+    at: p.frames.filter((f) => f.issues.length).map((f) => +f.u.toFixed(2) + ':' + f.issues.map((i) => `${i.what}(${i.p.n ?? ''}@${i.p.x0},${i.p.y0}-${i.p.x1},${i.p.y1})`).join('/')) }));
+};
+// -- report
+const aqEl = document.getElementById('aq'), aqBigEl = document.getElementById('aqBig');
+let aqOnlyBad = true, aqView = [], aqIdx = 0;
+const AQ_CLS = { '殘塊': 'bad', '破洞': 'hole', '半透明重影': 'ghost', '突變': 'jump' };
+function aqMarks(issues, el) {
+  const r = aq.res;
+  for (const it of issues) {
+    const p = it.p, m = document.createElement('div');
+    m.className = 'aq-mark ' + (AQ_CLS[it.what.replace('（快斷開）', '')] || 'hole'); m.title = it.what;
+    const pad = 1.2;
+    m.style.left = `${p.x0 / r.W * 100 - pad}%`; m.style.top = `${p.y0 / r.H * 100 - pad * r.W / r.H}%`;
+    m.style.width = `${(p.x1 - p.x0 + 1) / r.W * 100 + 2 * pad}%`; m.style.height = `${(p.y1 - p.y0 + 1) / r.H * 100 + 2 * pad * r.W / r.H}%`;
+    el.appendChild(m);
+  }
+}
+const aqWhat = (c) => Object.entries(c).map(([k, n]) => `${k} ×${n}`).join('、');
+function showAQ(open) {
+  const r = aq.res; if (!r) return;
+  const tot = r.passes.reduce((a, p) => a + p.bad, 0);
+  document.getElementById('aqTitle').textContent = `全動作＋晃動檢核 · ${r.name}`;
+  document.getElementById('aqSum').innerHTML = `${r.passes.length / 2 | 0} 個動作 × 2 輪（單獨播一次、疊加大晃動播一次），每秒 30 幀逐幀檢查。` +
+    (tot ? `共 <b class="bad">${tot} 幀有疑點</b>。` : '<b class="ok">自動檢查沒有找到疑點</b>。') +
+    '<br>紅框＝殘塊（跟身體分離的碎片）、黃框＝破洞、紫框＝半透明重影（兩張原畫交叉淡入時同時看到兩個輪廓，例如袖子）、藍框＝突變（一兩幀內畫面突然跳，例如換原畫時袖子形狀對不上）。自動檢查只是幫忙找，最後請用眼睛看。';
+  const tb = document.getElementById('aqTable');
+  tb.innerHTML = '<tr><th>動作</th><th>單獨</th><th>＋晃動</th></tr>';
+  for (let k = 0; k < r.passes.length; k += 2) {
+    const a = r.passes[k], b = r.passes[k + 1], tr = document.createElement('tr');
+    const cell = (p) => !p ? '<td>—</td>' : `<td class="${p.count['殘塊'] ? 'bad' : p.bad ? 'warn' : 'ok'}">${p.bad ? `${p.bad} 幀：${aqWhat(p.count)}` : '✓'}</td>`;
+    tr.innerHTML = `<td>${a.label}</td>${cell(a)}${cell(b)}`;
+    tr.onclick = () => document.getElementById(`aqp${k}`)?.scrollIntoView({ behavior: 'smooth' });
+    tb.appendChild(tr);
+  }
+  const box = document.getElementById('aqPasses'); box.innerHTML = '';
+  aqView = [];
+  r.passes.forEach((p, k) => {
+    const fr = aqOnlyBad ? p.frames.filter((f) => f.issues.length) : p.frames.filter((f) => f.th);
+    const sec = document.createElement('div'); sec.className = 'aq-pass'; sec.id = `aqp${k}`;
+    sec.innerHTML = `<h4>${p.label}　${p.combo ? '＋晃動' : '單獨'}　<span class="qa-sum">${p.bad ? aqWhat(p.count) : '✓ 沒有疑點'}</span></h4>`;
+    if (fr.length) {
+      const g = document.createElement('div'); g.className = 'qa-grid';
+      for (const f of fr) {
+        const idx = aqView.push({ f, p }) - 1;
+        const d = document.createElement('div');
+        d.className = 'qa-cell' + (f.issues.some((x) => x.kind === 'bad') ? ' bad' : f.issues.length ? ' warn' : '');
+        const w = document.createElement('div'); w.className = 'aq-imgw';
+        const im = new Image(); im.src = f.th || f.big; w.appendChild(im); aqMarks(f.issues, w); d.appendChild(w);
+        const sm = document.createElement('small');
+        sm.innerHTML = `${f.u.toFixed(2)}s` + (f.issues.length ? `<br><b>${aqWhat(countWhat(f.issues))}</b>` : '');
+        d.appendChild(sm); d.onclick = () => aqOpen(idx); g.appendChild(d);
+      }
+      sec.appendChild(g);
+    }
+    box.appendChild(sec);
+  });
+  document.getElementById('aqOnlyBad').setAttribute('aria-pressed', aqOnlyBad);
+  document.getElementById('aqAllF').setAttribute('aria-pressed', !aqOnlyBad);
+  if (open) aqEl.classList.add('open');
+}
+function aqOpen(i) {
+  if (!aqView.length) return;
+  aqIdx = (i + aqView.length) % aqView.length; const { f, p } = aqView[aqIdx];
+  const w = document.getElementById('aqBigW'); w.innerHTML = '';
+  const im = new Image(); im.src = f.big || f.th; w.appendChild(im); aqMarks(f.issues, w);
+  document.getElementById('aqBigLab').textContent = `${aqIdx + 1} / ${aqView.length}　${p.label}${p.combo ? '＋晃動' : '（單獨）'}　${f.u.toFixed(2)}s　` +
+    (f.issues.length ? aqWhat(countWhat(f.issues)) : '');
+  aqBigEl.classList.add('open');
+}
+document.getElementById('aqOnlyBad').onclick = () => { aqOnlyBad = true; showAQ(); };
+document.getElementById('aqAllF').onclick = () => { aqOnlyBad = false; showAQ(); };
+document.getElementById('aqClose').onclick = () => aqEl.classList.remove('open');
+document.getElementById('aqAgain').onclick = () => { aqEl.classList.remove('open'); runActionQA(); };
+document.getElementById('aqPrev').onclick = () => aqOpen(aqIdx - 1);
+document.getElementById('aqNext').onclick = () => aqOpen(aqIdx + 1);
+document.getElementById('aqBigClose').onclick = () => aqBigEl.classList.remove('open');
+aqBigEl.addEventListener('click', (e) => { if (e.target === aqBigEl) aqBigEl.classList.remove('open'); });
+addEventListener('keydown', (e) => {
+  if (aqBigEl.classList.contains('open')) { if (e.key === 'Escape') aqBigEl.classList.remove('open'); if (e.key === 'ArrowLeft') aqOpen(aqIdx - 1); if (e.key === 'ArrowRight') aqOpen(aqIdx + 1); e.stopImmediatePropagation(); }
+  else if (aqEl.classList.contains('open') && e.key === 'Escape') aqEl.classList.remove('open');
+}, true);
+document.getElementById('aqSheet').onclick = async () => {    // contact sheet of every flagged frame, marks included
+  const r = aq.res, list = r.passes.flatMap((p) => p.frames.filter((f) => f.issues.length).map((f) => ({ f, p })));
+  const cols = 6, tw = 260, th = Math.round(tw * r.H / r.W), lh = 40, head = 60;
+  const c = document.createElement('canvas'); c.width = cols * tw; c.height = head + Math.max(1, Math.ceil(list.length / cols)) * (th + lh);
+  const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+  x.fillStyle = '#2d2436'; x.font = 'bold 22px system-ui, "Microsoft JhengHei", sans-serif';
+  x.fillText(`全動作＋晃動檢核 · ${r.name}（${r.model}）· ${new Date().toLocaleString()} · ${list.length} 幀疑點`, 12, 36);
+  const COL = { bad: '#ff2a44', hole: '#ffb300', ghost: '#a43cff', jump: '#1e7bff' };
+  for (const [i, { f, p }] of list.entries()) {
+    const gx = (i % cols) * tw, gy = head + Math.floor(i / cols) * (th + lh);
+    const im = new Image(); im.src = f.big || f.th; await im.decode();
+    x.drawImage(im, gx + 2, gy + 2, tw - 4, th - 4);
+    for (const it of f.issues) {
+      const q = it.p, s = (tw - 4) / r.W; x.lineWidth = 2; x.strokeStyle = COL[AQ_CLS[it.what.replace('（快斷開）', '')] || 'hole'];
+      x.strokeRect(gx + 2 + q.x0 * s - 4, gy + 2 + q.y0 * s - 4, (q.x1 - q.x0 + 1) * s + 8, (q.y1 - q.y0 + 1) * s + 8);
+    }
+    x.fillStyle = '#333'; x.font = '13px system-ui, "Microsoft JhengHei", sans-serif';
+    x.fillText(`${p.label}${p.combo ? '＋晃動' : ''} ${f.u.toFixed(2)}s`, gx + 6, gy + th + 14);
+    x.fillStyle = '#d9364a'; x.fillText(aqWhat(countWhat(f.issues)), gx + 6, gy + th + 31);
+  }
+  download(c, `${model.id}_action_qa_sheet.png`);
 };
 
 const body = { x: mk(), y: mk() }, ear = { t: 3, v: 0, until: 0, twice: false };
@@ -806,7 +1051,12 @@ function frame(now, forced) {
       for (const q of ['Arm:: Left:: Swing', 'Arm:: Left:: Bend', 'Hand:: Left:: Wrist']) set(q, pv(q) * (1 - e.eat));
     }
   }
-  const acting = !sh && applyAction(t);
+  const acting = (!sh || aq.combo) && applyAction(t);
+  if (sh && aq.combo) {                            // 全動作檢核: the shake rides on top of the action's own head moves
+    const yp = pv('Head:: Yaw-Pitch', 0), pp = pv('Head:: Yaw-Pitch', 1);
+    puppet.set('Head:: Yaw-Pitch', clamp(yp + 0.75 * sh.yaw, -1, 1), clamp(pp + 0.75 * sh.pitch, -1, 1));
+    puppet.set('Head:: Roll', clamp(pv('Head:: Roll', 0) + 0.75 * sh.roll, -1, 1));
+  }
   if (sh && sh.sweep) {                            // 極限掃描: every sway / swing part straight to its limits
     for (const pr of puppet.params) if (/Sway|Swing|Bounce/.test(pr.name) && !/^Arm::/.test(pr.name)) puppet.set(pr.name, sh.hair, pr.is_vec2 ? sh.hair : 0);
     for (const nm of ['Right', 'Left']) puppet.set(`Arm:: ${nm}:: Swing`, (nm === 'Right' ? 1 : -1) * sh.hair);
@@ -883,6 +1133,7 @@ function frame(now, forced) {
     else if (sh && t - snap.last >= SNAP_DT - 1e-3) { snap.last = t; snap.list.push(grabFrame(t, sh)); }
     snapBtn.classList.toggle('snapping', true); snapBtn.textContent = '■ 停止截圖'; snapCount.textContent = `已擷取 ${snap.list.length} 張`;
   } else if (snapBtn.classList.contains('snapping')) { snapBtn.classList.remove('snapping'); snapBtn.textContent = '📸 即時截圖'; snapCount.textContent = ''; }
+  if (forced) return;                               // scripted frames: the paused loop keeps itself alive
   for (const s of sliders) { s.inp.value = s.p.value[s.ax]; s.out.textContent = (+s.p.value[s.ax]).toFixed(2); }
   requestAnimationFrame(frame);
 }
@@ -902,6 +1153,22 @@ window.demo.frameAt = (sec) => { window.demo.paused = true; last = sec * 1000 - 
     <div class="qa-grid" id="qaGrid"></div>
   </div>
 </div>
+<div class="qa" id="aq" role="dialog" aria-label="全動作＋晃動檢核">
+  <div class="qa-box">
+    <div class="qa-head">
+      <h3 id="aqTitle">全動作＋晃動檢核</h3>
+      <span class="qa-filter"><button id="aqOnlyBad" aria-pressed="true">只看疑點</button><button id="aqAllF" aria-pressed="false">全部影格</button></span>
+      <button id="aqSheet">⬇ 下載疑點聯絡表 PNG</button>
+      <button id="aqAgain">🔁 重跑</button>
+      <button id="aqClose">✕ 關閉</button>
+    </div>
+    <p class="qa-sum" id="aqSum"></p>
+    <table class="aq-table" id="aqTable"></table>
+    <div id="aqPasses"></div>
+  </div>
+</div>
+<div class="qa-big" id="aqBig"><div class="aq-imgw aq-bigw" id="aqBigW"></div>
+  <div class="bar"><span id="aqBigLab"></span><button id="aqPrev">‹ 上一張</button><button id="aqNext">下一張 ›</button><button id="aqBigClose">✕</button></div></div>
 <div class="qa-big" id="qaBig"><canvas id="qaBigC"></canvas>
   <div class="bar"><span id="qaBigLab"></span><button id="qaPrev">‹ 上一張</button><button id="qaNext">下一張 ›</button><button id="qaDl">⬇ 下載這張原圖</button><button id="qaBigClose">✕</button></div>
 </div>
