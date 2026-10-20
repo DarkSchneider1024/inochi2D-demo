@@ -74,14 +74,30 @@
     "name": "卡洛特先生（手繪版）",
     "file": "models/mr_carrot_hand.inp",
     "thumb": "thumbs/mr_carrot_hand.png",
-    "desc": "《卡洛特時光機》的 Python 筆刷手繪卡洛特先生：髮型依《卡洛特實驗室》版重畫（2026-10-20）——中分露額頭、兩側往外上翹的飛翼短髮；眼鏡、探險背心。九軸轉頭、^ 笑眼與 D 形嘴說話（轉頭時嘴巴不會跑出臉）、手勢；喜怒哀樂表情。"
+    "desc": "《卡洛特時光機》的 Python 筆刷手繪卡洛特先生：髮型依《卡洛特實驗室》版重畫（2026-10-20）——中分露額頭、兩側往外上翹的飛翼短髮；眼鏡、探險背心。九軸轉頭、^ 笑眼與 D 形嘴說話（轉頭時嘴巴不會跑出臉）、手勢；喜怒哀樂表情。",
+    "side": "mr_carrot_hand_side"
+  },
+  {
+    "id": "mr_carrot_hand_side",
+    "name": "卡洛特先生（手繪・側面）",
+    "file": "models/mr_carrot_hand_side.inp",
+    "thumb": "thumbs/mr_carrot_hand_side.png",
+    "desc": "走路用的 3/4 側面模型（同卡洛兒手繪版的轉身方式）：頭轉 32°、身體 50°；髮型與正面一樣是《卡洛特實驗室》版的飛翼短髮。"
   },
   {
     "id": "potter",
     "name": "波特小姐",
     "file": "models/potter.inp",
     "thumb": "thumbs/potter.png",
-    "desc": "《卡洛特時光機 EP01》的碧雅翠絲・波特：棕色長髮、高領長裙（1890 年代）。九軸轉頭、VTuber 笑眼與 D 形嘴；喜怒哀樂表情。"
+    "desc": "《卡洛特時光機 EP01》的碧雅翠絲・波特：棕色長髮、高領長裙（1890 年代）。九軸轉頭、VTuber 笑眼與 D 形嘴；喜怒哀樂表情。",
+    "side": "potter_side"
+  },
+  {
+    "id": "potter_side",
+    "name": "波特小姐（側面）",
+    "file": "models/potter_side.inp",
+    "thumb": "thumbs/potter_side.png",
+    "desc": "走路用的 3/4 側面模型：頭轉 32°、身體 50°，長裙跟著步伐擺動。"
   },
   {
     "id": "bobo",
@@ -103,7 +119,15 @@
     "name": "兔子",
     "file": "models/rabbit.inp",
     "thumb": "thumbs/rabbit.png",
-    "desc": "兔子：故事用的一般白兔（原本的 Python 手繪版兔子波波，改名保留）。Python 筆刷從零畫；九軸轉頭、笑眼 ^ 眨眼、對嘴（啊／喔）、呼吸、雙手、踏步、耳朵擺動；胡蘿蔔是獨立圖層。（2026-10-19：新增喜怒哀樂表情——微笑、大笑、生氣、難過、驚訝、害怕、得意、害羞，以及點頭、搖頭、揮手等動作。）"
+    "desc": "兔子：故事用的一般白兔（原本的 Python 手繪版兔子波波，改名保留）。Python 筆刷從零畫；九軸轉頭、笑眼 ^ 眨眼、對嘴（啊／喔）、呼吸、雙手、踏步、耳朵擺動；胡蘿蔔是獨立圖層。（2026-10-19：新增喜怒哀樂表情——微笑、大笑、生氣、難過、驚訝、害怕、得意、害羞，以及點頭、搖頭、揮手等動作。）",
+    "side": "rabbit_side"
+  },
+  {
+    "id": "rabbit_side",
+    "name": "兔子（側面）",
+    "file": "models/rabbit_side.inp",
+    "thumb": "thumbs/rabbit_side.png",
+    "desc": "走路用的 3/4 側面模型：頭轉 32°、身體 50°。"
   },
   {
     "id": "rabbit_jacket",
