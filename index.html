@@ -1013,7 +1013,23 @@ function drawFeel(t, k, ox, oy) {                     // the 漫符 on the 臉 l
     const cx = ox, top = oy - 930 * k;
     F = { x0: cx - 110 * k, x1: cx + 110 * k, y0: top, y1: top + 260 * k };
   }
-  const S = { face: F, h: 6 * (F.y1 - F.y0), dir: 1, sx: (F.x0 + F.x1) / 2, top: F.y0 };
+  // (2026-10-21, user: 難過的眼淚、害羞的臉紅太高) the real eye boxes (眼白_R / 眼白_L), as the video stage: tears start
+  // at the bottom of the eye, blush sits under it (45% of the 臉 box was not where the eyes are)
+  const eyes = [];
+  for (const nm of ['眼白_R', '眼白_L']) {
+    const e = puppet.parts.find((q) => q.name === nm);
+    if (!e || !e.world) continue;
+    const ev = e.mesh.verts, EM = e.world;
+    let ex0 = Infinity, ey0 = Infinity, ex1 = -Infinity, ey1 = -Infinity;
+    for (let i = 0; i < ev.length; i += 2) {
+      const vx = ev[i] + (e.deform ? e.deform[i] : 0), vy = ev[i + 1] + (e.deform ? e.deform[i + 1] : 0);
+      const X = (EM[0] * vx + EM[2] * vy + EM[4]) * k + ox, Y = (EM[1] * vx + EM[3] * vy + EM[5]) * k + oy;
+      ex0 = Math.min(ex0, X); ex1 = Math.max(ex1, X); ey0 = Math.min(ey0, Y); ey1 = Math.max(ey1, Y);
+    }
+    if (ex1 > ex0) eyes.push({ x0: ex0, x1: ex1, y0: ey0, y1: ey1, cx: (ex0 + ex1) / 2, w: ex1 - ex0 });
+  }
+  const wMax = Math.max(0, ...eyes.map((e) => e.w));
+  const S = { face: F, h: 6 * (F.y1 - F.y0), dir: 1, sx: (F.x0 + F.x1) / 2, top: F.y0, eyes: eyes.filter((e) => e.w > 0.4 * wMax) };
   stageEmote.uiEmote(emoX, { emo: { v: feel.shown, w: feel.w, u: t - feel.t0 } }, S, k);
 }
 // the video stage's drawing code (carrot-video/live2d/player/stage.js Stage.uiEmote), shared verbatim
@@ -1055,10 +1071,20 @@ const stageEmote = {
         }
       }
     } else if (kind === 'tears') {                 // falling tears + gloom lines on the forehead
-      for (const sx of [-1, 1]) for (let i = 0; i < 2; i++) {
+      const E = S.eyes && S.eyes.length ? S.eyes
+        : [-1, 1].map((sx) => ({ cx: cx + sx * 0.36 * r, x0: cx + sx * 0.36 * r, x1: cx + sx * 0.36 * r, y1: eyeY + 0.1 * r }));
+      const ts = 0.15 * r;
+      for (const e of E) if (e.x1 > e.x0) {             // wet shine along the lower lid: where the tears come from
+        c.globalAlpha = 0.8 * A;
+        c.beginPath(); c.ellipse(e.cx, e.y1 - 0.02 * r, 0.5 * (e.x1 - e.x0), 0.06 * r, 0, 0.1 * Math.PI, 0.9 * Math.PI);
+        c.lineWidth = Math.max(2, 0.05 * r); c.strokeStyle = '#8fd6ff'; c.stroke();
+      }
+      for (const e of E) for (let i = 0; i < 2; i++) {
         const q = (u * 1.1 + i * 0.5) % 1;
+        // welling at the lower lid (outer half of the eye), then running down the cheek; the tip starts on the lid
+        const x = e.cx + (e.cx < cx ? -1 : 1) * 0.15 * (e.x1 - e.x0);
         c.globalAlpha = A * (1 - q * q);
-        drop(cx + sx * 0.36 * r, eyeY + 0.15 * r + q * 0.9 * r, 0.1 * r, '#8fd6ff', '#2f86c8');
+        drop(x, e.y1 + ts * 1.5 + q * 0.85 * r, ts * (0.75 + 0.25 * Math.min(1, q * 4)), '#8fd6ff', '#2f86c8');
       }
       c.globalAlpha = 0.55 * A;
       c.strokeStyle = '#5a5fa8'; c.lineWidth = Math.max(1.5, 0.05 * r);
@@ -1099,8 +1125,11 @@ const stageEmote = {
       }
     } else if (kind === 'blush') {                 // /// hatching on both cheeks
       c.strokeStyle = '#ff5f86'; c.lineWidth = Math.max(1.5, 0.045 * r);
-      for (const sx of [-1, 1]) for (let i = 0; i < 3; i++) {
-        const x = cx + sx * 0.45 * r + (i - 1) * 0.11 * r, y = eyeY + 0.3 * r;
+      const E = S.eyes && S.eyes.length ? S.eyes
+        : [-1, 1].map((sx) => ({ cx: cx + sx * 0.45 * r, y0: eyeY, y1: eyeY + 0.1 * r }));
+      for (const e of E) for (let i = 0; i < 3; i++) {
+        // on the cheek: just under the eye, a touch to its outer side
+        const out = e.cx < cx ? -1 : 1, x = e.cx + out * 0.06 * r + (i - 1) * 0.11 * r, y = e.y1 + 0.2 * r;
         c.beginPath(); c.moveTo(x + 0.05 * r, y - 0.09 * r); c.lineTo(x - 0.05 * r, y + 0.09 * r); c.stroke();
       }
     }
