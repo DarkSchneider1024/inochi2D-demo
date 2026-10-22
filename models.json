@@ -1,5 +1,13 @@
 [
   {
+    "id": "gold_mage_gpt_v1",
+    "name": "金髮魔導學者（GPT 製作）",
+    "file": "models/gold_mage_gpt_v1.inp",
+    "thumb": "thumbs/gold_mage_gpt_v1.png",
+    "noIdleArms": true,
+    "desc": "依使用者參考圖製作：尖刺金髮、眼鏡、黑金長外套、魔法書與腰包。40 個主圖層、4 個表情圖層、19 個參數；九軸轉頭 ±15°、笑眼眨眼、啊／喔嘴型、呼吸、手肘與書本連動、衣襬與墜飾擺動。採 Inochi2D 網格模型；可編輯 PSD 與模型包見 README。"
+  },
+  {
     "id": "bobo",
     "name": "兔子波波",
     "file": "models/bobo.inp",

@@ -64,6 +64,11 @@
   .nav-prev { left: 16px; }
   .nav-next { right: 16px; }
   @media (max-width: 760px) {
+    body:not(.full) .wrap { display: flex; flex-direction: column; height: auto; min-height: 100%; }
+    body:not(.full) .stage { flex: none; height: 76dvh; min-height: 480px; }
+    body:not(.full) aside { width: 100%; overflow: visible; border-left: 0; border-top: 1px solid var(--line); }
+    nav.tabs { flex-wrap: wrap; }
+    nav.tabs a { white-space: nowrap; }
     .nav-btn { padding: 9px 8px; font-size: 13px; }
     .nav-btn .nav-arrow { font-size: 14px; }
     .nav-prev { left: 6px; }
@@ -112,13 +117,10 @@
                    background: repeating-conic-gradient(#ccc 0 25%, #fff 0 50%) 0 0 / 24px 24px; touch-action: auto; }
   .qa-big .bar { display: flex; gap: 8px; color: #fff; align-items: center; flex-wrap: wrap; justify-content: center; }
   .qa-big .bar button { color: #fff; border-color: rgba(255,255,255,.4); }
-  /* phones: character on the left, parameters on the right, two independent panes; the page itself never
-     scrolls, so swiping the controls can't move the character */
+  /* Phones: give the model a full-width stage and put controls below it. */
   @media (max-width: 760px) {
-    html, body { height: 100dvh; overflow: hidden; overscroll-behavior: none; }
-    .wrap { grid-template-columns: 52% 48%; grid-template-rows: 100dvh; height: 100dvh; }
-    .stage { min-height: 0; height: 100dvh; }
-    aside { height: 100dvh; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    html, body { min-height: 100dvh; height: auto; overflow-x: hidden; }
+    aside { height: auto;
             padding: 12px 10px; font-size: 13px; }
     h1 { font-size: 15px; } .sub { font-size: 11px; }
     nav.tabs a { padding: 3px 9px; font-size: 12px; }
