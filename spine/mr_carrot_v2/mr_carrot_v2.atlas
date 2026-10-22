@@ -33,26 +33,26 @@ glasses
 mouth_ah
 	bounds: 1416, 1071, 64, 43
 mouth_oh
-	bounds: 1484, 1071, 30, 35
+	bounds: 1484, 1071, 21, 28
 eye_white_R
-	bounds: 1518, 1071, 47, 26
+	bounds: 1509, 1071, 47, 26
 iris_R
-	bounds: 1569, 1071, 26, 26
+	bounds: 1560, 1071, 26, 26
 brow_R
-	bounds: 1599, 1071, 56, 24
+	bounds: 1590, 1071, 56, 24
 eye_white_L
-	bounds: 1659, 1071, 48, 24
+	bounds: 1650, 1071, 48, 24
 iris_L
-	bounds: 1711, 1071, 26, 24
+	bounds: 1702, 1071, 26, 24
 brow_L
-	bounds: 1741, 1071, 53, 24
+	bounds: 1732, 1071, 53, 24
 mouth_line
-	bounds: 1798, 1071, 59, 24
+	bounds: 1789, 1071, 59, 24
 lash_R
-	bounds: 1861, 1071, 56, 22
+	bounds: 1852, 1071, 56, 22
 eye_closed_R
-	bounds: 1921, 1071, 43, 20
+	bounds: 1912, 1071, 43, 20
 lash_L
-	bounds: 1968, 1071, 58, 17
+	bounds: 1959, 1071, 58, 17
 eye_closed_L
 	bounds: 4, 1523, 45, 17
