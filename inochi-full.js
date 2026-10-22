@@ -38,11 +38,32 @@ export async function loadINP(url, onProgress) {
   for (let i = 0; i < count; i++) {
     const len = dv.getUint32(o); const enc = buf[o + 4]; o += 5;
     if (enc !== 0) throw new Error('TGA textures: re-pack with tools/inx_to_inp.py');
-    // premultiplied bitmaps: WebGL ignores UNPACK_PREMULTIPLY_ALPHA for ImageBitmap sources
-    jobs.push(createImageBitmap(new Blob([buf.slice(o, o + len)], { type: 'image/png' }), { premultiplyAlpha: 'premultiply' }));
+    jobs.push(loadTexture(new Blob([buf.slice(o, o + len)], { type: 'image/png' })));
     o += len;
   }
   return { json, textures: await Promise.all(jobs), bytes: buf.length };
+}
+
+// Inochi Creator stores textures already premultiplied (rgb <= alpha everywhere); our Python-built
+// puppets store straight alpha. Multiplying a premultiplied texture again darkens every soft edge
+// (grey nose shadow, dark lip outline, dirty hair highlights), so look at the pixels and only
+// premultiply straight ones. WebGL ignores UNPACK_PREMULTIPLY_ALPHA for ImageBitmap sources.
+const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+async function loadTexture(blob) {
+  const raw = await createImageBitmap(blob, { premultiplyAlpha: 'none' });
+  probe.canvas.width = raw.width; probe.canvas.height = raw.height;
+  probe.clearRect(0, 0, raw.width, raw.height); probe.drawImage(raw, 0, 0);
+  const px = probe.getImageData(0, 0, raw.width, raw.height).data;
+  let soft = 0, over = 0;
+  for (let i = 0; i < px.length; i += 4 * 3) {
+    const a = px[i + 3];
+    if (a < 24 || a > 232) continue;                  // low alpha rounds badly through the canvas
+    soft++;
+    if (Math.max(px[i], px[i + 1], px[i + 2]) > a + 6) over++;
+  }
+  if (soft && over / soft < 0.01) { raw.premultiplied = true; return raw; }
+  raw.close();
+  return createImageBitmap(blob, { premultiplyAlpha: 'premultiply' });
 }
 
 // ---- 4x4 column-major matrices (only the x/y rows matter for drawing, z is kept for 3-D rotation) ----
