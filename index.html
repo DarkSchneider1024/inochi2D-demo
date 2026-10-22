@@ -39,6 +39,20 @@
   button { font: inherit; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
   button:hover { border-color: var(--accent); }
   .exprs { display: flex; flex-wrap: wrap; gap: 6px; }
+  details.layers summary { cursor: pointer; list-style: none; }
+  details.layers summary h2 { display: inline; }
+  details.layers summary::before { content: '▸ '; color: var(--muted); }
+  details.layers[open] summary::before { content: '▾ '; }
+  .layer-tools { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .layer-tools input { flex: 1 1 100%; font: inherit; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--ink); }
+  .layer-tools button { font-size: 12px; padding: 4px 8px; }
+  #layers { max-height: 360px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; padding: 4px 6px; }
+  #layers .lg { font-size: 11px; color: var(--muted); margin: 8px 0 2px; }
+  #layers label { display: flex; align-items: center; gap: 6px; font-size: 13px; margin: 1px 0; }
+  #layers label span { flex: 1; }
+  #layers label.off span { color: var(--muted); text-decoration: line-through; }
+  #layers label button { font-size: 11px; padding: 1px 6px; }
+  #layers label button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
   .exprs button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
   .zoombtn { position: absolute; right: 10px; top: 8px; z-index: 5; font-size: 13px; padding: 5px 10px; border-radius: 999px;
              background: var(--panel); backdrop-filter: blur(6px); }
@@ -142,7 +156,7 @@
       <span class="snapcount" id="snapCount"></span>
     </div></div>
   <aside>
-    <nav class="tabs"><a href="./" aria-current="page">Demo</a><a href="gallery.html">作品集</a><a href="spine/">Spine 動畫</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
+    <nav class="tabs"><a href="./" aria-current="page">Demo</a><a href="gallery.html">作品集</a><a href="official.html">公版範例</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
     <h1 id="title">Inochi2D</h1>
     <p class="sub" id="sub">由 PSD 自動綁定的 Inochi2D 模型，用自寫的 WebGL 播放器即時渲染。</p>
     <label for="pick" class="sub" style="display:block;margin-bottom:4px">角色</label>
@@ -180,13 +194,22 @@
       <div class="exprs" id="gests"></div>
     </div>
     <div class="act-only">
-      <h2 id="actsTitle">動作（與 Spine 版相同・連續播放，再按一次停止）</h2>
+      <h2 id="actsTitle">動作（連續播放，再按一次停止）</h2>
       <div class="exprs" id="acts"></div>
     </div>
     <div class="feel-only">
       <h2>喜怒哀樂（表情＋漫畫符號，跟影片同一套）</h2>
       <div class="exprs" id="feels"></div>
     </div>
+    <details class="layers" id="layersBox">
+      <summary><h2>PSD 圖層（隱藏／單獨看，找髒圖用）</h2></summary>
+      <div class="layer-tools">
+        <input type="search" id="layerQ" placeholder="搜尋圖層名稱，例如 眼、瀏海">
+        <button id="layerAll">全部顯示</button><button id="layerNone">全部隱藏</button><button id="layerCopy">📋 複製隱藏清單</button>
+      </div>
+      <p class="note">勾選＝顯示。按「單看」只留這一層（再按一次恢復）。回報問題時按「複製隱藏清單」貼給 Claude 即可。</p>
+      <div id="layers"></div>
+    </details>
     <h2>參數</h2>
     <div id="params"></div>
     <p><button id="reset">重設參數</button></p>
@@ -293,6 +316,44 @@ try {
 } catch (e) {
   status.textContent = '載入失敗：' + e.message + '（請用本機伺服器開啟，例如 python -m http.server）';
   throw e;
+}
+
+// ---- PSD layer visibility (2026-10-23, user: hide layers one by one to find dirty pixels and report them)
+// n.hide is read by GL.draw; the side partner gets the same names hidden so the walk turn shows the same thing
+{
+  const list = document.getElementById('layers'), q = document.getElementById('layerQ'), rows = [];
+  let solo = null;
+  const setHide = (name, h) => {
+    for (const pp of [puppet, side?.p]) if (pp) for (const n of pp.parts) if (n.name === name) n.hide = h;
+  };
+  const sync = () => { for (const r of rows) { r.cb.checked = !r.n.hide; r.lab.classList.toggle('off', !!r.n.hide); r.sb.setAttribute('aria-pressed', solo === r.n.name); } };
+  let group = null;
+  for (const n of puppet.parts) {                      // file order = PSD order, grouped by parent node
+    const g = n.parent && n.parent.type !== 'Part' ? n.parent.name : '';
+    if (g !== group) { group = g; const d = document.createElement('div'); d.className = 'lg'; d.textContent = g || '（根）'; list.append(d); }
+    const lab = document.createElement('label'), cb = document.createElement('input'), sp = document.createElement('span'), sb = document.createElement('button');
+    cb.type = 'checkbox'; cb.checked = true; sp.textContent = n.name; sb.textContent = '單看';
+    cb.onchange = () => { solo = null; setHide(n.name, !cb.checked); sync(); };
+    sb.onclick = (e) => {
+      e.preventDefault();
+      if (solo === n.name) { solo = null; for (const r of rows) setHide(r.n.name, false); }
+      else { solo = n.name; for (const r of rows) setHide(r.n.name, r.n.name !== n.name); }
+      sync();
+    };
+    lab.append(cb, sp, sb); list.append(lab);
+    rows.push({ n, lab, cb, sb, g });
+  }
+  q.oninput = () => {
+    const s = q.value.trim();
+    for (const r of rows) r.lab.style.display = !s || r.n.name.includes(s) || r.g.includes(s) ? '' : 'none';
+  };
+  document.getElementById('layerAll').onclick = () => { solo = null; for (const r of rows) setHide(r.n.name, false); sync(); };
+  document.getElementById('layerNone').onclick = () => { solo = null; for (const r of rows) setHide(r.n.name, true); sync(); };
+  document.getElementById('layerCopy').onclick = async () => {
+    const off = rows.filter((r) => r.n.hide).map((r) => r.n.name), on = rows.filter((r) => !r.n.hide).map((r) => r.n.name);
+    const txt = `模型 ${model.id}：` + (off.length <= on.length ? `隱藏 ${off.length} 層：${off.join('、') || '（無）'}` : `只顯示 ${on.length} 層：${on.join('、')}`);
+    try { await navigator.clipboard.writeText(txt); status.textContent = '已複製：' + txt; } catch { prompt('複製這段文字：', txt); }
+  };
 }
 
 // ---- controls built from the puppet's own parameters

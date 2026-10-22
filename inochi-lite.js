@@ -210,7 +210,7 @@ export class Renderer {
     gl.useProgram(this.prog);
     const sx = (2 * view.scale) / c.width, sy = (2 * view.scale) / c.height;
     gl.uniform4f(this.loc.view, sx, sy, -view.cx * sx, -view.cy * sy);
-    const order = [...p.parts].filter((n) => n.enabled && n.alpha > 0).sort((a, b) => b.z - a.z);   // back to front
+    const order = [...p.parts].filter((n) => n.enabled && !n.hide && n.alpha > 0).sort((a, b) => b.z - a.z);   // back to front
     for (const n of order) {
       const m = n.mesh, M = n.world, nv = m.verts.length / 2;
       const pos = new Float32Array(nv * 2);
