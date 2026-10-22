@@ -114,7 +114,7 @@ import { FEEL, stageEmote } from './feel.js';
 const MODELS = [
   { id: 'aka', name: 'Aka', desc: '紅髮狐耳少女', file: 'models/official/aka.inp' },
   { id: 'midori', name: 'Midori', desc: '綠髮少女（MeshGroup 版）', file: 'models/official/midori.inp' },
-  { id: 'carol_v2', name: '卡洛兒姐姐', desc: '自製綁定，對照用', file: 'models/carol_v2.inp', own: true },
+  { id: 'carol_v2', name: '卡洛兒姐姐', desc: '卡洛特工作室原創', file: 'models/carol_v2.inp', own: true },
 ];
 // our own puppets name a few params differently (inochi-lite / the video stage use these): drive them under their names
 const ALIAS = { 'Breath': 'Body:: Breath' };
@@ -123,8 +123,8 @@ const cv = $('cv'), stage = $('stage');
 const R = new Renderer(cv);
 let P = null, model = null, view = { cx: 0, cy: 0, scale: 1 }, fit = null;
 const manual = new Set();             // params the user grabbed: the idle motion leaves them alone
-const auto = { follow: true, blink: true, breath: true, talk: false, physics: true };
-const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: '🫁 呼吸', talk: '💬 說話', physics: '🌬 物理' };
+const auto = { follow: true, blink: true, breath: true, sway: true, talk: false, physics: true };
+const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: '🫁 呼吸', sway: '🦶 重心移動', talk: '💬 說話', physics: '🌬 物理' };
 
 // ---- model picker ----
 for (const m of MODELS) {
@@ -217,6 +217,7 @@ function drivenNow() {
   if (auto.follow || shakeT >= 0) for (const n of ['Head:: Yaw-Pitch', 'Body:: Yaw-Pitch', 'Eye:: Left:: Move', 'Eye:: Right:: Move', 'Head:: Roll', 'Body:: Roll', 'Body:: X:: Move']) s.add(n);
   if (auto.blink) s.add('Eye:: Left:: Blink').add('Eye:: Right:: Blink');
   if (auto.breath) s.add('Breath').add('Body:: Breath');
+  if (auto.sway) s.add('Body:: X:: Move');
   if (auto.talk) s.add('Mouth:: Shape').add('Mouth:: Open').add('Mouth:: Form');
   return s;
 }
@@ -252,6 +253,9 @@ function drive(dt) {
     set('Eye:: Left:: Move', look.x); set('Eye:: Right:: Move', look.x);
   }
   if (auto.breath) set('Breath', (Math.sin(time * 2.1) + 1) / 2);
+  // 重心移動 (2026-10-23): a slow weight shift side to side -- Body:: X:: Move moves the hips while the feet stay
+  // planted (Aka's rig, and carol_v2's since today); the shake demo drives it harder
+  if (auto.sway && shakeT < 0) set('Body:: X:: Move', 0.45 * Math.sin(time * 0.55) + 0.12 * Math.sin(time * 1.3 + 0.8));
   if (auto.blink) {
     blinkNext -= dt;
     if (blinkNext <= 0 && blinkT < 0) { blinkT = 0; blinkNext = 2 + Math.random() * 3.5; }
