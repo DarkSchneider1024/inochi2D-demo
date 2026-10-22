@@ -8,7 +8,9 @@
 //   * masks (Mask / DodgeMask through the stencil buffer, alpha threshold), Composite (offscreen buffer),
 //     blend modes Normal / Multiply / LinearDodge / ClipToLower / Screen, tint and screen tint
 //   * SimplePhysics: Pendulum and SpringPendulum, XY and AngleLength output mapping
-// Not implemented: Cubic interpolation (treated as linear), emission / bump maps, animations.
+//   * animations (the 0.8 'animations' map: per-parameter lanes of keyframes) -- sampleAnimation() returns the values,
+//     the page decides how to mix them (official.html: 動作 / 表情 loop, 手勢 once)
+// Not implemented: Cubic interpolation (treated as linear), emission / bump maps.
 
 const NONE = 4294967295;
 
@@ -165,6 +167,30 @@ export class Puppet {
   }
 
   has(name) { return !!this.byName[name]; }
+
+  // ---- animations: name -> {timestep, length (frames), lanes: [{uuid, target, keyframes: [{frame, value}]}]} ----
+  get animations() { return this.json.animations || {}; }
+  animationLength(name) { const a = this.animations[name]; return a ? a.length * a.timestep : 0; }
+  sampleAnimation(name, t) {            // t in seconds -> [{param, axis, value}]; loops when the animation says so
+    const a = this.animations[name];
+    if (!a) return [];
+    const len = a.length * a.timestep;
+    t = a.loop === false ? Math.min(Math.max(t, 0), len) : ((t % len) + len) % len;
+    const f = t / a.timestep, out = [];
+    for (const l of a.lanes) {
+      const p = this.byUuid.get(l.uuid), k = l.keyframes;
+      if (!p || !k?.length) continue;
+      let v = k[k.length - 1].value;
+      for (let i = 0; i < k.length - 1; i++) {
+        if (f > k[i + 1].frame) continue;
+        const u = Math.min(1, Math.max(0, (f - k[i].frame) / ((k[i + 1].frame - k[i].frame) || 1)));
+        v = /^(Nearest|Stepped)$/.test(l.interpolation) ? k[i].value : k[i].value + (k[i + 1].value - k[i].value) * u;
+        break;
+      }
+      out.push({ param: p, axis: l.target || 0, value: v });
+    }
+    return out;
+  }
   get(name) { return this.byName[name]?.value; }
   set(name, x, y) {
     const p = this.byName[name];

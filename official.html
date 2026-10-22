@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>公版範例 · Inochi2D Demo</title>
+<title>精緻展示作品 · Inochi2D Demo</title>
 <style>
   :root { --bg: #f7efe8; --bg2: #efd9dc; --card: rgba(255,255,255,.82); --ink: #2d2436; --muted: #6f6479;
           --accent: #8a6fd1; --line: rgba(60,40,80,.14); }
@@ -71,14 +71,14 @@
   <div class="stage" id="stage">
     <canvas id="cv"></canvas><canvas id="emo" style="pointer-events: none"></canvas>
     <div class="overlay">
-      <nav class="tabs"><a href="./">Demo</a><a href="gallery.html">作品集</a><a href="official.html" aria-current="page">公版範例</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
+      <nav class="tabs"><a href="./">Demo</a><a href="gallery.html">作品集</a><a href="official.html" aria-current="page">精緻展示作品</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
     </div>
     <div class="loading" id="loading"><div>載入模型中…<div class="bar"><i id="bar"></i></div></div></div>
     <div class="hint">拖曳平移 · 滾輪縮放 · 雙擊回正</div>
   </div>
   <aside>
-    <h1>公版範例</h1>
-    <p class="lead">Inochi2D 官方範例角色，用 Inochi Creator 綁好的完整模型。拿來對照我們自己的綁定：遮罩、Composite、MeshGroup、混合模式、真物理都在這裡。</p>
+    <h1>精緻展示作品</h1>
+    <p class="lead">完整綁定的 Inochi2D 角色，用支援遮罩、Composite、MeshGroup、混合模式與真物理的播放器呈現：Inochi2D 官方範例 Aka、Midori，以及照同樣綁法做的卡洛兒姐姐（動作與表情都內建在模型裡）。</p>
     <div class="models" id="models"></div>
     <div class="stats" id="stats"></div>
 
@@ -91,11 +91,10 @@
       <button id="snap">📸 存圖</button>
     </div>
 
-    <!-- 2026-10-23 (user: 公版範例的卡洛兒比 Demo 少很多動作): the Demo's feelings / actions / wave, for models whose
-         params they drive (our own puppets); the official examples have none of those params, so they stay hidden -->
-    <div id="feelSec" hidden><h2>喜怒哀樂（表情＋漫畫符號，跟 Demo 同一套）</h2><div class="row" id="feels"></div></div>
-    <div id="actSec" hidden><h2>動作（點一下連續播放，再按一次停止）</h2><div class="row" id="acts"></div></div>
-    <div id="waveSec" hidden><h2>手勢</h2><div class="row"><button id="waveBtn" aria-pressed="false">👋 揮手</button></div></div>
+    <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
+    <div id="feelSec" hidden><h2>喜怒哀樂（模型內建表情動畫＋漫畫符號）</h2><div class="row" id="feels"></div></div>
+    <div id="actSec" hidden><h2>動作（模型內建動畫，點一下連續播放，再按一次停止）</h2><div class="row" id="acts"></div></div>
+    <div id="gestSec" hidden><h2>手勢（模型內建動畫，播一次）</h2><div class="row" id="gests"></div></div>
 
     <h2>物理（即時輸出）</h2>
     <div class="phys" id="phys"></div>
@@ -108,7 +107,6 @@
 </div>
 <script type="module">
 import { loadINP, Puppet, Renderer } from './inochi-full.js';
-import { ACTIONS, GENERIC } from './actions.js';
 import { FEEL, stageEmote } from './feel.js';
 
 const MODELS = [
@@ -276,101 +274,63 @@ function drive(dt) {
   }
 }
 
-// ---- 喜怒哀樂 / 動作 / 揮手, as on the Demo page (index.html): they only drive params, so they work in this player too
+// ---- 喜怒哀樂 / 動作 / 手勢 (2026-10-23, user: 動作和表情烘進模型，頁面直接讀模型播放): they come from the model's own
+// Inochi2D animations (make_carol2_puppet.py bakes them), grouped by name: 表情/… (loops; faded in and laid ON TOP of
+// what is already moving), 動作/… (loops; takes over its params), 手勢/… (plays once). A model without animations
+// (the official Aka / Midori) shows none of the three.
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-const pv = (name, ax = 0) => P.byName[name]?.value[ax] ?? 0;
-const setP = (name, v) => { if (P.has(name) && !manual.has(name)) P.set(name, v); };
-const feel = { want: 'neutral', shown: 'neutral', w: 0, t0: 0 };
-const act = { a: null, t0: 0, btns: [], touched: new Set(), list: null };
-const raise = { v: 0, from: 0, to: 0, t0: 0 };
-let waveUntil = 0;
+const feel = { want: '', shown: '', w: 0, t0: 0 };
+const act = { a: '', t0: 0, touched: new Set() };
+const gest = { a: '', t0: 0, touched: new Set() };
+const NEUTRAL = '😐 平常';
+const groupOf = (pre) => Object.keys(P.animations).filter((n) => n.startsWith(pre + '/'));
+function buttons(box, names, onPick) {
+  box.textContent = '';
+  for (const n of names) {
+    const b = document.createElement('button'); b.textContent = n.slice(n.indexOf('/') + 1) || NEUTRAL; b.dataset.name = n;
+    b.setAttribute('aria-pressed', 'false'); b.onclick = () => onPick(n); box.appendChild(b);
+  }
+}
+const press = (box, cur) => { for (const b of box.children) b.setAttribute('aria-pressed', b.dataset.name === cur); };
 function buildMoves() {
-  feel.want = feel.shown = 'neutral'; feel.w = 0; act.a = null; act.btns = []; act.touched.clear(); waveUntil = 0; raise.v = raise.to = 0;
-  const fb = $('feels'); fb.textContent = '';
-  $('feelSec').hidden = !(P.has('Head:: Yaw-Pitch') && P.has('Mouth:: Open'));
-  for (const [id, f] of Object.entries(FEEL)) {
-    const b = document.createElement('button'); b.textContent = f.label; b.dataset.id = id;
-    b.setAttribute('aria-pressed', id === 'neutral');
-    b.onclick = () => { feel.want = id; for (const x of fb.children) x.setAttribute('aria-pressed', x.dataset.id === id); };
-    fb.appendChild(b);
-  }
-  act.list = ACTIONS[model.id] || (P.has('Head:: Yaw-Pitch') && P.has('Mouth:: Open') ? GENERIC : null);
-  const ab = $('acts'); ab.textContent = '';
-  $('actSec').hidden = !act.list;
-  for (const a of act.list || []) {
-    const b = document.createElement('button'); b.textContent = a.label; b.title = a.hint || ''; b.setAttribute('aria-pressed', 'false');
-    b.onclick = () => { if (act.a === a) act.a = null; else { act.a = a; act.t0 = time; } };
-    ab.appendChild(b); act.btns.push([a, b]);
-  }
-  $('waveSec').hidden = !(P.has('Arm:: Left:: Raise') && P.has('Hand:: Left:: Wave'));
+  feel.want = feel.shown = ''; feel.w = 0; act.a = gest.a = ''; act.touched.clear(); gest.touched.clear();
+  const fs = groupOf('表情'), as = groupOf('動作'), gs = groupOf('手勢');
+  $('feelSec').hidden = !fs.length; $('actSec').hidden = !as.length; $('gestSec').hidden = !gs.length;
+  buttons($('feels'), fs.length ? ['', ...fs] : [], (n) => { feel.want = n; press($('feels'), n); });
+  press($('feels'), '');
+  buttons($('acts'), as, (n) => { act.a = act.a === n ? '' : n; act.t0 = time; });
+  buttons($('gests'), gs, (n) => { gest.a = gest.a === n ? '' : n; gest.t0 = time; });
 }
-$('waveBtn').onclick = () => { waveUntil = time < waveUntil ? 0 : time + 4.4; };
-function applyFeel(dt) {
-  // a new feeling: the old one eases out first, then the new one eases in (never a cut)
+function handBack(s) {                     // an animation stopped: its params go back to rest (unless the user holds them)
+  for (const p of s.touched) if (!manual.has(p.name.trim())) p.value = [...p.defaults];
+  s.touched.clear();
+}
+function play(name, t, how, w = 1, s = null) {
+  for (const { param: p, axis, value } of P.sampleAnimation(name, t)) {
+    if (manual.has(p.name.trim())) continue;
+    s?.touched.add(p);
+    const v = [...p.value];
+    if (/Blink$/.test(p.name)) v[axis] = Math.max(v[axis], w * value);           // auto blinks still happen
+    else if (how === 'add') v[axis] += w * (value - p.defaults[axis]);
+    else v[axis] = v[axis] + (value - v[axis]) * w;
+    v[axis] = clamp(v[axis], p.min[axis], p.max[axis]);
+    p.value = v;
+  }
+}
+function applyMoves(dt) {
+  // 表情: the old one eases out first, then the new one eases in (never a cut)
   if (feel.shown !== feel.want) { feel.w = Math.max(0, feel.w - dt * 6); if (feel.w <= 0) { feel.shown = feel.want; feel.t0 = time; } }
-  else feel.w = feel.shown === 'neutral' ? 0 : Math.min(1, feel.w + dt * 4);
-  const E = FEEL[feel.shown] || {}, w = feel.w, u = time - feel.t0;
-  setP('Brow:: Mood', w * (E.brow || 0)); setP('Brow:: Raise', w * (E.raise || 0));
-  setP('Mouth:: Mood', w * (E.mouth || 0)); setP('Eye:: Shock', w * (E.shock || 0)); setP('Face:: Blush', w * (E.blush || 0));
-  if (E.shock || E.raise) setP('Face:: Surprise', w * Math.max(E.shock || 0, (E.raise || 0) * 0.6));
-  if (w <= 0) return;
-  for (const n of ['Eye:: Left:: Blink', 'Eye:: Right:: Blink']) {
-    if (!P.has(n) || manual.has(n)) continue;
-    let v = pv(n);
-    if (E.lid) v = Math.max(v, w * E.lid);
-    if (E.smile) v = Math.max(v, w > 0.5 ? 1 : w * 1.2);
-    if (E.shock) v = Math.min(v, 1 - w);
-    P.set(n, v);
-  }
-  if (E.open && !auto.talk && P.has('Mouth:: Open') && !manual.has('Mouth:: Open')) {
-    P.set('Mouth:: Open', Math.max(pv('Mouth:: Open'), w * E.open * (E.laugh ? 0.7 + 0.3 * Math.abs(Math.sin(u * 9)) : 1)));
-    setP('Mouth:: Form', E.form ?? 0);
-  }
-  if (P.has('Head:: Yaw-Pitch') && !manual.has('Head:: Yaw-Pitch')) {
-    let yaw = pv('Head:: Yaw-Pitch', 0), pitch = pv('Head:: Yaw-Pitch', 1);
-    pitch -= w * (E.pitch || 0);
-    if (E.shake) yaw += w * E.shake * 0.1 * Math.sin(u * 23);
-    P.set('Head:: Yaw-Pitch', clamp(yaw, -1, 1), clamp(pitch, -1, 1));
-  }
-  if (P.has('Head:: Roll') && !manual.has('Head:: Roll')) {
-    let roll = pv('Head:: Roll') + w * (E.roll || 0);
-    if (E.laugh) roll += w * 0.06 * Math.sin(u * 9);
-    if (E.shake) roll += w * E.shake * 0.25 * Math.sin(u * 31);
-    if (E.tremble) roll += w * 0.05 * Math.sin(u * 47);
-    P.set('Head:: Roll', clamp(roll, -1, 1));
-  }
-}
-function applyAction() {
-  // an action loops until its button is pressed again; every action starts and ends at rest, so the seam is clean
-  if (act.a && time - act.t0 > act.a.dur) act.t0 += act.a.dur * Math.floor((time - act.t0) / act.a.dur);
-  if (act.touched.size && act.touched.a !== act.a) {          // ended / switched: hand its params back at rest
-    for (const name of act.touched) { const p = P.byName[name]; if (p && !manual.has(name)) p.value = [...p.defaults]; }
-    act.touched.clear();
-  }
-  for (const [a, b] of act.btns) b.setAttribute('aria-pressed', act.a === a);
-  if (!act.a) return;
-  for (const [name, v] of Object.entries(act.a.f(time - act.t0))) {
-    const p = P.byName[name];
-    if (!p || manual.has(name)) continue;
-    act.touched.add(name); act.touched.a = act.a;
-    if (Array.isArray(v)) P.set(name, clamp(v[0], p.min[0], p.max[0]), clamp(v[1], p.min[1], p.max[1]));
-    else if (/Blink$/.test(name)) P.set(name, Math.max(p.value[0], clamp(v, p.min[0], p.max[0])));   // auto blinks still happen
-    else P.set(name, clamp(v, p.min[0], p.max[0]));
-  }
-}
-function applyWave() {
-  // carol_v2: hang -> open -> wave on one skeleton; the key drawings switch on a linear 0.7 s ramp (limited anime)
-  if ($('waveSec').hidden) return;
-  const want = time < waveUntil ? 1 : 0;
-  $('waveBtn').setAttribute('aria-pressed', time < waveUntil);
-  if (want !== raise.to) { raise.from = raise.v; raise.to = want; raise.t0 = time; }
-  raise.v = raise.from + (raise.to - raise.from) * clamp((time - raise.t0) / 0.7, 0, 1);
-  if (act.touched.has('Arm:: Left:: Raise') && raise.v === 0) return;           // an action is posing the arm
-  setP('Arm:: Left:: Raise', raise.v);
-  const up = clamp((raise.v - 0.85) / 0.15, 0, 1);                             // wave only once the hand is up
-  for (const q of ['Arm:: Left:: Swing', 'Arm:: Left:: Bend', 'Hand:: Left:: Wrist']) if (raise.v > 0) setP(q, pv(q) * (1 - clamp(raise.v * 4, 0, 1)));
-  setP('Hand:: Left:: Wave', up * Math.sin(time * 6.2));
-  setP('Hand:: Left:: Wave Wrist', up * 0.9 * Math.sin(time * 6.2 - 0.75));
+  else feel.w = feel.shown ? Math.min(1, feel.w + dt * 4) : 0;
+  if (feel.shown && feel.w > 0) play(feel.shown, time - feel.t0, 'add', feel.w);
+  // 動作: loops until pressed again
+  if (act.touched.size && act.touched.a !== act.a) handBack(act);
+  press($('acts'), act.a);
+  if (act.a) { play(act.a, time - act.t0, 'set', 1, act); act.touched.a = act.a; }
+  // 手勢: once, then hands the arm back
+  if (gest.a && time - gest.t0 > P.animationLength(gest.a)) gest.a = '';
+  if (gest.touched.size && !gest.a) handBack(gest);
+  press($('gests'), gest.a);
+  if (gest.a) play(gest.a, time - gest.t0, 'set', 1, gest);
 }
 // the 漫符 on the face (臉) / eye (眼白_*) boxes, drawn by the video stage's own code (feel.js)
 const emoC = $('emo'), emoX = emoC.getContext('2d');
@@ -387,13 +347,14 @@ function screenBox(n) {
 function drawFeel() {
   if (emoC.width !== cv.width || emoC.height !== cv.height) { emoC.width = cv.width; emoC.height = cv.height; }
   emoX.clearRect(0, 0, emoC.width, emoC.height);
-  if (!(FEEL[feel.shown] || {}).emote || feel.w <= 0) return;
+  const id = Object.keys(FEEL).find((k) => FEEL[k].label === feel.shown.slice(feel.shown.indexOf('/') + 1));
+  if (!id || !FEEL[id].emote || feel.w <= 0) return;
   const F = screenBox(P.parts.find((q) => q.name === '臉'));
   if (!F) return;
   const eyes = ['眼白_R', '眼白_L'].map((nm) => screenBox(P.parts.find((q) => q.name === nm))).filter(Boolean);
   const wMax = Math.max(0, ...eyes.map((e) => e.w));
   const S = { face: F, h: 6 * (F.y1 - F.y0), dir: 1, sx: (F.x0 + F.x1) / 2, top: F.y0, eyes: eyes.filter((e) => e.w > 0.4 * wMax) };
-  stageEmote.uiEmote(emoX, { emo: { v: feel.shown, w: feel.w, u: time - feel.t0 } }, S, view.scale);
+  stageEmote.uiEmote(emoX, { emo: { v: id, w: feel.w, u: time - feel.t0 } }, S, view.scale);
 }
 
 // ---- view: fit, pan, zoom ----
@@ -435,9 +396,7 @@ function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
   if (P) {
     drive(dt);
-    applyFeel(dt);
-    applyAction();
-    applyWave();
+    applyMoves(dt);
     P.update();
     if (auto.physics) P.stepPhysics(dt);
     R.draw(view);

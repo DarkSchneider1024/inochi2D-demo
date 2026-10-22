@@ -8,7 +8,7 @@
 | --- | --- |
 | `index.html` | Demo 頁：可切換角色（`?model=<id>` 或下拉選單），有參數滑桿、視線跟著滑鼠或手指、自動眨眼、呼吸、頭髮物理、手臂自然擺動、說話 |
 | `gallery.html` | 作品集頁：用卡片列出所有角色，點一下就在 Demo 裡開啟 |
-| `official.html` | 公版範例頁（`?model=aka` / `midori`）：Inochi2D 官方範例角色 Aka、Midori（seagetch，CC BY 4.0），視線跟隨、眨眼、呼吸、說話、晃動展示、全部參數滑桿、物理即時輸出 |
+| `official.html` | 精緻展示作品頁（原「公版範例」，`?model=aka` / `midori` / `carol_v2`）：Inochi2D 官方範例角色 Aka、Midori（seagetch，CC BY 4.0），視線跟隨、眨眼、呼吸、說話、晃動展示、全部參數滑桿、物理即時輸出 |
 | `inochi-full.js` | 給 Inochi Creator 綁的模型用的 WebGL2 播放器：3D 節點變換、MeshGroup、遮罩、Composite、混合模式、Pendulum／SpringPendulum 物理 |
 | `models/official/*.inp` | 官方範例模型，用 `tools/inx_to_inp.py` 從 `../example-models/*.inx` 把 TGA 貼圖轉成 PNG（瀏覽器不能解 TGA），JSON 未改 |
 | `models.json` | 角色清單（兩個頁面共用）：id、名稱、說明、模型檔、縮圖 |
