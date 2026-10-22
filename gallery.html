@@ -44,10 +44,19 @@
 </head>
 <body>
 <main>
-  <nav class="tabs"><a href="./">Demo</a><a href="gallery.html" aria-current="page">作品集</a><a href="spine/">Spine 動畫</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
+  <nav class="tabs"><a href="./">Demo</a><a href="gallery.html" aria-current="page">作品集</a><a href="official.html">公版範例</a><a href="spine/">Spine 動畫</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
   <h1>作品集</h1>
   <p class="lead">用 Python 從零畫、拆成 Live2D 圖層、再綁定成 Inochi2D 模型的角色。點一張卡片就能在 Demo 裡操作它。</p>
   <div class="grid" id="grid"></div>
+
+  <h1 class="sec">公版範例</h1>
+  <p class="lead">Inochi2D 官方範例角色（設計與綁定 seagetch，CC BY 4.0），在 Inochi Creator 裡綁好的完整模型：遮罩、Composite、MeshGroup、Multiply／加亮混合、彈簧擺物理。拿來對照我們自己的綁定。</p>
+  <div class="grid">
+    <a class="card" href="official.html?model=aka"><div class="thumb"><img src="thumbs/official_aka.webp" alt="Aka" loading="lazy"></div>
+      <div class="info"><h2>Aka</h2><p>紅髮狐耳少女。76 個圖層、34 個參數、19 組彈簧擺物理（頭髮、耳朵、袖子、裙子），眼睛與頭髮陰影用 Composite＋遮罩。</p><div class="cta">開啟公版範例 →</div></div></a>
+    <a class="card" href="official.html?model=midori"><div class="thumb"><img src="thumbs/official_midori.webp" alt="Midori" loading="lazy"></div>
+      <div class="info"><h2>Midori</h2><p>綠髮狸耳少女。81 個圖層、35 個參數、20 組物理，臉、眼睛、嘴巴、身體用 8 個 MeshGroup 整組變形，頭髮高光用加亮混合。</p><div class="cta">開啟公版範例 →</div></div></a>
+  </div>
 
   <h1 class="sec">動畫短片</h1>
   <p class="lead">用上面的角色做的 Vyond 風格短片：多層視差背景、鏡頭運動、走路、手勢、眨眼，配音依音量自動對嘴。</p>
