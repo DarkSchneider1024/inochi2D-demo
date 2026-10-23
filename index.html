@@ -253,10 +253,12 @@ const LABELS = { 'Head:: Yaw-Pitch': ['頭部 左右', '頭部 上下'], 'Head::
 
 // ---- which model: ?model=<id> (listed in models.json, shared with the gallery page)
 const models = await (await fetch('./models.json', { cache: 'no-cache' })).json();
+// (2026-10-23) every model's date version (versions.js); the model loads as <file>?v=<build> -- never a cached old one
+const { vurl, vlabel } = await import('./versions.js');
 const wanted = new URLSearchParams(location.search).get('model');
 const model = models.find((m) => m.id === wanted) || models[0];
 const pick = document.getElementById('pick');
-for (const m of models) pick.add(new Option(m.name, m.id, false, m.id === model.id));
+for (const m of models) pick.add(new Option(m.name + (vlabel(m.file) ? `　${vlabel(m.file)}` : ''), m.id, false, m.id === model.id));
 pick.onchange = () => { location.search = '?model=' + pick.value; };
 
 // 前後切換按鈕控制（對應畫面上「前」「後」按鈕）
@@ -284,18 +286,18 @@ window.addEventListener('keydown', (e) => {
   else if (e.key === 'ArrowRight') switchModel(1);
 });
 
-document.getElementById('title').textContent = `${model.name} · Inochi2D`;
-document.getElementById('sub').innerHTML = `${model.desc}<br>模型檔：<code>${model.file}</code>`;
+document.getElementById('title').textContent = `${model.name}${vlabel(model.file) ? ' ' + vlabel(model.file) : ''} · Inochi2D`;
+document.getElementById('sub').innerHTML = `${model.desc}<br>模型檔：<code>${model.file}</code>${vlabel(model.file) ? `・版本 <b>${vlabel(model.file)}</b>` : ''}`;
 document.title = `${model.name} · Inochi2D Demo`;
 
 let puppet, gl, tex, side = null, view = { cx: 0, cy: 0, scale: 1 }, autoFit = true, isSide = false;
 try {
-  const data = await loadINP('./' + model.file);
+  const data = await loadINP(vurl('./' + model.file));
   puppet = new Puppet(data);
   gl = new GL(canvas, { alpha: true });
   tex = data.textures.map((b) => gl.texture(b));
   if (model.side) {                        // profile partner for the natural-turn walk
-    const d2 = await loadINP(`./models/${model.side}.inp`);
+    const d2 = await loadINP(vurl(`./models/${model.side}.inp`));
     const joints = await (await fetch(`./models/${model.side}.joints.json`)).json();
     side = { p: new Puppet(d2), tex: d2.textures.map((b) => gl.texture(b)), joints,
              Lt: joints['Shin F'][1] - joints['Thigh F'][1], Ls: joints['Foot F'][1] - joints['Shin F'][1] };

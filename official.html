@@ -127,11 +127,15 @@ const manual = new Set();             // params the user grabbed: the idle motio
 const auto = { follow: true, blink: true, breath: true, sway: true, talk: false, physics: true };
 const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: '🫁 呼吸', sway: '🦶 重心移動', talk: '💬 說話', physics: '🌬 物理' };
 
+// ---- versions (2026-10-23): versions.js -- the date version on every model, ?v=<build> against the browser cache
+const { verOf, vurl, vlabel } = await import('./versions.js');
+
 // ---- model picker ----
 for (const m of MODELS) {
   const b = document.createElement('button');
   b.innerHTML = `<b></b><span></span>`;
-  b.querySelector('b').textContent = m.name; b.querySelector('span').textContent = m.desc;
+  b.querySelector('b').textContent = m.name + (vlabel(m.file) ? `  ${vlabel(m.file)}` : '');
+  b.querySelector('span').textContent = m.desc;
   b.onclick = () => open(m.id);
   b.dataset.id = m.id;
   $('models').appendChild(b);
@@ -150,16 +154,17 @@ async function open(id) {
   for (const b of $('models').children) b.setAttribute('aria-pressed', b.dataset.id === model.id);
   $('loading').style.display = ''; $('bar').style.width = '0';
   const t0 = performance.now();
-  const data = await loadINP(model.file, (f) => { $('bar').style.width = `${(f * 100).toFixed(0)}%`; });
+  const ver = verOf(model.file);
+  const data = await loadINP(vurl(model.file), (f) => { $('bar').style.width = `${(f * 100).toFixed(0)}%`; });
   if (model.id !== id) return;                       // switched again while loading
   P = new Puppet(data);
   R.attach(P);
   manual.clear();
   const m = data.json.meta || {};
   const clean = (s) => (s || '').replace(/\0/g, '').trim();
-  $('stats').textContent = `${P.parts.length} 個圖層 · ${P.params.length} 個參數 · ${P.physics.length} 個物理 · ` +
+  $('stats').textContent = (ver ? `版本 v${ver.version} · ` : '') + `${P.parts.length} 個圖層 · ${P.params.length} 個參數 · ${P.physics.length} 個物理 · ` +
     `${P.groups.length} 個 MeshGroup · ${(data.bytes / 1e6).toFixed(1)} MB · ${((performance.now() - t0) / 1000).toFixed(1)} 秒載入`;
-  $('credit').innerHTML = model.own ? `「${model.name}」為卡洛特工作室原創角色，PSD 拆層與 Inochi2D 綁定由 Claude 以 Python 自動產生（<code>${model.own}</code>）。放在這裡和官方範例並排，比對參數、物理與畫面。播放器 <code>inochi-full.js</code> 為本站自寫。` : `「${model.name}」設計與綁定：<a href="${clean(m.contact) || 'https://twitter.com/seagetch'}" target="_blank" rel="noopener">${clean(m.artist) || 'seagetch'}</a>・授權 <a href="${clean(m.licenseURL) || 'https://creativecommons.org/licenses/by/4.0/'}" target="_blank" rel="noopener">CC BY 4.0</a>。來源：<a href="https://github.com/Inochi2D/example-models" target="_blank" rel="noopener">Inochi2D/example-models</a>（貼圖由 TGA 轉成 PNG，其餘未修改）。播放器 <code>inochi-full.js</code> 為本站自寫。`;
+  $('credit').innerHTML = model.own ? `「${model.name}」為卡洛特工作室原創角色，PSD 拆層與 Inochi2D 綁定由 Claude 以 Python 自動產生（<code>${model.own}</code>）。放在這裡和官方範例並排，比對參數、物理與畫面。播放器 <code>inochi-full.js</code> 為本站自寫。` + (ver && ver.history ? `<br>版本紀錄：${ver.history.slice(-5).reverse().map((h) => `<b>v${h.version}</b>（${h.build}）${h.note || ''}`).join('；')}` : '') : `「${model.name}」設計與綁定：<a href="${clean(m.contact) || 'https://twitter.com/seagetch'}" target="_blank" rel="noopener">${clean(m.artist) || 'seagetch'}</a>・授權 <a href="${clean(m.licenseURL) || 'https://creativecommons.org/licenses/by/4.0/'}" target="_blank" rel="noopener">CC BY 4.0</a>。來源：<a href="https://github.com/Inochi2D/example-models" target="_blank" rel="noopener">Inochi2D/example-models</a>（貼圖由 TGA 轉成 PNG，其餘未修改）。播放器 <code>inochi-full.js</code> 為本站自寫。`;
   buildParams();
   buildPhys();
   buildMoves();

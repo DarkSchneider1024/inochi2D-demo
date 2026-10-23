@@ -75,6 +75,7 @@
 </main>
 <script type="module">
 const models = await (await fetch('./models.json', { cache: 'no-cache' })).json();
+const { vlabel } = await import('./versions.js');          // (2026-10-23) the date version of each model
 const grid = document.getElementById('grid');
 for (const m of models) {
   const a = document.createElement('a');
@@ -84,7 +85,7 @@ for (const m of models) {
     <div class="info"><h2></h2><p></p><div class="cta">開啟 Demo →</div></div>`;
   a.querySelector('img').src = m.thumb;
   a.querySelector('img').alt = m.name;
-  a.querySelector('h2').textContent = m.name;
+  a.querySelector('h2').textContent = m.name + (vlabel(m.file) ? `　${vlabel(m.file)}` : '');
   a.querySelector('p').textContent = m.desc;
   grid.appendChild(a);
 }
