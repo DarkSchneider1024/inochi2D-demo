@@ -78,7 +78,7 @@
   </div>
   <aside>
     <h1>精緻展示作品</h1>
-    <p class="lead">完整綁定的 Inochi2D 角色，用支援遮罩、Composite、MeshGroup、混合模式與真物理的播放器呈現：Inochi2D 官方範例 Aka、Midori，以及照同樣綁法做的卡洛兒姐姐（動作與表情都內建在模型裡）。</p>
+    <p class="lead">完整綁定的 Inochi2D 角色，用支援遮罩、Composite、MeshGroup、混合模式與真物理的播放器呈現：Inochi2D 官方範例 Aka、Midori，以及照同樣綁法做的卡洛兒姐姐、卡洛特先生（動作與表情都內建在模型裡）。</p>
     <div class="models" id="models"></div>
     <div class="stats" id="stats"></div>
 
@@ -112,7 +112,8 @@ import { FEEL, stageEmote } from './feel.js';
 const MODELS = [
   { id: 'aka', name: 'Aka', desc: '紅髮狐耳少女', file: 'models/official/aka.inp' },
   { id: 'midori', name: 'Midori', desc: '綠髮少女（MeshGroup 版）', file: 'models/official/midori.inp' },
-  { id: 'carol_v2', name: '卡洛兒姐姐', desc: '卡洛特工作室原創', file: 'models/carol_v2.inp', own: true },
+  { id: 'carol_v2', name: '卡洛兒姐姐', desc: '卡洛特工作室原創', file: 'models/carol_v2.inp', own: 'make_carol2_puppet.py' },
+  { id: 'mr_carrot_v2', name: '卡洛特先生', desc: '卡洛特工作室原創', file: 'models/mr_carrot_v2.inp', own: 'make_mrcarrot2_puppet.py' },
 ];
 // our own puppets name a few params differently (inochi-lite / the video stage use these): drive them under their names
 const ALIAS = { 'Breath': 'Body:: Breath' };
@@ -156,7 +157,7 @@ async function open(id) {
   const clean = (s) => (s || '').replace(/\0/g, '').trim();
   $('stats').textContent = `${P.parts.length} 個圖層 · ${P.params.length} 個參數 · ${P.physics.length} 個物理 · ` +
     `${P.groups.length} 個 MeshGroup · ${(data.bytes / 1e6).toFixed(1)} MB · ${((performance.now() - t0) / 1000).toFixed(1)} 秒載入`;
-  $('credit').innerHTML = model.own ? `「${model.name}」為卡洛特工作室原創角色，PSD 拆層與 Inochi2D 綁定由 Claude 以 Python 自動產生（<code>make_carol2_puppet.py</code>）。放在這裡和官方範例並排，比對參數、物理與畫面。播放器 <code>inochi-full.js</code> 為本站自寫。` : `「${model.name}」設計與綁定：<a href="${clean(m.contact) || 'https://twitter.com/seagetch'}" target="_blank" rel="noopener">${clean(m.artist) || 'seagetch'}</a>・授權 <a href="${clean(m.licenseURL) || 'https://creativecommons.org/licenses/by/4.0/'}" target="_blank" rel="noopener">CC BY 4.0</a>。來源：<a href="https://github.com/Inochi2D/example-models" target="_blank" rel="noopener">Inochi2D/example-models</a>（貼圖由 TGA 轉成 PNG，其餘未修改）。播放器 <code>inochi-full.js</code> 為本站自寫。`;
+  $('credit').innerHTML = model.own ? `「${model.name}」為卡洛特工作室原創角色，PSD 拆層與 Inochi2D 綁定由 Claude 以 Python 自動產生（<code>${model.own}</code>）。放在這裡和官方範例並排，比對參數、物理與畫面。播放器 <code>inochi-full.js</code> 為本站自寫。` : `「${model.name}」設計與綁定：<a href="${clean(m.contact) || 'https://twitter.com/seagetch'}" target="_blank" rel="noopener">${clean(m.artist) || 'seagetch'}</a>・授權 <a href="${clean(m.licenseURL) || 'https://creativecommons.org/licenses/by/4.0/'}" target="_blank" rel="noopener">CC BY 4.0</a>。來源：<a href="https://github.com/Inochi2D/example-models" target="_blank" rel="noopener">Inochi2D/example-models</a>（貼圖由 TGA 轉成 PNG，其餘未修改）。播放器 <code>inochi-full.js</code> 為本站自寫。`;
   buildParams();
   buildPhys();
   buildMoves();
