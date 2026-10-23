@@ -110,6 +110,7 @@
 import { loadINP, Puppet, Renderer } from './inochi-full.js';
 import { FEEL, stageEmote } from './feel.js';
 import { showQA, grab } from './shake-qa.js';
+import { mobilePanel } from './mobile-panel.js';
 
 const MODELS = [
   { id: 'aka', name: 'Aka', desc: '紅髮狐耳少女', file: 'models/official/aka.inp' },
@@ -121,6 +122,7 @@ const MODELS = [
 const ALIAS = { 'Breath': 'Body:: Breath' };
 const $ = (id) => document.getElementById(id);
 const cv = $('cv'), stage = $('stage');
+mobilePanel(stage, document.querySelector('aside'));      // phones: controls in a ☰ bottom sheet, the stage stays on top
 const R = new Renderer(cv);
 let P = null, model = null, view = { cx: 0, cy: 0, scale: 1 }, fit = null;
 const manual = new Set();             // params the user grabbed: the idle motion leaves them alone

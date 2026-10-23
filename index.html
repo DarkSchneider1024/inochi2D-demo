@@ -218,6 +218,8 @@
 </div>
 <script type="module">
 import { loadINP, Puppet } from './inochi-lite.js';
+import { mobilePanel } from './mobile-panel.js';
+mobilePanel(document.querySelector('.stage'), document.querySelector('aside'));   // phones: controls in a ☰ bottom sheet, the stage stays on top
 import { GL, FEET } from './stage.js';          // same renderer as the video stage (cross-fades, one head)
 import { ACTIONS, GENERIC } from './actions.js';         // 2026-10-13: the Spine desk actions (cheer, ask, slam ...)
 import { FEEL, stageEmote } from './feel.js';            // 2026-10-23: 喜怒哀樂, shared with official.html
