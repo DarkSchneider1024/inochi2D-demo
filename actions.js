@@ -106,31 +106,26 @@ const CAROL = [
       'Arm:: Left:: Bend': K([[0.35, 0], [0.49, 0.55], [1.7, 0.4], [2.5, 0]])(u),
       'Arm:: Right:: Swing': K([[0.35, 0], [0.47, 0.25], [1.7, 0.18], [2.5, 0]])(u),
       'Arm:: Left:: Swing': K([[0.35, 0], [0.47, -0.25], [1.7, -0.18], [2.5, 0]])(u)}) },
-  // 2026-10-23 (user): 抬左腿 / 抬右腿 / 緊張抬腿 -- Leg:: * :: Lift (knee up); the weight goes onto the standing leg
-  // (Body:: X:: Move, + = toward image right) and the arms open a little for balance
-  { id: 'lift_left', label: '抬左腿', hint: '左膝抬起、站穩', dur: 2.6, f: (u) => liftAct(u, 'Left') },
-  { id: 'lift_right', label: '抬右腿', hint: '右膝抬起、站穩', dur: 2.6, f: (u) => liftAct(u, 'Right') },
-  { id: 'nervous_lift', label: '緊張抬腿', hint: '兩腳輪流小抬、眼神飄', dur: 2.4, f: (u) => {
-      const e = env(0, 2.4, 0.3)(u), ph = (u % 0.8) / 0.8;
-      const L = K([[0, 0], [0.1, 0.7], [0.3, 0.6], [0.45, 0], [1, 0]])(ph);
-      const R = K([[0, 0], [0.5, 0], [0.6, 0.7], [0.8, 0.6], [0.95, 0], [1, 0]])(ph);
-      return { 'Leg:: Left:: Lift': L * e, 'Leg:: Right:: Lift': R * e,
-               'Body:: X:: Move': 0.12 * (R - L) * e, 'Body:: Hop': -0.02 * (L + R) * e,
+  // 2026-10-23 (user): 抬左腿 / 抬右腿 / 緊張抬腿 -- Aka's plain sway, not a real knee lift (user: 要的是 Aka 那個單純搖晃
+  // 的視覺感): the weight goes onto the other leg (Body:: X:: Move, + = toward image right, feet stay planted) with a lean,
+  // and the hair / tails / skirt physics swing with it
+  { id: 'lift_left', label: '抬左腿', hint: '重心移到右腳、身體晃過去', dur: 2.6, f: (u) => liftAct(u, 'Left') },
+  { id: 'lift_right', label: '抬右腿', hint: '重心移到左腳、身體晃過去', dur: 2.6, f: (u) => liftAct(u, 'Right') },
+  { id: 'nervous_lift', label: '緊張抬腿', hint: '重心左右換來換去、眼神飄', dur: 2.4, f: (u) => {
+      const e = env(0, 2.4, 0.3)(u), w = Math.sin(2 * Math.PI * u / 0.8);
+      return { 'Body:: X:: Move': 0.5 * w * e, 'Body:: Roll': -0.18 * w * e, 'Head:: Roll': 0.14 * w * e,
                'Arm:: Right:: Bend': 0.4 * e, 'Arm:: Left:: Bend': 0.4 * e,
-               'Arm:: Right:: Swing': 0.12 * e, 'Arm:: Left:: Swing': -0.12 * e,
                'Face:: Surprise': 0.35 * e,
                'Head:: Yaw-Pitch': [0.18 * Math.sin(2 * Math.PI * u / 1.2) * e, -0.15 * e],
                'Eye:: Left:: Move': Math.sin(2 * Math.PI * u / 1.2 + 0.4) * e, 'Eye:: Right:: Move': Math.sin(2 * Math.PI * u / 1.2 + 0.4) * e,
-               'Head:: Roll': 0.06 * Math.sin(2 * Math.PI * u / 0.3) * e,
                'Mouth:: Open': 0.28 * e, 'Mouth:: Form': 1 }; } },
 ];
 function liftAct(u, side) {
-  const s = side === 'Left' ? 1 : -1;                     // her left leg = image right
-  const e = K([[0.1, 0], [0.6, 1], [1.9, 1], [2.4, 0]])(u);
-  return { [`Leg:: ${side}:: Lift`]: e, 'Body:: X:: Move': -0.3 * s * e, 'Body:: Roll': -0.25 * s * e,
-           'Head:: Roll': 0.2 * s * e, 'Arm:: Right:: Swing': 0.15 * e, 'Arm:: Left:: Swing': -0.15 * e,
-           'Arm:: Right:: Bend': 0.15 * e, 'Arm:: Left:: Bend': 0.15 * e,
-           'Head:: Yaw-Pitch': [0, -0.12 * e] };
+  const s = side === 'Left' ? 1 : -1;                     // her left leg = image right: the weight goes to image left
+  const e = K([[0.1, 0], [0.75, 1], [1.9, 1], [2.5, 0]])(u);
+  const bob = 0.08 * Math.sin(2 * Math.PI * (u - 0.75) / 1.15) * K([[0.6, 0], [0.9, 1], [1.8, 1], [2.1, 0]])(u);
+  return { 'Body:: X:: Move': -s * (0.8 * e + bob), 'Body:: Roll': -0.3 * s * e, 'Head:: Roll': 0.25 * s * e,
+           'Head:: Yaw-Pitch': [-0.1 * s * e, 0] };
 }
 
 // his rule: the shoulder never moves; the right forearm comes up through the key drawings
