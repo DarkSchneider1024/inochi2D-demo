@@ -27,7 +27,8 @@ const CSS = `
   body.panel-open .shakebar, body.panel-open .hint { display: none !important; }   /* (they covered the feet) */
 }`;
 
-export function mobilePanel(stage, aside) {
+// onToggle(open): the page re-centres its character (a stray swipe on the stage pans it off to the side)
+export function mobilePanel(stage, aside, onToggle) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -43,6 +44,7 @@ export function mobilePanel(stage, aside) {
     btn.textContent = open ? '✕' : '☰';
     btn.setAttribute('aria-label', open ? '收起控制面板' : '開啟控制面板');
     btn.setAttribute('aria-expanded', String(open));
+    if (onToggle) onToggle(open);
     // the stage height animates (.28 s): refit the character along the way
     let n = 0;
     const tick = () => { dispatchEvent(new Event('resize')); if (++n < 24) requestAnimationFrame(tick); };

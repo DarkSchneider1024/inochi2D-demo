@@ -122,7 +122,7 @@ const MODELS = [
 const ALIAS = { 'Breath': 'Body:: Breath' };
 const $ = (id) => document.getElementById(id);
 const cv = $('cv'), stage = $('stage');
-mobilePanel(stage, document.querySelector('aside'));      // phones: controls in a ☰ bottom sheet, the stage stays on top
+mobilePanel(stage, document.querySelector('aside'), () => fitView());      // phones: controls in a ☰ bottom sheet, the stage stays on top
 const R = new Renderer(cv);
 let P = null, model = null, view = { cx: 0, cy: 0, scale: 1 }, fit = null;
 const manual = new Set();             // params the user grabbed: the idle motion leaves them alone
