@@ -87,6 +87,7 @@
     <h2>展示</h2>
     <div class="row">
       <button class="primary" id="shake">🌀 晃動展示</button>
+      <button id="qaRun" title="逐格大晃動檢核：固定每格 1/30 秒跑一次晃動展示（含真物理），每 0.1 秒擷取一張，最後把所有物理零件從 −1 掃到 +1、頭轉到四個角；自動找殘塊、破洞、半透明重影。先選一個表情，就會疊著那個表情檢查。">📸 逐格檢核</button>
       <button id="reset">↺ 重設參數</button>
       <button id="snap">📸 存圖</button>
     </div>
@@ -108,6 +109,7 @@
 <script type="module">
 import { loadINP, Puppet, Renderer } from './inochi-full.js';
 import { FEEL, stageEmote } from './feel.js';
+import { showQA, grab } from './shake-qa.js';
 
 const MODELS = [
   { id: 'aka', name: 'Aka', desc: '紅髮狐耳少女', file: 'models/official/aka.inp' },
@@ -388,6 +390,55 @@ cv.addEventListener('wheel', (e) => { e.preventDefault(); zoom = Math.min(8, Mat
 cv.addEventListener('dblclick', fitView);
 
 $('shake').onclick = () => { shakeT = 0; };
+
+// ---- 逐格大晃動檢核 (2026-10-23, user: 把逐格大晃動也實裝到精緻展示區): the 晃動展示 script stepped at a FIXED 1/30 s
+// (the same frames on every machine / frame rate, real physics included), one capture every 0.1 s, then an extreme
+// sweep -- every physics param -1 -> +1 with the head through its four corners (a shake does not always swing every
+// lock to its end). The live loop pauses meanwhile. A chosen 表情 stays on, so 驚訝 etc. can be checked under the shake.
+// Analysis + review overlay: shake-qa.js (index.html's 📸 即時截圖 checks). Scripts: await window.demo.runQA().
+let qaBusy = false;
+async function runQA() {
+  if (!P || qaBusy) return window.qa;
+  qaBusy = true; window.qa = { done: false };
+  const btn = $('qaRun'), btnText = btn.textContent;
+  const keep = { ...auto }, z0 = zoom, p0 = { ...pan };
+  Object.assign(auto, { follow: false, blink: false, breath: false, sway: false, talk: false, physics: true });
+  fitView();
+  P.reset(); manual.clear(); shakeT = -1; look.x = look.y = 0; act.a = gest.a = '';
+  const DT = 1 / 30, list = [];
+  const yaw = () => (P.get('Head:: Yaw-Pitch') || [0, 0]);
+  const tag = () => `轉 ${yaw()[0].toFixed(2)}／仰 ${(yaw()[1] ?? 0).toFixed(2)}／歪 ${(P.get('Head:: Roll')?.[0] ?? 0).toFixed(2)}`;
+  const step = (sweep) => { drive(DT); applyMoves(DT); P.update(); if (!sweep) P.stepPhysics(DT); R.draw(view); };
+  const yieldUI = (msg) => { btn.textContent = msg; return new Promise((r) => setTimeout(r, 0)); };   // (rAF stalls in a background tab)
+  for (let i = 0; i < 60; i++) step(false);                           // 2 s at rest (the chosen 表情 eases in)
+  const ref = { c: grab(cv) };
+  shakeT = 0;
+  for (let i = 0; shakeT >= 0; i++) {                                  // the 晃動展示 script (10 s)
+    const t = shakeT; step(false);
+    if (i % 3 === 2) list.push({ c: grab(cv), t, label: tag() });
+    if (i % 6 === 5) await yieldUI(`📸 檢核中… ${t.toFixed(1)}s`);
+  }
+  const phys = [...new Set(P.physics.map((s) => s.param))];
+  const N = 48, t0 = list.length ? list[list.length - 1].t + 0.1 : 10;
+  for (let i = 0; i <= N; i++) {                                      // extreme sweep (1.6 s)
+    const v = i / N, k = clamp(-Math.cos(Math.PI * v) * 1.15, -1, 1);
+    const c = [[1, 1], [-1, 1], [-1, -1], [1, -1]][Math.min(3, Math.floor(v * 4))];
+    drive(DT); applyMoves(DT);
+    if (P.has('Head:: Yaw-Pitch')) P.set('Head:: Yaw-Pitch', c[0], c[1]);
+    if (P.has('Head:: Roll')) P.set('Head:: Roll', 0.8 * c[0]);
+    for (const p of phys) p.value = p.is_vec2 ? [clamp(k, p.min[0], p.max[0]), clamp(0.5 * k, p.min[1], p.max[1])] : [clamp(k, p.min[0], p.max[0]), 0];
+    P.update(); R.draw(view);
+    if (i % 3 === 0) list.push({ c: grab(cv), t: t0 + i * DT, sweep: true, label: `物理 ${k.toFixed(2)}　${tag()}` });
+    if (i % 6 === 5) await yieldUI(`📸 檢核中… 極限 ${Math.round(v * 100)}%`);
+  }
+  Object.assign(auto, keep); zoom = z0; pan = p0; resize();
+  P.reset(); settlePhysics(); refreshAutoMarks();
+  btn.textContent = btnText; qaBusy = false;
+  return showQA({ title: `逐格大晃動檢核 · ${model.name}${feel.want ? `（${feel.want.slice(feel.want.indexOf('/') + 1)}）` : ''}`,
+                  file: model.id, list, ref, again: runQA,
+                  note: '晃動展示每格固定 1/30 秒（含物理）每 0.1 秒一張，最後是物理零件 −1→+1 與頭轉四角的極限掃描（標［極限］）。' });
+}
+$('qaRun').onclick = runQA;
 $('reset').onclick = () => { if (!P) return; P.reset(); manual.clear(); for (const s of sliders) s.inp.value = s.p.value[s.ax]; settlePhysics(); refreshAutoMarks(); };
 $('snap').onclick = () => { const a = document.createElement('a'); a.download = `${model.id}.png`; a.href = cv.toDataURL('image/png'); a.click(); };
 
@@ -395,7 +446,7 @@ $('snap').onclick = () => { const a = document.createElement('a'); a.download = 
 let last = performance.now(), uiT = 0;
 function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
-  if (P) {
+  if (P && !qaBusy) {
     drive(dt);
     applyMoves(dt);
     P.update();
@@ -416,7 +467,7 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
-window.demo = { get puppet() { return P; }, renderer: R, auto, open, get view() { return view; } };
+window.demo = { get puppet() { return P; }, renderer: R, auto, open, runQA, get view() { return view; } };
 open(new URLSearchParams(location.search).get('model') || 'aka').catch((e) => {
   $('loading').textContent = `載入失敗：${e.message}`;
   console.error(e);
