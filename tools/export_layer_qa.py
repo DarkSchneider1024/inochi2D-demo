@@ -32,6 +32,18 @@ PRIVATE_IDS = {'blue_senpai', 'fox_yuzuno', 'nikke_tia', 'carrot_bikini', 'carro
 NAMES = {'blue_senpai': '冰藍學姊', 'fox_yuzuno': '狐姬柚乃', 'nikke_tia': '蒂亞・海岸甜心', 'mr_carrot': '卡洛特先生（初版）', 'mr_carrot_v2': '卡洛特先生（V2）', 'mr_carrot_v3': '卡洛特先生', 'mr_carrot_gold_mage': '金髮魔法師卡洛特', 'carol_v2': '卡洛兒姐姐', 'bobo': '兔子波波'}
 
 
+REFINED_IDS = {'mr_carrot', 'mr_carrot_v2', 'mr_carrot_v3', 'mr_carrot_gold_mage',
+               'mr_carrot_v2_gold', 'gold_mage_gpt_v1', 'carol_v2', 'bobo',
+               'girl_v4', 'girl_dress', 'mr_carrot_chibi'}
+
+def category_of(mid):
+    if mid in PRIVATE_IDS:
+        return 'private'
+    if mid in {'carol_lab', 'mr_carrot_lab', 'mr_carrot_lab_gold', 'bobo_lab'}:
+        return 'lab'
+    return 'refined' if mid in REFINED_IDS else 'story'
+
+
 def read_inp(path):
     b = open(path, 'rb').read()
     n = struct.unpack('>I', b[8:12])[0]
@@ -233,6 +245,6 @@ if __name__ == '__main__':
     lst = os.path.join(DEMO, 'layers', 'models.json')
     previous = json.load(open(lst, encoding='utf-8')) if os.path.exists(lst) else []
     merged = {m['id']: m for m in previous}
-    merged.update({m['id']: dict(id=m['id'], name=m['name'], build=m['build'], private=m['id'] in PRIVATE_IDS) for m in allm})
+    merged.update({m['id']: dict(id=m['id'], name=m['name'], build=m['build'], private=m['id'] in PRIVATE_IDS, category=merged.get(m['id'], {}).get('category', category_of(m['id']))) for m in allm})
     json.dump(list(merged.values()), open(lst, 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)

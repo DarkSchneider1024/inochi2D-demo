@@ -63,6 +63,8 @@
   <h1>拆圖整合圖・單圖層疑點檢查</h1>
   <p class="lead">每個角色的圖層放在靜止位置。左邊點一層就能單獨看它（連被上層蓋住、平常看不到的部分），紅框是自動找到的疑點：碎塊、藏線（被上層蓋住的墨線，上層一動就露出來）、破洞、灰邊。拖曳平移、滾輪縮放、雙擊回正。</p>
   <span class="legend">專屬角色請先到 <a href="secret.html">專屬區解鎖</a>，再返回此頁。</span><br>
+  <div class="bar" id="categories" aria-label="角色分類" style="margin: 6px 0"></div>
+  <div class="legend" id="categoryStatus" role="status"></div>
   <input id="modelSearch" type="search" placeholder="搜尋角色名稱或版本…" aria-label="搜尋角色">
   <div class="models" id="models"></div>
 </header>
@@ -103,10 +105,21 @@ let view = { x: 0, y: 0, s: 1 }, fitS = 1;
 const cv = $('cv'), ctx = cv.getContext('2d');
 let tool = 'pan', marks = [], activeMark = null, showSuspects = true, loadToken = 0;
 const marksByModel = new Map(), allowedModels = new Set();
-$('modelSearch').oninput = () => {
+const CATEGORIES = { story: '故事角色', refined: '精緻角色', lab: '卡洛特實驗室', private: '專屬區' };
+let category = 'story', categoryUnlocked = false;
+function filterModels() {
   const term = $('modelSearch').value.trim().toLowerCase();
-  for (const b of $('models').children) b.hidden = !`${b.textContent} ${b.dataset.id}`.toLowerCase().includes(term);
-};
+  let count = 0;
+  for (const b of $('models').children) {
+    b.hidden = b.dataset.category !== category || !`${b.textContent} ${b.dataset.id}`.toLowerCase().includes(term);
+    if (!b.hidden) count++;
+  }
+  for (const b of $('categories').children) b.setAttribute('aria-pressed', String(b.dataset.category === category));
+  $('categoryStatus').textContent = category === 'private' && !categoryUnlocked
+    ? '請先到專屬區解鎖，再返回此頁查看專屬角色。'
+    : count ? `${CATEGORIES[category]}・${count} 個版本` : '此分類沒有符合搜尋的角色，請更換關鍵字。';
+}
+$('modelSearch').oninput = filterModels;
 const qs = new URLSearchParams(location.search);
 
 async function loadModels() {
@@ -119,6 +132,13 @@ async function loadModels() {
       unlocked = Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, '0')).join('') === 'd8ce1e9556765092f2fd4e16118ec0d6acb8ee2f439b1f015483d545054ec510';
     }
   } catch {}
+  categoryUnlocked = unlocked;
+  for (const [key, label] of Object.entries(CATEGORIES)) {
+    const b = document.createElement('button'); b.dataset.category = key;
+    b.textContent = `${label}（${list.filter(m => m.category === key).length}）`;
+    b.onclick = () => { category = key; filterModels(); };
+    $('categories').appendChild(b);
+  }
   const available = list.filter(m => !m.private || unlocked);
   const box = $('models');
   for (const m of available) {
@@ -126,10 +146,12 @@ async function loadModels() {
     const b = document.createElement('button');
     b.textContent = m.name; b.title = `${m.id} ${m.build}`;
     b.onclick = () => { history.replaceState(null, '', `?model=${m.id}`); open(m.id); };
-    b.dataset.id = m.id; box.appendChild(b);
+    b.dataset.category = m.category; b.dataset.id = m.id; box.appendChild(b);
   }
   const requested = qs.get('model');
-  open(allowedModels.has(requested) ? requested : available[0].id);
+  const initial = available.find(m => m.id === requested) || available.find(m => m.category === category) || available[0];
+  if (initial) { category = initial.category; filterModels(); open(initial.id); }
+  else filterModels();
 }
 
 async function open(id) {
