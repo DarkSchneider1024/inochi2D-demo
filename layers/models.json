@@ -1,0 +1,22 @@
+[
+ {
+  "id": "mr_carrot_v3",
+  "name": "卡洛特先生",
+  "build": "2026-10-25"
+ },
+ {
+  "id": "mr_carrot_gold_mage",
+  "name": "金髮魔法師卡洛特",
+  "build": "2026-10-25"
+ },
+ {
+  "id": "carol_v2",
+  "name": "卡洛兒姐姐",
+  "build": "2026-10-23"
+ },
+ {
+  "id": "bobo",
+  "name": "兔子波波",
+  "build": "1.0-alpha"
+ }
+]

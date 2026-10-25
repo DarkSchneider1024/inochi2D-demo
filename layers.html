@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>圖層檢查 · Inochi2D Demo</title>
+<style>
+  :root { --bg: #f7efe8; --bg2: #efd9dc; --card: rgba(255,255,255,.86); --ink: #2d2436; --muted: #6f6479;
+          --accent: #8a6fd1; --line: rgba(60,40,80,.14); --warn: #d9480f; --c1: #e8590c; --c2: #1971c2; --c3: #c2255c; --c4: #2b8a3e; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1d1826; --bg2: #2c2034; --card: rgba(34,27,45,.9); --ink: #efe8f6;
+      --muted: #b3a8c2; --accent: #b39cf5; --line: rgba(255,255,255,.12); }
+  }
+  :root[data-theme="dark"] { --bg: #1d1826; --bg2: #2c2034; --card: rgba(34,27,45,.9); --ink: #efe8f6;
+      --muted: #b3a8c2; --accent: #b39cf5; --line: rgba(255,255,255,.12); }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; color: var(--ink);
+         background: radial-gradient(120% 90% at 20% 10%, var(--bg) 0%, var(--bg2) 100%) fixed;
+         font: 14px/1.5 system-ui, "Segoe UI", "Microsoft JhengHei", sans-serif; }
+  header { padding: 16px 16px 0; }
+  nav.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  nav.tabs a { text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 13px; }
+  nav.tabs a[aria-current="page"] { color: var(--ink); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  h1 { font-size: 20px; margin: 0 0 2px; }
+  .lead { color: var(--muted); margin: 0 0 10px; font-size: 13px; }
+  .models { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .models button, .bar button, .bar select { font: inherit; font-size: 13px; color: var(--ink); background: var(--card);
+      border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+  .models button[aria-pressed="true"], .bar button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 18%, var(--card)); }
+  .wrap { display: grid; grid-template-columns: 300px 1fr; gap: 12px; padding: 0 16px 16px; height: calc(100vh - 150px); min-height: 520px; }
+  @media (max-width: 760px) { .wrap { grid-template-columns: 1fr; height: auto; } .list { max-height: 40vh; } .stage { height: 70vh; } }
+  .list { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: auto; padding: 6px; }
+  .grp { color: var(--muted); font-size: 12px; margin: 8px 6px 2px; }
+  .row { display: flex; align-items: center; gap: 6px; padding: 3px 6px; border-radius: 8px; cursor: pointer; }
+  .row:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  .row.sel { background: color-mix(in srgb, var(--accent) 20%, transparent); }
+  .row img { width: 34px; height: 34px; object-fit: contain; background: repeating-conic-gradient(#ccc 0 25%, #fff 0 50%) 0 0 / 10px 10px; border-radius: 4px; flex: none; }
+  .row .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row .hid { color: var(--muted); font-size: 11px; }
+  .badge { font-size: 11px; color: #fff; background: var(--warn); border-radius: 999px; padding: 0 6px; }
+  .main { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+  .bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .stage { position: relative; flex: 1; min-height: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; touch-action: none; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
+  .info { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; font-size: 13px; max-height: 26vh; overflow: auto; }
+  .info b { font-weight: 600; }
+  .sus { display: inline-flex; align-items: center; gap: 4px; margin: 2px 6px 2px 0; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); cursor: pointer; font-size: 12px; }
+  .sus i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .legend { color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <nav class="tabs"><a href="./">Demo</a><a href="gallery.html">作品集</a><a href="official.html">精緻展示作品</a><a href="layers.html" aria-current="page">圖層檢查</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
+  <h1>拆圖整合圖・單圖層疑點檢查</h1>
+  <p class="lead">每個角色的圖層放在靜止位置。左邊點一層就能單獨看它（連被上層蓋住、平常看不到的部分），紅框是自動找到的疑點：碎塊、藏線（被上層蓋住的墨線，上層一動就露出來）、破洞、灰邊。拖曳平移、滾輪縮放、雙擊回正。</p>
+  <div class="models" id="models"></div>
+</header>
+<div class="wrap">
+  <div class="list" id="list"></div>
+  <div class="main">
+    <div class="bar">
+      <button data-mode="all" aria-pressed="true">全部合成</button>
+      <button data-mode="solo">只看此層</button>
+      <button data-mode="focus">此層＋其他淡化</button>
+      <button data-mode="under">此層被蓋住的部分</button>
+      <button id="onlySus">只列有疑點的圖層</button>
+      <button id="showHidden">顯示表情／姿勢層</button>
+      <span class="legend">疑點：<span style="color:var(--c1)">■</span>碎塊 <span style="color:var(--c2)">■</span>藏線 <span style="color:var(--c3)">■</span>破洞 <span style="color:var(--c4)">■</span>灰邊</span>
+    </div>
+    <div class="stage" id="stage"><canvas id="cv"></canvas></div>
+    <div class="info" id="info">載入中…</div>
+  </div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const COL = { '碎塊': '#e8590c', '藏線': '#1971c2', '破洞': '#c2255c', '灰邊': '#2b8a3e' };
+const TIP = { '碎塊': '和圖層主體分開的小塊，圖層一動就會飄在半空', '藏線': '靜止時被上層蓋住的墨線，上層（瀏海、眼鏡、臉）一動就露出來變殘影',
+              '破洞': '圖層內部半透明的洞，底下的東西會透出來', '灰邊': '邊緣還帶著原圖的灰底色 #808080' };
+let M = null, imgs = [], sel = -1, mode = 'all', onlySus = false, showHidden = false, vis = [];
+let view = { x: 0, y: 0, s: 1 }, fitS = 1;
+const cv = $('cv'), ctx = cv.getContext('2d');
+const qs = new URLSearchParams(location.search);
+
+async function loadModels() {
+  const list = await (await fetch('layers/models.json', { cache: 'no-store' })).json();
+  const box = $('models');
+  for (const m of list) {
+    const b = document.createElement('button');
+    b.textContent = m.name; b.title = `${m.id} ${m.build}`;
+    b.onclick = () => { history.replaceState(null, '', `?model=${m.id}`); open(m.id); };
+    b.dataset.id = m.id; box.appendChild(b);
+  }
+  open(qs.get('model') || list[0].id);
+}
+
+async function open(id) {
+  for (const b of $('models').children) b.setAttribute('aria-pressed', String(b.dataset.id === id));
+  $('info').textContent = '載入中…';
+  M = await (await fetch(`layers/${id}/index.json`, { cache: 'no-store' })).json();
+  imgs = await Promise.all(M.layers.map((L) => new Promise((ok) => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => ok(null); im.src = `layers/${id}/${L.file}?v=${M.build}`; })));
+  vis = M.layers.map((L) => !L.hidden);
+  sel = -1; fit(); buildList(); draw(); showInfo();
+}
+
+function buildList() {
+  const box = $('list'); box.innerHTML = '';
+  let g = null;
+  const order = M.layers.map((L, i) => i).reverse();           // front first, like a PSD
+  for (const i of order) {
+    const L = M.layers[i];
+    if (onlySus && !L.suspects.length) continue;
+    if (L.hidden && !showHidden && !(onlySus && L.suspects.length)) continue;
+    if (L.group !== g) { g = L.group; const d = document.createElement('div'); d.className = 'grp'; d.textContent = g || '（根）'; box.appendChild(d); }
+    const r = document.createElement('div'); r.className = 'row' + (i === sel ? ' sel' : '');
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = vis[i]; cb.title = '顯示／隱藏';
+    cb.onclick = (e) => { e.stopPropagation(); vis[i] = cb.checked; draw(); };
+    const im = document.createElement('img'); im.src = imgs[i] ? imgs[i].src : ''; im.alt = '';
+    const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = L.name;
+    r.append(cb, im, nm);
+    if (L.hidden) { const h = document.createElement('span'); h.className = 'hid'; h.textContent = '表情／姿勢'; r.append(h); }
+    if (L.backing) { const h = document.createElement('span'); h.className = 'hid'; h.textContent = '墊底層'; r.append(h); }
+    if (L.suspects.length) { const b = document.createElement('span'); b.className = 'badge'; b.textContent = L.suspects.length; r.append(b); }
+    r.onclick = () => { sel = i; if (mode === 'all') setMode('focus'); buildList(); draw(); showInfo(); };
+    box.appendChild(r);
+  }
+}
+
+function showInfo() {
+  const box = $('info');
+  if (!M) return;
+  const tot = {};
+  for (const L of M.layers) for (const s of L.suspects) tot[s.type] = (tot[s.type] || 0) + 1;
+  const head = `<b>${M.name}</b>（${M.id}，${M.build}）・${M.layers.length} 層・疑點 ` +
+    (Object.keys(tot).length ? Object.entries(tot).map(([k, v]) => `${k} ${v}`).join('、') : '無');
+  if (sel < 0) { box.innerHTML = head + '<br>點左邊的圖層查看它的疑點。'; return; }
+  const L = M.layers[sel];
+  let h = `${head}<br><b>${L.name}</b>　${L.w}×${L.h}　位置 (${L.x}, ${L.y})　深度 ${L.z}${L.hidden ? '　（靜止時隱藏：表情／姿勢層）' : ''}<br>`;
+  if (!L.suspects.length) h += '這一層沒有找到疑點。';
+  L.suspects.forEach((s, k) => { h += `<span class="sus" data-k="${k}" title="${TIP[s.type]}"><i style="background:${COL[s.type]}"></i>${s.type} ${s.n}px</span>`; });
+  box.innerHTML = h;
+  for (const el of box.querySelectorAll('.sus')) el.onclick = () => zoomTo(L.suspects[+el.dataset.k].box);
+}
+
+function setMode(m) { mode = m; for (const b of document.querySelectorAll('[data-mode]')) b.setAttribute('aria-pressed', String(b.dataset.mode === m)); }
+for (const b of document.querySelectorAll('[data-mode]')) b.onclick = () => { setMode(b.dataset.mode); draw(); };
+$('onlySus').onclick = () => { onlySus = !onlySus; $('onlySus').setAttribute('aria-pressed', String(onlySus)); buildList(); };
+$('showHidden').onclick = () => { showHidden = !showHidden; $('showHidden').setAttribute('aria-pressed', String(showHidden)); buildList(); };
+
+function fit() {
+  const r = $('stage').getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+  cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+  if (!M) return;
+  fitS = Math.min(cv.width / (M.W * 1.04), cv.height / (M.H * 1.04));
+  view = { s: fitS, x: (cv.width - M.W * fitS) / 2, y: (cv.height - M.H * fitS) / 2 };
+}
+function zoomTo(b) {
+  const s = Math.min(cv.width / (b[2] * 3), cv.height / (b[3] * 3), fitS * 12);
+  view = { s, x: cv.width / 2 - (b[0] + b[2] / 2) * s, y: cv.height / 2 - (b[1] + b[3] / 2) * s };
+  draw();
+}
+
+function checker() {
+  const s = 12, c = document.createElement('canvas'); c.width = c.height = s * 2;
+  const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, s * 2, s * 2); g.fillStyle = '#ddd'; g.fillRect(0, 0, s, s); g.fillRect(s, s, s, s);
+  return ctx.createPattern(c, 'repeat');
+}
+let pat = null;
+function draw() {
+  if (!M) return;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  pat = pat || checker();
+  ctx.setTransform(view.s, 0, 0, view.s, view.x, view.y);
+  ctx.fillStyle = mode === 'solo' || mode === 'under' ? pat : 'rgba(236,232,240,1)';
+  ctx.fillRect(0, 0, M.W, M.H);
+  ctx.imageSmoothingEnabled = view.s < 2;
+  if (mode === 'under' && sel >= 0) {
+    // the selected layer where something above covers it: drawn alone, then the layers above cut out what they cover
+    const off = document.createElement('canvas'); off.width = M.W; off.height = M.H;
+    const g = off.getContext('2d'); const L = M.layers[sel];
+    if (imgs[sel]) g.drawImage(imgs[sel], L.x, L.y, L.w, L.h);
+    g.globalCompositeOperation = 'destination-in';
+    const cov = document.createElement('canvas'); cov.width = M.W; cov.height = M.H; const h = cov.getContext('2d');
+    M.layers.forEach((U, i) => { if (i > sel && vis[i] && !U.hidden && imgs[i]) h.drawImage(imgs[i], U.x, U.y, U.w, U.h); });
+    g.drawImage(cov, 0, 0);
+    ctx.globalAlpha = 0.18; drawLayers(() => true); ctx.globalAlpha = 1;
+    ctx.drawImage(off, 0, 0);
+  } else if (mode === 'solo' && sel >= 0) {
+    const L = M.layers[sel]; if (imgs[sel]) ctx.drawImage(imgs[sel], L.x, L.y, L.w, L.h);
+  } else if (mode === 'focus' && sel >= 0) {
+    ctx.globalAlpha = 0.22; drawLayers((i) => i !== sel); ctx.globalAlpha = 1;
+    const L = M.layers[sel]; if (imgs[sel]) ctx.drawImage(imgs[sel], L.x, L.y, L.w, L.h);
+  } else {
+    drawLayers(() => true);
+  }
+  // suspects: the selected layer's, or every visible layer's in 全部合成
+  const show = sel >= 0 && mode !== 'all' ? [sel] : M.layers.map((L, i) => i).filter((i) => vis[i]);
+  ctx.lineWidth = 2 / view.s;
+  for (const i of show) for (const s of M.layers[i].suspects) {
+    ctx.strokeStyle = COL[s.type]; ctx.strokeRect(s.box[0], s.box[1], s.box[2], s.box[3]);
+  }
+  if (sel >= 0) { const L = M.layers[sel]; ctx.setLineDash([6 / view.s, 4 / view.s]); ctx.strokeStyle = 'rgba(138,111,209,.9)'; ctx.strokeRect(L.x, L.y, L.w, L.h); ctx.setLineDash([]); }
+}
+function drawLayers(ok) {
+  M.layers.forEach((L, i) => { if (vis[i] && ok(i) && imgs[i]) ctx.drawImage(imgs[i], L.x, L.y, L.w, L.h); });
+}
+
+// pan / zoom
+let drag = null;
+cv.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y }; cv.setPointerCapture(e.pointerId); });
+cv.addEventListener('pointerup', () => { drag = null; });
+cv.addEventListener('pointermove', (e) => {
+  if (!drag) return;
+  const dpr = cv.width / cv.getBoundingClientRect().width;
+  view.x = drag.vx + (e.clientX - drag.x) * dpr; view.y = drag.vy + (e.clientY - drag.y) * dpr; draw();
+});
+cv.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const r = cv.getBoundingClientRect(), dpr = cv.width / r.width, mx = (e.clientX - r.left) * dpr, my = (e.clientY - r.top) * dpr;
+  const k = Math.exp(-e.deltaY * 0.0015), s = Math.min(fitS * 40, Math.max(fitS * 0.5, view.s * k));
+  view.x = mx - (mx - view.x) * (s / view.s); view.y = my - (my - view.y) * (s / view.s); view.s = s; draw();
+}, { passive: false });
+cv.addEventListener('dblclick', () => { fit(); draw(); });
+new ResizeObserver(() => { fit(); draw(); }).observe($('stage'));
+loadModels();
+</script>
+</body>
+</html>
