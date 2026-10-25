@@ -1,0 +1,560 @@
+{
+ "id": "frog_prince",
+ "name": "青蛙王子",
+ "W": 689,
+ "H": 1371,
+ "build": "1.0-alpha",
+ "layers": [
+  {
+   "name": "影子",
+   "file": "00.webp",
+   "x": 27,
+   "y": 1273,
+   "w": 634,
+   "h": 94,
+   "group": "",
+   "hidden": false,
+   "backing": false,
+   "z": 0.35,
+   "suspects": []
+  },
+  {
+   "name": "腿_R",
+   "file": "01.webp",
+   "x": 46,
+   "y": 837,
+   "w": 200,
+   "h": 388,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.34,
+   "suspects": []
+  },
+  {
+   "name": "腿_L",
+   "file": "02.webp",
+   "x": 443,
+   "y": 837,
+   "w": 200,
+   "h": 388,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.33,
+   "suspects": []
+  },
+  {
+   "name": "腳_R",
+   "file": "03.webp",
+   "x": 4,
+   "y": 1182,
+   "w": 251,
+   "h": 153,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.32,
+   "suspects": []
+  },
+  {
+   "name": "腳_L",
+   "file": "04.webp",
+   "x": 434,
+   "y": 1182,
+   "w": 251,
+   "h": 153,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.31,
+   "suspects": []
+  },
+  {
+   "name": "胸腔",
+   "file": "05.webp",
+   "x": 139,
+   "y": 421,
+   "w": 411,
+   "h": 699,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.3,
+   "suspects": []
+  },
+  {
+   "name": "肚皮",
+   "file": "06.webp",
+   "x": 202,
+   "y": 538,
+   "w": 285,
+   "h": 534,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.29,
+   "suspects": []
+  },
+  {
+   "name": "披風領",
+   "file": "07.webp",
+   "x": 148,
+   "y": 437,
+   "w": 394,
+   "h": 128,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.28,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      194,
+      496,
+      31,
+      65
+     ],
+     "n": 175
+    },
+    {
+     "type": "藏線",
+     "box": [
+      464,
+      496,
+      30,
+      65
+     ],
+     "n": 123
+    },
+    {
+     "type": "藏線",
+     "box": [
+      505,
+      498,
+      33,
+      36
+     ],
+     "n": 59
+    },
+    {
+     "type": "藏線",
+     "box": [
+      150,
+      498,
+      33,
+      35
+     ],
+     "n": 55
+    }
+   ]
+  },
+  {
+   "name": "上臂_R",
+   "file": "08.webp",
+   "x": 97,
+   "y": 499,
+   "w": 122,
+   "h": 248,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.27,
+   "suspects": []
+  },
+  {
+   "name": "上臂_L",
+   "file": "09.webp",
+   "x": 471,
+   "y": 499,
+   "w": 121,
+   "h": 248,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.26,
+   "suspects": []
+  },
+  {
+   "name": "下臂_R",
+   "file": "10.webp",
+   "x": 92,
+   "y": 675,
+   "w": 70,
+   "h": 220,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.25,
+   "suspects": []
+  },
+  {
+   "name": "下臂_L",
+   "file": "11.webp",
+   "x": 526,
+   "y": 675,
+   "w": 70,
+   "h": 220,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.24,
+   "suspects": []
+  },
+  {
+   "name": "手掌_R",
+   "file": "12.webp",
+   "x": 84,
+   "y": 855,
+   "w": 91,
+   "h": 78,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.23,
+   "suspects": []
+  },
+  {
+   "name": "手掌_L",
+   "file": "13.webp",
+   "x": 513,
+   "y": 855,
+   "w": 92,
+   "h": 78,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.22,
+   "suspects": []
+  },
+  {
+   "name": "臉",
+   "file": "14.webp",
+   "x": 93,
+   "y": 105,
+   "w": 503,
+   "h": 362,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.21,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      450,
+      117,
+      57,
+      36
+     ],
+     "n": 53
+    }
+   ]
+  },
+  {
+   "name": "腮紅",
+   "file": "15.webp",
+   "x": 122,
+   "y": 314,
+   "w": 444,
+   "h": 83,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.2,
+   "suspects": []
+  },
+  {
+   "name": "鼻子",
+   "file": "16.webp",
+   "x": 314,
+   "y": 280,
+   "w": 60,
+   "h": 10,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.19,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      357,
+      276,
+      21,
+      18
+     ],
+     "n": 101
+    }
+   ]
+  },
+  {
+   "name": "口腔",
+   "file": "17.webp",
+   "x": 253,
+   "y": 358,
+   "w": 182,
+   "h": 53,
+   "group": "Head/Mouth",
+   "hidden": false,
+   "backing": false,
+   "z": 0.18,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      246,
+      355,
+      196,
+      29
+     ],
+     "n": 624
+    }
+   ]
+  },
+  {
+   "name": "舌頭",
+   "file": "18.webp",
+   "x": 312,
+   "y": 384,
+   "w": 64,
+   "h": 25,
+   "group": "Head/Mouth",
+   "hidden": false,
+   "backing": false,
+   "z": 0.17,
+   "suspects": []
+  },
+  {
+   "name": "上唇",
+   "file": "19.webp",
+   "x": 206,
+   "y": 335,
+   "w": 276,
+   "h": 42,
+   "group": "Head/Mouth",
+   "hidden": false,
+   "backing": false,
+   "z": 0.16,
+   "suspects": []
+  },
+  {
+   "name": "嘴_啊",
+   "file": "20.webp",
+   "x": 266,
+   "y": 345,
+   "w": 157,
+   "h": 119,
+   "group": "Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.15,
+   "suspects": []
+  },
+  {
+   "name": "嘴_喔",
+   "file": "21.webp",
+   "x": 306,
+   "y": 355,
+   "w": 77,
+   "h": 95,
+   "group": "Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.14,
+   "suspects": []
+  },
+  {
+   "name": "眼窩_R",
+   "file": "22.webp",
+   "x": 132,
+   "y": 46,
+   "w": 183,
+   "h": 175,
+   "group": "Head/Eye R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.13,
+   "suspects": []
+  },
+  {
+   "name": "眼白_R",
+   "file": "23.webp",
+   "x": 156,
+   "y": 68,
+   "w": 135,
+   "h": 138,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.12,
+   "suspects": []
+  },
+  {
+   "name": "眼球_R",
+   "file": "24.webp",
+   "x": 189,
+   "y": 99,
+   "w": 79,
+   "h": 87,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.11,
+   "suspects": []
+  },
+  {
+   "name": "高光_R",
+   "file": "25.webp",
+   "x": 202,
+   "y": 113,
+   "w": 47,
+   "h": 54,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.1,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      232,
+      150,
+      21,
+      21
+     ],
+     "n": 131
+    }
+   ]
+  },
+  {
+   "name": "上眼線_R",
+   "file": "26.webp",
+   "x": 151,
+   "y": 61,
+   "w": 144,
+   "h": 66,
+   "group": "Head/Eye R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.09,
+   "suspects": []
+  },
+  {
+   "name": "閉眼_R",
+   "file": "27.webp",
+   "x": 137,
+   "y": 117,
+   "w": 149,
+   "h": 40,
+   "group": "Head/Eye R",
+   "hidden": true,
+   "backing": false,
+   "z": 0.08,
+   "suspects": []
+  },
+  {
+   "name": "眼窩_L",
+   "file": "28.webp",
+   "x": 374,
+   "y": 46,
+   "w": 183,
+   "h": 175,
+   "group": "Head/Eye L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.07,
+   "suspects": []
+  },
+  {
+   "name": "眼白_L",
+   "file": "29.webp",
+   "x": 398,
+   "y": 68,
+   "w": 135,
+   "h": 139,
+   "group": "Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.06,
+   "suspects": []
+  },
+  {
+   "name": "眼球_L",
+   "file": "30.webp",
+   "x": 420,
+   "y": 99,
+   "w": 79,
+   "h": 87,
+   "group": "Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.05,
+   "suspects": []
+  },
+  {
+   "name": "高光_L",
+   "file": "31.webp",
+   "x": 432,
+   "y": 113,
+   "w": 47,
+   "h": 54,
+   "group": "Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.04,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      463,
+      150,
+      20,
+      21
+     ],
+     "n": 125
+    }
+   ]
+  },
+  {
+   "name": "上眼線_L",
+   "file": "32.webp",
+   "x": 394,
+   "y": 61,
+   "w": 143,
+   "h": 66,
+   "group": "Head/Eye L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.03,
+   "suspects": []
+  },
+  {
+   "name": "閉眼_L",
+   "file": "33.webp",
+   "x": 403,
+   "y": 117,
+   "w": 148,
+   "h": 40,
+   "group": "Head/Eye L",
+   "hidden": true,
+   "backing": false,
+   "z": 0.02,
+   "suspects": []
+  },
+  {
+   "name": "王冠",
+   "file": "34.webp",
+   "x": 270,
+   "y": 4,
+   "w": 148,
+   "h": 100,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.01,
+   "suspects": []
+  }
+ ]
+}
