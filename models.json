@@ -287,5 +287,110 @@
     "file": "models/prince_side.inp",
     "thumb": "thumbs/prince_side.png",
     "desc": "走路用的 3/4 側身模型（奧丁領域畫法，由小紅帽側面改製）：頭轉 32°、身體轉 50°，藍色長外套、白褲、黑長靴，真關節步行循環，腿與正面一樣加長。"
+  },
+  {
+    "id": "journey_wukong",
+    "name": "孫悟空（金甲・Q版）｜西遊記前傳",
+    "file": "models/journey_wukong.inp",
+    "thumb": "thumbs/journey_wukong.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_wukong_young",
+    "name": "孫悟空（學藝・Q版）｜西遊記前傳",
+    "file": "models/journey_wukong_young.inp",
+    "thumb": "thumbs/journey_wukong_young.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_heaven_sage",
+    "name": "太白金星｜西遊記前傳",
+    "file": "models/journey_heaven_sage.inp",
+    "thumb": "thumbs/journey_heaven_sage.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_erlang",
+    "name": "二郎神（銀甲）｜西遊記前傳",
+    "file": "models/journey_erlang.inp",
+    "thumb": "thumbs/journey_erlang.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_buddha",
+    "name": "如來佛祖（莊嚴版）｜西遊記前傳",
+    "file": "models/journey_buddha.inp",
+    "thumb": "thumbs/journey_buddha.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_monkey_elder",
+    "name": "老猴子（Q版）｜西遊記前傳",
+    "file": "models/journey_monkey_elder.inp",
+    "thumb": "thumbs/journey_monkey_elder.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_monkey_child",
+    "name": "小猴子（Q版）｜西遊記前傳",
+    "file": "models/journey_monkey_child.inp",
+    "thumb": "thumbs/journey_monkey_child.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_monkey_youth",
+    "name": "年輕猴子（Q版）｜西遊記前傳",
+    "file": "models/journey_monkey_youth.inp",
+    "thumb": "thumbs/journey_monkey_youth.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_magic_wolf",
+    "name": "七十二變灰狼（Q版）｜西遊記前傳",
+    "file": "models/journey_magic_wolf.inp",
+    "thumb": "thumbs/journey_magic_wolf.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_xiaotian",
+    "name": "哮天犬（Q版）｜西遊記前傳",
+    "file": "models/journey_xiaotian.inp",
+    "thumb": "thumbs/journey_xiaotian.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_wukong_side",
+    "name": "孫悟空（金甲・側面走路）｜西遊記前傳",
+    "file": "models/journey_wukong_side.inp",
+    "thumb": "thumbs/journey_wukong_side.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_wukong_young_side",
+    "name": "孫悟空（學藝・側面走路）｜西遊記前傳",
+    "file": "models/journey_wukong_young_side.inp",
+    "thumb": "thumbs/journey_wukong_young_side.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_monkey_elder_side",
+    "name": "老猴子（側面走路）｜西遊記前傳",
+    "file": "models/journey_monkey_elder_side.inp",
+    "thumb": "thumbs/journey_monkey_elder_side.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_monkey_child_side",
+    "name": "小猴子（側面走路）｜西遊記前傳",
+    "file": "models/journey_monkey_child_side.inp",
+    "thumb": "thumbs/journey_monkey_child_side.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+  },
+  {
+    "id": "journey_monkey_youth_side",
+    "name": "年輕猴子（側面走路）｜西遊記前傳",
+    "file": "models/journey_monkey_youth_side.inp",
+    "thumb": "thumbs/journey_monkey_youth_side.png",
+    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
   }
 ]
