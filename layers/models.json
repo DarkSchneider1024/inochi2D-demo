@@ -383,5 +383,12 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "carol_v3",
+  "name": "卡洛兒姐姐",
+  "build": "2026-10-26",
+  "private": false,
+  "category": "refined"
  }
 ]
