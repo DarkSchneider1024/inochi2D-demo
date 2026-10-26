@@ -1,0 +1,1234 @@
+{
+ "id": "aka",
+ "private": false,
+ "name": "Aka",
+ "W": 857,
+ "H": 1576,
+ "build": "v0.7.1-39-g59837f6",
+ "layers": [
+  {
+   "name": "Tail",
+   "file": "00.webp",
+   "x": 323,
+   "y": 822,
+   "w": 530,
+   "h": 480,
+   "group": "Skirt",
+   "hidden": false,
+   "backing": false,
+   "z": 76,
+   "suspects": []
+  },
+  {
+   "name": "Ear:: Left",
+   "file": "01.webp",
+   "x": 345,
+   "y": 4,
+   "w": 102,
+   "h": 244,
+   "group": "Back Side:: Hair",
+   "hidden": false,
+   "backing": false,
+   "z": 75,
+   "suspects": []
+  },
+  {
+   "name": "Ear:: Right",
+   "file": "02.webp",
+   "x": 182,
+   "y": 8,
+   "w": 105,
+   "h": 264,
+   "group": "Back Side:: Hair",
+   "hidden": false,
+   "backing": false,
+   "z": 74,
+   "suspects": []
+  },
+  {
+   "name": "Back Side:: Hair",
+   "file": "03.webp",
+   "x": 191,
+   "y": 128,
+   "w": 274,
+   "h": 286,
+   "group": "Face",
+   "hidden": false,
+   "backing": true,
+   "z": 73,
+   "suspects": []
+  },
+  {
+   "name": "Back Side:: Hair:: Right2",
+   "file": "04.webp",
+   "x": 176,
+   "y": 155,
+   "w": 96,
+   "h": 265,
+   "group": "Back Side:: Hair",
+   "hidden": false,
+   "backing": false,
+   "z": 72,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      262,
+      165,
+      14,
+      36
+     ],
+     "n": 77
+    }
+   ]
+  },
+  {
+   "name": "Back Side:: Hair:: Shadow",
+   "file": "05.webp",
+   "x": 193,
+   "y": 128,
+   "w": 248,
+   "h": 264,
+   "group": "Back Side:: Hair",
+   "hidden": false,
+   "backing": false,
+   "z": 71,
+   "suspects": []
+  },
+  {
+   "name": "Arm:: Right",
+   "file": "06.webp",
+   "x": 65,
+   "y": 440,
+   "w": 189,
+   "h": 699,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 70,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      79,
+      807,
+      42,
+      40
+     ],
+     "n": 195
+    }
+   ]
+  },
+  {
+   "name": "Arm:: Left",
+   "file": "07.webp",
+   "x": 358,
+   "y": 437,
+   "w": 242,
+   "h": 679,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 69,
+   "suspects": []
+  },
+  {
+   "name": "Neck",
+   "file": "08.webp",
+   "x": 267,
+   "y": 311,
+   "w": 100,
+   "h": 160,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 68,
+   "suspects": []
+  },
+  {
+   "name": "Back Side:: Hair:: Left2",
+   "file": "09.webp",
+   "x": 360,
+   "y": 154,
+   "w": 107,
+   "h": 264,
+   "group": "Back Side:: Hair",
+   "hidden": false,
+   "backing": false,
+   "z": 67,
+   "suspects": []
+  },
+  {
+   "name": "Hand:: Right",
+   "file": "10.webp",
+   "x": 4,
+   "y": 805,
+   "w": 103,
+   "h": 126,
+   "group": "Arm:: Right",
+   "hidden": false,
+   "backing": false,
+   "z": 66,
+   "suspects": []
+  },
+  {
+   "name": "Leg:: Right",
+   "file": "11.webp",
+   "x": 175,
+   "y": 699,
+   "w": 144,
+   "h": 870,
+   "group": "Root",
+   "hidden": false,
+   "backing": false,
+   "z": 65,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      169,
+      691,
+      158,
+      200
+     ],
+     "n": 3987
+    },
+    {
+     "type": "藏線",
+     "box": [
+      253,
+      726,
+      25,
+      23
+     ],
+     "n": 60
+    },
+    {
+     "type": "藏線",
+     "box": [
+      268,
+      844,
+      24,
+      24
+     ],
+     "n": 60
+    }
+   ]
+  },
+  {
+   "name": "Leg:: Left",
+   "file": "12.webp",
+   "x": 319,
+   "y": 699,
+   "w": 140,
+   "h": 873,
+   "group": "Root",
+   "hidden": false,
+   "backing": false,
+   "z": 64,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      311,
+      691,
+      155,
+      190
+     ],
+     "n": 3046
+    }
+   ]
+  },
+  {
+   "name": "Leg:: Left:: Shadow",
+   "file": "13.webp",
+   "x": 336,
+   "y": 857,
+   "w": 122,
+   "h": 86,
+   "group": "Leg:: Left",
+   "hidden": false,
+   "backing": false,
+   "z": 63,
+   "suspects": []
+  },
+  {
+   "name": "Leg:: Right:: Shadow",
+   "file": "14.webp",
+   "x": 177,
+   "y": 859,
+   "w": 125,
+   "h": 86,
+   "group": "Leg:: Right",
+   "hidden": false,
+   "backing": false,
+   "z": 62,
+   "suspects": []
+  },
+  {
+   "name": "Hand:: Left",
+   "file": "15.webp",
+   "x": 573,
+   "y": 757,
+   "w": 91,
+   "h": 103,
+   "group": "Arm:: Left",
+   "hidden": false,
+   "backing": false,
+   "z": 61,
+   "suspects": []
+  },
+  {
+   "name": "Body",
+   "file": "16.webp",
+   "x": 205,
+   "y": 414,
+   "w": 222,
+   "h": 289,
+   "group": "Root",
+   "hidden": false,
+   "backing": false,
+   "z": 60,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      283,
+      645,
+      69,
+      66
+     ],
+     "n": 591
+    },
+    {
+     "type": "藏線",
+     "box": [
+      223,
+      663,
+      80,
+      48
+     ],
+     "n": 512
+    },
+    {
+     "type": "藏線",
+     "box": [
+      359,
+      662,
+      51,
+      46
+     ],
+     "n": 261
+    },
+    {
+     "type": "藏線",
+     "box": [
+      329,
+      651,
+      26,
+      40
+     ],
+     "n": 94
+    }
+   ]
+  },
+  {
+   "name": "Skirt:: Frill",
+   "file": "17.webp",
+   "x": 56,
+   "y": 733,
+   "w": 519,
+   "h": 196,
+   "group": "Skirt",
+   "hidden": false,
+   "backing": false,
+   "z": 59,
+   "suspects": []
+  },
+  {
+   "name": "Skirt:: Frill:: Shadow",
+   "file": "18.webp",
+   "x": 84,
+   "y": 799,
+   "w": 485,
+   "h": 111,
+   "group": "Skirt:: Frill",
+   "hidden": false,
+   "backing": false,
+   "z": 58,
+   "suspects": []
+  },
+  {
+   "name": "Skirt",
+   "file": "19.webp",
+   "x": 86,
+   "y": 578,
+   "w": 485,
+   "h": 322,
+   "group": "Root",
+   "hidden": false,
+   "backing": false,
+   "z": 57,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      202,
+      570,
+      235,
+      215
+     ],
+     "n": 6610
+    },
+    {
+     "type": "藏線",
+     "box": [
+      253,
+      726,
+      25,
+      23
+     ],
+     "n": 60
+    }
+   ]
+  },
+  {
+   "name": "Neck:: Shadow",
+   "file": "20.webp",
+   "x": 286,
+   "y": 339,
+   "w": 64,
+   "h": 95,
+   "group": "Neck",
+   "hidden": false,
+   "backing": false,
+   "z": 56,
+   "suspects": []
+  },
+  {
+   "name": "Back Side:: Hair:: Left1",
+   "file": "21.webp",
+   "x": 318,
+   "y": 129,
+   "w": 124,
+   "h": 285,
+   "group": "Back Side:: Hair",
+   "hidden": false,
+   "backing": false,
+   "z": 55,
+   "suspects": []
+  },
+  {
+   "name": "Back Side:: Hair:: Right1",
+   "file": "22.webp",
+   "x": 191,
+   "y": 132,
+   "w": 127,
+   "h": 286,
+   "group": "Back Side:: Hair",
+   "hidden": false,
+   "backing": false,
+   "z": 54,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      298,
+      165,
+      22,
+      12
+     ],
+     "n": 34
+    }
+   ]
+  },
+  {
+   "name": "Back Side:: Hair:: Left3",
+   "file": "23.webp",
+   "x": 296,
+   "y": 129,
+   "w": 125,
+   "h": 285,
+   "group": "Back Side:: Hair",
+   "hidden": false,
+   "backing": false,
+   "z": 53,
+   "suspects": []
+  },
+  {
+   "name": "Ribbon",
+   "file": "24.webp",
+   "x": 209,
+   "y": 577,
+   "w": 221,
+   "h": 201,
+   "group": "Skirt",
+   "hidden": false,
+   "backing": false,
+   "z": 52,
+   "suspects": []
+  },
+  {
+   "name": "Back Side:: Hair:: Right3",
+   "file": "25.webp",
+   "x": 209,
+   "y": 132,
+   "w": 126,
+   "h": 286,
+   "group": "Back Side:: Hair",
+   "hidden": false,
+   "backing": false,
+   "z": 51,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      316,
+      165,
+      21,
+      12
+     ],
+     "n": 32
+    }
+   ]
+  },
+  {
+   "name": "Face",
+   "file": "26.webp",
+   "x": 209,
+   "y": 158,
+   "w": 211,
+   "h": 247,
+   "group": "Neck",
+   "hidden": false,
+   "backing": false,
+   "z": 50,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Left:: Shadow:: Upper",
+   "file": "27.webp",
+   "x": 335,
+   "y": 279,
+   "w": 68,
+   "h": 30,
+   "group": "Eye:: Left:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 49,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Center:: Shadow",
+   "file": "28.webp",
+   "x": 281,
+   "y": 161,
+   "w": 65,
+   "h": 131,
+   "group": "Hair:: Shadows:: Composite",
+   "hidden": false,
+   "backing": true,
+   "z": 48,
+   "suspects": [
+    {
+     "type": "破洞",
+     "box": [
+      323,
+      224,
+      25,
+      59
+     ],
+     "n": 119
+    }
+   ]
+  },
+  {
+   "name": "Side Hair:: Right:: Shadow",
+   "file": "29.webp",
+   "x": 219,
+   "y": 165,
+   "w": 87,
+   "h": 149,
+   "group": "Hair:: Shadows:: Composite",
+   "hidden": false,
+   "backing": true,
+   "z": 47,
+   "suspects": []
+  },
+  {
+   "name": "Side Hair:: Left:: Shadow",
+   "file": "30.webp",
+   "x": 346,
+   "y": 171,
+   "w": 70,
+   "h": 171,
+   "group": "Hair:: Shadows:: Composite",
+   "hidden": false,
+   "backing": true,
+   "z": 46,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Left2:: Shadow",
+   "file": "31.webp",
+   "x": 349,
+   "y": 171,
+   "w": 67,
+   "h": 138,
+   "group": "Hair:: Shadows:: Composite",
+   "hidden": false,
+   "backing": true,
+   "z": 45,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Right2:: Shadow",
+   "file": "32.webp",
+   "x": 219,
+   "y": 165,
+   "w": 84,
+   "h": 128,
+   "group": "Hair:: Shadows:: Composite",
+   "hidden": false,
+   "backing": true,
+   "z": 44,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Left1:: Shadow",
+   "file": "33.webp",
+   "x": 328,
+   "y": 165,
+   "w": 72,
+   "h": 127,
+   "group": "Hair:: Shadows:: Composite",
+   "hidden": false,
+   "backing": true,
+   "z": 43,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Right1:: Shadow",
+   "file": "34.webp",
+   "x": 241,
+   "y": 165,
+   "w": 60,
+   "h": 130,
+   "group": "Hair:: Shadows:: Composite",
+   "hidden": false,
+   "backing": false,
+   "z": 42,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Left:: Shadow:: Lower",
+   "file": "35.webp",
+   "x": 362,
+   "y": 308,
+   "w": 42,
+   "h": 22,
+   "group": "Eye:: Left:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 41,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Right:: Shadow:: Lower",
+   "file": "36.webp",
+   "x": 231,
+   "y": 311,
+   "w": 60,
+   "h": 22,
+   "group": "Eye:: Right:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 40,
+   "suspects": []
+  },
+  {
+   "name": "Nose",
+   "file": "37.webp",
+   "x": 303,
+   "y": 307,
+   "w": 28,
+   "h": 26,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 39,
+   "suspects": []
+  },
+  {
+   "name": "Mouth Inner",
+   "file": "38.webp",
+   "x": 293,
+   "y": 349,
+   "w": 47,
+   "h": 35,
+   "group": "Lip",
+   "hidden": false,
+   "backing": false,
+   "z": 38,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Right:: Shadow:: Upper",
+   "file": "39.webp",
+   "x": 231,
+   "y": 280,
+   "w": 71,
+   "h": 28,
+   "group": "Eye:: Right:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 37,
+   "suspects": []
+  },
+  {
+   "name": "Lip",
+   "file": "40.webp",
+   "x": 289,
+   "y": 344,
+   "w": 54,
+   "h": 50,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 36,
+   "suspects": [
+    {
+     "type": "破洞",
+     "box": [
+      294,
+      350,
+      46,
+      38
+     ],
+     "n": 528
+    }
+   ]
+  },
+  {
+   "name": "Eye:: Left:: Eyelash2",
+   "file": "41.webp",
+   "x": 389,
+   "y": 307,
+   "w": 10,
+   "h": 11,
+   "group": "Eye:: Left:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 35,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Left:: White",
+   "file": "42.webp",
+   "x": 343,
+   "y": 286,
+   "w": 51,
+   "h": 40,
+   "group": "Eye:: Left:: Composite",
+   "hidden": false,
+   "backing": false,
+   "z": 34,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Left:: Eyeball",
+   "file": "43.webp",
+   "x": 350,
+   "y": 290,
+   "w": 28,
+   "h": 39,
+   "group": "Eye:: Left:: Composite",
+   "hidden": false,
+   "backing": false,
+   "z": 33,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      345,
+      282,
+      39,
+      24
+     ],
+     "n": 116
+    }
+   ]
+  },
+  {
+   "name": "Eye:: Left:: Light",
+   "file": "44.webp",
+   "x": 349,
+   "y": 298,
+   "w": 28,
+   "h": 20,
+   "group": "Eye:: Left:: Eyeball",
+   "hidden": false,
+   "backing": false,
+   "z": 32,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      368,
+      294,
+      13,
+      13
+     ],
+     "n": 20
+    }
+   ]
+  },
+  {
+   "name": "Eye:: Left:: Eyelid Side",
+   "file": "45.webp",
+   "x": 376,
+   "y": 295,
+   "w": 19,
+   "h": 33,
+   "group": "Eye:: Left:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 31,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Right:: White",
+   "file": "46.webp",
+   "x": 240,
+   "y": 288,
+   "w": 49,
+   "h": 37,
+   "group": "Eye:: Right:: Composite",
+   "hidden": false,
+   "backing": false,
+   "z": 30,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Right:: Eyeball",
+   "file": "47.webp",
+   "x": 255,
+   "y": 289,
+   "w": 30,
+   "h": 40,
+   "group": "Eye:: Right:: Composite",
+   "hidden": false,
+   "backing": false,
+   "z": 29,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      251,
+      281,
+      37,
+      24
+     ],
+     "n": 103
+    }
+   ]
+  },
+  {
+   "name": "Eye:: Right:: Light",
+   "file": "48.webp",
+   "x": 257,
+   "y": 297,
+   "w": 26,
+   "h": 22,
+   "group": "Eye:: Right:: Eyeball",
+   "hidden": false,
+   "backing": false,
+   "z": 28,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      274,
+      293,
+      13,
+      13
+     ],
+     "n": 21
+    }
+   ]
+  },
+  {
+   "name": "Eye:: Right:: Eyelash2",
+   "file": "49.webp",
+   "x": 238,
+   "y": 306,
+   "w": 7,
+   "h": 13,
+   "group": "Eye:: Right:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 27,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Right:: Eyelid:: Side",
+   "file": "50.webp",
+   "x": 239,
+   "y": 295,
+   "w": 18,
+   "h": 31,
+   "group": "Eye:: Right:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 26,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Right:: Eyelid",
+   "file": "51.webp",
+   "x": 236,
+   "y": 284,
+   "w": 62,
+   "h": 24,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 25,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Left:: Eyelash1",
+   "file": "52.webp",
+   "x": 387,
+   "y": 292,
+   "w": 11,
+   "h": 6,
+   "group": "Eye:: Left:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 24,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Left:: Eyelid",
+   "file": "53.webp",
+   "x": 341,
+   "y": 285,
+   "w": 56,
+   "h": 22,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 23,
+   "suspects": []
+  },
+  {
+   "name": "Side Hair:: Right",
+   "file": "54.webp",
+   "x": 197,
+   "y": 155,
+   "w": 87,
+   "h": 239,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 22,
+   "suspects": [
+    {
+     "type": "破洞",
+     "box": [
+      235,
+      372,
+      24,
+      24
+     ],
+     "n": 16
+    }
+   ]
+  },
+  {
+   "name": "Side Hair:: Left",
+   "file": "55.webp",
+   "x": 343,
+   "y": 160,
+   "w": 96,
+   "h": 232,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 21,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Right:: Eyelash1",
+   "file": "56.webp",
+   "x": 239,
+   "y": 289,
+   "w": 10,
+   "h": 9,
+   "group": "Eye:: Right:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 20,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Right2",
+   "file": "57.webp",
+   "x": 211,
+   "y": 137,
+   "w": 98,
+   "h": 160,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 19,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Left2",
+   "file": "58.webp",
+   "x": 337,
+   "y": 144,
+   "w": 87,
+   "h": 171,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 18,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Right:: Eyelid2:: Shadow",
+   "file": "59.webp",
+   "x": 259,
+   "y": 276,
+   "w": 40,
+   "h": 16,
+   "group": "Eye:: Right:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 17,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Left:: Eyelid2:: Shadow",
+   "file": "60.webp",
+   "x": 338,
+   "y": 276,
+   "w": 36,
+   "h": 15,
+   "group": "Eye:: Left:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 16,
+   "suspects": []
+  },
+  {
+   "name": "Side Hair:: Right:: Light",
+   "file": "61.webp",
+   "x": 204,
+   "y": 319,
+   "w": 43,
+   "h": 46,
+   "group": "Side Hair:: Right",
+   "hidden": false,
+   "backing": false,
+   "z": 15,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Right:: Eyelid2",
+   "file": "62.webp",
+   "x": 267,
+   "y": 281,
+   "w": 27,
+   "h": 10,
+   "group": "Eye:: Right:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 14,
+   "suspects": []
+  },
+  {
+   "name": "Side Hair:: Left:: Light",
+   "file": "63.webp",
+   "x": 390,
+   "y": 319,
+   "w": 40,
+   "h": 37,
+   "group": "Side Hair:: Left",
+   "hidden": false,
+   "backing": false,
+   "z": 13,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      412,
+      331,
+      22,
+      26
+     ],
+     "n": 146
+    }
+   ]
+  },
+  {
+   "name": "Front Hair:: Right2:: Light",
+   "file": "64.webp",
+   "x": 211,
+   "y": 214,
+   "w": 43,
+   "h": 47,
+   "group": "Front Hair:: Right2",
+   "hidden": false,
+   "backing": false,
+   "z": 12,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Left2:: Light",
+   "file": "65.webp",
+   "x": 388,
+   "y": 211,
+   "w": 35,
+   "h": 45,
+   "group": "Front Hair:: Left2",
+   "hidden": false,
+   "backing": false,
+   "z": 11,
+   "suspects": []
+  },
+  {
+   "name": "Eye:: Left:: Eyelid2",
+   "file": "66.webp",
+   "x": 344,
+   "y": 280,
+   "w": 27,
+   "h": 8,
+   "group": "Eye:: Left:: Eyelid",
+   "hidden": false,
+   "backing": false,
+   "z": 10,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Right1",
+   "file": "67.webp",
+   "x": 244,
+   "y": 137,
+   "w": 70,
+   "h": 148,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 9,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Left1",
+   "file": "68.webp",
+   "x": 318,
+   "y": 138,
+   "w": 81,
+   "h": 150,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 8,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Center",
+   "file": "69.webp",
+   "x": 284,
+   "y": 137,
+   "w": 63,
+   "h": 147,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 7,
+   "suspects": []
+  },
+  {
+   "name": "Leaf",
+   "file": "70.webp",
+   "x": 265,
+   "y": 125,
+   "w": 89,
+   "h": 42,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 6,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Right1:: Light",
+   "file": "71.webp",
+   "x": 244,
+   "y": 210,
+   "w": 42,
+   "h": 44,
+   "group": "Front Hair:: Right1",
+   "hidden": false,
+   "backing": false,
+   "z": 5,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Left1:: Ligth",
+   "file": "72.webp",
+   "x": 346,
+   "y": 210,
+   "w": 53,
+   "h": 42,
+   "group": "Front Hair:: Left1",
+   "hidden": false,
+   "backing": false,
+   "z": 4,
+   "suspects": []
+  },
+  {
+   "name": "Front Hair:: Center:: Light",
+   "file": "73.webp",
+   "x": 285,
+   "y": 206,
+   "w": 60,
+   "h": 45,
+   "group": "Front Hair:: Center",
+   "hidden": false,
+   "backing": false,
+   "z": 3,
+   "suspects": []
+  },
+  {
+   "name": "Eyebrow:: Left",
+   "file": "74.webp",
+   "x": 340,
+   "y": 247,
+   "w": 55,
+   "h": 14,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 2,
+   "suspects": []
+  },
+  {
+   "name": "Eyebrow:: Right",
+   "file": "75.webp",
+   "x": 243,
+   "y": 249,
+   "w": 52,
+   "h": 15,
+   "group": "Face",
+   "hidden": false,
+   "backing": false,
+   "z": 1,
+   "suspects": []
+  }
+ ]
+}

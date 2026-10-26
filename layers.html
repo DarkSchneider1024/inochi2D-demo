@@ -123,7 +123,10 @@ $('modelSearch').oninput = filterModels;
 const qs = new URLSearchParams(location.search);
 
 async function loadModels() {
-  const list = await (await fetch('layers/models.json', { cache: 'no-store' })).json();
+  const featured = ['aka', 'midori', 'carol_v3', 'mr_carrot_v3', 'mr_carrot_gold_mage'];
+  const raw = await (await fetch('layers/models.json', { cache: 'no-store' })).json();
+  const list = raw.filter(m => m.category !== 'refined' || featured.includes(m.id));
+  list.sort((a, b) => (featured.indexOf(a.id) + 1 || 99) - (featured.indexOf(b.id) + 1 || 99));
   let unlocked = false;
   try {
     const pass = sessionStorage.getItem('inochi_secret_pass');
@@ -216,8 +219,9 @@ function showInfo() {
   if (!M) return;
   const tot = {};
   for (const L of M.layers) for (const s of L.suspects) tot[s.type] = (tot[s.type] || 0) + 1;
+  const previewNote = ['aka', 'midori'].includes(M.id) ? '・官方圖層以一般混合模式預覽（最長邊 1600px）；完整混合效果請看精緻展示作品' : '';
   const head = `<b>${M.name}</b>（${M.id}，${M.build}）・${M.layers.length} 層・疑點 ` +
-    (Object.keys(tot).length ? Object.entries(tot).map(([k, v]) => `${k} ${v}`).join('、') : '無');
+    (Object.keys(tot).length ? Object.entries(tot).map(([k, v]) => `${k} ${v}`).join('、') : '無') + previewNote;
   if (sel < 0) { box.innerHTML = head + '<br>點左邊的圖層查看它的疑點。'; return; }
   const L = M.layers[sel];
   let h = `${head}<br><b>${L.name}</b>　${L.w}×${L.h}　位置 (${L.x}, ${L.y})　深度 ${L.z}${L.hidden ? '　（靜止時隱藏：表情／姿勢層）' : ''}<br>`;

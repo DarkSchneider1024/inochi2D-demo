@@ -390,5 +390,19 @@
   "build": "2026-10-26",
   "private": false,
   "category": "refined"
+ },
+ {
+  "id": "aka",
+  "name": "Aka",
+  "build": "v0.7.1-39-g59837f6",
+  "private": false,
+  "category": "refined"
+ },
+ {
+  "id": "midori",
+  "name": "Midori",
+  "build": "v0.7.2-120-g7989a2c",
+  "private": false,
+  "category": "refined"
  }
 ]

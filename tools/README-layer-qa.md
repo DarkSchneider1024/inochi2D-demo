@@ -21,3 +21,6 @@ python tools/export_layer_qa.py --all
 專屬區的 6 個角色沿用 secret.html 的工作階段密碼驗證，解鎖後回到此頁即可使用。
 
 角色分類：故事角色 34 個（含側面／坐姿）、精緻角色 11 個、卡洛特實驗室 4 個、專屬區 6 個。分類儲存在 `layers/models.json` 的 `category` 欄位；單角重建保留既有分類，新角色由 `category_of` 給預設分類。
+
+精緻角色介面固定為 Aka、Midori、卡洛兒姐姐 V3、卡洛特先生 V3、金髮魔法師卡洛特；其他精緻舊版不再列入選單。
+Aka / Midori 可用 `python tools/export_layer_qa.py aka midori` 匯出，需安裝 `playwright` 並具備 Microsoft Edge。官方模型透過網站 WebGL 播放器保留網格、UV、遮罩後匯出圖層，再執行疑點檢查。單層以正常透明度呈現，合成預覽為圖層檢查用途；完整 Composite 與加亮混合效果請看精緻展示作品。
