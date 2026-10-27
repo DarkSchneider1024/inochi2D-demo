@@ -3,12 +3,14 @@
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
+// expr (2026-10-27, skill live2d-expressions): a rig with Expression:: <expr> swaps in its GPT-drawn lids / brows /
+// mouth for that feeling (carol_v3); `lid` still narrows the eye under them
 export const FEEL = {
   neutral: { label: '😐 平常' },
   happy: { label: '😊 微笑', brow: -0.15, raise: 0.3, mouth: 1.0, blush: 0.45, emote: 'sparkle' },
   laugh: { label: '😆 大笑', raise: 0.5, mouth: 1.0, blush: 0.6, smile: 1, open: 0.85, laugh: 1, roll: 0.12, emote: 'notes' },
-  angry: { label: '😠 生氣', brow: 1.0, mouth: -0.8, lid: 0.3, pitch: 0.12, shake: 0.35, emote: 'vein' },
-  sad: { label: '😢 難過', brow: -1.0, mouth: -1.0, lid: 0.35, pitch: 0.45, emote: 'tears' },
+  angry: { label: '😠 生氣', expr: 'Angry', brow: 1.0, mouth: -0.8, lid: 0.3, pitch: 0.12, shake: 0.35, emote: 'vein' },
+  sad: { label: '😢 難過', expr: 'Sad', brow: -1.0, mouth: -1.0, lid: 0.35, pitch: 0.45, emote: 'tears' },
   surprise: { label: '😲 驚訝', raise: 1.0, shock: 0.6, open: 0.6, form: 1, pitch: -0.2, emote: 'bang' },
   scared: { label: '😨 害怕', brow: -0.7, raise: 0.6, shock: 0.8, mouth: -0.6, open: 0.3, form: 1, tremble: 1, emote: 'sweat' },
   smug: { label: '😏 得意', brow: 0.45, mouth: 0.9, lid: 0.38, roll: -0.12, emote: 'glint' },
