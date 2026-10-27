@@ -14,7 +14,7 @@ export const FEEL = {
   surprise: { label: '😲 驚訝', raise: 1.0, shock: 0.6, open: 0.6, form: 1, pitch: -0.2, emote: 'bang' },
   scared: { label: '😨 害怕', brow: -0.7, raise: 0.6, shock: 0.8, mouth: -0.6, open: 0.3, form: 1, tremble: 1, emote: 'sweat' },
   smug: { label: '😏 得意', brow: 0.45, mouth: 0.9, lid: 0.38, roll: -0.12, emote: 'glint' },
-  shy: { label: '😳 害羞', brow: -0.4, mouth: 0.5, blush: 1.0, lid: 0.2, pitch: 0.3, emote: 'blush' },
+  shy: { label: '😳 害羞', expr: 'Shy', look: -0.6, brow: -0.4, mouth: 0.5, blush: 1.0, lid: 0.2, pitch: 0.3, emote: 'blush' },
 };
 
 // the video stage's drawing code (carrot-video/live2d/player/stage.js Stage.uiEmote), shared verbatim

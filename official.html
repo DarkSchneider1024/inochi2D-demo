@@ -82,7 +82,7 @@
     <div class="models"><label for="models">選擇角色</label><select id="models"></select></div>
     <div class="stats" id="stats"></div>
 
-    <h2>自動動作</h2>
+    <h2>網頁動畫・自動動作（頁面程式即時計算）</h2>
     <div class="row" id="toggles"></div>
     <h2>展示</h2>
     <div class="row">
@@ -94,9 +94,9 @@
     </div>
 
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
-    <div id="feelSec" hidden><h2>喜怒哀樂（模型內建表情動畫＋漫畫符號）</h2><div class="row" id="feels"></div></div>
-    <div id="actSec" hidden><h2>動作（模型內建動畫，點一下連續播放，再按一次停止）</h2><div class="row" id="acts"></div></div>
-    <div id="gestSec" hidden><h2>手勢（模型內建動畫，播一次）</h2><div class="row" id="gests"></div></div>
+    <div id="feelSec" hidden><h2 id="feelH">模型動畫・表情（存在模型檔裡，點一下切換）</h2><div class="row" id="feels"></div></div>
+    <div id="actSec" hidden><h2>模型動畫・動作（存在模型檔裡，點一下連續播放，再按一次停止）</h2><div class="row" id="acts"></div></div>
+    <div id="gestSec" hidden><h2>模型動畫・手勢（存在模型檔裡，播一次）</h2><div class="row" id="gests"></div></div>
 
     <h2>物理（即時輸出）</h2>
     <div class="phys" id="phys"></div>
@@ -312,11 +312,16 @@ const press = (box, cur) => { for (const b of box.children) b.setAttribute('aria
 function buildMoves() {
   feel.want = feel.shown = ''; feel.w = 0; act.a = gest.a = ''; act.touched.clear(); gest.touched.clear();
   const fs = groupOf('表情'), as = groupOf('動作'), gs = groupOf('手勢');
+  // (2026-10-27, user: 分類改為 網頁動畫／模型動畫) a model without its own expression layers still gets the page-drawn 漫符
+  $('feelH').textContent = '模型動畫・表情（存在模型檔裡，點一下切換）' + (P.has('Expression:: Angry') ? '' : '＋網頁動畫・漫畫符號');
   $('feelSec').hidden = !fs.length; $('actSec').hidden = !as.length; $('gestSec').hidden = !gs.length;
-  buttons($('feels'), fs.length ? ['', ...fs] : [], (n) => { feel.want = n; press($('feels'), n); });
+  // (2026-10-27, user: 生氣跟哭／害羞會跟其他表情一起疊出來) one face at a time: a feeling stops the running action, and an
+  // action or gesture (they bring their own face) lets the feeling ease out
+  const noFeel = () => { feel.want = ''; press($('feels'), ''); };
+  buttons($('feels'), fs.length ? ['', ...fs] : [], (n) => { feel.want = n; press($('feels'), n); act.a = ''; });
   press($('feels'), '');
-  buttons($('acts'), as, (n) => { act.a = act.a === n ? '' : n; act.t0 = time; });
-  buttons($('gests'), gs, (n) => { gest.a = gest.a === n ? '' : n; gest.t0 = time; });
+  buttons($('acts'), as, (n) => { act.a = act.a === n ? '' : n; act.t0 = time; if (act.a) noFeel(); });
+  buttons($('gests'), gs, (n) => { gest.a = gest.a === n ? '' : n; gest.t0 = time; if (gest.a) noFeel(); });
 }
 function handBack(s) {                     // an animation stopped: its params go back to rest (unless the user holds them)
   for (const p of s.touched) if (!manual.has(p.name.trim())) p.value = [...p.defaults];
@@ -366,6 +371,9 @@ function drawFeel() {
   emoX.clearRect(0, 0, emoC.width, emoC.height);
   const id = Object.keys(FEEL).find((k) => FEEL[k].label === feel.shown.slice(feel.shown.indexOf('/') + 1));
   if (!id || !FEEL[id].emote || feel.w <= 0) return;
+  // (2026-10-27, user: 害羞、哭的動畫拿掉，會跟其他表情一起出現；表情請做在模型裡面) a model that carries its own
+  // expression layers (Expression:: *, carol_v3) gets no page-drawn 漫符 on top
+  if (P.has('Expression:: Angry')) return;
   const F = screenBox(P.parts.find((q) => q.name === '臉'));
   if (!F) return;
   const eyes = ['眼白_R', '眼白_L'].map((nm) => screenBox(P.parts.find((q) => q.name === nm))).filter(Boolean);
