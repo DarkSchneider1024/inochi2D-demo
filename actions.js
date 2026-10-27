@@ -132,8 +132,11 @@ function liftAct(u, side) {
   const s = side === 'Left' ? 1 : -1;                     // her left leg = image right: the weight goes to image left
   const e = K([[0.1, 0], [0.75, 1], [1.9, 1], [2.5, 0]])(u);
   const bob = 0.08 * Math.sin(2 * Math.PI * (u - 0.75) / 1.15) * K([[0.6, 0], [0.9, 1], [1.8, 1], [2.1, 0]])(u);
-  return { 'Body:: X:: Move': -s * (0.8 * e + bob), 'Body:: Roll': -0.3 * s * e, 'Head:: Roll': 0.25 * s * e,
+  const o = { 'Body:: X:: Move': -s * (0.8 * e + bob), 'Body:: Roll': -0.3 * s * e, 'Head:: Roll': 0.25 * s * e,
            'Head:: Yaw-Pitch': [-0.1 * s * e, 0] };
+  // 2026-10-27 (user: 抬右腿要往上抬一些些): a model with a lifted-leg key drawing also raises that foot a little
+  o[`Leg:: ${side}:: Lift`] = e;
+  return o;
 }
 
 // his rule: the shoulder never moves; the right forearm comes up through the key drawings
