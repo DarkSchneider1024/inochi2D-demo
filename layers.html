@@ -55,6 +55,14 @@
   .sus { display: inline-flex; align-items: center; gap: 4px; margin: 2px 6px 2px 0; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); cursor: pointer; font-size: 12px; }
   .sus i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
   .legend { color: var(--muted); font-size: 12px; }
+  /* 原圖顯示 (2026-10-27): each layer beside the GPT part image it came from */
+  .row img.src { outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent); }
+  .listhead { display: flex; gap: 6px; padding: 2px 6px 4px; color: var(--muted); font-size: 12px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+  .listhead span { width: 34px; text-align: center; flex: none; }
+  .cmp { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+  .cmp figure { margin: 0; display: flex; flex-direction: column; gap: 2px; font-size: 12px; color: var(--muted); }
+  .cmp img { max-height: 200px; max-width: 280px; object-fit: contain; border-radius: 6px; border: 1px solid var(--line);
+             background: repeating-conic-gradient(#ccc 0 25%, #fff 0 50%) 0 0 / 12px 12px; }
 </style>
 </head>
 <body>
@@ -194,6 +202,11 @@ function buildList() {
   if (!M) return;
   let g = null;
   const order = M.layers.map((L, i) => i).reverse();           // front first, like a PSD
+  if (M.layers.some((L) => L.src)) {
+    const h = document.createElement('div'); h.className = 'listhead';
+    h.innerHTML = '<span></span><span>圖層</span><span>原圖</span><span style="width:auto;text-align:left">（左：模型裡的圖層，右：GPT 部件原圖）</span>';
+    box.appendChild(h);
+  }
   for (const i of order) {
     const L = M.layers[i];
     if (onlySus && !L.suspects.length) continue;
@@ -205,7 +218,10 @@ function buildList() {
     cb.onclick = (e) => { e.stopPropagation(); vis[i] = cb.checked; draw(); };
     const im = document.createElement('img'); im.src = imgs[i] ? imgs[i].src : ''; im.alt = '';
     const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = L.name;
-    r.append(cb, im, nm);
+    r.append(cb, im);
+    if (L.src) { const s2 = document.createElement('img'); s2.className = 'src'; s2.alt = ''; s2.title = `原圖：${L.srcName}`;
+      s2.src = `layers/${M.id}/${L.src}?v=${M.build}`; r.append(s2); }
+    r.append(nm);
     if (L.hidden) { const h = document.createElement('span'); h.className = 'hid'; h.textContent = '表情／姿勢'; r.append(h); }
     if (L.backing) { const h = document.createElement('span'); h.className = 'hid'; h.textContent = '墊底層'; r.append(h); }
     if (L.suspects.length) { const b = document.createElement('span'); b.className = 'badge'; b.textContent = L.suspects.length; r.append(b); }
@@ -227,6 +243,8 @@ function showInfo() {
   let h = `${head}<br><b>${L.name}</b>　${L.w}×${L.h}　位置 (${L.x}, ${L.y})　深度 ${L.z}${L.hidden ? '　（靜止時隱藏：表情／姿勢層）' : ''}<br>`;
   if (!L.suspects.length) h += '這一層沒有找到疑點。';
   L.suspects.forEach((s, k) => { h += `<span class="sus" data-k="${k}" title="${TIP[s.type]}"><i style="background:${COL[s.type]}"></i>${s.type} ${s.n}px</span>`; });
+  if (L.src) h += `<div class="cmp"><figure><img src="${imgs[sel].src}" alt="">模型裡的圖層</figure>` +
+    `<figure><img src="layers/${M.id}/${L.src}?v=${M.build}" alt="">原圖顯示：GPT 部件圖 ${L.srcName}</figure></div>`;
   box.innerHTML = h;
   for (const el of box.querySelectorAll('.sus')) el.onclick = () => zoomTo(L.suspects[+el.dataset.k].box);
 }
