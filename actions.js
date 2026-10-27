@@ -111,6 +111,14 @@ const CAROL = [
   // and the hair / tails / skirt physics swing with it
   { id: 'lift_left', label: '抬左腿', hint: '重心移到右腳、身體晃過去', dur: 2.6, f: (u) => liftAct(u, 'Left') },
   { id: 'lift_right', label: '抬右腿', hint: '重心移到左腳、身體晃過去', dur: 2.6, f: (u) => liftAct(u, 'Right') },
+  // 2026-10-27 (user: 俏皮翹小腿): her right heel flicks up behind her (Leg:: Right:: Kick, a GPT key drawing of the bent
+  // leg), the weight onto the other foot, a little hop of the head and a smile; models without the param just sway
+  { id: 'kick_back', label: '翹小腿', hint: '右腳往後翹起來、俏皮一笑', dur: 2.6, f: (u) => {
+      const e = K([[0.1, 0], [0.55, 1], [1.9, 1], [2.4, 0]])(u);
+      return face({ 'Leg:: Right:: Kick': e, 'Body:: X:: Move': 0.35 * e, 'Body:: Roll': -0.1 * e,
+               'Head:: Roll': -0.25 * e, 'Head:: Yaw-Pitch': [0.15 * e, 0.1 * e],
+               'Arm:: Right:: Swing': -0.25 * e, 'Arm:: Left:: Swing': 0.25 * e,
+               ...mouthHold(u, 0.5, 2.0, 0, 0.5) }, u, [0.5, 2.0]); } },
   { id: 'nervous_lift', label: '緊張抬腿', hint: '重心左右換來換去、眼神飄', dur: 2.4, f: (u) => {
       const e = env(0, 2.4, 0.3)(u), w = Math.sin(2 * Math.PI * u / 0.8);
       return { 'Body:: X:: Move': 0.5 * w * e, 'Body:: Roll': -0.18 * w * e, 'Head:: Roll': 0.14 * w * e,
