@@ -113,7 +113,7 @@ const CAROL = [
   { id: 'lift_right', label: '抬右腿', hint: '重心移到左腳、身體晃過去', dur: 2.6, f: (u) => liftAct(u, 'Right') },
   // 2026-10-27 (user: 俏皮翹小腿): her right heel flicks up behind her (Leg:: Right:: Kick, a GPT key drawing of the bent
   // leg), the weight onto the other foot, a little hop of the head and a smile; models without the param just sway
-  { id: 'kick_back', label: '翹小腿', hint: '右腳往後翹起來、俏皮一笑', dur: 2.6, f: (u) => {
+  { id: 'kick_back', label: '拉直右腿', hint: '右腿伸直站好、俏皮一笑', dur: 2.6, f: (u) => {
       const e = K([[0.1, 0], [0.55, 1], [1.9, 1], [2.4, 0]])(u);
       return face({ 'Leg:: Right:: Kick': e, 'Body:: X:: Move': 0.35 * e, 'Body:: Roll': -0.1 * e,
                'Head:: Roll': -0.25 * e, 'Head:: Yaw-Pitch': [0.15 * e, 0.1 * e],
