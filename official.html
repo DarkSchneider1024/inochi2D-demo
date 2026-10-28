@@ -74,7 +74,7 @@
       <nav class="tabs"><a href="./">Demo</a><a href="gallery.html">作品集</a><a href="official.html" aria-current="page">精緻展示作品</a><a href="layers.html">圖層檢查</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
     </div>
     <div class="loading" id="loading"><div>載入模型中…<div class="bar"><i id="bar"></i></div></div></div>
-    <div class="hint">拖曳平移 · 滾輪縮放 · 雙擊回正</div>
+    <div class="hint">按住人物拖曳＝重力晃動 · Shift／右鍵拖曳平移 · 滾輪縮放 · 雙擊回正</div>
   </div>
   <aside>
     <h1>精緻展示作品</h1>
@@ -130,14 +130,14 @@ mobilePanel(stage, document.querySelector('aside'), () => fitView());      // ph
 const R = new Renderer(cv);
 let P = null, model = null, view = { cx: 0, cy: 0, scale: 1 }, fit = null;
 const manual = new Set();             // params the user grabbed: the idle motion leaves them alone
-const auto = { follow: true, blink: true, breath: true, sway: true, talk: false, physics: true };
-const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: '🫁 呼吸', sway: '🦶 重心移動', talk: '💬 說話', physics: '🌬 物理' };
+const auto = { follow: true, blink: true, breath: true, sway: true, talk: false, physics: true, breeze: true, grab: true };
+const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: '🫁 呼吸', sway: '🦶 重心移動', talk: '💬 說話', physics: '🌬 物理', breeze: '🍃 微風（小馬尾輕晃）', grab: '🖐 重力拖曳（按住人物晃動）' };
 
 // ---- versions (2026-10-23): versions.js -- the date version on every model, ?v=<build> against the browser cache
 const { verOf, vurl, vlabel } = await import('./versions.js');
 
 // ---- model picker ----
-const FEATURED_IDS = ['aka', 'midori', 'carol_v3', 'mr_carrot_v3', 'mr_carrot_gold_mage'];
+const FEATURED_IDS = ['aka', 'midori', 'carol_v3', 'mr_carrot_v4', 'mr_carrot_gold_mage'];
 for (const id of FEATURED_IDS) {
   const m = MODELS.find(m => m.id === id);
   const option = document.createElement('option');
@@ -238,6 +238,45 @@ function drivenNow() {
 }
 const ease = (a, b, k) => a + (b - a) * k;
 const look = { x: 0, y: 0 };
+// (2026-10-28, user: 滑鼠點下去或手指壓著人物晃動，角色跟著被晃動) 重力拖曳: while held, the figure is pulled toward the
+// pointer by a spring; let go and it springs back with a little overshoot. It moves the body / head params, so the
+// model's own physics (hair, tails, tie, skirt) swings from that motion
+const pullApplied = {};
+const pull = { on: false, x0: 0, y0: 0, tx: 0, ty: 0, x: 0, y: 0, vx: 0, vy: 0 };
+function stepGrab(dt, set) {
+  if (!auto.grab && !pull.on && Math.abs(pull.x) + Math.abs(pull.y) + Math.abs(pull.vx) + Math.abs(pull.vy) < 1e-3) return;
+  const tx = pull.on ? pull.tx : 0, ty = pull.on ? pull.ty : 0;
+  const k = pull.on ? 60 : 80, c = pull.on ? 14 : 9.5;            // held: firm follow; released: wobbly return
+  for (let i = 0, n = 4, h = dt / n; i < n; i++) {
+    pull.vx += h * (k * (tx - pull.x) - c * pull.vx); pull.vy += h * (k * (ty - pull.y) - c * pull.vy);
+    pull.x += h * pull.vx; pull.y += h * pull.vy;
+  }
+  // (an offset ON TOP of whatever drives the param; last frame's offset is taken back first, so with nothing else
+  // driving it -- 重心移動 / 視線跟隨 off -- it does not pile up)
+  const add = (name, v, ax = 0) => {
+    if (!P.has(name) || manual.has(name)) return;
+    const key = name + ax, p = P.byName[name], val = [...p.value], was = pullApplied[key];
+    const base = was && Math.abs(was.wrote - val[ax]) < 1e-4 ? val[ax] - was.off : val[ax];     // untouched since our write: take it back
+    const nv = Math.max(p.min[ax], Math.min(p.max[ax], base + v));
+    pullApplied[key] = { off: nv - base, wrote: nv }; val[ax] = nv; p.value = val;
+  };
+  add('Body:: X:: Move', pull.x * 0.9);
+  add('Body:: Roll', -pull.x * 0.3 - pull.vx * 0.02);
+  add('Head:: Roll', pull.x * 0.3 + pull.vx * 0.03);
+  add('Body:: Hop', -pull.y * 0.9);
+  add('Head:: Yaw-Pitch', pull.vx * 0.05, 0); add('Head:: Yaw-Pitch', pull.y * 0.4 + pull.vy * 0.03, 1);
+}
+// 微風: a soft gust on the lower twin tails' pendulums (and a bit on the side locks), so they sway a little at rest
+function stepBreeze(dt) {
+  if (!auto.breeze || !auto.physics) return;
+  for (const s of P.physics) {
+    const nm = s.param.name;
+    const w = /Twin Tail Tip/.test(nm) ? 1 : /Side Hair|Twin Tail::/.test(nm) ? 0.35 : 0;
+    if (!w || !s.v) continue;
+    const ph = /Left/.test(nm) ? 1.7 : 0;
+    s.v[0] += dt * w * 900 * (Math.sin(time * 1.3 + ph) + 0.5 * Math.sin(time * 2.9 + ph * 2));
+  }
+}
 function drive(dt) {
   time += dt;
   const set = (name, x, y) => {
@@ -271,6 +310,7 @@ function drive(dt) {
   // 重心移動 (2026-10-23): a slow weight shift side to side -- Body:: X:: Move moves the hips while the feet stay
   // planted (Aka's rig, and carol_v2's since today); the shake demo drives it harder
   if (auto.sway && shakeT < 0) set('Body:: X:: Move', 0.45 * Math.sin(time * 0.55) + 0.12 * Math.sin(time * 1.3 + 0.8));
+  stepGrab(dt, set);
   if (auto.blink) {
     blinkNext -= dt;
     if (blinkNext <= 0 && blinkT < 0) { blinkT = 0; blinkNext = 2 + Math.random() * 3.5; }
@@ -398,13 +438,24 @@ function resize() {
 }
 new ResizeObserver(resize).observe(stage);
 let drag = null;
-cv.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, px: pan.x, py: pan.y }; cv.setPointerCapture(e.pointerId); });
-cv.addEventListener('pointerup', () => { drag = null; });
+cv.addEventListener('pointerdown', (e) => {
+  cv.setPointerCapture(e.pointerId);
+  // 重力拖曳 on: a left press / a finger grabs the figure (shift or the right button still pans); off: drag pans
+  if (auto.grab && P && e.button === 0 && !e.shiftKey) { pull.on = true; pull.x0 = e.clientX; pull.y0 = e.clientY; pull.tx = pull.ty = 0; return; }
+  drag = { x: e.clientX, y: e.clientY, px: pan.x, py: pan.y };
+});
+const release = () => { drag = null; pull.on = false; };
+cv.addEventListener('pointerup', release); cv.addEventListener('pointercancel', release);
+cv.addEventListener('contextmenu', (e) => e.preventDefault());
 addEventListener('pointermove', (e) => {
   const r = stage.getBoundingClientRect();
   ptr.x = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - 0.5) * 2.4));
   ptr.y = Math.max(-1, Math.min(1, -((e.clientY - r.top) / r.height - 0.32) * 2.4));
   ptr.has = true;
+  if (pull.on) {                                   // pointer travel -> pull, ~1 at a third of the stage
+    pull.tx = Math.max(-1.2, Math.min(1.2, (e.clientX - pull.x0) / (r.width / 3)));
+    pull.ty = Math.max(-1, Math.min(1, (e.clientY - pull.y0) / (r.height / 3)));
+  }
   if (drag) {
     const dpr = cv.width / r.width;
     pan.x = drag.px + ((e.clientX - drag.x) * dpr) / view.scale;
@@ -430,7 +481,7 @@ async function runQA() {
   const keep = { ...auto }, z0 = zoom, p0 = { ...pan };
   Object.assign(auto, { follow: false, blink: false, breath: false, sway: false, talk: false, physics: true });
   fitView();
-  P.reset(); manual.clear(); shakeT = -1; look.x = look.y = 0; act.a = gest.a = '';
+  P.reset(); manual.clear(); shakeT = -1; look.x = look.y = 0; act.a = gest.a = ''; for (const k in pullApplied) delete pullApplied[k];
   const DT = 1 / 30, list = [];
   const yaw = () => (P.get('Head:: Yaw-Pitch') || [0, 0]);
   const tag = () => `轉 ${yaw()[0].toFixed(2)}／仰 ${(yaw()[1] ?? 0).toFixed(2)}／歪 ${(P.get('Head:: Roll')?.[0] ?? 0).toFixed(2)}`;
@@ -476,7 +527,7 @@ function frame(now) {
     drive(dt);
     applyMoves(dt);
     P.update();
-    if (auto.physics) P.stepPhysics(dt);
+    if (auto.physics) { stepBreeze(dt); P.stepPhysics(dt); }
     R.draw(view);
     drawFeel();
     uiT += dt;
