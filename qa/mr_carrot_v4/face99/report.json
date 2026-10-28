@@ -1,5 +1,5 @@
 {
-  "model_sha256": "968436998b78014e2becddf97b542a5c02e54abf75cec07c8c0726c77a47e83f",
+  "model_sha256": "60c0b115b9c9b297f8a5fba7e94bdff3b4504383fa6c0faf4f1559f5188a20e2",
   "original": "G:\\我的雲端硬碟\\carrot-entertainment\\psd-create\\images\\mrcarrot3\\frame\\2_main.png",
   "original_sha256": "843a431d30e571e108ef9a5c842af6f81dae1631e8dc1d7038902be6148d155c",
   "threshold": 99,
@@ -12,9 +12,9 @@
         720,
         420
       ],
-      "score": 95.35389927193575,
+      "score": 95.1087092496685,
       "compared_pixels": 39969,
-      "different_pixels": 1857,
+      "different_pixels": 1955,
       "passed": false
     },
     "head": {
@@ -24,9 +24,9 @@
         790,
         420
       ],
-      "score": 95.63278056665061,
+      "score": 95.48047184619928,
       "compared_pixels": 64343,
-      "different_pixels": 2810,
+      "different_pixels": 2908,
       "passed": false
     }
   }

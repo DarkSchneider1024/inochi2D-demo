@@ -1,6 +1,6 @@
 {
-  "model_sha256": "968436998b78014e2becddf97b542a5c02e54abf75cec07c8c0726c77a47e83f",
-  "pixel_score": 95.87311506141981,
+  "model_sha256": "60c0b115b9c9b297f8a5fba7e94bdff3b4504383fa6c0faf4f1559f5188a20e2",
+  "pixel_score": 95.85699955600137,
   "minimum_score": 95,
   "pixel_passed": true,
   "method": "official Demo renderer, native 1200x2000, fixed frame, TOL40 SHIFT2 blur1, gray background excluded",
@@ -85,6 +85,24 @@
       "passed": true
     },
     {
+      "key": "burnR",
+      "name": "鬢髮_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "burnL",
+      "name": "鬢髮_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "face2",
+      "name": "臉",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
       "key": "earR2",
       "name": "耳朵_R",
       "alpha_silhouette_iou": 100.0,
@@ -93,12 +111,6 @@
     {
       "key": "earL2",
       "name": "耳朵_L",
-      "alpha_silhouette_iou": 100.0,
-      "passed": true
-    },
-    {
-      "key": "face2",
-      "name": "臉",
       "alpha_silhouette_iou": 100.0,
       "passed": true
     },
@@ -271,18 +283,6 @@
       "passed": true
     },
     {
-      "key": "burnR",
-      "name": "鬢髮_R",
-      "alpha_silhouette_iou": 100.0,
-      "passed": true
-    },
-    {
-      "key": "burnL",
-      "name": "鬢髮_L",
-      "alpha_silhouette_iou": 100.0,
-      "passed": true
-    },
-    {
       "key": "browR",
       "name": "眉毛_R",
       "alpha_silhouette_iou": 100.0,
@@ -314,19 +314,27 @@
     }
   ],
   "layers_passed": true,
-  "face_score": 95.35389927193575,
+  "face_score": 95.1087092496685,
   "face_minimum_score": 99,
   "face_passed": false,
   "overall_accepted": false,
+  "hair_order": {
+    "backhair_behind_all_parts": true,
+    "sideburns_behind_face": true,
+    "ears_in_front_of_face": true,
+    "z": {
+      "後髮": 0.51,
+      "鬢髮_R": 0.38,
+      "鬢髮_L": 0.37,
+      "臉": 0.36,
+      "耳朵_R": 0.35,
+      "耳朵_L": 0.34
+    }
+  },
   "psd_second_reader": {
     "max_channel_difference": 2,
-    "mean_difference": 0.0005258333333333333,
+    "mean_difference": 0.0005920138888888889,
     "passed": true
   },
-  "dynamic_smoke": {
-    "frames": 117,
-    "debris": 0,
-    "holes_or_ghosting": 0
-  },
-  "note": "Pixel score above is the full-body legacy metric. Current acceptance requires static face >=99 and has not passed. Layer fidelity is not design fidelity."
+  "note": "Full-body and per-layer fidelity are separate metrics, not static-face acceptance."
 }

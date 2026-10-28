@@ -1,7 +1,13 @@
 {
-  "backhair_z": 0.51,
-  "all_other_parts_max_z": 0.5,
-  "descending_z_is_back_to_front": true,
   "backhair_behind_all_parts": true,
-  "front_hair_issue": "sideL mixes front locks and rear volume; needs GPT re-generation into separate components"
+  "sideburns_behind_face": true,
+  "ears_in_front_of_face": true,
+  "z": {
+    "後髮": 0.51,
+    "鬢髮_R": 0.38,
+    "鬢髮_L": 0.37,
+    "臉": 0.36,
+    "耳朵_R": 0.35,
+    "耳朵_L": 0.34
+  }
 }

@@ -1,19 +1,13 @@
 {
   "date": "2026-10-29",
   "before_face_score": 91.12362362362363,
-  "after_face_score": 95.35389927193575,
+  "after_face_score": 95.1087092496685,
   "target": 99,
   "passed": false,
-  "model_sha256": "968436998b78014e2becddf97b542a5c02e54abf75cec07c8c0726c77a47e83f",
+  "model_sha256": "60c0b115b9c9b297f8a5fba7e94bdff3b4504383fa6c0faf4f1559f5188a20e2",
   "scope": "static face whole-layer alignment; no generated source pixels altered",
   "changed_layers": 20,
   "remaining_differences": [
-    {
-      "layer": "側髮_L",
-      "source": "sideL.png",
-      "issue": "同一部件包含前方髮束及後方髮量，無法整層移到臉後；後髮本身已在最底層。",
-      "next": "GPT 重新產生分開的前側髮與後側髮。"
-    },
     {
       "layer": "前髮_R、前髮_L",
       "source": "bangR.png / bangL.png",
@@ -40,10 +34,17 @@
     }
   ],
   "hair_order": {
-    "backhair_z": 0.51,
-    "all_other_parts_max_z": 0.5,
-    "descending_z_is_back_to_front": true,
     "backhair_behind_all_parts": true,
-    "front_hair_issue": "sideL mixes front locks and rear volume; needs GPT re-generation into separate components"
-  }
+    "sideburns_behind_face": true,
+    "ears_in_front_of_face": true,
+    "z": {
+      "後髮": 0.51,
+      "鬢髮_R": 0.38,
+      "鬢髮_L": 0.37,
+      "臉": 0.36,
+      "耳朵_R": 0.35,
+      "耳朵_L": 0.34
+    }
+  },
+  "correction": "User identified sideburns, not side hair. Both sideburns moved behind face; both ears moved in front. Previous side-hair explanation is not the cause of this report."
 }
