@@ -235,6 +235,15 @@ const BOBO_V3 = [
       'Body:: Hop': K([[0, 0], [0.26, 0], [0.42, -0.7], [0.62, -1], [0.78, -0.7], [0.96, 0], [1.6, 0]])(u),
       'Head:: Yaw-Pitch': [0, K([[0, 0], [0.22, -0.35], [0.4, 0.3], [0.75, 0.1], [0.98, -0.4], [1.3, 0], [1.6, 0]])(u)],
       'Mouth:: Open': K([[0.3, 0], [0.42, 0.7], [0.9, 0.7], [1.0, 0]])(u)}, u, [0.35, 0.95]) },
+  // (2026-10-28, user: 新增形象卡的歪頭舉手) the concept sheet's Happy Waving: head tilted, smiling eyes, open mouth,
+  // the left paw up beside the head waving, the carrot still hugged in the other arm
+  { id: 'tilt_wave', label: '歪頭舉手', hint: '歪頭笑、舉手揮揮', dur: 3.2, f: (u) => face({
+      'Arm:: Left:: Raise': K([[0, 0], [0.45, 1], [2.75, 1], [3.2, 0]])(u),
+      'Hand:: Left:: Wave': Math.sin(2 * Math.PI * (u - 0.45) / 0.55) * env(0.45, 2.75, 0.2)(u),
+      'Head:: Roll': K([[0, 0], [0.45, -0.7], [2.75, -0.7], [3.2, 0]])(u),
+      'Head:: Yaw-Pitch': [K([[0, 0], [0.45, -0.25], [2.75, -0.25], [3.2, 0]])(u), 0],
+      'Face:: Blush': K([[0, 0], [0.5, 0.35], [2.7, 0.35], [3.2, 0]])(u),
+      'Mouth:: Open': K([[0.35, 0], [0.5, 0.85], [2.6, 0.85], [2.75, 0]])(u)}, u, [0.35, 2.85]) },
   ...BOBO.filter((a) => ['shy', 'happy', 'nod', 'surprise'].includes(a.id)),
 ];
 
