@@ -1,5 +1,12 @@
 [
  {
+  "id": "mr_carrot_v4",
+  "name": "卡洛特先生",
+  "build": "2026-10-28",
+  "private": false,
+  "category": "refined"
+ },
+ {
   "id": "mr_carrot_v3",
   "name": "卡洛特先生",
   "build": "2026-10-25",

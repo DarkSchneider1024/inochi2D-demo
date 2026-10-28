@@ -1,5 +1,13 @@
 [
   {
+    "id": "mr_carrot_v4",
+    "name": "卡洛特先生",
+    "file": "models/mr_carrot_v4.inp",
+    "thumb": "thumbs/mr_carrot_v4.png",
+    "noIdleArms": true,
+    "desc": "V4：51 個 GPT 透明圖層、39 個參數、19 組動作／表情；後髮位於臉後面。原圖比對 95.46 分。"
+  },
+  {
     "id": "gold_mage_gpt_v1",
     "name": "金髮魔導學者（GPT 製作）",
     "file": "models/gold_mage_gpt_v1.inp",

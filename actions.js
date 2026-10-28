@@ -247,7 +247,7 @@ const BOBO_V3 = [
   ...BOBO.filter((a) => ['shy', 'happy', 'nod', 'surprise'].includes(a.id)),
 ];
 
-export const ACTIONS = { carol_v2: CAROL, carol_lab: CAROL, mr_carrot_v3: MRCARROT, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, mr_carrot_gold_mage: MRCARROT, bobo: BOBO, bobo_lab: BOBO, bobo_v3: BOBO_V3 };   // gold = same rig
+export const ACTIONS = { carol_v2: CAROL, carol_lab: CAROL, mr_carrot_v4: MRCARROT, mr_carrot_v3: MRCARROT, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, mr_carrot_gold_mage: MRCARROT, bobo: BOBO, bobo_lab: BOBO, bobo_v3: BOBO_V3 };   // gold = same rig
 
 // ---- 2026-10-19: generic actions for the story puppets (live2d/engine/rig.py: nine-axis head, arm swing / bend /
 // wrist, and the 喜怒哀樂 params Brow:: Mood / Raise, Mouth:: Mood, Eye:: Shock, Face:: Blush) -- any puppet without

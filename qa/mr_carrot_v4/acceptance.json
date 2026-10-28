@@ -1,0 +1,345 @@
+{
+  "model_sha256": "1e9ef4d56e81ff5c7208391c02e03a3ff6a822022f3962e9fba1ba0833890c17",
+  "pixel_score": 95.46035290461447,
+  "minimum_score": 95,
+  "pixel_passed": true,
+  "method": "official Demo renderer, native 1200x2000, fixed frame, TOL40 SHIFT2 blur1, gray background excluded",
+  "backhair_behind_face": true,
+  "layers": [
+    {
+      "key": "backhair2",
+      "name": "後髮",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "legR",
+      "name": "腿_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "legL",
+      "name": "腿_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "neck_retry",
+      "name": "脖子",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "armR",
+      "name": "手臂_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "armL",
+      "name": "手臂_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "present",
+      "name": "手臂_R_請看",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "finger",
+      "name": "手臂_R_食指",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "wave",
+      "name": "手臂_R_揮",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "torso2",
+      "name": "軀幹",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "scarf2",
+      "name": "領巾",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "gear2",
+      "name": "腰包",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "compass",
+      "name": "指南針",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "earR2",
+      "name": "耳朵_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "earL2",
+      "name": "耳朵_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "face2",
+      "name": "臉",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "blush1",
+      "name": "臉紅_1",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "blush2",
+      "name": "臉紅_2",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "blush3",
+      "name": "臉紅_3",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "eyeWR2",
+      "name": "眼白_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "eyeWL2",
+      "name": "眼白_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "irisR",
+      "name": "眼球_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "irisL",
+      "name": "眼球_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "lashR",
+      "name": "上眼線_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "lashL",
+      "name": "上眼線_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "nose",
+      "name": "鼻子",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "lip",
+      "name": "嘴唇線",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "closedR",
+      "name": "閉眼_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "closedL",
+      "name": "閉眼_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "mouthA",
+      "name": "嘴_啊",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "mouthO",
+      "name": "嘴_喔",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "angryR",
+      "name": "怒眼_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "angryL",
+      "name": "怒眼_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "sadR",
+      "name": "哀眼_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "sadL",
+      "name": "哀眼_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "pout",
+      "name": "嘴_嘟",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "flat",
+      "name": "嘴_平",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "wavy",
+      "name": "嘴_波浪",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "tears",
+      "name": "淚_積",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "tearDrop",
+      "name": "淚_滴",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "crown3",
+      "name": "頭頂髮",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "sideL",
+      "name": "側髮_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "bangR",
+      "name": "前髮_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "bangL",
+      "name": "前髮_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "burnR",
+      "name": "鬢髮_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "burnL",
+      "name": "鬢髮_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "browR",
+      "name": "眉毛_R",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "browL",
+      "name": "眉毛_L",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "browAngry",
+      "name": "眉毛_怒",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "browSad",
+      "name": "眉毛_哀",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    },
+    {
+      "key": "glasses",
+      "name": "眼鏡",
+      "alpha_silhouette_iou": 100.0,
+      "passed": true
+    }
+  ],
+  "layers_passed": true,
+  "psd": {
+    "width": 2400,
+    "height": 4000,
+    "layers": 51,
+    "readers": [
+      "psd-tools",
+      "GIMP 3.2.4"
+    ],
+    "max_flat_channel_difference": 2
+  },
+  "dynamic": {
+    "states": [
+      "一般",
+      "生氣",
+      "難過",
+      "驚訝"
+    ],
+    "frames_per_state": 117,
+    "total_frames": 468,
+    "debris": 0,
+    "holes_or_ghosting": 0
+  },
+  "review_notes": [
+    "脖子上下開口藏於臉與領巾內，動態無裸露切口。",
+    "三種手勢為互斥姿勢圖，重複像素屬預期。",
+    "臉紅為預期半透明繪圖；腰包綠色為瓶蓋。",
+    "側髮與前髮的遮擋、極限擺髮已目視檢查。"
+  ]
+}
