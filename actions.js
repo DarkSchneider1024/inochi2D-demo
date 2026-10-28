@@ -238,7 +238,7 @@ const BOBO_V3 = [
   // (2026-10-28, user: 新增形象卡的歪頭舉手) the concept sheet's Happy Waving: head tilted, smiling eyes, open mouth,
   // the left paw up beside the head waving, the carrot still hugged in the other arm
   { id: 'tilt_wave', label: '歪頭舉手', hint: '歪頭笑、舉手揮揮', dur: 3.2, f: (u) => face({
-      'Arm:: Left:: Raise': K([[0, 0], [0.45, 1], [2.75, 1], [3.2, 0]])(u),
+      'Arm:: Left:: Raise': K([[0, 0], [0.12, 0.31], [0.5, 1], [2.7, 1], [3.08, 0.31], [3.2, 0]])(u),
       'Hand:: Left:: Wave': Math.sin(2 * Math.PI * (u - 0.45) / 0.55) * env(0.45, 2.75, 0.2)(u),
       'Head:: Roll': K([[0, 0], [0.45, -0.7], [2.75, -0.7], [3.2, 0]])(u),
       'Head:: Yaw-Pitch': [K([[0, 0], [0.45, -0.25], [2.75, -0.25], [3.2, 0]])(u), 0],
