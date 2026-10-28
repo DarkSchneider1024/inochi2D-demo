@@ -229,6 +229,12 @@ const BOBO_V3 = [
       'Arm:: Left:: Swing': 0.5 * Math.sin(4 * Math.PI * u / 1.2),
       'Head:: Roll': 0.5 * Math.sin(2 * Math.PI * u / 1.2),
       'Body:: Hop': -0.04 * Math.abs(Math.sin(2 * Math.PI * u / 1.2))}, u, [0.1, 2.3]) },
+  // (2026-10-28, user: 兔子跳，跳的時候腳會有下壓再往上的感覺) crouch -> take off stretched -> airborne -> land squashed -> spring back
+  { id: 'bunny_hop', label: '兔子跳', hint: '先蹲下壓、蹬起拉長、落地再壓一下', dur: 1.6, f: (u) => face({
+      'Body:: Squash': K([[0, 0], [0.22, 1], [0.32, -0.9], [0.55, -0.3], [0.8, -0.1], [0.98, 0.9], [1.12, -0.25], [1.28, 0.15], [1.42, 0], [1.6, 0]])(u),
+      'Body:: Hop': K([[0, 0], [0.26, 0], [0.42, -0.7], [0.62, -1], [0.78, -0.7], [0.96, 0], [1.6, 0]])(u),
+      'Head:: Yaw-Pitch': [0, K([[0, 0], [0.22, -0.35], [0.4, 0.3], [0.75, 0.1], [0.98, -0.4], [1.3, 0], [1.6, 0]])(u)],
+      'Mouth:: Open': K([[0.3, 0], [0.42, 0.7], [0.9, 0.7], [1.0, 0]])(u)}, u, [0.35, 0.95]) },
   ...BOBO.filter((a) => ['shy', 'happy', 'nod', 'surprise'].includes(a.id)),
 ];
 
