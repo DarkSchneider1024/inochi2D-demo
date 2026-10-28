@@ -1,0 +1,33 @@
+{
+  "model_sha256": "968436998b78014e2becddf97b542a5c02e54abf75cec07c8c0726c77a47e83f",
+  "original": "G:\\我的雲端硬碟\\carrot-entertainment\\psd-create\\images\\mrcarrot3\\frame\\2_main.png",
+  "original_sha256": "843a431d30e571e108ef9a5c842af6f81dae1631e8dc1d7038902be6148d155c",
+  "threshold": 99,
+  "method": "Actual Demo renderer; all animation disabled, reset params; 1200x2000 fixed original frame, no registration; TOL40 SHIFT2 blur1; gray background excluded. Scores are not subjective visual grades.",
+  "regions": {
+    "face": {
+      "box": [
+        480,
+        220,
+        720,
+        420
+      ],
+      "score": 95.35389927193575,
+      "compared_pixels": 39969,
+      "different_pixels": 1857,
+      "passed": false
+    },
+    "head": {
+      "box": [
+        390,
+        50,
+        790,
+        420
+      ],
+      "score": 95.63278056665061,
+      "compared_pixels": 64343,
+      "different_pixels": 2810,
+      "passed": false
+    }
+  }
+}

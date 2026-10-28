@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-29",
+  "before_face_score": 91.12362362362363,
+  "after_face_score": 95.35389927193575,
+  "target": 99,
+  "passed": false,
+  "model_sha256": "968436998b78014e2becddf97b542a5c02e54abf75cec07c8c0726c77a47e83f",
+  "scope": "static face whole-layer alignment; no generated source pixels altered",
+  "changed_layers": 20,
+  "remaining_differences": [
+    {
+      "layer": "側髮_L",
+      "source": "sideL.png",
+      "issue": "同一部件包含前方髮束及後方髮量，無法整層移到臉後；後髮本身已在最底層。",
+      "next": "GPT 重新產生分開的前側髮與後側髮。"
+    },
+    {
+      "layer": "前髮_R、前髮_L",
+      "source": "bangR.png / bangL.png",
+      "issue": "原圖髮際線尖角、額頭開口形狀不同；整張仿射對位不能重現局部形狀。",
+      "next": "依原圖重新生成髮際線及前髮部件。"
+    },
+    {
+      "layer": "臉",
+      "source": "face2.png",
+      "issue": "臉頰收窄幅度與下巴曲線仍有差異。",
+      "next": "重新生成相同臉型的素臉。"
+    },
+    {
+      "layer": "眼白、上眼線、眼球",
+      "source": "eyeWR2.png / eyeWL2.png / lashR.png / lashL.png / irisR.png / irisL.png",
+      "issue": "位置與大小已調整；眼線弧度、眼白開口與虹膜局部比例仍不相同。",
+      "next": "使用原圖同畫幅重產眼部件，分開驗證。"
+    },
+    {
+      "layer": "耳朵_R、耳朵_L",
+      "source": "earR2.png / earL2.png",
+      "issue": "耳廓形狀與內部摺線不能完全對上原圖。",
+      "next": "依原圖重產耳朵部件。"
+    }
+  ],
+  "hair_order": {
+    "backhair_z": 0.51,
+    "all_other_parts_max_z": 0.5,
+    "descending_z_is_back_to_front": true,
+    "backhair_behind_all_parts": true,
+    "front_hair_issue": "sideL mixes front locks and rear volume; needs GPT re-generation into separate components"
+  }
+}

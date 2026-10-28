@@ -1,0 +1,7 @@
+{
+  "backhair_z": 0.51,
+  "all_other_parts_max_z": 0.5,
+  "descending_z_is_back_to_front": true,
+  "backhair_behind_all_parts": true,
+  "front_hair_issue": "sideL mixes front locks and rear volume; needs GPT re-generation into separate components"
+}

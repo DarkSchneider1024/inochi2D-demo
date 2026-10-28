@@ -1,6 +1,6 @@
 {
-  "model_sha256": "1e9ef4d56e81ff5c7208391c02e03a3ff6a822022f3962e9fba1ba0833890c17",
-  "pixel_score": 95.46035290461447,
+  "model_sha256": "968436998b78014e2becddf97b542a5c02e54abf75cec07c8c0726c77a47e83f",
+  "pixel_score": 95.87311506141981,
   "minimum_score": 95,
   "pixel_passed": true,
   "method": "official Demo renderer, native 1200x2000, fixed frame, TOL40 SHIFT2 blur1, gray background excluded",
@@ -314,32 +314,19 @@
     }
   ],
   "layers_passed": true,
-  "psd": {
-    "width": 2400,
-    "height": 4000,
-    "layers": 51,
-    "readers": [
-      "psd-tools",
-      "GIMP 3.2.4"
-    ],
-    "max_flat_channel_difference": 2
+  "face_score": 95.35389927193575,
+  "face_minimum_score": 99,
+  "face_passed": false,
+  "overall_accepted": false,
+  "psd_second_reader": {
+    "max_channel_difference": 2,
+    "mean_difference": 0.0005258333333333333,
+    "passed": true
   },
-  "dynamic": {
-    "states": [
-      "一般",
-      "生氣",
-      "難過",
-      "驚訝"
-    ],
-    "frames_per_state": 117,
-    "total_frames": 468,
+  "dynamic_smoke": {
+    "frames": 117,
     "debris": 0,
     "holes_or_ghosting": 0
   },
-  "review_notes": [
-    "脖子上下開口藏於臉與領巾內，動態無裸露切口。",
-    "三種手勢為互斥姿勢圖，重複像素屬預期。",
-    "臉紅為預期半透明繪圖；腰包綠色為瓶蓋。",
-    "側髮與前髮的遮擋、極限擺髮已目視檢查。"
-  ]
+  "note": "Pixel score above is the full-body legacy metric. Current acceptance requires static face >=99 and has not passed. Layer fidelity is not design fidelity."
 }

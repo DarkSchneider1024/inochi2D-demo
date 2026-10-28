@@ -5,7 +5,7 @@
     "file": "models/mr_carrot_v4.inp",
     "thumb": "thumbs/mr_carrot_v4.png",
     "noIdleArms": true,
-    "desc": "V4：51 個 GPT 透明圖層、39 個參數、19 組動作／表情；後髮位於臉後面。原圖比對 95.46 分。"
+    "desc": "2026-10-29 靜態臉部調整：原圖比對 95.35 分（目標 99，未通過）；後髮最底層，側髮等待重畫差異已記錄。"
   },
   {
     "id": "gold_mage_gpt_v1",
