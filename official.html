@@ -117,6 +117,7 @@ const MODELS = [
   { id: 'aka', name: 'Aka', desc: '紅髮狐耳少女', file: 'models/official/aka.inp' },
   { id: 'midori', name: 'Midori', desc: '綠髮少女（MeshGroup 版）', file: 'models/official/midori.inp' },
   { id: 'carol_v3', name: '卡洛兒姐姐', desc: '卡洛特工作室原創（V3）', file: 'models/carol_v3.inp', own: 'make_carol3_puppet.py' },
+  { id: 'bobo_v3', name: '兔子波波', desc: '卡洛特工作室原創（V3・GPT 部件圖層、表情做在模型裡）', file: 'models/bobo_v3.inp', own: 'make_bobo3_puppet.py' },
   { id: 'carol_v2', name: '卡洛兒姐姐 V2（舊版・不再維護）', desc: '卡洛特工作室原創（V2 舊版）', file: 'models/carol_v2.inp', own: 'make_carol2_puppet.py' },
   { id: 'mr_carrot_v3', name: '卡洛特先生', desc: '卡洛特工作室原創（V3）', file: 'models/mr_carrot_v3.inp', own: 'make_mrcarrot3_puppet.py' },
   { id: 'mr_carrot_v2', name: '卡洛特先生 V2（舊版・不再維護）', desc: '卡洛特工作室原創（V2 舊版）', file: 'models/mr_carrot_v2.inp', own: 'make_mrcarrot2_puppet.py' },
@@ -137,7 +138,7 @@ const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: 
 const { verOf, vurl, vlabel } = await import('./versions.js');
 
 // ---- model picker ----
-const FEATURED_IDS = ['aka', 'midori', 'carol_v3', 'mr_carrot_v3', 'mr_carrot_gold_mage'];
+const FEATURED_IDS = ['aka', 'midori', 'carol_v3', 'bobo_v3', 'mr_carrot_v3', 'mr_carrot_gold_mage'];
 for (const id of FEATURED_IDS) {
   const m = MODELS.find(m => m.id === id);
   const option = document.createElement('option');

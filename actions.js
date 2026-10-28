@@ -221,7 +221,18 @@ const BOBO = [
       return o; } },
 ];
 
-export const ACTIONS = { carol_v2: CAROL, carol_lab: CAROL, mr_carrot_v3: MRCARROT, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, mr_carrot_gold_mage: MRCARROT, bobo: BOBO, bobo_lab: BOBO };   // gold = same rig
+// (2026-10-28) 兔子波波 V3 (make_bobo3_puppet.py): no empty-paw / raised-paw key drawings any more (expressions and
+// moves live in the model's own layers), so the moves that put the carrot down are out; he rocks it instead
+const BOBO_V3 = [
+  { id: 'rock', label: '抱胡蘿蔔搖搖', hint: '抱著胡蘿蔔左右搖、耳朵跟著甩', dur: 2.4, f: (u) => face({
+      'Arm:: Right:: Swing': Math.sin(2 * Math.PI * u / 1.2),
+      'Arm:: Left:: Swing': 0.5 * Math.sin(4 * Math.PI * u / 1.2),
+      'Head:: Roll': 0.5 * Math.sin(2 * Math.PI * u / 1.2),
+      'Body:: Hop': -0.04 * Math.abs(Math.sin(2 * Math.PI * u / 1.2))}, u, [0.1, 2.3]) },
+  ...BOBO.filter((a) => ['shy', 'happy', 'nod', 'surprise'].includes(a.id)),
+];
+
+export const ACTIONS = { carol_v2: CAROL, carol_lab: CAROL, mr_carrot_v3: MRCARROT, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, mr_carrot_gold_mage: MRCARROT, bobo: BOBO, bobo_lab: BOBO, bobo_v3: BOBO_V3 };   // gold = same rig
 
 // ---- 2026-10-19: generic actions for the story puppets (live2d/engine/rig.py: nine-axis head, arm swing / bend /
 // wrist, and the 喜怒哀樂 params Brow:: Mood / Raise, Mouth:: Mood, Eye:: Shock, Face:: Blush) -- any puppet without
