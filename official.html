@@ -95,6 +95,7 @@
 
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
     <div id="feelSec" hidden><h2 id="feelH">模型動畫・表情（存在模型檔裡，點一下切換）</h2><div class="row" id="feels"></div></div>
+    <div id="moveTourSec" hidden><div class="row"><button id="moveTour" aria-pressed="false">▶ 表情與動作連播</button></div><p id="moveTourStatus" role="status">依序循環展示，每項至少 5 秒；再點一次停止。</p></div>
     <div id="actSec" hidden><h2>模型動畫・動作（存在模型檔裡，點一下連續播放，再按一次停止）</h2><div class="row" id="acts"></div></div>
     <div id="gestSec" hidden><h2>模型動畫・手勢（存在模型檔裡，播一次）</h2><div class="row" id="gests"></div></div>
 
@@ -160,6 +161,7 @@ for (const k of Object.keys(auto)) {
 
 const layersList = fetch('layers/models.json', { cache: 'no-store' }).then((r) => r.ok ? r.json() : []).then((l) => l.map((m) => m.id)).catch(() => []);
 async function open(id) {
+  stopMoveTour();
   model = MODELS.find((m) => m.id === id) || MODELS[0];
   history.replaceState(null, '', `?model=${model.id}`);
   $('models').value = model.id;
@@ -344,6 +346,41 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const feel = { want: '', shown: '', w: 0, t0: 0 };
 const act = { a: '', t0: 0, touched: new Set() };
 const gest = { a: '', t0: 0, touched: new Set() };
+const moveTour = { items: [], index: -1, until: 0 };
+function stopMoveTour() {
+  if (moveTour.index >= 0) {
+    feel.want = ''; act.a = gest.a = '';
+    handBack(act); handBack(gest);
+    press($('feels'), ''); press($('acts'), ''); press($('gests'), '');
+  }
+  moveTour.index = -1;
+  $('moveTour').textContent = '▶ 表情與動作連播';
+  $('moveTour').setAttribute('aria-pressed', 'false');
+  $('moveTourStatus').textContent = '依序循環展示，每項至少 5 秒；再點一次停止。';
+}
+function nextMoveTour() {
+  handBack(act); handBack(gest);
+  feel.want = ''; act.a = gest.a = '';
+  moveTour.index = (moveTour.index + 1) % moveTour.items.length;
+  const name = moveTour.items[moveTour.index];
+  const kind = name.split('/')[0];
+  const length = P.animationLength(name) || 0;
+  if (kind === '表情') feel.want = name;
+  else {
+    const target = kind === '動作' ? act : gest;
+    target.a = name; target.t0 = time;
+  }
+  moveTour.until = time + Math.max(5, kind === '動作' ? length * 2 : length + 1);
+  press($('feels'), feel.want);
+  $('moveTourStatus').textContent = `${moveTour.index + 1} / ${moveTour.items.length}　${name.replace('/', '・')}`;
+}
+$('moveTour').onclick = () => {
+  if (moveTour.index >= 0) { stopMoveTour(); return; }
+  if (!P || qaBusy || !moveTour.items.length) return;
+  nextMoveTour();
+  $('moveTour').textContent = '■ 停止連播';
+  $('moveTour').setAttribute('aria-pressed', 'true');
+};
 const NEUTRAL = '😐 平常';
 const groupOf = (pre) => Object.keys(P.animations).filter((n) => n.startsWith(pre + '/'));
 function buttons(box, names, onPick) {
@@ -355,18 +392,21 @@ function buttons(box, names, onPick) {
 }
 const press = (box, cur) => { for (const b of box.children) b.setAttribute('aria-pressed', b.dataset.name === cur); };
 function buildMoves() {
+  stopMoveTour();
   feel.want = feel.shown = ''; feel.w = 0; act.a = gest.a = ''; act.touched.clear(); gest.touched.clear();
   const fs = groupOf('表情'), as = groupOf('動作'), gs = groupOf('手勢');
+  moveTour.items = [...fs, ...as, ...gs];
+  $('moveTourSec').hidden = !moveTour.items.length;
   // (2026-10-27, user: 分類改為 網頁動畫／模型動畫) a model without its own expression layers still gets the page-drawn 漫符
   $('feelH').textContent = '模型動畫・表情（存在模型檔裡，點一下切換）' + (P.has('Expression:: Angry') ? '' : '＋網頁動畫・漫畫符號');
   $('feelSec').hidden = !fs.length; $('actSec').hidden = !as.length; $('gestSec').hidden = !gs.length;
   // (2026-10-27, user: 生氣跟哭／害羞會跟其他表情一起疊出來) one face at a time: a feeling stops the running action, and an
   // action or gesture (they bring their own face) lets the feeling ease out
   const noFeel = () => { feel.want = ''; press($('feels'), ''); };
-  buttons($('feels'), fs.length ? ['', ...fs] : [], (n) => { feel.want = n; press($('feels'), n); act.a = ''; });
+  buttons($('feels'), fs.length ? ['', ...fs] : [], (n) => { stopMoveTour(); feel.want = n; press($('feels'), n); act.a = ''; });
   press($('feels'), '');
-  buttons($('acts'), as, (n) => { act.a = act.a === n ? '' : n; act.t0 = time; if (act.a) noFeel(); });
-  buttons($('gests'), gs, (n) => { gest.a = gest.a === n ? '' : n; gest.t0 = time; if (gest.a) noFeel(); });
+  buttons($('acts'), as, (n) => { stopMoveTour(); act.a = act.a === n ? '' : n; act.t0 = time; if (act.a) noFeel(); });
+  buttons($('gests'), gs, (n) => { stopMoveTour(); gest.a = gest.a === n ? '' : n; gest.t0 = time; if (gest.a) noFeel(); });
 }
 function handBack(s) {                     // an animation stopped: its params go back to rest (unless the user holds them)
   for (const p of s.touched) if (!manual.has(p.name.trim())) p.value = [...p.defaults];
@@ -385,6 +425,7 @@ function play(name, t, how, w = 1, s = null) {
   }
 }
 function applyMoves(dt) {
+  if (moveTour.index >= 0 && time >= moveTour.until) nextMoveTour();
   // (2026-10-27, user: 還是有表情疊圖的問題) the face-layer params (Expression:: *, Face:: *) have no other driver, so the
   // 'add' of a feeling piled up frame after frame and stayed after it ended (💢 + tears + blush on the kick): they start
   // every frame from rest, then the feeling / action lays its value on
@@ -481,6 +522,7 @@ $('shake').onclick = () => { shakeT = 0; };
 let qaBusy = false;
 async function runQA() {
   if (!P || qaBusy) return window.qa;
+  stopMoveTour();
   qaBusy = true; window.qa = { done: false };
   const btn = $('qaRun'), btnText = btn.textContent;
   const keep = { ...auto }, z0 = zoom, p0 = { ...pan };
@@ -521,7 +563,7 @@ async function runQA() {
                   note: '晃動展示每格固定 1/30 秒（含物理）每 0.1 秒一張，最後是物理零件 −1→+1 與頭轉四角的極限掃描（標［極限］）。' });
 }
 $('qaRun').onclick = runQA;
-$('reset').onclick = () => { if (!P) return; P.reset(); manual.clear(); for (const s of sliders) s.inp.value = s.p.value[s.ax]; settlePhysics(); refreshAutoMarks(); };
+$('reset').onclick = () => { if (!P) return; stopMoveTour(); P.reset(); manual.clear(); for (const s of sliders) s.inp.value = s.p.value[s.ax]; settlePhysics(); refreshAutoMarks(); };
 $('snap').onclick = () => { const a = document.createElement('a'); a.download = `${model.id}.png`; a.href = cv.toDataURL('image/png'); a.click(); };
 
 // ---- loop ----
