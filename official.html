@@ -41,6 +41,7 @@
   .models select { font: inherit; width: 100%; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
   .models select:focus-visible, .row button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   h2 { font-size: 13px; margin: 16px 0 6px; color: var(--muted); font-weight: 600; letter-spacing: .03em; }
+  #modelMoves h3 { font-size: 13px; margin: 10px 0 6px; color: var(--muted); font-weight: 500; }
   .row { display: flex; flex-wrap: wrap; gap: 6px; }
   .row button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 999px;
                 padding: 4px 11px; font: inherit; font-size: 13px; cursor: pointer; }
@@ -93,11 +94,16 @@
       <a id="layersBtn" class="btn" href="layers.html" title="打開這個角色的拆圖整合圖：逐層看（包含被上層蓋住的部分）與單圖層疑點檢查" style="display:none">🧩 分層檢視</a>
     </div>
 
-    <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
-    <div id="feelSec" hidden><h2 id="feelH">模型動畫・表情（存在模型檔裡，點一下切換）</h2><div class="row" id="feels"></div></div>
     <div id="moveTourSec" hidden><div class="row"><button id="moveTour" aria-pressed="false">▶ 表情與動作連播</button></div><p id="moveTourStatus" role="status">依序循環展示，每項至少 5 秒；再點一次停止。</p></div>
-    <div id="actSec" hidden><h2>模型動畫・動作（存在模型檔裡，點一下連續播放，再按一次停止）</h2><div class="row" id="acts"></div></div>
-    <div id="gestSec" hidden><h2>模型動畫・手勢（存在模型檔裡，播一次）</h2><div class="row" id="gests"></div></div>
+
+    <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
+    <section id="modelMoves" hidden aria-labelledby="modelMovesH">
+    <h2 id="modelMovesH">模型動畫</h2>
+    <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
+    <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div></div>
+    <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
+
+    </section>
 
     <h2>物理（即時輸出）</h2>
     <div class="phys" id="phys"></div>
@@ -397,8 +403,9 @@ function buildMoves() {
   const fs = groupOf('表情'), as = groupOf('動作'), gs = groupOf('手勢');
   moveTour.items = [...fs, ...as, ...gs];
   $('moveTourSec').hidden = !moveTour.items.length;
+  $('modelMoves').hidden = !moveTour.items.length;
   // (2026-10-27, user: 分類改為 網頁動畫／模型動畫) a model without its own expression layers still gets the page-drawn 漫符
-  $('feelH').textContent = '模型動畫・表情（存在模型檔裡，點一下切換）' + (P.has('Expression:: Angry') ? '' : '＋網頁動畫・漫畫符號');
+  $('feelH').textContent = '表情（點一下切換）' + (P.has('Expression:: Angry') ? '' : '＋網頁動畫・漫畫符號');
   $('feelSec').hidden = !fs.length; $('actSec').hidden = !as.length; $('gestSec').hidden = !gs.length;
   // (2026-10-27, user: 生氣跟哭／害羞會跟其他表情一起疊出來) one face at a time: a feeling stops the running action, and an
   // action or gesture (they bring their own face) lets the feeling ease out
