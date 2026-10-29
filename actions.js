@@ -127,6 +127,23 @@ const CAROL = [
                'Head:: Yaw-Pitch': [0.18 * Math.sin(2 * Math.PI * u / 1.2) * e, -0.15 * e],
                'Eye:: Left:: Move': Math.sin(2 * Math.PI * u / 1.2 + 0.4) * e, 'Eye:: Right:: Move': Math.sin(2 * Math.PI * u / 1.2 + 0.4) * e,
                'Mouth:: Open': 0.28 * e, 'Mouth:: Form': 1 }; } },
+  // 2026-10-29 (user: 參考 VTuber 展示影片 https://www.youtube.com/watch?v=ZSkhgM-UuHI 14~16 秒與 53~57 秒的晃動):
+  // whole sine cycles that start and end at rest, so the loop seam is clean; Head:: Roll 1 = 6.9 deg, Body:: Roll 1 =
+  // 3.4 deg, the hair / twin tails / skirt physics swing from the motion
+  // 14~16 s: the upper body rocks side to side with the head leaning the same way, ~1.2 s a swing, feet planted, smiling
+  { id: 'rock', label: '左右搖擺', hint: '上身跟頭一起左右搖、笑眼', dur: 2.4, f: (u) => {
+      const w = Math.sin(2 * Math.PI * u / 1.2), w2 = Math.sin(4 * Math.PI * u / 1.2);
+      return face({ 'Body:: Roll': 0.9 * w, 'Body:: X:: Move': -0.35 * w, 'Head:: Roll': 0.75 * w,
+               'Head:: Yaw-Pitch': [0.12 * w, -0.08 * Math.abs(w)], 'Body:: Hop': 0.03 * w2,
+               'Arm:: Right:: Swing': 0.15 * w, 'Arm:: Left:: Swing': 0.15 * w,
+               'Mouth:: Open': 0.35, 'Mouth:: Form': 0 }, u, [-1, 99]); } },
+  // 53~57 s: a quicker head tilt left / right (~0.75 s a swing), the body a little behind it, eyes open and a smile
+  { id: 'tilt_sway', label: '歪頭晃晃', hint: '頭快速左右歪、身體跟著擺', dur: 3.0, f: (u) => {
+      const w = Math.sin(2 * Math.PI * u / 0.75), b = Math.sin(2 * Math.PI * u / 0.75 - 0.6);
+      return { 'Head:: Roll': w, 'Body:: Roll': 0.45 * b, 'Body:: X:: Move': -0.2 * b,
+               'Head:: Yaw-Pitch': [0.18 * w, 0.06 * Math.sin(4 * Math.PI * u / 0.75)],
+               'Eye:: Left:: Move': -0.3 * w, 'Eye:: Right:: Move': -0.3 * w,
+               'Mouth:: Open': 0.2, 'Mouth:: Form': 0 }; } },
 ];
 function liftAct(u, side) {
   const s = side === 'Left' ? 1 : -1;                     // her left leg = image right: the weight goes to image left
@@ -220,7 +237,6 @@ const BOBO = [
       o['Hair:: Sway'] = 0.6 * Math.sin(2 * Math.PI * (u - 0.3) / 0.5) * env(0.3, 1.8, 0.1)(u);
       return o; } },
 ];
-
 // (2026-10-28) 兔子波波 V3 (make_bobo3_puppet.py): no empty-paw / raised-paw key drawings any more (expressions and
 // moves live in the model's own layers), so the moves that put the carrot down are out; he rocks it instead
 const BOBO_V3 = [
