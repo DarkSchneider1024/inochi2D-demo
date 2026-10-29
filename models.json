@@ -1,5 +1,13 @@
 [
   {
+    "id": "mr_carrot_sci",
+    "name": "科學家卡洛特先生",
+    "file": "models/mr_carrot_sci.inp",
+    "thumb": "thumbs/mr_carrot_sci.png",
+    "noIdleArms": true,
+    "desc": "2026-10-29 新底稿（張手歡迎姿勢），每層 GPT 透明部件。"
+  },
+  {
     "id": "mr_carrot_v4",
     "name": "卡洛特先生",
     "file": "models/mr_carrot_v4.inp",
