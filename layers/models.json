@@ -411,5 +411,12 @@
   "build": "v0.7.2-120-g7989a2c",
   "private": false,
   "category": "refined"
+ },
+ {
+  "id": "linda_nyan",
+  "name": "Linda喵",
+  "build": "2026-10-29",
+  "private": false,
+  "category": "refined"
  }
 ]
