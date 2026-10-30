@@ -132,6 +132,8 @@ import { loadINP, Puppet, Renderer } from './inochi-full.js';
 import { FEEL, stageEmote } from './feel.js';
 import { showQA, grab } from './shake-qa.js';
 import { mobilePanel } from './mobile-panel.js';
+import { lipTarget, lipStep, isMidMouth } from './lipsync.js';
+const talkMouth = { open: 0, form: 0 };
 
 const MODELS = [
   { id: 'aka', name: 'Aka', desc: '紅髮狐耳少女', file: 'models/official/aka.inp' },
@@ -385,7 +387,11 @@ function drive(dt) {
     const vowel = (Math.sin(time * 1.7) + 1) / 2;
     set('Mouth:: Shape', ease(p.min[0], p.max[0], vowel), ease(p.defaults[1], p.max[1], open));
   } else if (!manual.has('Mouth:: Shape') && P.has('Mouth:: Shape')) P.set('Mouth:: Shape', P.byName['Mouth:: Shape'].defaults);
-  if (!P.has('Mouth:: Shape') && P.has('Mouth:: Open')) {          // our puppets: Open (0..1) + Form (0 啊 / 1 喔)
+  if (!P.has('Mouth:: Shape') && isMidMouth(P.byName['Mouth:: Form'])) {   // (2026-10-30) 啊 / 咿 / 喔 + in-between sizes
+    lipStep(talkMouth, auto.talk ? lipTarget(time, 0.9) : { open: 0, form: talkMouth.form }, dt);
+    set('Mouth:: Open', talkMouth.open);
+    set('Mouth:: Form', talkMouth.form);
+  } else if (!P.has('Mouth:: Shape') && P.has('Mouth:: Open')) {          // our puppets: Open (0..1) + Form (0 啊 / 1 喔)
     const open = auto.talk ? Math.max(0, Math.sin(time * 11) * 0.6 + Math.sin(time * 4.3) * 0.4) : 0;
     set('Mouth:: Open', open);
     if (P.has('Mouth:: Form')) set('Mouth:: Form', auto.talk ? (Math.sin(time * 1.7) > 0 ? 1 : 0) : 0);

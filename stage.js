@@ -2,6 +2,7 @@
 // driven by the timeline.json that live2d/make_video.py compiles.  Deterministic: frame i always looks the same
 // (random blinks are seeded, springs are stepped at the video frame rate from the start of each scene).
 import { loadINP, Puppet } from './inochi-lite.js';
+import { lipTarget, lipStep, isMidMouth } from './lipsync.js';
 
 const W = 1920, H = 1080;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -313,7 +314,13 @@ class Actor {
     p.set('Head:: Yaw-Pitch', clamp(st.yaw, -1, 1), clamp(-st.pitch, -1, 1));
     p.set('Head:: Roll', clamp(st.roll, -1, 1));
     p.set('Eye:: Left:: Blink', blink); p.set('Eye:: Right:: Blink', blink);
-    if (p.byName['Mouth:: Form']) {
+    if (isMidMouth(p.byName['Mouth:: Form'])) {
+      // (2026-10-30) a rig with the in-between mouths (carol_v3): eased syllable vowels, lipsync.js
+      st.mouth ??= { open: 0, form: 0 };
+      lipStep(st.mouth, talk > 0.06 ? lipTarget(lt, talk) : { open: 0, form: st.mouth.form }, dt);
+      p.set('Mouth:: Open', clamp(st.mouth.open, 0, 1));
+      p.set('Mouth:: Form', clamp(st.mouth.form, 0, 1));
+    } else if (p.byName['Mouth:: Form']) {
       // VTuber lip-sync: 閉嘴 -> O -> 大開 -> O -> 閉嘴
       // Syllable modulation (~4.5 Hz natural Mandarin speech cadence)
       let openVal = 0;
