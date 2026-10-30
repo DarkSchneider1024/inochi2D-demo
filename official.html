@@ -97,7 +97,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
 <body>
 <div class="app">
   <div class="stage" id="stage">
-    <canvas id="cv"></canvas><canvas id="emo" style="pointer-events: none"></canvas>
+    <canvas id="cv"></canvas><canvas id="refcv" style="pointer-events: none"></canvas><canvas id="emo" style="pointer-events: none"></canvas>
     <div class="overlay">
       <nav class="tabs"><a href="gallery.html">作品集</a><a href="official.html" aria-current="page">精緻展示作品</a><a href="layers.html">圖層檢查</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
     </div>
@@ -127,6 +127,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     </div>
 
     <div id="moveTourSec" hidden><div class="row"><button id="moveTour" aria-pressed="false">▶ 表情與動作連播</button></div><p id="moveTourStatus" role="status">依序循環展示，每項至少 5 秒；再點一次停止。</p></div>
+    <div id="refSec" hidden><div class="row"><button id="refBtn" aria-pressed="false">📐 基底：關</button></div></div>
 
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
     <section id="modelMoves" hidden aria-labelledby="modelMovesH">
@@ -219,6 +220,7 @@ for (const k of Object.keys(auto)) {
 
 const layersList = fetch('layers/models.json', { cache: 'no-store' }).then((r) => r.ok ? r.json() : []).then((l) => l.map((m) => m.id)).catch(() => []);
 async function open(id) {
+  loadRef(id);
   stopMoveTour();
   model = MODELS.find((m) => m.id === id) || MODELS[0];
   history.replaceState(null, '', `?model=${model.id}`);
@@ -615,6 +617,33 @@ function drawFeel() {
 
 // ---- view: fit, pan, zoom ----
 let zoom = 1, pan = { x: 0, y: 0 };
+// 基底比對 (2026-10-30, user: 新增一個基底，點下去會出現基底圖，可以做比對，也可以放大縮小): refs/<model>.json places the
+// original drawing in puppet space (its own x0/y0/w/h), drawn with the same view, so zoom / pan apply to both.
+// The button cycles 關 → 並排 (the drawing beside her) → 疊合 (50 % over her) → 關.
+let ref = null, refMode = 0;
+const refC = $('refcv'), refX = refC.getContext('2d');
+const REF_LABEL = ['📐 基底：關', '📐 基底：並排', '📐 基底：疊合'];
+$('refBtn').onclick = () => {
+  refMode = (refMode + 1) % 3; $('refBtn').textContent = REF_LABEL[refMode]; $('refBtn').setAttribute('aria-pressed', refMode > 0);
+  if (refMode === 1 && ref) { zoom = 0.55; pan = { x: -ref.w * 0.55, y: 0 }; resize(); } else fitView();
+};
+async function loadRef(id) {
+  ref = null; refMode = 0; $('refBtn').textContent = REF_LABEL[0]; $('refBtn').setAttribute('aria-pressed', 'false'); $('refSec').hidden = true;
+  try {
+    const j = await (await fetch(`refs/${id}.json`, { cache: 'no-cache' })).json();
+    const img = new Image(); img.src = `refs/${j.img}`; await img.decode();
+    ref = { ...j, im: img }; $('refSec').hidden = false;
+  } catch (e) { /* no reference drawing for this model */ }
+}
+function drawRef() {
+  if (refC.width !== cv.width || refC.height !== cv.height) { refC.width = cv.width; refC.height = cv.height; }
+  refX.clearRect(0, 0, refC.width, refC.height);
+  if (!ref || !refMode) return;
+  const off = refMode === 1 ? ref.w * 1.1 : 0, s = view.scale;
+  refX.globalAlpha = refMode === 2 ? 0.5 : 1;
+  refX.drawImage(ref.im, refC.width / 2 + (ref.x0 + off - view.cx) * s, refC.height / 2 + (ref.y0 - view.cy) * s, ref.w * s, ref.h * s);
+  refX.globalAlpha = 1;
+}
 function fitView() { zoom = 1; pan = { x: 0, y: 0 }; resize(); }
 function resize() {
   const dpr = Math.min(2, devicePixelRatio || 1), r = stage.getBoundingClientRect();
@@ -764,6 +793,7 @@ function frame(now) {
     P.update();
     if (auto.physics) { stepBreeze(dt); P.stepPhysics(dt); }
     R.draw(view);
+    drawRef();
     drawFeel();
     uiT += dt;
     if (uiT > 0.05) {
