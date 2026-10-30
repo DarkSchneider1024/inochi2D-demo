@@ -200,6 +200,33 @@ const MRCARROT = [
       'Arm:: Left:: Bend': K([[0.35, 0], [0.49, 0.5], [1.7, 0.35], [2.5, 0]])(u)}) },
 ];
 
+// (2026-10-30, user: 手怪怪的 -> 茸茸鼠揮手直播 16 秒：直接換一隻手然後搖擺，兩隻手搖比較可愛) carol_v3: the waves swap
+// both hanging forearms for the GPT raised ones in one frame (Arm:: Both:: Wave Up, a step) and sway them rigidly about
+// their elbows (Hand:: Both:: Wave); no more bending the left arm up
+const up2 = (u, a, b) => (u >= a && u < b ? 1 : 0);
+const CAROL_V3 = CAROL.map((a) => ({
+  cheer: { ...a, f: (u) => face({
+      'Arm:: Both:: Wave Up': up2(u, 0.2, 1.55),
+      'Hand:: Both:: Wave': Math.sin(2 * Math.PI * (u - 0.2) / 0.42) * env(0.2, 1.55, 0.1)(u),
+      'Head:: Roll': K([[0, 0], [0.3, -0.35], [1.4, -0.35], [1.8, 0]])(u),
+      'Mouth:: Open': K([[0, 0], [0.35, 0.8], [1.3, 0.8], [1.6, 0]])(u)}, u, [0.35, 1.45]) },
+  tsukkomi: { ...a, f: (u) => ({
+      'Arm:: Both:: Wave Up': up2(u, 0.12, 1.3),
+      'Hand:: Both:: Wave': Math.sin(2 * Math.PI * (u - 0.12) / 0.26) * env(0.12, 1.3, 0.06)(u),
+      'Head:: Yaw-Pitch': [K([[0, 0], [0.2, 0.5], [0.95, 0.45], [1.5, 0]])(u), 0],
+      'Head:: Roll': K([[0, 0], [0.25, -0.35], [0.95, -0.3], [1.4, 0]])(u)}) },
+  wave_bye: { ...a, f: (u) => face({
+      'Arm:: Both:: Wave Up': up2(u, 0.25, 2.3),
+      'Hand:: Both:: Wave': -Math.sin(2 * Math.PI * (u - 0.25) / 0.56) * env(0.25, 2.3, 0.15)(u),
+      'Head:: Roll': K([[0, 0], [0.5, -0.35], [2.1, -0.35], [2.6, 0]])(u)}, u, [0.5, 2.05]) },
+  wave: { ...a, f: (u) => face({
+      'Arm:: Both:: Wave Up': up2(u, 0.3, 3.9),
+      'Hand:: Both:: Wave': Math.sin(2 * Math.PI * (u - 0.3) / 0.6) * env(0.3, 3.9, 0.2)(u),
+      'Head:: Yaw-Pitch': [0, K([[0, 0], [0.5, 0.12], [3.6, 0.1], [4.2, 0]])(u)],
+      'Head:: Roll': 0.3 * Math.sin(2 * Math.PI * (u - 0.3) / 1.2) * env(0.3, 3.9, 0.4)(u),
+      ...mouthHold(u, 0.5, 3.6, 0, 0.62)}, u, [0.5, 3.7]) },
+}[a.id] || a));
+
 const BOBO = [
   { id: 'slam', label: '拍桌搶答', hint: '放下胡蘿蔔、拍兩下', dur: 2.2, f: (u) => ({
       'Carrot:: Hold': u < 2.15 ? 0 : 1,
@@ -263,7 +290,7 @@ const BOBO_V3 = [
   ...BOBO.filter((a) => ['shy', 'happy', 'nod', 'surprise'].includes(a.id)),
 ];
 
-export const ACTIONS = { carol_v2: CAROL, carol_lab: CAROL, mr_carrot_v4: MRCARROT, mr_carrot_v3: MRCARROT, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, mr_carrot_gold_mage: MRCARROT, bobo: BOBO, bobo_lab: BOBO, bobo_v3: BOBO_V3 };   // gold = same rig
+export const ACTIONS = { carol_v2: CAROL, carol_v3: CAROL_V3, carol_lab: CAROL, mr_carrot_v4: MRCARROT, mr_carrot_v3: MRCARROT, mr_carrot_v2: MRCARROT, mr_carrot_v2_gold: MRCARROT, mr_carrot_gold_mage: MRCARROT, bobo: BOBO, bobo_lab: BOBO, bobo_v3: BOBO_V3 };   // gold = same rig
 
 // ---- 2026-10-19: generic actions for the story puppets (live2d/engine/rig.py: nine-axis head, arm swing / bend /
 // wrist, and the 喜怒哀樂 params Brow:: Mood / Raise, Mouth:: Mood, Eye:: Shock, Face:: Blush) -- any puppet without
