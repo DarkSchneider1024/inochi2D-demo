@@ -249,7 +249,7 @@ let shakeT = -1, blinkNext = 1.5, blinkT = -1, time = 0;
 // swing x1.5 but damped harder, so it settles fast instead of wobbling like jelly. Only for models with Chest:: params.
 function spring(s, target, dt, k, c) { const acc = k * k * (target - s.x) - 2 * c * s.v; s.v += acc * dt; s.x += s.v * dt; }
 const mk = () => ({ x: 0, v: 0 });
-const chest = { x1: mk(), x2: mk(), y1: mk(), y2: mk(), prevY: 0, prevBr: 0.5, prevX: 0, kick: 0 };
+const chest = { x1: mk(), x2: mk(), y1: mk(), y2: mk(), prevY: 0, prevBr: 0.5, prevX: 0, prevH: 0, kick: 0 };
 // 拿掉裝飾 (2026-10-30, Linda喵): Outfit:: Decor Off hides the bow / collar layers
 let decorOff = false;
 function drivenNow() {
@@ -347,10 +347,13 @@ function drive(dt) {
     const vy = (pitchNow - chest.prevY) / Math.max(dt, 1e-3), vb = (br - chest.prevBr) / Math.max(dt, 1e-3);
     chest.prevY = pitchNow; chest.prevBr = br; chest.prevX = mx;
     if (chest.kick > 0) { chest.y1.v += 18 * chest.kick; chest.kick = 0; }
-    spring(chest.y1, 0.12 * vy - 0.6 * vb, dt, 12, 2.8);
+    // (2026-10-30, user: 開心跳胸部晃動幅度加大) the body's hop (Body:: Hop, - = up) drives the bounce too: the bust lags
+    // as she rises and overshoots as she lands. The model's Bounce Y range went 18 -> 26 px, so the old sources x1.04 (was 1.5) look the same
+    const hop = g('Body:: Hop', 0), vh = (hop - chest.prevH) / Math.max(dt, 1e-3); chest.prevH = hop;
+    spring(chest.y1, 0.12 * vy - 0.6 * vb - 0.12 * vh, dt, 12, 2.8);
     spring(chest.y2, chest.y1.x, dt, 9, 2.2);
     set('Chest:: Sway X', clamp(-(0.55 * chest.x1.x + 0.45 * chest.x2.x) * 2.1, -1, 1));
-    set('Chest:: Bounce Y', clamp((0.55 * chest.y1.x + 0.45 * chest.y2.x) * 1.5, -1, 1));
+    set('Chest:: Bounce Y', clamp((0.55 * chest.y1.x + 0.45 * chest.y2.x) * 1.04, -1, 1));
     set('Chest:: Squash', clamp(-0.08 * chest.y1.v, -1, 1));                             // widens as it lands
   }
   if (P.has('Outfit:: Decor Off')) set('Outfit:: Decor Off', decorOff ? 1 : 0);
