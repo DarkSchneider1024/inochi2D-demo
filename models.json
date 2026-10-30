@@ -8,6 +8,14 @@
     "desc": "2026-10-29 新底稿（張手歡迎姿勢），每層 GPT 透明部件。"
   },
   {
+    "id": "mr_carrot_mage",
+    "name": "魔法師卡洛特先生",
+    "file": "models/mr_carrot_mage.inp",
+    "thumb": "thumbs/mr_carrot_mage.png",
+    "noIdleArms": true,
+    "desc": "2026-10-30 與科學家共用骨架，每層 GPT 透明部件；外套前襬一整片、耳朵照原圖描。"
+  },
+  {
     "id": "mr_carrot_v4",
     "name": "卡洛特先生",
     "file": "models/mr_carrot_v4.inp",
