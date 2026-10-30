@@ -35,13 +35,6 @@
   "category": "refined"
  },
  {
-  "id": "blue_senpai",
-  "name": "冰藍學姊",
-  "build": "1.0-alpha",
-  "private": true,
-  "category": "private"
- },
- {
   "id": "bobo_lab",
   "name": "兔子波波（卡洛特實驗室版）",
   "build": "1.0-alpha",
@@ -75,34 +68,6 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "lab"
- },
- {
-  "id": "carrot_bikini",
-  "name": "carrot_bikini",
-  "build": "1.0-alpha",
-  "private": true,
-  "category": "private"
- },
- {
-  "id": "carrot_bunny",
-  "name": "carrot_bunny",
-  "build": "1.0-alpha",
-  "private": true,
-  "category": "private"
- },
- {
-  "id": "carrot_bunny_v2",
-  "name": "carrot_bunny_v2",
-  "build": "1.0-alpha",
-  "private": true,
-  "category": "private"
- },
- {
-  "id": "fox_yuzuno",
-  "name": "狐姬柚乃",
-  "build": "1.0-alpha",
-  "private": true,
-  "category": "private"
  },
  {
   "id": "frog_prince",
@@ -224,13 +189,6 @@
   "category": "refined"
  },
  {
-  "id": "mr_carrot_chibi",
-  "name": "卡洛特先生（Q版）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "refined"
- },
- {
   "id": "mr_carrot_hand",
   "name": "卡洛特先生（手繪版）",
   "build": "1.0-alpha",
@@ -271,13 +229,6 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "refined"
- },
- {
-  "id": "nikke_tia",
-  "name": "蒂亞・海岸甜心",
-  "build": "1.0-alpha",
-  "private": true,
-  "category": "private"
  },
  {
   "id": "potter",

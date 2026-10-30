@@ -145,13 +145,6 @@
     "desc": "穿上彼得兔藍色外套的波波（《卡洛特時光機 EP01》）。九軸轉頭、笑眼、說話、耳朵擺動；喜怒哀樂表情。"
   },
   {
-    "id": "mr_carrot_chibi",
-    "name": "卡洛特先生（Q版）",
-    "file": "models/mr_carrot_chibi.inp",
-    "thumb": "thumbs/mr_carrot_chibi.png",
-    "desc": "卡洛特先生 (Mr. Carrot) 官方 Q 版形象：探索家綠髮、極簡黑框眼鏡、冒險領巾、工裝背心與巨型胡蘿蔔。1600x1600 Unity-chan 規格拆件，支援瞳孔凝視追蹤、呼吸、眨眼閉眼與胡蘿蔔物理搖晃。"
-  },
-  {
     "id": "girl_v4",
     "name": "紫髮水手服少女",
     "file": "models/girl_v4.inp",
