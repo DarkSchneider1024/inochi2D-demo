@@ -25,6 +25,10 @@ const CSS = `
   #zoom { display: none !important; }            /* the sheet replaces 放大 on phones: closed = the full character */
   body.full .menu-btn { display: none; }
   body.panel-open .shakebar, body.panel-open .hint { display: none !important; }   /* (they covered the feet) */
+  /* (2026-10-30 user: UI 有點多按鈕，有些會擋到人；手機版縮合到右邊選單才展開，沒展開的話手機滿版都是人物)
+     closed: only the character and the ☰ button; the page tabs, view buttons, hint and shake bar come with the menu */
+  body:not(.panel-open) .overlay, body:not(.panel-open) .viewctl, body:not(.panel-open) .hint,
+  body:not(.panel-open) .shakebar { display: none !important; }
 }`;
 
 // onToggle(open): the page re-centres its character (a stray swipe on the stage pans it off to the side)
