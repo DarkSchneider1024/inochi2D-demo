@@ -126,6 +126,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
       <a id="layersBtn" class="btn" href="layers.html" title="打開這個角色的拆圖整合圖：逐層看（包含被上層蓋住的部分）與單圖層疑點檢查" style="display:none">🧩 分層檢視</a>
     </div>
 
+    <div id="mixSec" hidden><div class="row"><button id="mixBtn" aria-pressed="true">🎭 動作＋表情 分開搭配：開</button></div></div>
     <div id="moveTourSec" hidden><div class="row"><button id="moveTour" aria-pressed="false">▶ 表情與動作連播</button></div><p id="moveTourStatus" role="status">依序循環展示，每項至少 5 秒；再點一次停止。</p></div>
     <div id="refSec" hidden><div class="row"><button id="refBtn" aria-pressed="false">📐 基底：關</button></div></div>
 
@@ -551,18 +552,25 @@ function buildMoves() {
   // (2026-10-27, user: 生氣跟哭／害羞會跟其他表情一起疊出來) one face at a time: a feeling stops the running action, and an
   // action or gesture (they bring their own face) lets the feeling ease out
   const noFeel = () => { feel.want = ''; press($('feels'), ''); };
-  buttons($('feels'), fs.length ? ['', ...fs] : [], (n) => { stopMoveTour(); feel.want = n; press($('feels'), n); act.a = ''; });
+  $('mixSec').hidden = !(fs.length && as.length);
+  buttons($('feels'), fs.length ? ['', ...fs] : [], (n) => { stopMoveTour(); feel.want = n; press($('feels'), n); if (!mix) act.a = ''; });
   press($('feels'), '');
-  buttons($('acts'), as, (n) => { stopMoveTour(); act.a = act.a === n ? '' : n; act.t0 = time; if (act.a) noFeel(); });
+  buttons($('acts'), as, (n) => { stopMoveTour(); act.a = act.a === n ? '' : n; act.t0 = time; if (act.a && !mix) noFeel(); });
   buttons($('gests'), gs, (n) => { stopMoveTour(); gest.a = gest.a === n ? '' : n; gest.t0 = time; if (gest.a) noFeel(); });
 }
 function handBack(s) {                     // an animation stopped: its params go back to rest (unless the user holds them)
   for (const p of s.touched) if (!manual.has(p.name.trim())) p.value = [...p.defaults];
   s.touched.clear();
 }
-function play(name, t, how, w = 1, s = null) {
+// (2026-10-31 user: 新增動作跟表情分開的按鈕，不同動作可以搭配不同表情) mix on: a feeling and an action run together; the
+// feeling's face (Expression / Face / Mouth / Eye params) is laid over the action's own face after it
+let mix = true;
+$('mixBtn').onclick = () => { mix = !mix; $('mixBtn').textContent = `🎭 動作＋表情 分開搭配：${mix ? '開' : '關'}`; $('mixBtn').setAttribute('aria-pressed', mix); if (!mix && act.a && feel.want) { feel.want = ''; press($('feels'), ''); } };
+const FACE = /^(Expression|Face|Mouth|Eye)::/;
+function play(name, t, how, w = 1, s = null, only = null) {
   for (const { param: p, axis, value } of P.sampleAnimation(name, t)) {
     if (manual.has(p.name.trim())) continue;
+    if (only && !only.test(p.name.trim())) continue;
     s?.touched.add(p);
     const v = [...p.value];
     if (/Blink$/.test(p.name)) v[axis] = Math.max(v[axis], w * value);           // auto blinks still happen
@@ -586,6 +594,11 @@ function applyMoves(dt) {
   if (act.touched.size && act.touched.a !== act.a) handBack(act);
   press($('acts'), act.a);
   if (act.a) { play(act.a, time - act.t0, 'set', 1, act); act.touched.a = act.a; }
+  if (mix && act.a && feel.shown && feel.w > 0) {
+    // the action set its own face: wipe it, then the feeling's face goes on top
+    for (const p of P.params) if (FACE.test(p.name.trim()) && !/Blink$|Move$/.test(p.name) && !manual.has(p.name.trim())) p.value = [...p.defaults];
+    play(feel.shown, time - feel.t0, 'set', feel.w, null, FACE);
+  }
   // 手勢: once, then hands the arm back
   if (gest.a && time - gest.t0 > P.animationLength(gest.a)) gest.a = '';
   if (gest.touched.size && !gest.a) handBack(gest);
