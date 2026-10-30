@@ -337,35 +337,35 @@
     "name": "老猴子（Q版）｜西遊記前傳",
     "file": "models/journey_monkey_elder.inp",
     "thumb": "thumbs/journey_monkey_elder.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   },
   {
     "id": "journey_monkey_child",
     "name": "小猴子（Q版）｜西遊記前傳",
     "file": "models/journey_monkey_child.inp",
     "thumb": "thumbs/journey_monkey_child.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   },
   {
     "id": "journey_monkey_youth",
     "name": "年輕猴子（Q版）｜西遊記前傳",
     "file": "models/journey_monkey_youth.inp",
     "thumb": "thumbs/journey_monkey_youth.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   },
   {
     "id": "journey_magic_wolf",
     "name": "七十二變灰狼（Q版）｜西遊記前傳",
     "file": "models/journey_magic_wolf.inp",
     "thumb": "thumbs/journey_magic_wolf.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。Q 版四足角色；腿改成從身體長出來的圓潤造型，不再有木偶關節。建模程式 carrot-video/live2d/characters/journey_canine.py。"
   },
   {
     "id": "journey_xiaotian",
     "name": "哮天犬（Q版）｜西遊記前傳",
     "file": "models/journey_xiaotian.inp",
     "thumb": "thumbs/journey_xiaotian.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。Q 版四足角色；腿改成從身體長出來的圓潤造型，不再有木偶關節。建模程式 carrot-video/live2d/characters/journey_canine.py。"
   },
   {
     "id": "journey_wukong_side",
@@ -386,20 +386,20 @@
     "name": "老猴子（側面走路）｜西遊記前傳",
     "file": "models/journey_monkey_elder_side.inp",
     "thumb": "thumbs/journey_monkey_elder_side.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   },
   {
     "id": "journey_monkey_child_side",
     "name": "小猴子（側面走路）｜西遊記前傳",
     "file": "models/journey_monkey_child_side.inp",
     "thumb": "thumbs/journey_monkey_child_side.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   },
   {
     "id": "journey_monkey_youth_side",
     "name": "年輕猴子（側面走路）｜西遊記前傳",
     "file": "models/journey_monkey_youth_side.inp",
     "thumb": "thumbs/journey_monkey_youth_side.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   }
 ]

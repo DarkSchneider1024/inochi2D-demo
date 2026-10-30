@@ -1,0 +1,404 @@
+{
+ "id": "journey_xiaotian",
+ "private": false,
+ "name": "哮天犬｜西遊記前傳",
+ "W": 1032,
+ "H": 904,
+ "build": "1.0-alpha",
+ "layers": [
+  {
+   "name": "尾巴",
+   "file": "00.webp",
+   "x": 4,
+   "y": 133,
+   "w": 235,
+   "h": 447,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.22,
+   "suspects": []
+  },
+  {
+   "name": "後腿遠",
+   "file": "01.webp",
+   "x": 258,
+   "y": 375,
+   "w": 159,
+   "h": 476,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.21,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      264,
+      424,
+      110,
+      432
+     ],
+     "n": 2267
+    }
+   ]
+  },
+  {
+   "name": "前腿遠",
+   "file": "02.webp",
+   "x": 648,
+   "y": 375,
+   "w": 159,
+   "h": 476,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.2,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      646,
+      466,
+      131,
+      387
+     ],
+     "n": 3277
+    },
+    {
+     "type": "藏線",
+     "box": [
+      663,
+      396,
+      116,
+      82
+     ],
+     "n": 608
+    },
+    {
+     "type": "藏線",
+     "box": [
+      684,
+      372,
+      87,
+      44
+     ],
+     "n": 362
+    }
+   ]
+  },
+  {
+   "name": "胸腔",
+   "file": "03.webp",
+   "x": 144,
+   "y": 278,
+   "w": 667,
+   "h": 367,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.19,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      780,
+      481,
+      34,
+      53
+     ],
+     "n": 85
+    }
+   ]
+  },
+  {
+   "name": "後腿近",
+   "file": "04.webp",
+   "x": 180,
+   "y": 424,
+   "w": 159,
+   "h": 476,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.18,
+   "suspects": []
+  },
+  {
+   "name": "前腿近",
+   "file": "05.webp",
+   "x": 580,
+   "y": 424,
+   "w": 159,
+   "h": 476,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.17,
+   "suspects": []
+  },
+  {
+   "name": "頸毛",
+   "file": "06.webp",
+   "x": 618,
+   "y": 215,
+   "w": 259,
+   "h": 362,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.16,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      813,
+      257,
+      33,
+      39
+     ],
+     "n": 47
+    }
+   ]
+  },
+  {
+   "name": "耳遠",
+   "file": "07.webp",
+   "x": 660,
+   "y": 25,
+   "w": 109,
+   "h": 212,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.15,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      672,
+      140,
+      102,
+      52
+     ],
+     "n": 160
+    }
+   ]
+  },
+  {
+   "name": "耳近",
+   "file": "08.webp",
+   "x": 766,
+   "y": 4,
+   "w": 116,
+   "h": 245,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.14,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      812,
+      231,
+      53,
+      25
+     ],
+     "n": 125
+    }
+   ]
+  },
+  {
+   "name": "耳內",
+   "file": "09.webp",
+   "x": 794,
+   "y": 76,
+   "w": 62,
+   "h": 126,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.13,
+   "suspects": []
+  },
+  {
+   "name": "臉",
+   "file": "10.webp",
+   "x": 636,
+   "y": 147,
+   "w": 277,
+   "h": 262,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.12,
+   "suspects": []
+  },
+  {
+   "name": "口鼻",
+   "file": "11.webp",
+   "x": 797,
+   "y": 273,
+   "w": 220,
+   "h": 127,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.11,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      970,
+      299,
+      54,
+      54
+     ],
+     "n": 129
+    }
+   ]
+  },
+  {
+   "name": "鼻子",
+   "file": "12.webp",
+   "x": 962,
+   "y": 303,
+   "w": 66,
+   "h": 47,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.1,
+   "suspects": []
+  },
+  {
+   "name": "眉毛_R",
+   "file": "13.webp",
+   "x": 791,
+   "y": 191,
+   "w": 58,
+   "h": 14,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.09,
+   "suspects": []
+  },
+  {
+   "name": "上唇",
+   "file": "14.webp",
+   "x": 867,
+   "y": 363,
+   "w": 105,
+   "h": 14,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.08,
+   "suspects": []
+  },
+  {
+   "name": "項圈",
+   "file": "15.webp",
+   "x": 637,
+   "y": 401,
+   "w": 172,
+   "h": 138,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.07,
+   "suspects": []
+  },
+  {
+   "name": "銅鈴",
+   "file": "16.webp",
+   "x": 728,
+   "y": 496,
+   "w": 66,
+   "h": 75,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.06,
+   "suspects": []
+  },
+  {
+   "name": "鈴縫",
+   "file": "17.webp",
+   "x": 760,
+   "y": 517,
+   "w": 1,
+   "h": 38,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.05,
+   "suspects": []
+  },
+  {
+   "name": "眼白_R",
+   "file": "18.webp",
+   "x": 788,
+   "y": 213,
+   "w": 71,
+   "h": 78,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.04,
+   "suspects": []
+  },
+  {
+   "name": "眼球_R",
+   "file": "19.webp",
+   "x": 820,
+   "y": 229,
+   "w": 30,
+   "h": 51,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.03,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      819,
+      228,
+      24,
+      29
+     ],
+     "n": 47
+    }
+   ]
+  },
+  {
+   "name": "高光_R",
+   "file": "20.webp",
+   "x": 826,
+   "y": 235,
+   "w": 10,
+   "h": 15,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.02,
+   "suspects": []
+  },
+  {
+   "name": "上眼線_R",
+   "file": "21.webp",
+   "x": 791,
+   "y": 211,
+   "w": 64,
+   "h": 39,
+   "group": "Head/Eye R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.01,
+   "suspects": []
+  }
+ ]
+}

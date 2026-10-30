@@ -369,5 +369,40 @@
   "build": "2026-10-29",
   "private": false,
   "category": "refined"
+ },
+ {
+  "id": "journey_monkey_elder",
+  "name": "老猴子｜西遊記前傳",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "journey_monkey_child",
+  "name": "小猴子｜西遊記前傳",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "journey_monkey_youth",
+  "name": "年輕猴子｜西遊記前傳",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "journey_magic_wolf",
+  "name": "七十二變灰狼｜西遊記前傳",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "journey_xiaotian",
+  "name": "哮天犬｜西遊記前傳",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
