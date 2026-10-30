@@ -133,7 +133,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
     <section id="modelMoves" hidden aria-labelledby="modelMovesH">
     <h2 id="modelMovesH">模型動畫</h2>
-    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.6667" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.3333" aria-pressed="false">✂️ 無長髮</button><button data-hair="1" aria-pressed="false">💁 短髮</button></div></div>
+    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.6667" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.3333" aria-pressed="false">✂️ 無長髮</button><button data-hair="1" aria-pressed="false">💁 短髮</button></div></div>
     <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
     <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div></div>
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
@@ -207,7 +207,8 @@ for (const id of FEATURED_IDS) {
 }
 $('models').onchange = () => open($('models').value);
 $('decorBtn').onclick = () => { decorOff = !decorOff; $('decorBtn').setAttribute('aria-pressed', decorOff); };
-$('acadBtn').onclick = () => { academy = !academy; $('acadBtn').setAttribute('aria-pressed', academy); };
+$('acadBtn').onclick = () => { academy = !academy; $('acadBtn').setAttribute('aria-pressed', academy); $('blazerBtn').hidden = !(academy && P.has('Outfit:: Blazer Off')); };
+$('blazerBtn').onclick = () => { blazerOff = !blazerOff; $('blazerBtn').setAttribute('aria-pressed', blazerOff); };
 document.querySelectorAll('#hairRow button').forEach(b => b.onclick = () => { hairStyle = +b.dataset.hair;
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x === b)); });
 cv.addEventListener('dblclick', () => { chest.kick = 1; });            // double-click: a little hop (the bust bounces)
@@ -246,7 +247,7 @@ async function open(id) {
   buildLayers();
   buildMoves();
   decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off');
-  academy = false; $('acadBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy');
+  academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy');
   hairStyle = 0; $('hairRow').hidden = !P.has('Hair:: Style');
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.hair === '0'));
   settlePhysics();
@@ -292,7 +293,7 @@ function buildLayers() {
   const setHide = (name, h) => { for (const n of P.parts) if (n.name === name) n.hide = h; };
   // (2026-10-31 Linda喵, user: 拿掉裙子之後要有內褲) 內褲 shows only while a skirt layer is hidden here (it would peek
   // out under the skirt hem otherwise)
-  const under = () => { const off = P.parts.some((n) => /^(裙_|學院_裙)/.test(n.name) && n.hide); for (const n of P.parts) if (n.name === '內褲') n.hide = !off; };
+  const under = () => { const off = P.parts.some((n) => /^(裙_|學院_裙)/.test(n.name) && n.hide); for (const n of P.parts) if (n.name.startsWith('內褲')) n.hide = !off; };
   const sync = () => { under(); for (const r of layerRows) { r.cb.checked = !r.n.hide; r.lab.classList.toggle('off', !!r.n.hide); r.sb.setAttribute('aria-pressed', layerSolo === r.n.name); } };
   let group = null;
   for (const n of P.parts) {                           // file order, grouped by parent node
@@ -348,7 +349,7 @@ const chest = { x1: mk(), x2: mk(), y1: mk(), y2: mk(), prevY: 0, prevBr: 0.5, p
 // 拿掉裝飾 (2026-10-30, Linda喵): Outfit:: Decor Off hides the bow / collar layers
 let decorOff = false;
 // 學院風換裝 (2026-10-30, Linda喵): Outfit:: Academy swaps the dress for the academy uniform
-let academy = false;
+let academy = false, blazerOff = false;
 // 換髮型 (2026-10-30, Linda喵): Hair:: Style 0 放下來 / 1/3 無長髮 / 2/3 綁馬尾 / 1 短髮
 let hairStyle = 0;
 function drivenNow() {
@@ -461,6 +462,7 @@ function drive(dt) {
   }
   if (P.has('Outfit:: Decor Off')) set('Outfit:: Decor Off', decorOff ? 1 : 0);
   if (P.has('Outfit:: Academy')) set('Outfit:: Academy', academy ? 1 : 0);
+  if (P.has('Outfit:: Blazer Off')) set('Outfit:: Blazer Off', blazerOff ? 1 : 0);
   if (P.has('Hair:: Style')) set('Hair:: Style', hairStyle);
   if (auto.blink) {
     blinkNext -= dt;
