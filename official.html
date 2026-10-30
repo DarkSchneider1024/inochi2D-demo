@@ -289,7 +289,10 @@ function buildLayers() {
   const list = $('layers'); list.textContent = ''; $('layerQ').value = '';
   layerRows = []; layerSolo = null;
   const setHide = (name, h) => { for (const n of P.parts) if (n.name === name) n.hide = h; };
-  const sync = () => { for (const r of layerRows) { r.cb.checked = !r.n.hide; r.lab.classList.toggle('off', !!r.n.hide); r.sb.setAttribute('aria-pressed', layerSolo === r.n.name); } };
+  // (2026-10-31 Linda喵, user: 拿掉裙子之後要有內褲) 內褲 shows only while a skirt layer is hidden here (it would peek
+  // out under the skirt hem otherwise)
+  const under = () => { const off = P.parts.some((n) => /^(裙_|學院_裙)/.test(n.name) && n.hide); for (const n of P.parts) if (n.name === '內褲') n.hide = !off; };
+  const sync = () => { under(); for (const r of layerRows) { r.cb.checked = !r.n.hide; r.lab.classList.toggle('off', !!r.n.hide); r.sb.setAttribute('aria-pressed', layerSolo === r.n.name); } };
   let group = null;
   for (const n of P.parts) {                           // file order, grouped by parent node
     const g = n.parent && n.parent.type !== 'Part' ? n.parent.name : '';
@@ -306,6 +309,7 @@ function buildLayers() {
     lab.append(cb, sp, sb); list.append(lab);
     layerRows.push({ n, lab, cb, sb, g });
   }
+  sync();
   $('layerQ').oninput = () => {
     const s = $('layerQ').value.trim();
     for (const r of layerRows) r.lab.style.display = !s || r.n.name.includes(s) || r.g.includes(s) ? '' : 'none';
