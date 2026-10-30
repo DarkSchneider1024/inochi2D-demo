@@ -205,7 +205,7 @@ async function open(id) {
   buildParams();
   buildPhys();
   buildMoves();
-  decorOff = false; $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off');
+  decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off');
   settlePhysics();
   const b = P.bounds();
   fit = { cx: (b.x0 + b.x1) / 2, cy: (b.y0 + b.y1) / 2, w: b.x1 - b.x0, h: b.y1 - b.y0 };
@@ -353,20 +353,23 @@ function drive(dt) {
     const g = (n, i) => (P.get(n) || [0, 0])[i] || 0;
     const yawNow = g('Head:: Yaw-Pitch', 0), pitchNow = g('Head:: Yaw-Pitch', 1);
     const rollNow = g('Body:: Roll', 0), br = g('Body:: Breath', 0), mx = g('Body:: X:: Move', 0);
-    const vx = (mx - chest.prevX) / Math.max(dt, 1e-3);
-    spring(chest.x1, 0.7 * yawNow + 0.6 * rollNow - 0.08 * vx, dt, 11, 2.6);          // SK1
-    spring(chest.x2, chest.x1.x, dt, 8, 2.0);                                             // SK2 lags SK1
-    const vy = (pitchNow - chest.prevY) / Math.max(dt, 1e-3), vb = (br - chest.prevBr) / Math.max(dt, 1e-3);
-    chest.prevY = pitchNow; chest.prevBr = br; chest.prevX = mx;
-    if (chest.kick > 0) { chest.y1.v += 18 * chest.kick; chest.kick = 0; }
-    // (2026-10-30, user: 開心跳胸部晃動幅度加大) the body's hop (Body:: Hop, - = up) drives the bounce too: the bust lags
-    // as she rises and overshoots as she lands. The model's Bounce Y range went 18 -> 26 px, so the old sources x1.04 (was 1.5) look the same
-    const hop = g('Body:: Hop', 0), vh = (hop - chest.prevH) / Math.max(dt, 1e-3); chest.prevH = hop;
-    spring(chest.y1, 0.12 * vy - 0.6 * vb - 0.12 * vh, dt, 12, 2.8);
-    spring(chest.y2, chest.y1.x, dt, 9, 2.2);
-    set('Chest:: Sway X', clamp(-(0.55 * chest.x1.x + 0.45 * chest.x2.x) * 2.1, -1, 1));
-    set('Chest:: Bounce Y', clamp((0.55 * chest.y1.x + 0.45 * chest.y2.x) * 1.04, -1, 1));
-    set('Chest:: Squash', clamp(-0.08 * chest.y1.v, -1, 1));                             // widens as it lands
+    // (2026-10-30, user: 胸部晃動卡卡的，要彈上去、彈下來，幅度越來越小) one under-damped spring per axis driven by the
+    // body's ACCELERATION (inertia): every change of the body's velocity kicks the bust the other way, then it rings
+    // on its own -- 2.2 bounces a second, each about 0.7 of the one before, settled in ~1.5 s. No target to chase and
+    // no hard clamp at the top (tanh), so it never sticks at an extreme. Tuned offline on the 開心跳 hop.
+    const inv = 1 / Math.max(dt, 1e-3);
+    let sx = 0.7 * yawNow + 0.6 * rollNow - 0.35 * mx, vsx = (sx - chest.prevX) * inv; chest.prevX = sx;
+    const hop = g('Body:: Hop', 0); let sy = hop + 0.35 * pitchNow + 0.5 * br, vsy = (sy - chest.prevH) * inv; chest.prevH = sy;
+    if (!chest.live) { chest.live = true; chest.vX = vsx = 0; chest.vY = vsy = 0; }        // first frame: no fake jump
+    const cap = (d) => Math.max(-4, Math.min(4, d));                                        // a dt hiccup is not a jolt
+    chest.x1.v -= 1.6 * cap(vsx - chest.vX); chest.vX = vsx;
+    chest.y1.v -= 2.6 * cap(vsy - chest.vY); chest.vY = vsy;
+    if (chest.kick > 0) { chest.y1.v += 9 * chest.kick; chest.kick = 0; }
+    const ring = (s, f, z) => { const w = 2 * Math.PI * f; s.v += (-w * w * s.x - 2 * z * w * s.v) * dt; s.x += s.v * dt; };
+    ring(chest.x1, 2.0, 0.14); ring(chest.y1, 2.2, 0.13);
+    set('Chest:: Sway X', Math.tanh(-chest.x1.x));
+    set('Chest:: Bounce Y', Math.tanh(chest.y1.x));
+    set('Chest:: Squash', Math.tanh(-0.06 * chest.y1.v));                                  // widens as it falls
   }
   if (P.has('Outfit:: Decor Off')) set('Outfit:: Decor Off', decorOff ? 1 : 0);
   if (auto.blink) {
