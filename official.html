@@ -126,7 +126,7 @@
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
     <section id="modelMoves" hidden aria-labelledby="modelMovesH">
     <h2 id="modelMovesH">模型動畫</h2>
-    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button></div></div>
+    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="1" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.5" aria-pressed="false">✂️ 無長髮</button></div></div>
     <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
     <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div></div>
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
@@ -201,6 +201,8 @@ for (const id of FEATURED_IDS) {
 $('models').onchange = () => open($('models').value);
 $('decorBtn').onclick = () => { decorOff = !decorOff; $('decorBtn').setAttribute('aria-pressed', decorOff); };
 $('acadBtn').onclick = () => { academy = !academy; $('acadBtn').setAttribute('aria-pressed', academy); };
+document.querySelectorAll('#hairRow button').forEach(b => b.onclick = () => { hairStyle = +b.dataset.hair;
+  document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x === b)); });
 cv.addEventListener('dblclick', () => { chest.kick = 1; });            // double-click: a little hop (the bust bounces)
 for (const k of Object.keys(auto)) {
   const b = document.createElement('button');
@@ -237,6 +239,8 @@ async function open(id) {
   buildMoves();
   decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off');
   academy = false; $('acadBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy');
+  hairStyle = 0; $('hairRow').hidden = !P.has('Hair:: Style');
+  document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.hair === '0'));
   settlePhysics();
   const b = P.bounds();
   fit = { cx: (b.x0 + b.x1) / 2, cy: (b.y0 + b.y1) / 2, w: b.x1 - b.x0, h: b.y1 - b.y0 };
@@ -333,6 +337,8 @@ const chest = { x1: mk(), x2: mk(), y1: mk(), y2: mk(), prevY: 0, prevBr: 0.5, p
 let decorOff = false;
 // 學院風換裝 (2026-10-30, Linda喵): Outfit:: Academy swaps the dress for the academy uniform
 let academy = false;
+// 換髮型 (2026-10-30, Linda喵): Hair:: Style 0 放下來 / 0.5 無長髮 / 1 綁馬尾
+let hairStyle = 0;
 function drivenNow() {
   const s = new Set();
   if (auto.follow || shakeT >= 0) for (const n of ['Head:: Yaw-Pitch', 'Body:: Yaw-Pitch', 'Eye:: Left:: Move', 'Eye:: Right:: Move', 'Head:: Roll', 'Body:: Roll', 'Body:: X:: Move']) s.add(n);
@@ -442,6 +448,7 @@ function drive(dt) {
   }
   if (P.has('Outfit:: Decor Off')) set('Outfit:: Decor Off', decorOff ? 1 : 0);
   if (P.has('Outfit:: Academy')) set('Outfit:: Academy', academy ? 1 : 0);
+  if (P.has('Hair:: Style')) set('Hair:: Style', hairStyle);
   if (auto.blink) {
     blinkNext -= dt;
     if (blinkNext <= 0 && blinkT < 0) { blinkT = 0; blinkNext = 2 + Math.random() * 3.5; }
