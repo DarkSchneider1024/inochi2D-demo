@@ -449,10 +449,11 @@ function drive(dt) {
     if (!chest.live) { chest.live = true; chest.vX = vsx = 0; chest.vY = vsy = 0; }        // first frame: no fake jump
     const cap = (d) => Math.max(-4, Math.min(4, d));                                        // a dt hiccup is not a jolt
     chest.x1.v -= 1.6 * cap(vsx - chest.vX); chest.vX = vsx;
-    chest.y1.v -= 2.6 * cap(vsy - chest.vY); chest.vY = vsy;
-    if (chest.kick > 0) { chest.y1.v += 9 * chest.kick; chest.kick = 0; }
+    // (2026-10-31 user: 胸部晃動的前兩下震動要再更高一點) a stronger kick, decaying a little faster after it
+    chest.y1.v -= 3.6 * cap(vsy - chest.vY); chest.vY = vsy;
+    if (chest.kick > 0) { chest.y1.v += 12 * chest.kick; chest.kick = 0; }
     const ring = (s, f, z) => { const w = 2 * Math.PI * f; s.v += (-w * w * s.x - 2 * z * w * s.v) * dt; s.x += s.v * dt; };
-    ring(chest.x1, 2.0, 0.14); ring(chest.y1, 2.2, 0.13);
+    ring(chest.x1, 2.0, 0.14); ring(chest.y1, 2.2, 0.16);
     set('Chest:: Sway X', Math.tanh(-chest.x1.x));
     set('Chest:: Bounce Y', Math.tanh(chest.y1.x));
     set('Chest:: Squash', Math.tanh(-0.06 * chest.y1.v));                                  // widens as it falls
