@@ -487,7 +487,7 @@ export class Renderer {
   }
 
   drawPart(n) {
-    if (!n.on || n.alpha <= 0) return;
+    if (!n.on || n.alpha <= 0 || n.hide) return;             // n.hide: the page's layer panel (隱藏／單看)
     this.withMasks(n, () => { this.gl.useProgram(this.part); this.blend(n.blend_mode); this.geom(n, -1, n.alpha); });
   }
 

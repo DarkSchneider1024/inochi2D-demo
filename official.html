@@ -68,6 +68,21 @@
   .credit { margin-top: 18px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
   .credit a { color: var(--accent); }
   .stats { font-size: 12px; color: var(--muted); }
+  details.layers { margin-top: 14px; }
+  details.layers summary { cursor: pointer; list-style: none; }
+  details.layers summary h2 { display: inline; }
+  details.layers summary::before { content: '▸ '; color: var(--muted); }
+  details.layers[open] summary::before { content: '▾ '; }
+  .layer-tools { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .layer-tools input { flex: 1 1 100%; font: inherit; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--ink); }
+  .layer-tools button { font: inherit; font-size: 12px; padding: 4px 8px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; cursor: pointer; }
+  #layers { max-height: 360px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; padding: 4px 6px; }
+  #layers .lg { font-size: 11px; color: var(--muted); margin: 8px 0 2px; }
+  #layers label { display: flex; align-items: center; gap: 6px; font-size: 13px; margin: 1px 0; }
+  #layers label span { flex: 1; }
+  #layers label.off span { color: var(--muted); text-decoration: line-through; }
+  #layers label button { font: inherit; font-size: 11px; padding: 1px 6px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 6px; cursor: pointer; }
+  #layers label button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
   @media (max-width: 760px) {
     .app { grid-template-columns: 1fr; grid-template-rows: 62vh auto; height: auto; }
     aside { border-left: 0; border-top: 1px solid var(--line); }
@@ -117,6 +132,17 @@
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
 
     </section>
+
+    <!-- 2026-10-30 (user: 精緻展示區沒有作品集的圖層分拆瀏覽): the Demo page's PSD layer panel -->
+    <details class="layers" id="layersBox">
+      <summary><h2>PSD 圖層（隱藏／單獨看，找髒圖用）</h2></summary>
+      <div class="layer-tools">
+        <input type="search" id="layerQ" placeholder="搜尋圖層名稱，例如 眼、瀏海">
+        <button id="layerAll">全部顯示</button><button id="layerNone">全部隱藏</button><button id="layerCopy">📋 複製隱藏清單</button>
+      </div>
+      <p class="lead">勾選＝顯示。按「單看」只留這一層（再按一次恢復）。回報問題時按「複製隱藏清單」貼給 Claude 即可。</p>
+      <div id="layers"></div>
+    </details>
 
     <h2>物理（即時輸出）</h2>
     <div class="phys" id="phys"></div>
@@ -206,6 +232,7 @@ async function open(id) {
   layersList.then((ids) => { const b = $('layersBtn'); b.style.display = ids.includes(model.id) ? '' : 'none'; b.href = `layers.html?model=${model.id}`; });
   buildParams();
   buildPhys();
+  buildLayers();
   buildMoves();
   decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off');
   settlePhysics();
@@ -243,6 +270,42 @@ function buildParams() {
 function refreshAutoMarks() {
   for (const s of sliders) s.el.classList.toggle('auto', drivenNow().has(s.p.name.trim()) && !manual.has(s.p.name.trim()));
 }
+// ---- PSD layer visibility (2026-10-30, the Demo page's panel): n.hide is read by Renderer.drawPart
+let layerRows = [], layerSolo = null;
+function buildLayers() {
+  const list = $('layers'); list.textContent = ''; $('layerQ').value = '';
+  layerRows = []; layerSolo = null;
+  const setHide = (name, h) => { for (const n of P.parts) if (n.name === name) n.hide = h; };
+  const sync = () => { for (const r of layerRows) { r.cb.checked = !r.n.hide; r.lab.classList.toggle('off', !!r.n.hide); r.sb.setAttribute('aria-pressed', layerSolo === r.n.name); } };
+  let group = null;
+  for (const n of P.parts) {                           // file order, grouped by parent node
+    const g = n.parent && n.parent.type !== 'Part' ? n.parent.name : '';
+    if (g !== group) { group = g; const d = document.createElement('div'); d.className = 'lg'; d.textContent = g || '（根）'; list.append(d); }
+    const lab = document.createElement('label'), cb = document.createElement('input'), sp = document.createElement('span'), sb = document.createElement('button');
+    cb.type = 'checkbox'; cb.checked = true; sp.textContent = n.name; sb.textContent = '單看';
+    cb.onchange = () => { layerSolo = null; setHide(n.name, !cb.checked); sync(); };
+    sb.onclick = (e) => {
+      e.preventDefault();
+      if (layerSolo === n.name) { layerSolo = null; for (const r of layerRows) setHide(r.n.name, false); }
+      else { layerSolo = n.name; for (const r of layerRows) setHide(r.n.name, r.n.name !== n.name); }
+      sync();
+    };
+    lab.append(cb, sp, sb); list.append(lab);
+    layerRows.push({ n, lab, cb, sb, g });
+  }
+  $('layerQ').oninput = () => {
+    const s = $('layerQ').value.trim();
+    for (const r of layerRows) r.lab.style.display = !s || r.n.name.includes(s) || r.g.includes(s) ? '' : 'none';
+  };
+  $('layerAll').onclick = () => { layerSolo = null; for (const r of layerRows) setHide(r.n.name, false); sync(); };
+  $('layerNone').onclick = () => { layerSolo = null; for (const r of layerRows) setHide(r.n.name, true); sync(); };
+  $('layerCopy').onclick = async () => {
+    const off = layerRows.filter((r) => r.n.hide).map((r) => r.n.name), on = layerRows.filter((r) => !r.n.hide).map((r) => r.n.name);
+    const txt = `模型 ${model.id}：` + (off.length <= on.length ? `隱藏 ${off.length} 層：${off.join('、') || '（無）'}` : `只顯示 ${on.length} 層：${on.join('、')}`);
+    try { await navigator.clipboard.writeText(txt); $('stats').textContent = '已複製：' + txt; } catch { prompt('複製這段文字：', txt); }
+  };
+}
+
 function buildPhys() {
   const box = $('phys'); box.textContent = '';
   for (const s of P.physics) {
