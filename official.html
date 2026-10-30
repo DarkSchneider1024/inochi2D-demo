@@ -585,7 +585,9 @@ function applyMoves(dt) {
   // (2026-10-27, user: 還是有表情疊圖的問題) the face-layer params (Expression:: *, Face:: *) have no other driver, so the
   // 'add' of a feeling piled up frame after frame and stayed after it ended (💢 + tears + blush on the kick): they start
   // every frame from rest, then the feeling / action lays its value on
-  for (const p of P.params) if (/^(Expression|Face)::/.test(p.name.trim()) && !manual.has(p.name.trim())) p.value = [...p.defaults];
+  // (2026-10-31 user: 微笑跟貓嘴點了沒反應) the mouth swaps too: Mouth:: Smile stayed at 1 after 開心 / 微笑 and its open smile
+  // covered every later mouth
+  for (const p of P.params) if (/^(Expression|Face)::|^Mouth:: (Smile|Cat|Fang|Tongue)$/.test(p.name.trim()) && !manual.has(p.name.trim())) p.value = [...p.defaults];
   // 表情: the old one eases out first, then the new one eases in (never a cut)
   if (feel.shown !== feel.want) { feel.w = Math.max(0, feel.w - dt * 6); if (feel.w <= 0) { feel.shown = feel.want; feel.t0 = time; } }
   else feel.w = feel.shown ? Math.min(1, feel.w + dt * 4) : 0;
