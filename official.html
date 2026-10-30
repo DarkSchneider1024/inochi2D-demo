@@ -638,7 +638,13 @@ addEventListener('pointermove', (e) => {
   const r = stage.getBoundingClientRect();
   ptr.x = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - 0.5) * 2.4));
   ptr.y = Math.max(-1, Math.min(1, -((e.clientY - r.top) / r.height - 0.32) * 2.4));
-  ptr.has = true;
+  // (2026-10-30 user: 視線跟隨只在人物的兩倍距離會觸發，超過就不觸發) the pointer counts only inside a box twice the
+  // character's size round its centre (her bounds on screen: fit, view, pan); outside it she looks ahead again
+  if (fit) {
+    const dpr = cv.width / r.width, sc = view.scale / dpr;
+    const cx = r.left + r.width / 2 + (fit.cx - view.cx) * sc, cy = r.top + r.height / 2 + (fit.cy - view.cy) * sc;
+    ptr.has = Math.abs(e.clientX - cx) <= fit.w * sc && Math.abs(e.clientY - cy) <= fit.h * sc;
+  } else ptr.has = true;
   if (pull.on) {                                   // pointer travel -> pull, ~1 at a third of the stage
     pull.tx = Math.max(-1.2, Math.min(1.2, (e.clientX - pull.x0) / (r.width / 3)));
     pull.ty = Math.max(-1, Math.min(1, (e.clientY - pull.y0) / (r.height / 3)));
