@@ -57,6 +57,11 @@
   "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.5.5/lib/three-vrm.module.min.js"
 } }
 </script>
+<style>/* (2026-10-30 user: 頁籤好醜) one tidy pill row: never squeezed into a vertical column, scrolls sideways */
+nav.tabs { display: flex !important; flex-wrap: nowrap !important; gap: 6px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+nav.tabs::-webkit-scrollbar { display: none; }
+nav.tabs a { flex: none !important; white-space: nowrap !important; }
+</style>
 </head>
 <body>
 <style>
@@ -72,7 +77,7 @@
     <div class="hint">拖曳旋轉・滾輪／雙指縮放・右鍵拖曳平移</div>
   </div>
   <aside>
-    <nav class="tabs"><a href="./">Demo</a><a href="gallery.html">作品集</a><a href="official.html">精緻展示作品</a><a href="layers.html">圖層檢查</a><a href="voice/">角色聲音</a><a href="model3d.html" aria-current="page">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
+    <nav class="tabs"><a href="gallery.html">作品集</a><a href="official.html">精緻展示作品</a><a href="layers.html">圖層檢查</a><a href="voice/">角色聲音</a><a href="model3d.html" aria-current="page">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
     <h1 id="title">3D 模型</h1>
     <p class="sub" id="sub"></p>
     <label for="pick" class="sub" style="display:block;margin-bottom:4px">角色</label>
