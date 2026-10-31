@@ -133,7 +133,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
     <section id="modelMoves" hidden aria-labelledby="modelMovesH">
     <h2 id="modelMovesH">模型動畫</h2>
-    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div><div class="row" id="colorRow" hidden><button data-color="purple" aria-pressed="true">💜 紫色</button><button data-color="pink" aria-pressed="false">🌸 粉色</button></div></div>
+    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div><div class="row" id="colorRow" hidden><button data-color="purple" aria-pressed="true">💜 紫色</button><button data-color="pink" aria-pressed="false">🌸 粉色</button><button data-color="tiffany" aria-pressed="false">🩵 蒂芬妮綠</button><button data-color="aqua" aria-pressed="false">💧 水藍</button><button data-color="black" aria-pressed="false">🖤 純黑</button></div></div>
     <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
     <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div></div>
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
@@ -210,7 +210,7 @@ $('decorBtn').onclick = () => { decorOff = !decorOff; $('decorBtn').setAttribute
 $('acadBtn').onclick = () => { academy = !academy; $('acadBtn').setAttribute('aria-pressed', academy); $('blazerBtn').hidden = !(academy && P.has('Outfit:: Blazer Off')); };
 $('blazerBtn').onclick = () => { blazerOff = !blazerOff; $('blazerBtn').setAttribute('aria-pressed', blazerOff); };
 // 換顏色 (2026-10-31 user: 紫色頭髮尾巴眉毛透過程式轉成粉色，新增換顏色選項): a shader hue shift on these layers, no extra textures
-const COLOR_PARTS = /^(後髮|側髮|頭頂髮|前髮|眉毛|貓耳|貓尾$)/, COLORS = { pink: [0.5, -0.866, 1.17, 1.9] };
+const COLOR_PARTS = /^(後髮|側髮|頭頂髮|前髮|眉毛|貓耳|貓尾$)/, COLORS = { pink: [0.5, -0.866, 1.17, 1.9], tiffany: [-0.32, 0.947, 1.1, 2.9], aqua: [-0.023, 1, 1.17, 2.59], black: [1, 0.001, 0.28, 0.08] };
 function setColor(id) {
   for (const n of P.parts) if (COLOR_PARTS.test(n.name)) n.hue = COLORS[id] || null;
   document.querySelectorAll('#colorRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === id));
