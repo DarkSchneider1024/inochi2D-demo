@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>卡洛特先生變身</title>
+<style>
+  :root { --bg: #0d0f1c; --fg: #f6ecd2; --gold: #ffc94d; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, "Noto Sans TC", sans-serif; overflow: hidden; }
+  #stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #bar { position: fixed; left: 50%; bottom: max(16px, env(safe-area-inset-bottom)); transform: translateX(-50%); display: flex; gap: 10px; }
+  button { min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--gold); background: rgba(13, 15, 28, .75); color: var(--gold); font-size: 16px; cursor: pointer; }
+  button:hover { background: rgba(255, 201, 77, .16); }
+  #msg { position: fixed; inset: 0; display: grid; place-items: center; font-size: 16px; pointer-events: none; }
+  .gl { position: absolute; left: -9999px; top: 0; width: 8px; height: 8px; }
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<canvas id="glA" class="gl"></canvas><canvas id="glB" class="gl"></canvas>
+<div id="msg">載入中…</div>
+<div id="bar"><button id="again" hidden>再變身一次</button></div>
+<script type="module">
+import { loadINP, Puppet, Renderer } from './inochi-full.js';
+const $ = (id) => document.getElementById(id);
+const stage = $('stage'), ctx = stage.getContext('2d');
+const RA = new Renderer($('glA')), RB = new Renderer($('glB'));
+const SCI = 0.6, PUSH = 2.8;                                   // glasses
+const CHARGE = SCI + PUSH, CLOTH = CHARGE + 0.5, CLOTH_END = CLOTH + 1.6;   // clothes, feet to neck
+const HAIR = CLOTH_END + 0.35, HAIR_END = HAIR + 1.1;           // hair, top to neck
+const AURA = HAIR_END - 0.1;
+const FEATHER = 16;
+const NECK = 0.166;                                            // the seam, fraction of the figure from its top
+let A, B, view, W = 0, H = 0, dpr = 1, fig, start = 0, parts = [], last = 0;
+const tmpA = document.createElement('canvas'), tmpB = document.createElement('canvas'), glow = document.createElement('canvas');
+const ramp = (a, b, t) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const ease = (x) => x * x * (3 - 2 * x);
+
+function resize() {
+  dpr = Math.min(2, devicePixelRatio || 1);
+  W = stage.width = Math.round(innerWidth * dpr); H = stage.height = Math.round(innerHeight * dpr);
+  for (const c of [$('glA'), $('glB'), tmpA, tmpB]) { c.width = W; c.height = H; }
+  glow.width = Math.ceil(W / 2); glow.height = Math.ceil(H / 2);
+  if (!A) return;
+  const b = A.bounds(), scale = Math.min(W * 0.92 / (b.x1 - b.x0), H * 0.9 / (b.y1 - b.y0));
+  view = { cx: (b.x0 + b.x1) / 2, cy: (b.y0 + b.y1) / 2 + 12 / scale, scale };
+  const cy = H / 2 - 12, h = (b.y1 - b.y0) * scale, w = (b.x1 - b.x0) * scale;
+  fig = { top: cy - h / 2, bot: cy + h / 2, h, w, cx: W / 2 };
+}
+
+function pose(P, t, act) {
+  P.reset();
+  if (P.has('Body:: Breath')) P.set('Body:: Breath', 0.5 + 0.5 * Math.sin(t * 2.2));
+  if (act !== null) for (const s of P.sampleAnimation('動作/推眼鏡', act)) s.param.value[s.axis] = s.value;
+  P.update();
+}
+
+// keep only the bands of the layer that lie between lines a and b (y px); outside=true keeps what is not between them
+function masked(c, src, a, b, outside) {
+  const g = c.getContext('2d');
+  g.globalCompositeOperation = 'source-over'; g.clearRect(0, 0, W, H); g.drawImage(src, 0, 0);
+  const m = g.createLinearGradient(0, 0, 0, H), f = FEATHER * dpr, s = (y) => Math.min(1, Math.max(0, y / H));
+  const on = outside ? 'rgba(0,0,0,0)' : '#000', off = outside ? '#000' : 'rgba(0,0,0,0)';
+  m.addColorStop(0, off); m.addColorStop(s(a - f), off); m.addColorStop(s(a + f), on);
+  m.addColorStop(s(b - f), on); m.addColorStop(s(b + f), off); m.addColorStop(1, off);
+  g.globalCompositeOperation = 'destination-in'; g.fillStyle = m; g.fillRect(0, 0, W, H);
+  return c;
+}
+
+function backdrop(aura, now) {
+  const g = ctx.createRadialGradient(W / 2, H * 0.46, 0, W / 2, H * 0.46, Math.max(W, H) * 0.7);
+  g.addColorStop(0, `rgb(${28 + 44 * aura},${26 + 26 * aura},${48 - 8 * aura})`); g.addColorStop(1, '#0d0f1c');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  if (aura <= 0) return;
+  // the flowing gold streams, rising behind the figure
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round';
+  const spread = fig.w * 0.5, N = 16;
+  for (let i = 0; i < N; i++) {
+    const side = i % 2 ? 1 : -1, ph = i * 1.7, far = 0.35 + 0.65 * ((i * 7) % N) / N;
+    ctx.beginPath();
+    for (let k = 0; k <= 44; k++) {
+      const s = k / 44, y = fig.bot + fig.h * 0.04 - s * fig.h * 1.14;
+      const w = Math.sin(s * 7 + now * 1.4 + ph) * spread * 0.16 + Math.sin(s * 3 - now * 0.8 + ph) * spread * 0.1;
+      const x = fig.cx + side * spread * far * (1 - 0.42 * s) * (0.7 + 0.3 * Math.sin(s * 3.1)) + w;
+      k ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    }
+    const lg = ctx.createLinearGradient(0, fig.bot, 0, fig.top);
+    lg.addColorStop(0, 'rgba(255,190,60,0)'); lg.addColorStop(0.3, `rgba(255,201,77,${0.7 * aura})`);
+    lg.addColorStop(0.75, `rgba(255,232,150,${0.6 * aura})`); lg.addColorStop(1, 'rgba(255,240,190,0)');
+    ctx.strokeStyle = lg; ctx.lineWidth = (3 + 7 * far) * dpr;
+    ctx.setLineDash([(90 + 70 * far) * dpr, (46 + 40 * far) * dpr]); ctx.lineDashOffset = (now * (150 + 150 * far) + i * 57) * dpr;
+    ctx.shadowColor = 'rgba(255,190,60,.9)'; ctx.shadowBlur = 14 * dpr; ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function silhouette(src, a, now) {                               // the soft gold rim right behind the figure
+  if (a <= 0) return;
+  const g = glow.getContext('2d'), w = glow.width, h = glow.height;
+  g.globalCompositeOperation = 'source-over'; g.clearRect(0, 0, w, h); g.drawImage(src, 0, 0, w, h);
+  g.globalCompositeOperation = 'source-in'; g.fillStyle = '#ffc23d'; g.fillRect(0, 0, w, h);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.imageSmoothingQuality = 'high';
+  const k = 1.035 + 0.012 * Math.sin(now * 2.4);
+  ctx.globalAlpha = a * (0.55 + 0.12 * Math.sin(now * 3.1));
+  ctx.filter = `blur(${16 * dpr}px)`;
+  ctx.drawImage(glow, W / 2 - W * k / 2, H / 2 - H * k / 2, W * k, H * k);
+  ctx.filter = `blur(${6 * dpr}px)`; ctx.globalAlpha *= 0.7;
+  ctx.drawImage(glow, 0, 0, W, H);
+  ctx.restore();
+}
+
+function line(y, a) {                                            // the bright edge of the change
+  if (a <= 0) return;
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.translate(fig.cx, y); ctx.scale(fig.w * 0.56, 22 * dpr);
+  const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+  g.addColorStop(0, `rgba(255,248,215,${0.95 * a})`); g.addColorStop(0.45, `rgba(255,214,110,${0.5 * a})`); g.addColorStop(1, 'rgba(255,190,60,0)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 1, 0, 6.29); ctx.fill(); ctx.restore();
+  for (let i = 0; i < 3; i++) spark(fig.cx + (Math.random() - 0.5) * fig.w * 0.9, y, 1);
+}
+
+function spark(x, y, s) {
+  if (parts.length > 420) return;
+  const a = Math.random() * 6.28, v = (20 + Math.random() * 60) * dpr;
+  parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 50 * dpr, life: 0, max: 0.6 + Math.random() * 0.9, r: (1 + Math.random() * 2.4) * dpr * s });
+}
+
+function sparks(dt) {
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  parts = parts.filter((p) => (p.life += dt) < p.max);
+  for (const p of parts) {
+    p.x += p.vx * dt; p.y += p.vy * dt; p.vy -= 22 * dpr * dt;
+    const a = 1 - p.life / p.max;
+    ctx.fillStyle = `rgba(255,${200 + 40 * a | 0},${90 + 100 * a | 0},${a})`;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.29); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function glint(a) {                                              // the flash on the glasses as they are pushed up
+  if (a <= 0) return;
+  const x = fig.cx - 0.008 * fig.w, y = fig.top + 0.094 * fig.h, r = 70 * dpr * a;
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.translate(x, y); ctx.fillStyle = `rgba(255,255,235,${a})`;
+  for (let i = 0; i < 2; i++) { ctx.rotate(Math.PI / 2); ctx.beginPath(); ctx.moveTo(-r, 0); ctx.lineTo(0, 3 * dpr); ctx.lineTo(r, 0); ctx.lineTo(0, -3 * dpr); ctx.fill(); }
+  ctx.restore();
+}
+
+function frame(ms) {
+  const now = ms / 1000, t = now - start, dt = Math.min(0.05, now - last); last = now;
+  pose(A, now, t > SCI && t < SCI + PUSH ? t - SCI : null); pose(B, now, null);
+  RA.draw(view); RB.draw(view);
+  const neck = fig.top + NECK * fig.h;
+  const k1 = ease(ramp(CLOTH, CLOTH_END, t)), k2 = ease(ramp(HAIR, HAIR_END, t));
+  const L1 = fig.bot + 40 * dpr + (neck - fig.bot - 40 * dpr) * k1;   // mage below this line
+  const L2 = fig.top - 60 * dpr + (neck - fig.top + 60 * dpr) * k2;   // mage above this line
+  const aura = ease(ramp(AURA, AURA + 1.2, t)), charge = ramp(CHARGE, CLOTH, t) * (1 - ramp(CLOTH_END, HAIR_END, t)) * 0.3;
+  backdrop(Math.max(aura, charge), now);
+  const mageImg = k2 >= 1 ? $('glB') : masked(tmpB, $('glB'), L2, L1, true);   // (at the end no seam: the whole mage)
+  silhouette(aura > 0 ? $('glB') : mageImg, Math.max(aura, charge * 0.6), now);
+  if (k2 < 1) ctx.drawImage(masked(tmpA, $('glA'), L2, L1, false), 0, 0);
+  ctx.drawImage(mageImg, 0, 0);
+  if (k1 > 0 && k1 < 1) line(L1, 1);
+  if (k2 > 0 && k2 < 1) line(L2, 1);
+  if (aura > 0.2 && Math.random() < 0.55 * aura) spark(fig.cx + (Math.random() - 0.5) * fig.w * 0.8, fig.bot - Math.random() * fig.h, 0.8);
+  sparks(dt);
+  glint(ramp(SCI + 0.3, SCI + 0.55, t) * (1 - ramp(SCI + 0.55, SCI + 1.05, t)));
+  const flash = ramp(HAIR_END - 0.15, HAIR_END, t) * (1 - ramp(HAIR_END, HAIR_END + 0.7, t));
+  if (flash > 0) { ctx.fillStyle = `rgba(255,225,150,${0.5 * flash})`; ctx.fillRect(0, 0, W, H); }
+  if (t > HAIR_END + 1) $('again').hidden = false;
+  requestAnimationFrame(frame);
+}
+
+async function main() {
+  const [a, b] = await Promise.all([loadINP('models/mr_carrot_sci.inp'), loadINP('models/mr_carrot_mage.inp')]);
+  A = new Puppet(a); B = new Puppet(b); RA.attach(A); RB.attach(B);
+  A.reset(); A.update(); resize();
+  addEventListener('resize', resize);
+  $('msg').remove();
+  $('again').onclick = () => { start = performance.now() / 1000; parts = []; $('again').hidden = true; };
+  const q = new URLSearchParams(location.search);
+  start = performance.now() / 1000 - (+q.get('t') || 0); last = start;
+  requestAnimationFrame(frame);
+}
+main().catch((e) => { $('msg').textContent = '載入失敗：' + e.message; });
+</script>
+</body>
+</html>
