@@ -230,7 +230,13 @@ document.querySelectorAll('#colorRow button[data-color]').forEach(b => b.onclick
 // 換膚色 (2026-10-31 user: 皮膚顏色也新增5種膚色): the same shader idea on every layer, so eyelids and hands inside other layers follow
 const SKINS = { porcelain: [1.03, 0.6, 1, 0], rosy: [1, 1.5, 0.99, 0.14], wheat: [0.85, 1.9, 0.998, -0.07], honey: [0.68, 2.1, 0.998, -0.07], deep: [0.45, 1.8, 1, 0.02] };
 function setSkin(id) {
-  for (const n of P.parts) n.skin = SKINS[id] || null;
+  // skin layers take the pale highlights too; below the thigh the legs are stockings, which never change (user: 膚色不要改到襪子)
+  const SKIN_BODY = /^((學院|學院白)_)?(臉|脖子|肩膀|胸口|腿|內褲_肚子|閉眼|笑眼|怒眼|哀眼|羞眼|淘氣眼|鼻子)/;
+  for (const n of P.parts) {
+    n.skin = SKINS[id] || null; n.skinMin = SKIN_BODY.test(n.name) ? 0.012 : 0.035;
+    const leg = /腿_/.test(n.name), uv = leg ? n.mesh.uvs.filter((_, i) => i % 2) : null;
+    n.skinCut = leg ? Math.min(...uv) + (n.name.startsWith('學院') ? 0.25 : 0.225) * (Math.max(...uv) - Math.min(...uv)) : 2;
+  }
   document.querySelectorAll('#skinRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.skin === id));
 }
 document.querySelectorAll('#skinRow button').forEach(b => b.onclick = () => setSkin(b.dataset.skin));
@@ -276,7 +282,7 @@ async function open(id) {
   decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off');
   academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy');
   hairStyle = 0; $('hairRow').hidden = !P.has('Hair:: Style');
-  $('colorRow').hidden = $('skinRow').hidden = !P.has('Hair:: Style'); document.querySelectorAll('#skinRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.skin === 'base')); colorId = 'purple'; tartan = false; $('tartanBtn').setAttribute('aria-pressed', 'false'); document.querySelectorAll('#colorRow button[data-color]').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === 'purple'));
+  $('colorRow').hidden = $('skinRow').hidden = !P.has('Hair:: Style'); setSkin('base'); colorId = 'purple'; tartan = false; $('tartanBtn').setAttribute('aria-pressed', 'false'); document.querySelectorAll('#colorRow button[data-color]').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === 'purple'));
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.hair === '0'));
   settlePhysics();
   const b = P.bounds();
