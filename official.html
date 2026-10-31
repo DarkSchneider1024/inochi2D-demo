@@ -300,7 +300,7 @@ async function open(id) {
   buildPhys();
   buildLayers();
   buildMoves();
-  decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off') && !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off');
+  decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off') && !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); $('decorBtn').hidden = !P.has('Outfit:: Decor Off');
   baseFit = false; $('baseBtn').hidden = !P.has('Mix:: Top:: Off'); $('wearRows').hidden = !P.has('Mix:: Top:: Off'); for (const k in wear) wear[k] = 0;
   bigBust = false; $('bustBtn').setAttribute('aria-pressed', 'false'); $('bustBtn').hidden = !P.has('Body:: Bust');
   academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); showWear();
