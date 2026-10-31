@@ -124,6 +124,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
       <button id="reset">↺ 重設參數</button>
       <button id="snap">📸 存圖</button>
       <a id="layersBtn" class="btn" href="layers.html" title="打開這個角色的拆圖整合圖：逐層看（包含被上層蓋住的部分）與單圖層疑點檢查" style="display:none">🧩 分層檢視</a>
+      <a id="transformBtn" class="btn" href="transform.html" title="綠髮科學家變身金髮魔法師" style="display:none">✨ 變身動畫</a>
     </div>
 
     <div id="mixSec" hidden><div class="row"><button id="mixBtn" aria-pressed="true">🎭 動作＋表情 分開搭配：開</button></div></div>
@@ -276,6 +277,7 @@ async function open(id) {
     `${P.groups.length} 個 MeshGroup · ${(data.bytes / 1e6).toFixed(1)} MB · ${((performance.now() - t0) / 1000).toFixed(1)} 秒載入`;
   $('credit').innerHTML = model.own ? `「${model.name}」為卡洛特工作室原創角色，PSD 拆層與 Inochi2D 綁定由 Claude 以 Python 自動產生（<code>${model.own}</code>）。放在這裡和官方範例並排，比對參數、物理與畫面。播放器 <code>inochi-full.js</code> 為本站自寫。` + (ver && ver.history ? `<br>版本紀錄：${ver.history.slice(-5).reverse().map((h) => `<b>v${h.version}</b>（${h.build}）${h.note || ''}`).join('；')}` : '') : `「${model.name}」設計與綁定：<a href="${clean(m.contact) || 'https://twitter.com/seagetch'}" target="_blank" rel="noopener">${clean(m.artist) || 'seagetch'}</a>・授權 <a href="${clean(m.licenseURL) || 'https://creativecommons.org/licenses/by/4.0/'}" target="_blank" rel="noopener">CC BY 4.0</a>。來源：<a href="https://github.com/Inochi2D/example-models" target="_blank" rel="noopener">Inochi2D/example-models</a>（貼圖由 TGA 轉成 PNG，其餘未修改）。播放器 <code>inochi-full.js</code> 為本站自寫。`;
   // 🧩 分層檢視: only for the models that have a layer export (layers/models.json)
+  $('transformBtn').style.display = model.id === 'mr_carrot_sci' ? '' : 'none';
   layersList.then((ids) => { const b = $('layersBtn'); b.style.display = ids.includes(model.id) ? '' : 'none'; b.href = `layers.html?model=${model.id}`; });
   buildParams();
   buildPhys();
