@@ -133,7 +133,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
     <section id="modelMoves" hidden aria-labelledby="modelMovesH">
     <h2 id="modelMovesH">模型動畫</h2>
-    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div><div class="row" id="colorRow" hidden><button data-color="purple" aria-pressed="true">💜 紫色</button><button data-color="pink" aria-pressed="false">🌸 粉色</button><button data-color="tiffany" aria-pressed="false">🩵 蒂芬妮綠</button><button data-color="aqua" aria-pressed="false">💧 水藍</button><button data-color="orange" aria-pressed="false">🍊 橘色</button><button data-color="black" aria-pressed="false">🖤 純黑</button><button id="colorAcc" aria-pressed="true">🎀 配件一起換</button></div></div>
+    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div><div class="row" id="colorRow" hidden><button data-color="purple" aria-pressed="true">💜 紫色</button><button data-color="pink" aria-pressed="false">🌸 粉色</button><button data-color="tiffany" aria-pressed="false">🩵 蒂芬妮綠</button><button data-color="aqua" aria-pressed="false">💧 水藍</button><button data-color="orange" aria-pressed="false">🍊 橘色</button><button data-color="black" aria-pressed="false">🖤 純黑</button><button id="colorAcc" aria-pressed="true">🎀 配件一起換</button><button id="tartanBtn" aria-pressed="false">🏴 學院風：蘇格蘭配色</button></div><div class="row" id="skinRow" hidden><button data-skin="base" aria-pressed="true">🧑 原膚色</button><button data-skin="porcelain" aria-pressed="false">瓷白</button><button data-skin="rosy" aria-pressed="false">粉嫩</button><button data-skin="wheat" aria-pressed="false">小麥</button><button data-skin="honey" aria-pressed="false">蜜棕</button><button data-skin="deep" aria-pressed="false">深棕</button></div></div>
     <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
     <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div></div>
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
@@ -213,15 +213,29 @@ $('blazerBtn').onclick = () => { blazerOff = !blazerOff; $('blazerBtn').setAttri
 const COLOR_PARTS = /^(後髮|側髮|頭頂髮|前髮|眉毛|貓耳|貓尾$)/, COLORS = { pink: [0.5, -0.866, 1.17, 1.9], tiffany: [-0.32, 0.947, 1.1, 2.9], aqua: [-0.023, 1, 1.17, 2.59], orange: [-0.174, -0.985, 1.17, 2.97], black: [1, 0.001, 0.28, 0.08] };
 // (2026-10-31 user: 配件顏色也可以變嗎，跟頭髮一樣) the shader only touches purple texels, so bells, gold and skin in these layers stay
 const COLOR_ACC = /^(胸蝴蝶結|腰蝴蝶結|頸蝴蝶結|頸圈|貓尾_蝴蝶結|髮飾_百合|學院_蝴蝶結|軀幹|胸口|胸部_手繪|皮帶|裙_|手臂_[RL](_捧嘴)?$|腿_[RL]$)/;
-let colorId = 'purple', colorAcc = true;
+let colorId = 'purple', colorAcc = true, tartan = false;
 function setColor(id) {
   colorId = id;
   for (const n of P.parts) { const hair = COLOR_PARTS.test(n.name); const sock = id === 'black' && /^腿_/.test(n.name); n.hue = (hair || (colorAcc && COLOR_ACC.test(n.name))) ? (sock ? [1, 0.001, 0.12, 0.08] : COLORS[id]) || null : null; n.hueMin = hair ? 0 : sock ? -1 : 0.06; }   // (user: 黑色版本的襪子白色的地方怪怪的，全部弄黑) black stockings
   document.querySelectorAll('#colorRow button[data-color]').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === id));
   $('colorAcc').setAttribute('aria-pressed', colorAcc);
+  // (2026-10-31 user: 學院風也可以換顏色嗎，想換成蘇格蘭風) red tartan skirt, navy blazer; the gold trim and white shirt stay
+  for (const n of P.parts) if (tartan) {
+    if (n.name === '學院_裙') { n.hue = [1, 0.001, 0.82, 5]; n.hueMin = -2; }
+    else if (/^學院_(外套|手臂_[RL](_捧嘴)?)$/.test(n.name)) { n.hue = [-0.342, 0.94, 0.9, 2]; n.hueMin = -3; }
+  }
+  $('tartanBtn').setAttribute('aria-pressed', tartan);
 }
 document.querySelectorAll('#colorRow button[data-color]').forEach(b => b.onclick = () => setColor(b.dataset.color));
+// 換膚色 (2026-10-31 user: 皮膚顏色也新增5種膚色): the same shader idea on every layer, so eyelids and hands inside other layers follow
+const SKINS = { porcelain: [1.03, 0.6, 1, 0], rosy: [1, 1.5, 0.99, 0.14], wheat: [0.85, 1.9, 0.998, -0.07], honey: [0.68, 2.1, 0.998, -0.07], deep: [0.45, 1.8, 1, 0.02] };
+function setSkin(id) {
+  for (const n of P.parts) n.skin = SKINS[id] || null;
+  document.querySelectorAll('#skinRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.skin === id));
+}
+document.querySelectorAll('#skinRow button').forEach(b => b.onclick = () => setSkin(b.dataset.skin));
 $('colorAcc').onclick = () => { colorAcc = !colorAcc; setColor(colorId); };
+$('tartanBtn').onclick = () => { tartan = !tartan; setColor(colorId); };
 document.querySelectorAll('#hairRow button').forEach(b => b.onclick = () => { hairStyle = +b.dataset.hair;
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x === b)); });
 cv.addEventListener('dblclick', () => { chest.kick = 1; });            // double-click: a little hop (the bust bounces)
@@ -262,7 +276,7 @@ async function open(id) {
   decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off');
   academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy');
   hairStyle = 0; $('hairRow').hidden = !P.has('Hair:: Style');
-  $('colorRow').hidden = !P.has('Hair:: Style'); colorId = 'purple'; document.querySelectorAll('#colorRow button[data-color]').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === 'purple'));
+  $('colorRow').hidden = $('skinRow').hidden = !P.has('Hair:: Style'); document.querySelectorAll('#skinRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.skin === 'base')); colorId = 'purple'; tartan = false; $('tartanBtn').setAttribute('aria-pressed', 'false'); document.querySelectorAll('#colorRow button[data-color]').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === 'purple'));
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.hair === '0'));
   settlePhysics();
   const b = P.bounds();
