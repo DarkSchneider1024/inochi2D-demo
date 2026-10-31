@@ -233,7 +233,7 @@ function setSkin(id) {
   // skin layers take the pale highlights too; below the thigh the legs are stockings, which never change (user: 膚色不要改到襪子)
   const SKIN_BODY = /^((學院|學院白)_)?(臉|脖子|肩膀|胸口|腿|內褲_肚子|閉眼|笑眼|怒眼|哀眼|羞眼|淘氣眼|鼻子)/;
   for (const n of P.parts) {
-    n.skin = SKINS[id] || null; n.skinMin = SKIN_BODY.test(n.name) ? 0.012 : 0.035;
+    n.skin = SKINS[id] || null; n.skinMin = SKIN_BODY.test(n.name) ? 0.012 : n.name === '胸部_手繪' ? 0.018 : 0.035;
     const leg = /腿_/.test(n.name), uv = leg ? n.mesh.uvs.filter((_, i) => i % 2) : null;
     n.skinCut = leg ? Math.min(...uv) + (n.name.startsWith('學院') ? 0.25 : 0.225) * (Math.max(...uv) - Math.min(...uv)) : 2;
   }
