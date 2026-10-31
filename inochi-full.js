@@ -363,13 +363,18 @@ export class Renderer {
     this.part = prog(`#version 300 es
       layout(location=0) in vec2 aPos; layout(location=1) in vec2 aUV; uniform vec4 uView; out vec2 vUV;
       void main(){ vUV=aUV; gl_Position=vec4(aPos.x*uView.x+uView.z, -(aPos.y*uView.y+uView.w), 0., 1.); }`, `#version 300 es
-      precision mediump float; in vec2 vUV; uniform sampler2D uTex; uniform float uOpacity, uThr;
+      precision mediump float; in vec2 vUV; uniform sampler2D uTex; uniform float uOpacity, uThr; uniform vec4 uHue;
       uniform vec3 uTint, uScreen; out vec4 o;
       void main(){ vec4 t = texture(uTex, vUV);
         // Creator meshes reach past the texture; inochi2d clamps to a transparent border, WebGL has no
         // CLAMP_TO_BORDER, so edge texels would smear into bars
         if (any(lessThan(vUV, vec2(0.))) || any(greaterThan(vUV, vec2(1.)))) t = vec4(0.);
         if (t.a <= uThr) discard;                                   // mask pass
+        if (uHue.y != 0. && t.a > 0.) {                             // n.hue (cos, sin, luma gain, chroma gain): only purple texels (YIQ angle ~95 deg) change
+          vec3 u = t.rgb / t.a; float Y = dot(u, vec3(.299, .587, .114)); vec2 c = vec2(dot(u, vec3(.596, -.274, -.322)), dot(u, vec3(.211, -.523, .312)));
+          float l = length(c), w = l < .005 ? 0. : smoothstep(.55, .8, dot(c, vec2(-.087, .996)) / l);
+          vec2 r = vec2(c.x * uHue.x - c.y * uHue.y, c.x * uHue.y + c.y * uHue.x) * uHue.w; Y *= mix(1., uHue.z, w); c = mix(c, r, w);
+          t.rgb = clamp(vec3(Y + .956 * c.x + .621 * c.y, Y - .272 * c.x - .647 * c.y, Y - 1.106 * c.x + 1.703 * c.y), 0., 1.) * t.a; }
         vec3 s = vec3(1.) - (vec3(1.) - t.rgb) * (vec3(1.) - uScreen * t.a);
         o = vec4(s, t.a) * vec4(uTint, 1.) * uOpacity; }`);
     this.quad = prog(`#version 300 es
@@ -379,7 +384,7 @@ export class Renderer {
         vec3 s = vec3(1.) - (vec3(1.) - t.rgb) * (vec3(1.) - uScreen * t.a);
         o = vec4(s, t.a) * vec4(uTint, 1.) * uOpacity; }`);
     const U = (p, ...names) => Object.fromEntries(names.map((n) => [n, gl.getUniformLocation(p, n)]));
-    this.u = U(this.part, 'uView', 'uTex', 'uOpacity', 'uThr', 'uTint', 'uScreen');
+    this.u = U(this.part, 'uView', 'uTex', 'uOpacity', 'uThr', 'uTint', 'uScreen', 'uHue');
     this.uq = U(this.quad, 'uTex', 'uOpacity', 'uTint', 'uScreen');
     this.quadVao = gl.createVertexArray(); gl.bindVertexArray(this.quadVao);
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
@@ -463,7 +468,7 @@ export class Renderer {
     gl.bindBuffer(gl.ARRAY_BUFFER, b.pos); gl.bufferSubData(gl.ARRAY_BUFFER, 0, n.pos);
     gl.bindTexture(gl.TEXTURE_2D, this.tex[ti]);
     gl.uniform1f(this.u.uThr, thr); gl.uniform1f(this.u.uOpacity, opacity);
-    gl.uniform3fv(this.u.uTint, n.tint || [1, 1, 1]); gl.uniform3fv(this.u.uScreen, n.screenTint || [0, 0, 0]);
+    gl.uniform3fv(this.u.uTint, n.tint || [1, 1, 1]); gl.uniform3fv(this.u.uScreen, n.screenTint || [0, 0, 0]); gl.uniform4fv(this.u.uHue, n.hue || [1, 0, 1, 1]);
     gl.drawElements(gl.TRIANGLES, b.count, gl.UNSIGNED_SHORT, 0);
   }
 

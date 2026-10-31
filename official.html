@@ -133,7 +133,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
     <section id="modelMoves" hidden aria-labelledby="modelMovesH">
     <h2 id="modelMovesH">模型動畫</h2>
-    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div></div>
+    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div><div class="row" id="colorRow" hidden><button data-color="purple" aria-pressed="true">💜 紫色</button><button data-color="pink" aria-pressed="false">🌸 粉色</button></div></div>
     <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
     <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div></div>
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
@@ -209,6 +209,13 @@ $('models').onchange = () => open($('models').value);
 $('decorBtn').onclick = () => { decorOff = !decorOff; $('decorBtn').setAttribute('aria-pressed', decorOff); };
 $('acadBtn').onclick = () => { academy = !academy; $('acadBtn').setAttribute('aria-pressed', academy); $('blazerBtn').hidden = !(academy && P.has('Outfit:: Blazer Off')); };
 $('blazerBtn').onclick = () => { blazerOff = !blazerOff; $('blazerBtn').setAttribute('aria-pressed', blazerOff); };
+// 換顏色 (2026-10-31 user: 紫色頭髮尾巴眉毛透過程式轉成粉色，新增換顏色選項): a shader hue shift on these layers, no extra textures
+const COLOR_PARTS = /^(後髮|側髮|頭頂髮|前髮|眉毛|貓耳|貓尾$)/, COLORS = { pink: [0.5, -0.866, 1.17, 1.9] };
+function setColor(id) {
+  for (const n of P.parts) if (COLOR_PARTS.test(n.name)) n.hue = COLORS[id] || null;
+  document.querySelectorAll('#colorRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === id));
+}
+document.querySelectorAll('#colorRow button').forEach(b => b.onclick = () => setColor(b.dataset.color));
 document.querySelectorAll('#hairRow button').forEach(b => b.onclick = () => { hairStyle = +b.dataset.hair;
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x === b)); });
 cv.addEventListener('dblclick', () => { chest.kick = 1; });            // double-click: a little hop (the bust bounces)
@@ -249,6 +256,7 @@ async function open(id) {
   decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off');
   academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy');
   hairStyle = 0; $('hairRow').hidden = !P.has('Hair:: Style');
+  $('colorRow').hidden = !P.has('Hair:: Style'); document.querySelectorAll('#colorRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === 'purple'));
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.hair === '0'));
   settlePhysics();
   const b = P.bounds();
