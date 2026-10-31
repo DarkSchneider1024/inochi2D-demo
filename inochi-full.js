@@ -374,6 +374,7 @@ export class Renderer {
           vec3 u = t.rgb / t.a; float Y = dot(u, vec3(.299, .587, .114)); vec2 c = vec2(dot(u, vec3(.596, -.274, -.322)), dot(u, vec3(.211, -.523, .312)));
           float l = length(c), w = l < .005 ? 0. : smoothstep(.55, .8, dot(c, vec2(-.087, .996)) / l);
           if (uHueMin > 0.) w *= smoothstep(uHueMin, uHueMin * 2., l);   // n.hueMin: pale tints (lavender shading on white cloth) stay
+          else if (uHueMin < 0.) w = max(w, 1. - smoothstep(.02, .05, l));   // negative: white cloth changes too
           vec2 r = vec2(c.x * uHue.x - c.y * uHue.y, c.x * uHue.y + c.y * uHue.x) * uHue.w; Y *= mix(1., uHue.z, w); c = mix(c, r, w);
           t.rgb = clamp(vec3(Y + .956 * c.x + .621 * c.y, Y - .272 * c.x - .647 * c.y, Y - 1.106 * c.x + 1.703 * c.y), 0., 1.) * t.a; }
         vec3 s = vec3(1.) - (vec3(1.) - t.rgb) * (vec3(1.) - uScreen * t.a);
