@@ -16,22 +16,6 @@
     "desc": "2026-10-30 與科學家共用骨架，每層 GPT 透明部件；外套前襬一整片、耳朵照原圖描。"
   },
   {
-    "id": "mr_carrot_v4",
-    "name": "卡洛特先生",
-    "file": "models/mr_carrot_v4.inp",
-    "thumb": "thumbs/mr_carrot_v4.png",
-    "noIdleArms": true,
-    "desc": "鬢髮在臉後、耳朵在臉前。靜態臉部 95.11 分（目標 99，未通過）；待重畫差異已記錄。"
-  },
-  {
-    "id": "gold_mage_gpt_v1",
-    "name": "金髮魔導學者（GPT 製作）",
-    "file": "models/gold_mage_gpt_v1.inp",
-    "thumb": "thumbs/gold_mage_gpt_v1.png",
-    "noIdleArms": true,
-    "desc": "依使用者參考圖製作：尖刺金髮、眼鏡、黑金長外套、魔法書與腰包。40 個主圖層、4 個表情圖層、19 個參數；九軸轉頭 ±15°、笑眼眨眼、啊／喔嘴型、呼吸、手肘與書本連動、衣襬與墜飾擺動。採 Inochi2D 網格模型；可編輯 PSD 與模型包見 README。"
-  },
-  {
     "id": "bobo",
     "name": "兔子波波",
     "file": "models/bobo.inp",
@@ -61,14 +45,6 @@
     "thumb": "thumbs/mr_carrot_lab_gold.png",
     "noIdleArms": true,
     "desc": "《卡洛特實驗室》版學霸卡洛特（變身金髮）：照正面圖手繪；頭髮用描圖法分成後髮／中髮／前髮三層（刺頭從髮根擺動、前髮下垂擺動），眼睛描無眼鏡圖、眼鏡描圖放最上層。雙手下垂、閉嘴壞笑，說話的嘴不露牙齒；九軸轉頭 ±22°、笑眼 ^ 眨眼、手臂關節、呼吸、腳步。"
-  },
-  {
-    "id": "mr_carrot_v2_gold",
-    "name": "學霸卡洛特（超級賽亞人金髮）",
-    "file": "models/mr_carrot_v2_gold.inp",
-    "thumb": "thumbs/mr_carrot_v2_gold.png",
-    "noIdleArms": true,
-    "desc": "學霸卡洛特（2026-10-19 新版頭）：卡洛特先生的金髮變身模式。身體沿用卡洛特先生，只換頭：依新官方形象圖（溫和笑臉、綠眼、細框眼鏡、立起的尖刺金髮），頭部裁切送 Gemini 網頁版做灰底對齊差分（素頭、無眼鏡、只有頭髮、啊／喔、笑眼），SAM＋LaMa 拆件；骨架、參數、動作與卡洛特先生相同。"
   },
   {
     "id": "carol_hand",
