@@ -204,8 +204,14 @@ for (const id of FEATURED_IDS) {
 }
 $('models').onchange = () => open($('models').value);
 $('decorBtn').onclick = () => { decorOff = !decorOff; $('decorBtn').setAttribute('aria-pressed', decorOff); };
-$('baseBtn').onclick = () => { baseFit = !baseFit; $('baseBtn').setAttribute('aria-pressed', baseFit); };
-$('acadBtn').onclick = () => { academy = !academy; $('acadBtn').setAttribute('aria-pressed', academy); $('blazerBtn').hidden = !(academy && P.has('Outfit:: Blazer Off')); };
+// (2026-10-31 user: 底圖沒有拆圖嗎) the base and the academy outfit are alternatives: both on showed two sets of arms and feet
+function pickOutfit(base, acad) {
+  baseFit = base; academy = acad;
+  $('baseBtn').setAttribute('aria-pressed', baseFit); $('acadBtn').setAttribute('aria-pressed', academy);
+  $('blazerBtn').hidden = !(academy && P.has('Outfit:: Blazer Off'));
+}
+$('baseBtn').onclick = () => pickOutfit(!baseFit, false);
+$('acadBtn').onclick = () => pickOutfit(false, !academy);
 $('blazerBtn').onclick = () => { blazerOff = !blazerOff; $('blazerBtn').setAttribute('aria-pressed', blazerOff); };
 // 換顏色 (2026-10-31 user: 紫色頭髮尾巴眉毛透過程式轉成粉色，新增換顏色選項): a shader hue shift on these layers, no extra textures
 const COLOR_PARTS = /^(後髮|側髮|頭頂髮|前髮|眉毛|貓耳|貓尾$)/, COLORS = { pink: [0.5, -0.866, 1.17, 1.9], tiffany: [-0.32, 0.947, 1.1, 2.9], aqua: [-0.023, 1, 1.17, 2.59], orange: [-0.174, -0.985, 1.17, 2.97], black: [1, 0.001, 0.28, 0.08] };
