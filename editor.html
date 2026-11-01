@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>圖層編輯 · Inochi2D Demo</title>
+<style>
+  :root { --bg: #f7efe8; --card: #fffdfb; --ink: #2d2436; --muted: #6f6479; --accent: #8a6fd1; --line: rgba(60,40,80,.16); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1d1826; --card: #2a2236; --ink: #efe8f6; --muted: #b3a8c2; --accent: #b39cf5; --line: rgba(255,255,255,.14); }
+  }
+  :root[data-theme="dark"] { --bg: #1d1826; --card: #2a2236; --ink: #efe8f6; --muted: #b3a8c2; --accent: #b39cf5; --line: rgba(255,255,255,.14); }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; display: flex; flex-direction: column; height: 100dvh; background: var(--bg); color: var(--ink); overflow: hidden;
+         font: 14px/1.45 system-ui, "Segoe UI", "Microsoft JhengHei", sans-serif; }
+  button, select, input[type=text] { font: inherit; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 8px; min-height: 36px; padding: 4px 10px; }
+  button { cursor: pointer; }
+  button:disabled { opacity: .45; cursor: default; }
+  button[aria-pressed=true] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 22%, var(--card)); }
+  .top { flex: none; display: flex; gap: 6px; padding: 8px 12px; align-items: center; overflow-x: auto; border-bottom: 1px solid var(--line); }
+  .top a { color: var(--muted); white-space: nowrap; text-decoration: none; }
+  .top select { min-width: 150px; max-width: 220px; }
+  .top button { flex: none; }
+  .primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .work { flex: 1; min-height: 0; display: flex; }
+  .stage { position: relative; flex: 1; min-width: 0; min-height: 0; touch-action: none; overflow: hidden;
+           background: repeating-conic-gradient(#d8d4dc 0 25%, #f4f2f5 0 50%) 0 0 / 24px 24px; }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hint { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); background: var(--card); padding: 10px 16px; border-radius: 10px; max-width: 86%; text-align: center; }
+  .toast { position: absolute; left: 12px; right: 12px; bottom: 12px; pointer-events: none; display: flex; justify-content: center; }
+  .toast span { background: var(--ink); color: var(--bg); padding: 6px 12px; border-radius: 8px; }
+  .panel { flex: none; width: 340px; display: flex; flex-direction: column; border-left: 1px solid var(--line); background: var(--card); min-height: 0; }
+  .tabs { flex: none; display: flex; border-bottom: 1px solid var(--line); }
+  .tabs button { flex: 1; border: 0; border-radius: 0; background: none; color: var(--muted); }
+  .tabs button[aria-pressed=true] { color: var(--ink); box-shadow: inset 0 -2px var(--accent); }
+  .pane { flex: 1; min-height: 0; overflow: auto; padding: 10px 12px; display: none; flex-direction: column; gap: 8px; }
+  .pane.on { display: flex; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .grid button { padding: 4px 2px; }
+  .wide { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  label.f { display: grid; grid-template-columns: 76px 1fr 44px; gap: 6px; align-items: center; color: var(--muted); }
+  label.c { display: flex; gap: 6px; align-items: center; color: var(--muted); min-height: 32px; }
+  label.f input[type=range] { width: 100%; }
+  output { text-align: right; font-variant-numeric: tabular-nums; }
+  h2 { font-size: 13px; color: var(--muted); font-weight: 600; margin: 6px 0 0; }
+  p.n { margin: 0; color: var(--muted); font-size: 12px; }
+  .list { flex: 1 0 140px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+  .row { display: flex; gap: 6px; align-items: center; padding: 3px 6px; cursor: pointer; }
+  .row.sel { background: color-mix(in srgb, var(--accent) 24%, transparent); }
+  .row canvas { width: 30px; height: 30px; flex: none; background: repeating-conic-gradient(#ccc 0 25%, #fff 0 50%) 0 0 / 10px 10px; border-radius: 3px; }
+  .row .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row .tag { color: var(--muted); font-size: 11px; flex: none; }
+  .row input { width: 18px; height: 18px; flex: none; margin: 0; }
+  dialog { border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--ink); padding: 12px; width: min(760px, 94vw); max-height: 92dvh; }
+  dialog canvas { width: 100%; height: 56dvh; display: block; background: repeating-conic-gradient(#d8d4dc 0 25%, #f4f2f5 0 50%) 0 0 / 24px 24px; border-radius: 8px; }
+  .prev { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  @media (max-width: 760px) {
+    .work { flex-direction: column; }
+    .panel { width: 100%; height: 42dvh; border-left: 0; border-top: 1px solid var(--line); }
+    button, select { min-height: 44px; }
+    .top { padding: 6px 12px; flex-wrap: wrap; overflow: visible; }
+    .top a { display: none; }
+    .top select { flex: 1 1 100%; max-width: none; }
+    .top button { flex: 1 1 auto; padding: 4px 6px; }
+    .stage { min-height: 30dvh; }
+    .panel { height: 36dvh; }
+  }
+</style>
+</head>
+<body>
+<div class="top">
+  <a href="layers.html">← 圖層檢查</a>
+  <select id="model" aria-label="選擇模型"><option value="">選擇模型…</option></select>
+  <button id="openBtn">開啟檔案</button>
+  <input id="openFile" type="file" accept=".inp,.inx" hidden>
+  <button id="undo" disabled>復原</button>
+  <button id="redo" disabled>重做</button>
+  <button id="fit" disabled>全身</button>
+  <button id="preview" disabled>動態預覽</button>
+  <button id="saveInp" class="primary" disabled>儲存 .inp</button>
+  <button id="saveInx" disabled>儲存 .inx</button>
+</div>
+<div class="work">
+  <div class="stage" id="stage">
+    <canvas id="cv"></canvas>
+    <div class="hint" id="hint">先選一個模型，或開啟 .inp／.inx 檔</div>
+    <div class="toast"><span id="toast" hidden></span></div>
+  </div>
+  <div class="panel">
+    <div class="tabs">
+      <button data-tab="tools" aria-pressed="true">工具</button>
+      <button data-tab="layers" aria-pressed="false">圖層</button>
+      <button data-tab="base" aria-pressed="false">底圖</button>
+    </div>
+    <div class="pane on" id="tab-tools">
+      <div class="grid" id="tools">
+        <button data-tool="hand" aria-pressed="true">移動畫面</button>
+        <button data-tool="brush">筆刷</button>
+        <button data-tool="erase">橡皮擦</button>
+        <button data-tool="clone">補底圖</button>
+        <button data-tool="dropper">滴管</button>
+        <button data-tool="layer">點選圖層</button>
+        <button data-tool="rect">方形選取</button>
+        <button data-tool="lasso">手繪選取</button>
+        <button data-tool="move">移動內容</button>
+        <button data-tool="movebase">移動底圖</button>
+      </div>
+      <label class="f">大小<input id="size" type="range" min="1" max="200" value="24"><output id="sizeO">24</output></label>
+      <label class="f">硬度<input id="hard" type="range" min="0" max="100" value="80"><output id="hardO">80</output></label>
+      <label class="f">不透明<input id="flow" type="range" min="1" max="100" value="100"><output id="flowO">100</output></label>
+      <label class="f">顏色<input id="color" type="color" value="#3a2a4a"><output></output></label>
+      <label class="c"><input id="lockA" type="checkbox">鎖定透明：只改顏色，不改形狀</label>
+      <h2>選取範圍</h2>
+      <div class="wide">
+        <button id="fromBase" disabled>底圖切成新圖層</button>
+        <button id="cutLayer" disabled>剪下成新圖層</button>
+        <button id="copyLayer" disabled>複製成新圖層</button>
+        <button id="clearSel" disabled>清除選取內容</button>
+        <button id="dropSel" disabled>取消選取</button>
+      </div>
+      <p class="n" id="followNote">先選一個圖層，新圖層會跟著它動。</p>
+    </div>
+    <div class="pane" id="tab-layers">
+      <input id="find" type="text" placeholder="搜尋圖層" aria-label="搜尋圖層">
+      <div class="list" id="list"></div>
+      <div class="wide">
+        <button id="up" disabled>往上一層</button>
+        <button id="down" disabled>往下一層</button>
+        <button id="grow" disabled>擴大範圍 40px</button>
+        <button id="del" disabled>刪除圖層</button>
+        <button id="exportPng" disabled>匯出這層 PNG</button>
+        <button id="importPng" disabled>匯入 PNG 取代</button>
+      </div>
+      <input id="pngFile" type="file" accept="image/*" hidden>
+      <input id="rename" type="text" placeholder="圖層名稱" aria-label="圖層名稱" disabled>
+      <label class="c"><input id="solo" type="checkbox">只顯示目前圖層</label>
+    </div>
+    <div class="pane" id="tab-base">
+      <button id="baseBtn">載入底圖</button>
+      <input id="baseFile" type="file" accept="image/*" hidden>
+      <div class="wide">
+        <button id="baseFit" disabled>對齊模型高度</button>
+        <button id="baseComp" disabled>用目前畫面當底圖</button>
+        <button id="baseDrop" disabled>移除底圖</button>
+      </div>
+      <label class="f">底圖濃度<input id="baseA" type="range" min="0" max="100" value="100"><output id="baseAO">100</output></label>
+      <label class="f">圖層濃度<input id="layerA" type="range" min="0" max="100" value="100"><output id="layerAO">100</output></label>
+      <label class="f">底圖縮放<input id="baseS" type="range" min="5" max="400" value="100"><output id="baseSO">100</output></label>
+      <p class="n">底圖永遠在所有圖層下面，不會存進模型。用「移動底圖」拖到位置，再用選取工具切成新圖層。</p>
+    </div>
+  </div>
+</div>
+<dialog id="dlg">
+  <canvas id="pv"></canvas>
+  <div class="prev">
+    <select id="pvParam" aria-label="參數"></select>
+    <label class="f">X<input id="pvX" type="range" min="0" max="1" step="0.01"><output></output></label>
+    <label class="f">Y<input id="pvY" type="range" min="0" max="1" step="0.01"><output></output></label>
+    <div class="wide"><button id="pvReset">全部歸零</button><button id="pvClose">關閉</button></div>
+  </div>
+</dialog>
+<script type="module" src="editor.js"></script>
+</body>
+</html>
