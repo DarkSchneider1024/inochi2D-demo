@@ -714,7 +714,7 @@ $('model').onchange = () => { if ($('model').value) loadById($('model').value); 
 $('saveInp').onclick = () => save('inp'); $('saveInx').onclick = () => save('inx');
 $('preview').onclick = preview;
 $('pvParam').onchange = syncParam;
-const pvSet = () => { const p = P.params[+$('pvParam').value]; P.set(p.name, +$('pvX').value, +$('pvY').value); };
+const pvSet = () => { const p = P.params[+$('pvParam').value]; if (p.is_vec2) P.set(p.name, +$('pvX').value, +$('pvY').value); else P.set(p.name, +$('pvX').value); };
 $('pvX').oninput = pvSet; $('pvY').oninput = pvSet;
 $('pvReset').onclick = () => { P.reset(); syncParam(); };
 $('pvClose').onclick = () => { pvRun = false; $('dlg').close(); };
