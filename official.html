@@ -157,7 +157,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
       <div class="sc-row"><select id="scList" aria-label="已儲存的腳本"></select><button id="scDel">刪除</button></div>
       <label class="sc-note" for="scJson">腳本內容（可複製保存，或貼上後按載入）</label>
       <textarea id="scJson" rows="4" spellcheck="false"></textarea>
-      <div class="row"><button id="scCopy">複製腳本</button><button id="scLoad">載入腳本</button></div>
+      <div class="row"><button id="scCopy">複製腳本</button><button id="scLoad">載入腳本</button><button id="scExport">匯出檔案</button></div>
     </div>
 
     </section>
@@ -716,8 +716,8 @@ const SC_DEMO = () => ({ name: '嚇一大跳', loop: true, steps: [
   scStep({ dur: 2.2, eyes: scTrack('shock'), mouth: scTrack('shock'), blush: scTrack('1'), chest: { from: 'top', amp: 1, hz: 2.2, decay: 0.8 }, jump: 1, arms: 0.6, head: { tilt: 0, turn: 0, nod: 0.1, hz: 6 } }),
   scStep({ eyes: scTrack(), mouth: scTrack('tongue'), blush: scTrack('1'), head: { tilt: -0.25, turn: 0, nod: 0, hz: 6 } }),
   scStep({ eyes: scTrack('shy'), mouth: scTrack('tongue'), blush: scTrack('3'), head: { tilt: 0.35, turn: 0.4, nod: 0, hz: 6 } })] });
-const sc = { on: false, t0: 0, touched: new Set(), now: -1, s: { name: '', loop: true, steps: [scStep()] } };
-function stopScript() { if (!sc.on) return; sc.on = false; sc.now = -1; handBack(sc); $('scPlay').textContent = '▶ 播放'; showNow(); }
+const sc = { on: false, hold: -1, peek: null, t0: 0, touched: new Set(), now: -1, s: { name: '', loop: true, steps: [scStep()] } };
+function stopScript() { if (!sc.on) return; sc.on = false; sc.hold = -1; sc.peek = null; sc.now = -1; handBack(sc); $('scPlay').textContent = '▶ 播放'; showNow(); }
 const scPick = (tr, u) => (tr.b !== '-' && tr.b !== undefined && tr.hz > 0 && Math.floor(u * tr.hz) % 2 ? tr.b : tr.a);
 const scHop = K2([[0, 0], [0.07, -1], [0.15, -1], [0.24, 0.22], [0.42, 0]]);
 function K2(k) {
@@ -728,11 +728,16 @@ function applyScript() {
   if (!sc.on) return;
   if (act.a || gest.a || feel.want) { stopScript(); return; }
   const st = sc.s.steps, total = st.reduce((a, s) => a + s.dur, 0);
-  let t = time - sc.t0;
-  if (t >= total) { if (!sc.s.loop) { stopScript(); return; } sc.t0 += total * Math.floor(t / total); t = time - sc.t0; }
-  let i = 0; while (i < st.length - 1 && t >= st[i].dur) t -= st[i++].dur;
+  let t = time - sc.t0, i = 0;
+  if (sc.hold >= 0) { i = Math.min(sc.hold, st.length - 1); t %= st[i].dur; }   // (2026-11-01 user: 點選換了之後要馬上渲染瀏覽) the edited step loops alone
+  else {
+    if (t >= total) { if (!sc.s.loop) { stopScript(); return; } sc.t0 += total * Math.floor(t / total); t = time - sc.t0; }
+    while (i < st.length - 1 && t >= st[i].dur) t -= st[i++].dur;
+  }
   if (i !== sc.now) { sc.now = i; showNow(); }
-  const s = st[i], u = t, out = { ...SC_EYES[scPick(s.eyes, u)]?.[1], ...SC_MOUTHS[scPick(s.mouth, u)]?.[1], ...SC_BLUSH[scPick(s.blush, u)]?.[1] };
+  const s = st[i], u = t;
+  const look_ = (key, map) => map[sc.peek?.key === key && time < sc.peek.until ? sc.peek.v : scPick(s[key], u)]?.[1];   // a just-picked 換成 shows for a moment
+  const out = { ...look_('eyes', SC_EYES), ...look_('mouth', SC_MOUTHS), ...look_('blush', SC_BLUSH) };
   if (s.chest.from) {          // starts at its peak (top or bottom), each swing smaller; Chest:: Startle is free of the page's spring
     const w = 2 * Math.PI * s.chest.hz, e = Math.pow(s.chest.decay, 2 * s.chest.hz * u) * clamp(u / 0.07, 0, 1) * clamp((s.dur - u) / 0.15, 0, 1);
     out['Chest:: Startle'] = (s.chest.from === 'top' ? -1 : 1) * s.chest.amp * Math.cos(w * u) * e;
@@ -780,8 +785,15 @@ function scSync() { $('scJson').value = JSON.stringify(sc.s); $('scName').value 
 function scStored() { try { return JSON.parse(localStorage.getItem('linda.scripts') || '{}'); } catch { return {}; } }
 function scStore(o) { try { localStorage.setItem('linda.scripts', JSON.stringify(o)); } catch { $('scStatus').textContent = '這個瀏覽器不能儲存，請改用「複製腳本」。'; } }
 function scListUI() { const o = scStored(); $('scList').innerHTML = '<option value="">開啟已儲存的腳本…</option>' + Object.keys(o).map((n) => `<option>${n.replace(/</g, '&lt;')}</option>`).join(''); }
-function scPlay() { feel.want = ''; act.a = gest.a = ''; stopMoveTour(); press($('feels'), ''); sc.t0 = time; sc.on = true; $('scPlay').textContent = '■ 停止'; }
-$('scPlay').onclick = () => { if (!P) return; if (sc.on) stopScript(); else scPlay(); };
+function scTakeOver() { feel.want = ''; act.a = gest.a = ''; stopMoveTour(); press($('feels'), ''); sc.on = true; }
+function scPlay() { scTakeOver(); sc.hold = -1; sc.peek = null; sc.t0 = time; $('scPlay').textContent = '■ 停止'; }
+function scPreview(i, restart) {
+  if (!P) return;
+  scTakeOver(); if (sc.hold !== i) restart = true;
+  sc.hold = i; if (restart) sc.t0 = time;
+  $('scPlay').textContent = '▶ 播全部'; $('scStatus').textContent = `預覽第 ${i + 1} 段中。按「播全部」看整支腳本。`;
+}
+$('scPlay').onclick = () => { if (!P) return; if (sc.on && sc.hold < 0) stopScript(); else scPlay(); };
 $('scLoop').onclick = () => { sc.s.loop = !sc.s.loop; scSync(); };
 $('scAdd').onclick = () => { sc.s.steps.push(scStep()); scRender(); };
 $('scDemo').onclick = () => { sc.s = SC_DEMO(); scRender(); scPlay(); };
@@ -799,15 +811,34 @@ $('scSteps').oninput = (e) => {
   o[k] = e.target.tagName === 'SELECT' ? e.target.value : e.target.dataset.p === 'dur' ? Math.max(0.2, +e.target.value || 0.2) : +e.target.value;
   const out = e.target.previousElementSibling?.querySelector?.('output'); if (out) out.textContent = e.target.value;
   $('scJson').value = JSON.stringify(sc.s);
+  sc.peek = k === 'b' && e.target.value !== '-' ? { key: ks[0], v: e.target.value, until: time + 1 } : null;
+  scPreview(+e.target.closest('.sc-step').dataset.i, e.target.type !== 'range');
 };
+$('scSteps').onchange = (e) => { if (e.target.type === 'range') sc.t0 = time; };   // a slider let go replays the step (jump, chest swing)
 $('scName').oninput = () => { sc.s.name = $('scName').value; $('scJson').value = JSON.stringify(sc.s); };
 $('scSave').onclick = () => { const n = $('scName').value.trim(); if (!n) { $('scStatus').textContent = '請先輸入腳本名稱。'; return; } const o = scStored(); o[n] = sc.s; scStore(o); scListUI(); $('scStatus').textContent = `已儲存「${n}」（存在這個瀏覽器）。`; };
 $('scDel').onclick = () => { const n = $('scList').value; if (!n) return; const o = scStored(); delete o[n]; scStore(o); scListUI(); };
 $('scList').onchange = () => { const o = scStored()[$('scList').value]; if (o) { sc.s = o; scRender(); } };
 $('scCopy').onclick = async () => { $('scJson').select(); try { await navigator.clipboard.writeText($('scJson').value); $('scStatus').textContent = '腳本已複製。'; } catch { $('scStatus').textContent = '無法自動複製，請手動複製上方內容。'; } };
+// (2026-11-01 user: 將儲存的腳本做成可以匯出 之後請ai做成固定動作) the file names every option's params, so it can be baked without this page
+// (format: doc/角色模型/Linda喵.md)
+function scExportData() {
+  const saved = scStored(), scripts = Object.keys(saved).length ? Object.entries(saved).map(([n, s]) => ({ ...s, name: n })) : [sc.s];
+  const vocab = (m) => Object.fromEntries(Object.entries(m).map(([k, v]) => [k, { label: v[0], params: v[1] }]));
+  return { format: 'linda-action-script', version: 1, model: 'linda_nyan', exported: new Date().toISOString(), vocab: { eyes: vocab(SC_EYES), mouth: vocab(SC_MOUTHS), blush: vocab(SC_BLUSH) }, scripts };
+}
+$('scExport').onclick = () => {
+  const d = scExportData(), text = JSON.stringify(d, null, 1);
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+  a.download = `linda-action-scripts-${d.exported.slice(0, 10)}.json`; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+  $('scJson').value = text;
+  $('scStatus').textContent = `已匯出 ${d.scripts.length} 支腳本。手機沒有下載時，可按「複製腳本」。`;
+};
 $('scLoad').onclick = () => {
   try {
-    const o = JSON.parse($('scJson').value);
+    let o = JSON.parse($('scJson').value);
+    if (o.format === 'linda-action-script') { const st = scStored(); for (const x of o.scripts) if (x.name) st[x.name] = x; scStore(st); scListUI(); o = o.scripts[0]; }
     if (!Array.isArray(o.steps) || !o.steps.length) throw 0;
     o.steps = o.steps.map((s) => { const d = scStep(); return { ...d, ...s, eyes: { ...d.eyes, ...s.eyes }, mouth: { ...d.mouth, ...s.mouth }, blush: { ...d.blush, ...s.blush }, chest: { ...d.chest, ...s.chest }, head: { ...d.head, ...s.head } }; });
     sc.s = { name: o.name || '', loop: o.loop !== false, steps: o.steps }; scRender(); $('scStatus').textContent = '腳本已載入。';
