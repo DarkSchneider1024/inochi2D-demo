@@ -133,6 +133,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <div class="row">
       <button class="primary" id="shake">🌀 晃動展示</button>
       <button id="qaRun" title="逐格大晃動檢核：固定每格 1/30 秒跑一次晃動展示（含真物理），每 0.1 秒擷取一張，最後把所有物理零件從 −1 掃到 +1、頭轉到四個角；自動找殘塊、破洞、半透明重影。先選一個表情，就會疊著那個表情檢查。">📸 逐格檢核</button>
+      <button id="alignRun" title="細節座標對位：比對每張 GPT 表情底圖和模型臉框的大小與位置，列出對位疑點。">📐 細節座標對位</button>
       <button id="reset">↺ 重設參數</button>
       <button id="snap">📸 存圖</button>
       <a id="layersBtn" class="btn" href="layers.html" title="打開這個角色的拆圖整合圖：逐層看（包含被上層蓋住的部分）與單圖層疑點檢查" style="display:none">🧩 分層檢視</a>
@@ -146,7 +147,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
     <section id="modelMoves" hidden aria-labelledby="modelMovesH">
     <h2 id="modelMovesH">模型動畫</h2>
-    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="baseBtn" aria-pressed="false" hidden>🩱 底圖</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="xmasBtn" aria-pressed="false" hidden>🎄 聖誕換裝</button><button id="deerBtn" aria-pressed="false" hidden>🦌 聖誕麋鹿裝</button><button id="hatBtn" aria-pressed="false" hidden>🧙 魔法帽</button><button id="hairDownBtn" aria-pressed="false" hidden>💇 放下長髮</button><button id="ponyBtn" aria-pressed="false" hidden>🎀 單馬尾</button><button id="foreBtn" aria-pressed="false" hidden>🎀 露額長髮</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button><button id="bustBtn" aria-pressed="false" hidden>🍑 胸部加大</button></div><div id="wearRows" hidden></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div><div class="row" id="colorRow" hidden><button data-color="purple" aria-pressed="true">💜 紫色</button><button data-color="pink" aria-pressed="false">🌸 粉色</button><button data-color="tiffany" aria-pressed="false">🩵 蒂芬妮綠</button><button data-color="aqua" aria-pressed="false">💧 水藍</button><button data-color="orange" aria-pressed="false">🍊 橘色</button><button data-color="black" aria-pressed="false">🖤 純黑</button><button id="colorAcc" aria-pressed="true">🎀 配件一起換</button><button id="tartanBtn" aria-pressed="false">🏴 學院風：蘇格蘭配色</button></div><div class="row" id="eyeRow" hidden><button data-eye="purple" aria-pressed="true">👁 紫瞳</button><button data-eye="pink" aria-pressed="false">粉瞳</button><button data-eye="green" aria-pressed="false">綠瞳</button><button data-eye="blue" aria-pressed="false">藍瞳</button><button data-eye="amber" aria-pressed="false">琥珀瞳</button><button data-eye="red" aria-pressed="false">紅瞳</button></div><div class="row" id="skinRow" hidden><button data-skin="base" aria-pressed="true">🧑 原膚色</button><button data-skin="porcelain" aria-pressed="false">瓷白</button><button data-skin="rosy" aria-pressed="false">粉嫩</button><button data-skin="wheat" aria-pressed="false">小麥</button><button data-skin="honey" aria-pressed="false">蜜棕</button><button data-skin="deep" aria-pressed="false">深棕</button></div></div>
+    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="baseBtn" aria-pressed="false" hidden>🩱 底圖</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="xmasBtn" aria-pressed="false" hidden>🎄 聖誕換裝</button><button id="deerBtn" aria-pressed="false" hidden>🦌 聖誕麋鹿裝</button><button id="hatBtn" aria-pressed="false" hidden>🧙 魔法帽</button><button id="hairDownBtn" aria-pressed="false" hidden>💇 放下長髮</button><button id="ponyBtn" aria-pressed="false" hidden>🎀 單馬尾</button><button id="foreBtn" aria-pressed="false" hidden>🎀 露額長髮</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button><button id="bustBtn" aria-pressed="false" hidden>🍑 胸部加大</button></div><div id="wearRows" hidden></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="0.875" aria-pressed="false">✨ 俐落短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div><div class="row" id="colorRow" hidden><button data-color="purple" aria-pressed="true">💜 紫色</button><button data-color="pink" aria-pressed="false">🌸 粉色</button><button data-color="tiffany" aria-pressed="false">🩵 蒂芬妮綠</button><button data-color="aqua" aria-pressed="false">💧 水藍</button><button data-color="orange" aria-pressed="false">🍊 橘色</button><button data-color="black" aria-pressed="false">🖤 純黑</button><button id="colorAcc" aria-pressed="true">🎀 配件一起換</button><button id="tartanBtn" aria-pressed="false">🏴 學院風：蘇格蘭配色</button></div><div class="row" id="eyeRow" hidden><button data-eye="purple" aria-pressed="true">👁 紫瞳</button><button data-eye="pink" aria-pressed="false">粉瞳</button><button data-eye="green" aria-pressed="false">綠瞳</button><button data-eye="blue" aria-pressed="false">藍瞳</button><button data-eye="amber" aria-pressed="false">琥珀瞳</button><button data-eye="red" aria-pressed="false">紅瞳</button></div><div class="row" id="skinRow" hidden><button data-skin="base" aria-pressed="true">🧑 原膚色</button><button data-skin="porcelain" aria-pressed="false">瓷白</button><button data-skin="rosy" aria-pressed="false">粉嫩</button><button data-skin="wheat" aria-pressed="false">小麥</button><button data-skin="honey" aria-pressed="false">蜜棕</button><button data-skin="deep" aria-pressed="false">深棕</button></div></div>
     <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
     <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div></div>
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
@@ -187,6 +188,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
 import { loadINP, Puppet, Renderer } from './inochi-full.js';
 import { FEEL, stageEmote } from './feel.js';
 import { showQA, grab } from './shake-qa.js';
+import { showAlign } from './align-qa.js';
 import { mobilePanel } from './mobile-panel.js';
 import { lipTarget, lipStep, isMidMouth } from './lipsync.js';
 const talkMouth = { open: 0, form: 0 };
@@ -444,7 +446,7 @@ const chest = { x1: mk(), x2: mk(), y1: mk(), y2: mk(), prevY: 0, prevBr: 0.5, p
 let decorOff = false;
 // 學院風換裝 (2026-10-30, Linda喵): Outfit:: Academy swaps the dress for the academy uniform
 let academy = false, blazerOff = false, baseFit = false, bigBust = false;
-// 換髮型 (2026-10-30, Linda喵): Hair:: Style 0 放下來 / .25 無長髮 / .5 綁馬尾 / .75 短髮 / 1 瀏海上綁
+// 換髮型 (2026-10-30, Linda喵): Hair:: Style 0 放下來 / .25 無長髮 / .5 綁馬尾 / .75 短髮 / .875 俐落短髮 / 1 瀏海上綁
 let hairStyle = 0;
 function drivenNow() {
   const s = new Set();
@@ -1067,6 +1069,7 @@ async function runQA() {
                   note: '晃動展示每格固定 1/30 秒（含物理）每 0.1 秒一張，最後是物理零件 −1→+1 與頭轉四角的極限掃描（標［極限］）。' });
 }
 $('qaRun').onclick = runQA;
+$('alignRun').onclick = () => showAlign({ id: model.id, name: model.name });
 $('reset').onclick = () => { if (!P) return; stopMoveTour(); P.reset(); manual.clear(); for (const s of sliders) s.inp.value = s.p.value[s.ax]; settlePhysics(); refreshAutoMarks(); };
 $('snap').onclick = () => { const a = document.createElement('a'); a.download = `${model.id}.png`; a.href = cv.toDataURL('image/png'); a.click(); };
 

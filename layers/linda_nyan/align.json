@@ -1,0 +1,222 @@
+{
+ "model": "linda_nyan",
+ "rest": {
+  "head": 681,
+  "chin": 827,
+  "cx": 467.5
+ },
+ "tol": {
+  "scale": 0.02,
+  "px": 8
+ },
+ "items": [
+  {
+   "id": "tongue",
+   "name": "吐舌",
+   "scale": 1.131,
+   "fit": [
+    1.0
+   ],
+   "left": 0.131,
+   "dx": -8.5,
+   "chin": 3,
+   "parts": 1,
+   "status": "suspect",
+   "img": "align_tongue.webp",
+   "head": 602,
+   "base_chin": 824
+  },
+  {
+   "id": "sad",
+   "name": "難過",
+   "scale": 1.122,
+   "fit": [
+    1.0
+   ],
+   "left": 0.122,
+   "dx": -5.0,
+   "chin": 2,
+   "parts": 3,
+   "status": "suspect",
+   "img": "align_sad.webp",
+   "head": 607,
+   "base_chin": 825
+  },
+  {
+   "id": "angry",
+   "name": "生氣",
+   "scale": 1.1,
+   "fit": [
+    1.0
+   ],
+   "left": 0.1,
+   "dx": -3.0,
+   "chin": 16,
+   "parts": 4,
+   "status": "suspect",
+   "img": "align_angry.webp",
+   "head": 619,
+   "base_chin": 811
+  },
+  {
+   "id": "cry",
+   "name": "哭羞",
+   "scale": 1.086,
+   "fit": [
+    1.0
+   ],
+   "left": 0.086,
+   "dx": 4.0,
+   "chin": 27,
+   "parts": 7,
+   "status": "suspect",
+   "img": "align_cry.webp",
+   "head": 627,
+   "base_chin": 800
+  },
+  {
+   "id": "tease",
+   "name": "淘氣",
+   "scale": 1.086,
+   "fit": [
+    1.0
+   ],
+   "left": 0.086,
+   "dx": -4.0,
+   "chin": 12,
+   "parts": 3,
+   "status": "suspect",
+   "img": "align_tease.webp",
+   "head": 627,
+   "base_chin": 815
+  },
+  {
+   "id": "closed",
+   "name": "閉眼",
+   "scale": 1.084,
+   "fit": [
+    1.0
+   ],
+   "left": 0.084,
+   "dx": -2.5,
+   "chin": 5,
+   "parts": 2,
+   "status": "suspect",
+   "img": "align_closed.webp",
+   "head": 628,
+   "base_chin": 822
+  },
+  {
+   "id": "wide",
+   "name": "睜大眼",
+   "scale": 1.084,
+   "fit": [
+    1.0
+   ],
+   "left": 0.084,
+   "dx": -3.5,
+   "chin": 1,
+   "parts": 2,
+   "status": "suspect",
+   "img": "align_wide.webp",
+   "head": 628,
+   "base_chin": 826
+  },
+  {
+   "id": "happy",
+   "name": "開心",
+   "scale": 1.076,
+   "fit": [
+    1.0
+   ],
+   "left": 0.076,
+   "dx": -23.0,
+   "chin": 5,
+   "parts": 2,
+   "status": "suspect",
+   "img": "align_happy.webp",
+   "head": 633,
+   "base_chin": 822
+  },
+  {
+   "id": "shock",
+   "name": "驚嚇",
+   "scale": 1.071,
+   "fit": [
+    1.0
+   ],
+   "left": 0.071,
+   "dx": -3.5,
+   "chin": 68,
+   "parts": 4,
+   "status": "suspect",
+   "img": "align_shock.webp",
+   "head": 636,
+   "base_chin": 759
+  },
+  {
+   "id": "fang",
+   "name": "淘氣虎牙",
+   "scale": 1.054,
+   "fit": [
+    1.0
+   ],
+   "left": 0.054,
+   "dx": -3.5,
+   "chin": 1,
+   "parts": 2,
+   "status": "suspect",
+   "img": "align_fang.webp",
+   "head": 646,
+   "base_chin": 826
+  },
+  {
+   "id": "shy",
+   "name": "害羞",
+   "scale": 1.051,
+   "fit": [
+    1.0
+   ],
+   "left": 0.051,
+   "dx": -14.5,
+   "chin": 19,
+   "parts": 2,
+   "status": "suspect",
+   "img": "align_shy.webp",
+   "head": 648,
+   "base_chin": 808
+  },
+  {
+   "id": "slit",
+   "name": "瞇眼",
+   "scale": 1.051,
+   "fit": [
+    1.0
+   ],
+   "left": 0.051,
+   "dx": -23.5,
+   "chin": 2,
+   "parts": 2,
+   "status": "suspect",
+   "img": "align_slit.webp",
+   "head": 648,
+   "base_chin": 825
+  },
+  {
+   "id": "glare",
+   "name": "怒瞪",
+   "scale": 1.126,
+   "fit": [
+    1.128
+   ],
+   "left": -0.002,
+   "dx": 0,
+   "chin": 0,
+   "parts": 5,
+   "status": "ok",
+   "img": "align_glare.webp",
+   "head": 605,
+   "base_chin": 792
+  }
+ ]
+}
