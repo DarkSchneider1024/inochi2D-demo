@@ -345,7 +345,7 @@ async function open(id) {
   buildPhys();
   buildLayers();
   buildMoves();
-  decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off') && !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); $('decorBtn').hidden = !P.has('Outfit:: Decor Off'); $('decorBtn').textContent = P.has('Outfit:: Hat') ? '🎀 拿掉飾品' : '🎀 拿掉裝飾（蝴蝶結、頸圈）'; carolStyle.hat = false; carolStyle.hair = ''; showStyle(); $('hatBtn').hidden = !P.has('Outfit:: Hat'); $('hairDownBtn').hidden = !P.has('Outfit:: Hair Down'); $('ponyBtn').hidden = !P.has('Outfit:: Ponytail'); $('foreBtn').hidden = !P.has('Outfit:: Forehead');
+  decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off') && !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); $('decorBtn').hidden = !P.has('Outfit:: Decor Off'); $('decorBtn').textContent = P.has('Outfit:: Hat') ? '🎀 拿掉飾品' : '🎀 拿掉裝飾（蝴蝶結、頸圈）'; carolStyle.hat = false; carolStyle.hair = ''; showStyle(); $('hatBtn').hidden = !P.has('Outfit:: Hat'); $('hairDownBtn').hidden = !P.has('Outfit:: Hair Down'); $('ponyBtn').hidden = !P.has('Outfit:: Ponytail'); $('foreBtn').hidden = true;
   baseFit = false; $('baseBtn').hidden = !P.has('Mix:: Top:: Off'); $('wearRows').hidden = !P.has('Mix:: Top:: Off'); for (const k in wear) wear[k] = 0; $('sunBtn').hidden = !P.has('Mix:: Top:: Sun'); for (const b of document.querySelectorAll('#wearRows [data-sun]')) b.hidden = !P.has('Mix:: Top:: Sun');
   bigBust = false; $('bustBtn').setAttribute('aria-pressed', 'false'); $('bustBtn').hidden = !P.has('Body:: Bust');
   academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); showWear(); xmasOn = false; deerOn = false; showXmas(); $('xmasBtn').hidden = !P.has('Outfit:: Christmas'); $('deerBtn').hidden = !P.has('Outfit:: Reindeer'); if (P.has('Outfit:: Reindeer') || P.has('Outfit:: Christmas')) $('decorSec').hidden = false;
@@ -914,8 +914,7 @@ async function loadRef(id) {
 function refKey() {
   if (deerOn) return 'deer';
   if (xmasOn) return 'xmas';
-  if (carolStyle.hair === 'fore' && !academy) return 'fore';
-  if (!academy) return '';
+    if (!academy) return '';
   if (blazerOff) return 'shirt';
   if (carolStyle.hair === 'pony') return 'acPony';
   return carolStyle.hair === 'down' || carolStyle.hat ? 'acHat' : 'academy';
