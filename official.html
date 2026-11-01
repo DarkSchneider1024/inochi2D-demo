@@ -898,7 +898,17 @@ async function loadRef(id) {
     const j = await (await fetch(`refs/${id}.json`, { cache: 'no-cache' })).json();
     const img = new Image(); img.src = `refs/${j.img}`; await img.decode();
     ref = { ...j, im: img }; $('refSec').hidden = false;
+    for (const a of Object.values(ref.alts || {})) { a.im = new Image(); a.im.src = `refs/${a.img}`; }
   } catch (e) { $('refSec').hidden = false; $('refBtn').disabled = true; $('refBtn').textContent = '📐 基底：此作品沒有基底圖'; }
+}
+// (2026-11-01, user: 換裝的時候 底圖也要換成參考底圖) each outfit shows its own reference, from refs/<id>.json "alts"
+function refKey() {
+  if (deerOn) return 'deer';
+  if (xmasOn) return 'xmas';
+  if (!academy) return '';
+  if (blazerOff) return 'shirt';
+  if (carolStyle.hair === 'pony') return 'acPony';
+  return carolStyle.hair === 'down' || carolStyle.hat ? 'acHat' : 'academy';
 }
 function drawRef() {
   if (refC.width !== cv.width || refC.height !== cv.height) { refC.width = cv.width; refC.height = cv.height; }
@@ -906,14 +916,15 @@ function drawRef() {
   if (!ref || !refMode) return;
   // (2026-10-31 user: 基底變成所有作品的共通按鈕) a ref without its own puppet-space box (x0/y0/w/h) is fitted by its
   // drawn figure's bbox onto the puppet's rest bounds (fit): same height, same centre
-  if (ref.x0 === undefined && ref.bbox && fit) {
-    const [bx0, by0, bx1, by1] = ref.bbox, k = fit.h / (by1 - by0);
-    Object.assign(ref, { x0: fit.cx - k * (bx0 + bx1) / 2, y0: fit.cy - k * (by0 + by1) / 2, w: ref.iw * k, h: ref.ih * k });
+  const alt = ref.alts && ref.alts[refKey()], r = alt && alt.im.complete && alt.im.naturalWidth ? alt : ref;
+  if (r.x0 === undefined && r.bbox && fit) {
+    const [bx0, by0, bx1, by1] = r.bbox, k = fit.h / (by1 - by0);
+    Object.assign(r, { x0: fit.cx - k * (bx0 + bx1) / 2, y0: fit.cy - k * (by0 + by1) / 2, w: r.iw * k, h: r.ih * k });
   }
-  if (ref.x0 === undefined) return;
-  const off = refMode === 1 ? ref.w * 1.1 : 0, s = view.scale;
+  if (r.x0 === undefined) return;
+  const off = refMode === 1 ? r.w * 1.1 : 0, s = view.scale;
   refX.globalAlpha = refMode === 2 ? 0.5 : 1;
-  refX.drawImage(ref.im, refC.width / 2 + (ref.x0 + off - view.cx) * s, refC.height / 2 + (ref.y0 - view.cy) * s, ref.w * s, ref.h * s);
+  refX.drawImage(r.im, refC.width / 2 + (r.x0 + off - view.cx) * s, refC.height / 2 + (r.y0 - view.cy) * s, r.w * s, r.h * s);
   refX.globalAlpha = 1;
 }
 function fitView() { zoom = 1; pan = { x: 0, y: 0 }; resize(); }
