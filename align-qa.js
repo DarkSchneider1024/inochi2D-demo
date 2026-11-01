@@ -20,12 +20,12 @@ export async function showAlign({ id, name }) {
   try { const r = await fetch(`layers/${id}/align.json?v=${Date.now()}`); if (!r.ok) throw 0; d = await r.json(); }
   catch { box.querySelector('#alInfo').textContent = '這個模型還沒有對位資料（目前只有 Linda喵）。'; box.querySelector('#alOnly').hidden = true; return; }
   const bad = d.items.filter(i => i.status !== 'ok');
-  box.querySelector('#alInfo').innerHTML = `共 ${d.items.length} 張 GPT 底圖，和模型平常臉比頭寬與下巴（綠框＝模型，紅框＝底圖）。容許誤差：大小 ${d.tol.scale * 100}%、位置 ${d.tol.px} px。` +
+  box.querySelector('#alInfo').innerHTML = `共 ${d.items.length} 張 GPT 底圖，用眼睛、耳朵和下巴線疊到模型平常臉上比對（疊圖有雙線＝還沒對齊）。容許誤差：大小 ${d.tol.scale * 100}%、位置 ${d.tol.px} px。` +
     (bad.length ? `<b class="bad">${bad.length} 張有對位疑點。</b>` : '<b class="ok">全部對齊。</b>');
   const pct = v => `${v > 0 ? '+' : ''}${(v * 100).toFixed(1)}%`;
   const draw = only => { box.querySelector('#alGrid').innerHTML = d.items.filter(i => !only || i.status !== 'ok').map(i =>
     `<div class="card ${i.status === 'ok' ? '' : 'bad'}"><img src="layers/${id}/${i.img}" alt="${i.name}" loading="lazy"><b class="${i.status === 'ok' ? 'ok' : 'bad'}">${i.name}：${i.status === 'ok' ? '通過' : '疑點'}</b>` +
-    `<small>底圖要放大 ×${i.scale}，已補 ×${i.fit.join('／')}，剩 ${pct(i.left)}</small><small>水平差 ${i.dx} px・下巴差 ${i.chin} px・部件 ${i.parts} 層</small></div>`).join('') || '<p>沒有疑點。</p>'; };
+    `<small>底圖要放大 ×${i.scale}，已補 ×${i.fit.join('／')}，剩 ${pct(i.left)}</small><small>水平差 ${i.dx} px・垂直差 ${i.dy} px・部件 ${i.parts} 層</small></div>`).join('') || '<p>沒有疑點。</p>'; };
   const only = box.querySelector('#alOnly');
   only.onclick = () => { const v = only.getAttribute('aria-pressed') !== 'true'; only.setAttribute('aria-pressed', String(v)); draw(v); };
   draw(bad.length > 0); only.setAttribute('aria-pressed', String(bad.length > 0));
