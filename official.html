@@ -50,6 +50,17 @@
   h2 { font-size: 13px; margin: 16px 0 6px; color: var(--muted); font-weight: 600; letter-spacing: .03em; }
   #modelMoves h3 { font-size: 13px; margin: 10px 0 6px; color: var(--muted); font-weight: 500; }
   .row { display: flex; flex-wrap: wrap; gap: 6px; }
+  /* (2026-11-01) 動作腳本 */
+  .sc-note { color: var(--muted); font-size: 12px; margin: 6px 0; display: block; }
+  .sc-step { border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin: 8px 0; }
+  .sc-step.now { border-color: var(--accent); }
+  .sc-head { display: flex; align-items: center; gap: 4px; margin-bottom: 6px; font-size: 13px; }
+  .sc-head b { flex: 1; }
+  .sc-step button, .sc-row button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 2px 8px; font: inherit; font-size: 13px; cursor: pointer; }
+  .sc-g { display: grid; grid-template-columns: 5em 1fr; gap: 4px 6px; align-items: center; font-size: 12.5px; margin-top: 4px; }
+  .sc-g select, .sc-g input, .sc-row input, .sc-row select, #scJson { width: 100%; min-width: 0; font: inherit; font-size: 13px; padding: 3px 4px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); box-sizing: border-box; }
+  .sc-g input[type=range] { padding: 0; }
+  .sc-row { display: grid; grid-template-columns: 1fr auto; gap: 6px; margin: 6px 0; }
   .row button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 999px;
                 padding: 4px 11px; font: inherit; font-size: 13px; cursor: pointer; }
   .row button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 18%, transparent); }
@@ -138,6 +149,16 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
     <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div></div>
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
+    <div id="scriptSec" hidden><h3>動作腳本（眼睛、嘴巴、胸部自由搭配）</h3>
+      <div class="row"><button id="scPlay" class="primary">▶ 播放</button><button id="scLoop" aria-pressed="true">🔁 循環</button><button id="scAdd">＋ 新增一段</button><button id="scDemo">範本：嚇一大跳</button></div>
+      <p id="scStatus" role="status" class="sc-note">調整時會即時套用。換圖頻率＝每秒換幾次，要先選「換成」才有作用。</p>
+      <div id="scSteps"></div>
+      <div class="sc-row"><input id="scName" aria-label="腳本名稱" placeholder="腳本名稱"><button id="scSave">儲存</button></div>
+      <div class="sc-row"><select id="scList" aria-label="已儲存的腳本"></select><button id="scDel">刪除</button></div>
+      <label class="sc-note" for="scJson">腳本內容（可複製保存，或貼上後按載入）</label>
+      <textarea id="scJson" rows="4" spellcheck="false"></textarea>
+      <div class="row"><button id="scCopy">複製腳本</button><button id="scLoad">載入腳本</button></div>
+    </div>
 
     </section>
 
@@ -610,7 +631,8 @@ function buttons(box, names, onPick) {
 }
 const press = (box, cur) => { for (const b of box.children) b.setAttribute('aria-pressed', b.dataset.name === cur); };
 function buildMoves() {
-  stopMoveTour();
+  stopMoveTour(); stopScript();
+  $('scriptSec').hidden = !P.has('Mouth:: Swap Shock'); if (!$('scriptSec').hidden) { scRender(); scListUI(); }
   feel.want = feel.shown = ''; feel.w = 0; act.a = gest.a = ''; act.touched.clear(); gest.touched.clear();
   const fs = groupOf('表情'), as = groupOf('動作'), gs = groupOf('手勢');
   moveTour.items = [...fs, ...as, ...gs];
@@ -657,7 +679,7 @@ function applyMoves(dt) {
   // every frame from rest, then the feeling / action lays its value on
   // (2026-10-31 user: 微笑跟貓嘴點了沒反應) the mouth swaps too: Mouth:: Smile stayed at 1 after 開心 / 微笑 and its open smile
   // covered every later mouth
-  for (const p of P.params) if (/^(Expression|Face)::|^Mouth:: (Smile|Cat|Fang|Tongue)$/.test(p.name.trim()) && !manual.has(p.name.trim())) p.value = [...p.defaults];
+  for (const p of P.params) if (/^(Expression|Face)::|^Mouth:: (Smile|Cat|Fang|Tongue|Swap \w+)$/.test(p.name.trim()) && !manual.has(p.name.trim())) p.value = [...p.defaults];
   // 表情: the old one eases out first, then the new one eases in (never a cut)
   if (feel.shown !== feel.want) { feel.w = Math.max(0, feel.w - dt * 6); if (feel.w <= 0) { feel.shown = feel.want; feel.t0 = time; } }
   else feel.w = feel.shown ? Math.min(1, feel.w + dt * 4) : 0;
@@ -676,7 +698,121 @@ function applyMoves(dt) {
   if (gest.touched.size && !gest.a) handBack(gest);
   press($('gests'), gest.a);
   if (gest.a) play(gest.a, time - gest.t0, 'set', 1, gest);
+  applyScript();
 }
+// (2026-11-01 user: 眼睛跟嘴巴請新增可以自由配之後產生動作腳本的機制 包括胸部搖晃；單個圖層換圖頻率也可以調整)
+// a script = steps, each with its own eyes / mouth / blush (a, swapped with b hz times a second), chest swing, jump, head
+const both = (n, v) => ({ [`Eye:: Left:: ${n}`]: v, [`Eye:: Right:: ${n}`]: v });
+const SC_EYES = { '': ['平常', {}], close: ['閉眼', both('Blink', 1)], half: ['半閉', both('Blink', 0.5)], winkR: ['眨畫面左眼', { 'Eye:: Right:: Blink': 1 }], winkL: ['眨畫面右眼', { 'Eye:: Left:: Blink': 1 }],
+  happy: ['笑眼', { 'Expression:: Happy': 1 }], shy: ['害羞眼', { 'Expression:: Shy': 1 }], angry: ['生氣眼', { 'Expression:: Angry': 1 }], sad: ['難過眼', { 'Expression:: Sad': 1 }],
+  tease: ['翻白眼', { 'Expression:: Tease': 1 }], shock: ['驚嚇眼', { 'Expression:: Shock': 1 }], surprise: ['驚訝眼', { 'Face:: Surprise': 1 }], slit: ['細瞳', { 'Eye:: Pupil': -1 }], big: ['大瞳', { 'Eye:: Pupil': 1 }] };
+const SC_MOUTHS = { '': ['平常', {}], smile: ['開心', { 'Mouth:: Smile': 1 }], cat: ['貓嘴', { 'Mouth:: Cat': 1 }], fang: ['尖牙', { 'Mouth:: Fang': 1 }], tongue: ['吐舌（淘氣2）', { 'Mouth:: Tongue': 1 }],
+  tease: ['小吐舌（淘氣）', { 'Mouth:: Swap Tease': 1 }], shy: ['波浪', { 'Mouth:: Swap Shy': 1 }], sad: ['平線', { 'Mouth:: Swap Sad': 1 }], angry: ['怒牙', { 'Mouth:: Swap Angry': 1 }],
+  shock: ['驚叫', { 'Mouth:: Swap Shock': 1 }], a: ['啊', { 'Mouth:: Open': 1, 'Mouth:: Form': 0 }], o: ['喔', { 'Mouth:: Open': 1, 'Mouth:: Form': 1 }] };
+const SC_BLUSH = { 0: ['無', { 'Face:: Blush': 0 }], 1: ['淡', { 'Face:: Blush': 0.33 }], 2: ['中', { 'Face:: Blush': 0.66 }], 3: ['濃', { 'Face:: Blush': 1 }] };
+const scTrack = (a = '', b = '-', hz = 0) => ({ a, b, hz });
+const scStep = (o = {}) => ({ dur: 2, eyes: scTrack(), mouth: scTrack(), blush: scTrack('0'), chest: { from: '', amp: 0.8, hz: 2.2, decay: 0.8 }, jump: 0, arms: 0, head: { tilt: 0, turn: 0, nod: 0, hz: 6 }, ...o });
+const SC_DEMO = () => ({ name: '嚇一大跳', loop: true, steps: [
+  scStep({ dur: 2.2, eyes: scTrack('shock'), mouth: scTrack('shock'), blush: scTrack('1'), chest: { from: 'top', amp: 1, hz: 2.2, decay: 0.8 }, jump: 1, arms: 0.6, head: { tilt: 0, turn: 0, nod: 0.1, hz: 6 } }),
+  scStep({ eyes: scTrack(), mouth: scTrack('tongue'), blush: scTrack('1'), head: { tilt: -0.25, turn: 0, nod: 0, hz: 6 } }),
+  scStep({ eyes: scTrack('shy'), mouth: scTrack('tongue'), blush: scTrack('3'), head: { tilt: 0.35, turn: 0.4, nod: 0, hz: 6 } })] });
+const sc = { on: false, t0: 0, touched: new Set(), now: -1, s: { name: '', loop: true, steps: [scStep()] } };
+function stopScript() { if (!sc.on) return; sc.on = false; sc.now = -1; handBack(sc); $('scPlay').textContent = '▶ 播放'; showNow(); }
+const scPick = (tr, u) => (tr.b !== '-' && tr.b !== undefined && tr.hz > 0 && Math.floor(u * tr.hz) % 2 ? tr.b : tr.a);
+const scHop = K2([[0, 0], [0.07, -1], [0.15, -1], [0.24, 0.22], [0.42, 0]]);
+function K2(k) {
+  return (t) => { if (t <= k[0][0]) return k[0][1]; for (let i = 1; i < k.length; i++) if (t <= k[i][0]) { let u = (t - k[i - 1][0]) / (k[i][0] - k[i - 1][0]); u = u * u * (3 - 2 * u); return k[i - 1][1] + (k[i][1] - k[i - 1][1]) * u; } return k[k.length - 1][1]; };
+}
+function showNow() { for (const [i, e] of [...$('scSteps').children].entries()) e.classList.toggle('now', i === sc.now); }
+function applyScript() {
+  if (!sc.on) return;
+  if (act.a || gest.a || feel.want) { stopScript(); return; }
+  const st = sc.s.steps, total = st.reduce((a, s) => a + s.dur, 0);
+  let t = time - sc.t0;
+  if (t >= total) { if (!sc.s.loop) { stopScript(); return; } sc.t0 += total * Math.floor(t / total); t = time - sc.t0; }
+  let i = 0; while (i < st.length - 1 && t >= st[i].dur) t -= st[i++].dur;
+  if (i !== sc.now) { sc.now = i; showNow(); }
+  const s = st[i], u = t, out = { ...SC_EYES[scPick(s.eyes, u)]?.[1], ...SC_MOUTHS[scPick(s.mouth, u)]?.[1], ...SC_BLUSH[scPick(s.blush, u)]?.[1] };
+  if (s.chest.from) {          // starts at its peak (top or bottom), each swing smaller; Chest:: Startle is free of the page's spring
+    const w = 2 * Math.PI * s.chest.hz, e = Math.pow(s.chest.decay, 2 * s.chest.hz * u) * clamp(u / 0.07, 0, 1) * clamp((s.dur - u) / 0.15, 0, 1);
+    out['Chest:: Startle'] = (s.chest.from === 'top' ? -1 : 1) * s.chest.amp * Math.cos(w * u) * e;
+  } else out['Chest:: Startle'] = 0;
+  out['Body:: Startle Hop'] = s.jump * scHop(u);
+  out['Arm:: Right:: Lift'] = out['Arm:: Left:: Lift'] = s.arms; out['Arm:: Right:: Bend'] = out['Arm:: Left:: Bend'] = s.arms / 2;
+  out['Head:: Roll'] = s.head.tilt;
+  for (const [n, v] of Object.entries(out)) {
+    if (!P.has(n) || manual.has(n)) continue;
+    const p = P.byName[n]; sc.touched.add(p); const a = [...p.value]; a[0] = clamp(v, p.min[0], p.max[0]); p.value = a;
+  }
+  const hp = P.byName['Head:: Yaw-Pitch'];
+  if (hp && !manual.has('Head:: Yaw-Pitch')) { sc.touched.add(hp); hp.value = [s.head.turn, s.head.nod * Math.sin(2 * Math.PI * s.head.hz * u)]; }
+}
+function scOptions(map, cur) { return Object.entries(map).map(([k, v]) => `<option value="${k}"${k === String(cur) ? ' selected' : ''}>${v[0]}</option>`).join(''); }
+function scRange(path, v, min, max, step) { return `<input type="range" data-p="${path}" min="${min}" max="${max}" step="${step}" value="${v}">`; }
+function scTrackUI(i, key, label, map) {
+  const tr = sc.s.steps[i][key];
+  return `<span>${label}</span><select data-p="${key}.a" aria-label="${label}">${scOptions(map, tr.a)}</select>
+    <span>換成</span><select data-p="${key}.b" aria-label="${label}換成"><option value="-">不換</option>${scOptions(map, tr.b)}</select>
+    <span>每秒 <output>${tr.hz}</output> 次</span>${scRange(`${key}.hz`, tr.hz, 0, 12, 0.5)}`;
+}
+function scRender() {
+  $('scSteps').textContent = '';
+  sc.s.steps.forEach((s, i) => {
+    const d = document.createElement('div'); d.className = 'sc-step'; d.dataset.i = i;
+    d.innerHTML = `<div class="sc-head"><b>第 ${i + 1} 段</b><button data-a="up" aria-label="上移">↑</button><button data-a="down" aria-label="下移">↓</button><button data-a="dup">複製</button><button data-a="del">刪除</button></div>
+      <div class="sc-g"><span>秒數</span><input type="number" data-p="dur" min="0.2" max="30" step="0.1" value="${s.dur}">
+      ${scTrackUI(i, 'eyes', '眼睛', SC_EYES)}${scTrackUI(i, 'mouth', '嘴巴', SC_MOUTHS)}${scTrackUI(i, 'blush', '臉紅', SC_BLUSH)}
+      <span>胸部</span><select data-p="chest.from" aria-label="胸部搖晃"><option value="">不晃</option><option value="top"${s.chest.from === 'top' ? ' selected' : ''}>從最上緣開始</option><option value="bottom"${s.chest.from === 'bottom' ? ' selected' : ''}>從最下緣開始</option></select>
+      <span>幅度 <output>${s.chest.amp}</output></span>${scRange('chest.amp', s.chest.amp, 0, 1, 0.05)}
+      <span>每秒 <output>${s.chest.hz}</output> 下</span>${scRange('chest.hz', s.chest.hz, 0.5, 6, 0.1)}
+      <span>衰減 <output>${s.chest.decay}</output></span>${scRange('chest.decay', s.chest.decay, 0.5, 1, 0.01)}
+      <span>跳躍 <output>${s.jump}</output></span>${scRange('jump', s.jump, 0, 1, 0.05)}
+      <span>舉手 <output>${s.arms}</output></span>${scRange('arms', s.arms, 0, 1, 0.05)}
+      <span>歪頭 <output>${s.head.tilt}</output></span>${scRange('head.tilt', s.head.tilt, -1, 1, 0.05)}
+      <span>轉頭 <output>${s.head.turn}</output></span>${scRange('head.turn', s.head.turn, -1, 1, 0.05)}
+      <span>上下晃 <output>${s.head.nod}</output></span>${scRange('head.nod', s.head.nod, 0, 0.5, 0.01)}
+      <span>每秒 <output>${s.head.hz}</output> 下</span>${scRange('head.hz', s.head.hz, 0.5, 12, 0.5)}</div>`;
+    $('scSteps').appendChild(d);
+  });
+  scSync(); showNow();
+}
+function scSync() { $('scJson').value = JSON.stringify(sc.s); $('scName').value = sc.s.name || ''; $('scLoop').setAttribute('aria-pressed', sc.s.loop); }
+function scStored() { try { return JSON.parse(localStorage.getItem('linda.scripts') || '{}'); } catch { return {}; } }
+function scStore(o) { try { localStorage.setItem('linda.scripts', JSON.stringify(o)); } catch { $('scStatus').textContent = '這個瀏覽器不能儲存，請改用「複製腳本」。'; } }
+function scListUI() { const o = scStored(); $('scList').innerHTML = '<option value="">開啟已儲存的腳本…</option>' + Object.keys(o).map((n) => `<option>${n.replace(/</g, '&lt;')}</option>`).join(''); }
+function scPlay() { feel.want = ''; act.a = gest.a = ''; stopMoveTour(); press($('feels'), ''); sc.t0 = time; sc.on = true; $('scPlay').textContent = '■ 停止'; }
+$('scPlay').onclick = () => { if (!P) return; if (sc.on) stopScript(); else scPlay(); };
+$('scLoop').onclick = () => { sc.s.loop = !sc.s.loop; scSync(); };
+$('scAdd').onclick = () => { sc.s.steps.push(scStep()); scRender(); };
+$('scDemo').onclick = () => { sc.s = SC_DEMO(); scRender(); scPlay(); };
+$('scSteps').onclick = (e) => {
+  const a = e.target.dataset?.a; if (!a) return;
+  const st = sc.s.steps, i = +e.target.closest('.sc-step').dataset.i;
+  if (a === 'del') { if (st.length > 1) st.splice(i, 1); } else if (a === 'dup') st.splice(i + 1, 0, JSON.parse(JSON.stringify(st[i])));
+  else { const j = i + (a === 'up' ? -1 : 1); if (j >= 0 && j < st.length) [st[i], st[j]] = [st[j], st[i]]; }
+  scRender();
+};
+$('scSteps').oninput = (e) => {
+  const path = e.target.dataset?.p; if (!path) return;
+  let o = sc.s.steps[+e.target.closest('.sc-step').dataset.i]; const ks = path.split('.'), k = ks.pop();
+  for (const x of ks) o = o[x];
+  o[k] = e.target.tagName === 'SELECT' ? e.target.value : e.target.dataset.p === 'dur' ? Math.max(0.2, +e.target.value || 0.2) : +e.target.value;
+  const out = e.target.previousElementSibling?.querySelector?.('output'); if (out) out.textContent = e.target.value;
+  $('scJson').value = JSON.stringify(sc.s);
+};
+$('scName').oninput = () => { sc.s.name = $('scName').value; $('scJson').value = JSON.stringify(sc.s); };
+$('scSave').onclick = () => { const n = $('scName').value.trim(); if (!n) { $('scStatus').textContent = '請先輸入腳本名稱。'; return; } const o = scStored(); o[n] = sc.s; scStore(o); scListUI(); $('scStatus').textContent = `已儲存「${n}」（存在這個瀏覽器）。`; };
+$('scDel').onclick = () => { const n = $('scList').value; if (!n) return; const o = scStored(); delete o[n]; scStore(o); scListUI(); };
+$('scList').onchange = () => { const o = scStored()[$('scList').value]; if (o) { sc.s = o; scRender(); } };
+$('scCopy').onclick = async () => { $('scJson').select(); try { await navigator.clipboard.writeText($('scJson').value); $('scStatus').textContent = '腳本已複製。'; } catch { $('scStatus').textContent = '無法自動複製，請手動複製上方內容。'; } };
+$('scLoad').onclick = () => {
+  try {
+    const o = JSON.parse($('scJson').value);
+    if (!Array.isArray(o.steps) || !o.steps.length) throw 0;
+    o.steps = o.steps.map((s) => { const d = scStep(); return { ...d, ...s, eyes: { ...d.eyes, ...s.eyes }, mouth: { ...d.mouth, ...s.mouth }, blush: { ...d.blush, ...s.blush }, chest: { ...d.chest, ...s.chest }, head: { ...d.head, ...s.head } }; });
+    sc.s = { name: o.name || '', loop: o.loop !== false, steps: o.steps }; scRender(); $('scStatus').textContent = '腳本已載入。';
+  } catch { $('scStatus').textContent = '腳本格式不正確。'; }
+};
 // the 漫符 on the face (臉) / eye (眼白_*) boxes, drawn by the video stage's own code (feel.js)
 const emoC = $('emo'), emoX = emoC.getContext('2d');
 function screenBox(n) {
@@ -906,7 +1042,7 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
-window.demo = { get puppet() { return P; }, renderer: R, auto, open, runQA, get view() { return view; } };
+window.demo = { get puppet() { return P; }, renderer: R, auto, open, runQA, script: sc, get view() { return view; } };
 open(new URLSearchParams(location.search).get('model') || 'mr_carrot_sci').catch((e) => {
   $('loading').textContent = `載入失敗：${e.message}`;
   console.error(e);
