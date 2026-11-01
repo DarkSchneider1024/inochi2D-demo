@@ -33,7 +33,7 @@ const AURA = HAIR_END - 0.1;
 const FEATHER = 16;
 const NECK = 0.166;                                            // the seam, fraction of the figure from its top
 let A, B, view, W = 0, H = 0, dpr = 1, fig, start = 0, parts = [], last = 0;
-const tmpA = document.createElement('canvas'), tmpB = document.createElement('canvas'), glow = document.createElement('canvas');
+const tmpA = document.createElement('canvas'), tmpB = document.createElement('canvas'), flowC = document.createElement('canvas'), bandC = document.createElement('canvas');
 const ramp = (a, b, t) => Math.min(1, Math.max(0, (t - a) / (b - a)));
 const ease = (x) => x * x * (3 - 2 * x);
 
@@ -41,7 +41,7 @@ function resize() {
   dpr = Math.min(2, devicePixelRatio || 1);
   W = stage.width = Math.round(innerWidth * dpr); H = stage.height = Math.round(innerHeight * dpr);
   for (const c of [$('glA'), $('glB'), tmpA, tmpB]) { c.width = W; c.height = H; }
-  glow.width = Math.ceil(W / 2); glow.height = Math.ceil(H / 2);
+  flowC.width = Math.ceil(W / 2); flowC.height = Math.ceil(H / 2); bandC.width = Math.ceil(W / 6); bandC.height = Math.ceil(H / 6);
   if (!A) return;
   const b = A.bounds(), scale = Math.min(W * 0.92 / (b.x1 - b.x0), H * 0.9 / (b.y1 - b.y0));
   view = { cx: (b.x0 + b.x1) / 2, cy: (b.y0 + b.y1) / 2 + 12 / scale, scale };
@@ -72,42 +72,42 @@ function backdrop(aura, now) {
   const g = ctx.createRadialGradient(W / 2, H * 0.46, 0, W / 2, H * 0.46, Math.max(W, H) * 0.7);
   g.addColorStop(0, `rgb(${28 + 44 * aura},${26 + 26 * aura},${48 - 8 * aura})`); g.addColorStop(1, '#0d0f1c');
   ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  if (aura <= 0) return;
-  // the flowing gold streams, rising behind the figure
-  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round';
-  const spread = fig.w * 0.5, N = 16;
-  for (let i = 0; i < N; i++) {
-    const side = i % 2 ? 1 : -1, ph = i * 1.7, far = 0.35 + 0.65 * ((i * 7) % N) / N;
-    ctx.beginPath();
-    for (let k = 0; k <= 44; k++) {
-      const s = k / 44, y = fig.bot + fig.h * 0.04 - s * fig.h * 1.14;
-      const w = Math.sin(s * 7 + now * 1.4 + ph) * spread * 0.16 + Math.sin(s * 3 - now * 0.8 + ph) * spread * 0.1;
-      const x = fig.cx + side * spread * far * (1 - 0.42 * s) * (0.7 + 0.3 * Math.sin(s * 3.1)) + w;
-      k ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-    }
-    const lg = ctx.createLinearGradient(0, fig.bot, 0, fig.top);
-    lg.addColorStop(0, 'rgba(255,190,60,0)'); lg.addColorStop(0.3, `rgba(255,201,77,${0.7 * aura})`);
-    lg.addColorStop(0.75, `rgba(255,232,150,${0.6 * aura})`); lg.addColorStop(1, 'rgba(255,240,190,0)');
-    ctx.strokeStyle = lg; ctx.lineWidth = (3 + 7 * far) * dpr;
-    ctx.setLineDash([(90 + 70 * far) * dpr, (46 + 40 * far) * dpr]); ctx.lineDashOffset = (now * (150 + 150 * far) + i * 57) * dpr;
-    ctx.shadowColor = 'rgba(255,190,60,.9)'; ctx.shadowBlur = 14 * dpr; ctx.stroke();
-  }
-  ctx.restore();
 }
 
-function silhouette(src, a, now) {                               // the soft gold rim right behind the figure
+// (2026-11-01, user: 不需要把頭髮加上殘影，要做一個包含在身體外框的魔法氣流) the gold streams stay in a band that wraps the body's
+// outline, neck down: the band = the figure pushed out in every direction, the streams are kept inside it and drawn
+// behind the figure. Nothing on the hair, no copy of the outline floating away from it
+function flow(src, a, now) {
   if (a <= 0) return;
-  const g = glow.getContext('2d'), w = glow.width, h = glow.height;
-  g.globalCompositeOperation = 'source-over'; g.clearRect(0, 0, w, h); g.drawImage(src, 0, 0, w, h);
-  g.globalCompositeOperation = 'source-in'; g.fillStyle = '#ffc23d'; g.fillRect(0, 0, w, h);
-  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.imageSmoothingQuality = 'high';
-  const k = 1.035 + 0.012 * Math.sin(now * 2.4);
-  ctx.globalAlpha = a * (0.55 + 0.12 * Math.sin(now * 3.1));
-  ctx.filter = `blur(${16 * dpr}px)`;
-  ctx.drawImage(glow, W / 2 - W * k / 2, H / 2 - H * k / 2, W * k, H * k);
-  ctx.filter = `blur(${6 * dpr}px)`; ctx.globalAlpha *= 0.7;
-  ctx.drawImage(glow, 0, 0, W, H);
-  ctx.restore();
+  const w = bandC.width, h = bandC.height, b = bandC.getContext('2d'), q = w / W, fq = flowC.width / W, neck = fig.top + NECK * fig.h;
+  b.globalCompositeOperation = 'source-over'; b.clearRect(0, 0, w, h);
+  for (const r of [6, 12, 18]) for (let i = 0; i < 16; i++) {
+    const an = i / 16 * 6.2832;
+    b.drawImage(src, Math.cos(an) * r * dpr * q, Math.sin(an) * r * dpr * q, w, h);
+  }
+  const m = b.createLinearGradient(0, neck * q, 0, (neck + 70 * dpr) * q);
+  m.addColorStop(0, 'rgba(0,0,0,0)'); m.addColorStop(1, '#000');
+  b.globalCompositeOperation = 'destination-in'; b.fillStyle = m; b.fillRect(0, 0, w, h);
+  const g = flowC.getContext('2d'), spread = fig.w * 0.56, N = 34;
+  g.globalCompositeOperation = 'source-over'; g.clearRect(0, 0, g.canvas.width, g.canvas.height); g.lineCap = 'round';
+  g.fillStyle = 'rgba(255,190,60,.16)'; g.fillRect(0, 0, g.canvas.width, g.canvas.height);
+  for (let i = 0; i < N; i++) {
+    const side = i % 2 ? 1 : -1, ph = i * 1.7, far = ((i * 7) % N) / N;
+    g.beginPath();
+    for (let k = 0; k <= 48; k++) {
+      const s = k / 48, y = fig.bot + 30 * dpr - s * (fig.bot - neck);
+      const dx = Math.sin(s * 6 + now * 1.5 + far * 3) * spread * 0.05 + Math.sin(s * 2.5 - now * 0.8 + far * 5) * spread * 0.04;
+      const x = fig.cx + side * spread * far + dx;
+      k ? g.lineTo(x * fq, y * fq) : g.moveTo(x * fq, y * fq);
+    }
+    g.strokeStyle = `rgba(255,${215 + 30 * far | 0},${110 + 90 * far | 0},.95)`; g.lineWidth = (3 + 4 * far) * dpr * fq;
+    g.setLineDash([(120 + 90 * far) * dpr * fq, (50 + 40 * far) * dpr * fq]); g.lineDashOffset = (now * (190 + 130 * far) + i * 57) * dpr * fq;
+    g.stroke();
+  }
+  g.setLineDash([]);
+  g.imageSmoothingQuality = 'high'; g.globalCompositeOperation = 'destination-in'; g.drawImage(bandC, 0, 0, g.canvas.width, g.canvas.height);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.imageSmoothingQuality = 'high'; ctx.globalAlpha = a * (0.88 + 0.12 * Math.sin(now * 3.1));
+  ctx.drawImage(flowC, 0, 0, W, H); ctx.globalAlpha *= 0.6; ctx.drawImage(flowC, -6 * dpr, -6 * dpr, W + 12 * dpr, H + 12 * dpr); ctx.restore();
 }
 
 function line(y, a) {                                            // the bright edge of the change
@@ -156,7 +156,7 @@ function frame(ms) {
   const aura = ease(ramp(AURA, AURA + 1.2, t)), charge = ramp(CHARGE, CLOTH, t) * (1 - ramp(CLOTH_END, HAIR_END, t)) * 0.3;
   backdrop(Math.max(aura, charge), now);
   const mageImg = k2 >= 1 ? $('glB') : masked(tmpB, $('glB'), L2, L1, true);   // (at the end no seam: the whole mage)
-  silhouette(aura > 0 ? $('glB') : mageImg, Math.max(aura, charge * 0.6), now);
+  flow(aura > 0 ? $('glB') : mageImg, Math.max(aura, charge * 0.6), now);
   if (k2 < 1) ctx.drawImage(masked(tmpA, $('glA'), L2, L1, false), 0, 0);
   ctx.drawImage(mageImg, 0, 0);
   if (k1 > 0 && k1 < 1) line(L1, 1);
