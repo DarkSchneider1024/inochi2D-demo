@@ -261,12 +261,12 @@ for (const b of document.querySelectorAll('#wearRows button')) b.onclick = () =>
 // (2026-11-01 user: 新增這一套) 平口洋裝: a fourth choice in every slot, shown only on a model that has it
 $('sunBtn').onclick = () => wearAll(Object.values(wear).every((x) => x === 3) ? 0 : 3);
 $('baseBtn').onclick = () => wearAll(baseFit ? 0 : 2);
-$('acadBtn').onclick = () => { if (hasMix()) wearAll(academy ? 0 : 1); else { academy = !academy; if (academy) xmasOn = false; showWear(); showXmas(); } };
+$('acadBtn').onclick = () => { if (hasMix()) wearAll(academy ? 0 : 1); else { academy = !academy; if (academy) { xmasOn = false; deerOn = false; } showWear(); showXmas(); } };
 // 聖誕換裝 (2026-11-01, 卡洛兒) / 聖誕麋鹿裝 (波波): one button each; 聖誕 and 學院 exclude each other
 let xmasOn = false, deerOn = false;
 function showXmas() { $('xmasBtn').setAttribute('aria-pressed', xmasOn); $('deerBtn').setAttribute('aria-pressed', deerOn); }
 $('xmasBtn').onclick = () => { xmasOn = !xmasOn; if (xmasOn) { academy = false; showWear(); } showXmas(); };
-$('deerBtn').onclick = () => { deerOn = !deerOn; showXmas(); };
+$('deerBtn').onclick = () => { deerOn = !deerOn; if (deerOn) { academy = false; showWear(); } showXmas(); };
 $('bustBtn').onclick = () => { bigBust = !bigBust; $('bustBtn').setAttribute('aria-pressed', bigBust); };
 $('blazerBtn').onclick = () => { blazerOff = !blazerOff; $('blazerBtn').setAttribute('aria-pressed', blazerOff); };
 // 換顏色 (2026-10-31 user: 紫色頭髮尾巴眉毛透過程式轉成粉色，新增換顏色選項): a shader hue shift on these layers, no extra textures
