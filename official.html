@@ -940,7 +940,7 @@ document.getElementById('viewctl').addEventListener('click', (e) => {
   else if (v === 'left') panBy(0.2, 0);
   else if (v === 'right') panBy(-0.2, 0);
   else if (v === 'reset') fitView();
-  else if (v === 'head' && fit) { zoom = 3; pan = { x: 0, y: fit.h * 0.36 }; resize(); }
+  else if (v === 'head' && fit) { zoom = 3; pan = { x: 0, y: fit.h * 0.36 }; ptr.has = false; resize(); }   // (2026-11-01, user: 表情置中) the face turns back to the front until the pointer moves again
   else if (v === 'move') { moveMode = !moveMode; b.classList.toggle('on', moveMode); cv.style.cursor = moveMode ? 'move' : ''; }
 });
 // move mode: a left press / one finger pans instead of the gravity pull (runs before the pull handler)
