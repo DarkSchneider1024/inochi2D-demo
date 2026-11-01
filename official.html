@@ -50,6 +50,7 @@
   h2 { font-size: 13px; margin: 16px 0 6px; color: var(--muted); font-weight: 600; letter-spacing: .03em; }
   #modelMoves h3 { font-size: 13px; margin: 10px 0 6px; color: var(--muted); font-weight: 500; }
   .row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .row[hidden] { display: none; }   /* (2026-11-01, user: 有些不是共用的按鈕不要放在這裡) display:flex beat the hidden attribute: Linda's rows showed on every model */
   /* (2026-11-01) 動作腳本 */
   .sc-note { color: var(--muted); font-size: 12px; margin: 6px 0; display: block; }
   .sc-step { border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin: 8px 0; }
