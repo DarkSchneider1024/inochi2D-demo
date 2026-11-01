@@ -28,6 +28,13 @@
            background: repeating-conic-gradient(#d8d4dc 0 25%, #f4f2f5 0 50%) 0 0 / 24px 24px; }
   .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
   .hint { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); background: var(--card); padding: 10px 16px; border-radius: 10px; max-width: 86%; text-align: center; }
+  label.f input[type=number] { font: inherit; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 8px; min-height: 36px; width: 100%; padding: 2px 4px; }
+  .px { position: absolute; left: 8px; right: 8px; top: 8px; pointer-events: none; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; background: var(--card); padding: 4px 8px; border-radius: 8px; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .px[hidden] { display: none; }
+  .px i { width: 16px; height: 16px; border: 1px solid var(--line); border-radius: 3px; flex: none; }
+  .near { display: flex; gap: 4px; flex-wrap: wrap; min-height: 34px; align-items: center; color: var(--muted); font-size: 12px; }
+  .near button { width: 34px; height: 34px; min-height: 34px; padding: 0; }
+  .near button[aria-pressed=true] { outline: 2px solid var(--accent); outline-offset: 1px; }
   .toast { position: absolute; left: 12px; right: 12px; bottom: 12px; pointer-events: none; display: flex; justify-content: center; }
   .toast span { background: var(--ink); color: var(--bg); padding: 6px 12px; border-radius: 8px; }
   .panel { flex: none; width: 340px; display: flex; flex-direction: column; border-left: 1px solid var(--line); background: var(--card); min-height: 0; }
@@ -39,7 +46,7 @@
   .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
   .grid button { padding: 4px 2px; }
   .wide { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  label.f { display: grid; grid-template-columns: 76px 1fr 44px; gap: 6px; align-items: center; color: var(--muted); }
+  label.f { display: grid; grid-template-columns: 76px 1fr 58px; gap: 6px; align-items: center; color: var(--muted); }
   label.c { display: flex; gap: 6px; align-items: center; color: var(--muted); min-height: 32px; }
   label.f input[type=range] { width: 100%; }
   output { text-align: right; font-variant-numeric: tabular-nums; }
@@ -77,6 +84,8 @@
   <button id="undo" disabled>復原</button>
   <button id="redo" disabled>重做</button>
   <button id="fit" disabled>全身</button>
+  <button id="zoomOut" disabled aria-label="縮小">－</button>
+  <button id="zoomIn" disabled aria-label="放大">＋</button>
   <button id="preview" disabled>動態預覽</button>
   <button id="saveInp" class="primary" disabled>儲存 .inp</button>
   <button id="saveInx" disabled>儲存 .inx</button>
@@ -85,6 +94,7 @@
   <div class="stage" id="stage">
     <canvas id="cv"></canvas>
     <div class="hint" id="hint">先選一個模型，或開啟 .inp／.inx 檔</div>
+    <div class="px" id="px" hidden></div>
     <div class="toast"><span id="toast" hidden></span></div>
   </div>
   <div class="panel">
@@ -97,6 +107,7 @@
       <div class="grid" id="tools">
         <button data-tool="hand" aria-pressed="true">移動畫面</button>
         <button data-tool="brush">筆刷</button>
+        <button data-tool="pixel">單格筆刷</button>
         <button data-tool="erase">橡皮擦</button>
         <button data-tool="clone">補底圖</button>
         <button data-tool="dropper">滴管</button>
@@ -106,10 +117,14 @@
         <button data-tool="move">移動內容</button>
         <button data-tool="movebase">移動底圖</button>
       </div>
-      <label class="f">大小<input id="size" type="range" min="1" max="200" value="24"><output id="sizeO">24</output></label>
+      <label class="f">大小<input id="size" type="range" min="1" max="200" value="24"><input id="sizeN" type="number" min="1" max="200" value="24" aria-label="筆刷大小"></label>
+      <div class="wide"><button id="sizeD">筆刷 -1</button><button id="sizeU">筆刷 +1</button></div>
       <label class="f">硬度<input id="hard" type="range" min="0" max="100" value="80"><output id="hardO">80</output></label>
       <label class="f">不透明<input id="flow" type="range" min="1" max="100" value="100"><output id="flowO">100</output></label>
       <label class="f">顏色<input id="color" type="color" value="#3a2a4a"><output></output></label>
+      <h2>附近色</h2>
+      <div class="near" id="near"><span class="n">用滴管點一下，這裡會列出周圍的顏色</span></div>
+      <div class="wide"><button id="darker">加深</button><button id="lighter">淡化</button></div>
       <label class="c"><input id="lockA" type="checkbox">鎖定透明：只改顏色，不改形狀</label>
       <h2>選取範圍</h2>
       <div class="wide">

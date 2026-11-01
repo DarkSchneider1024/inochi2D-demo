@@ -6,11 +6,11 @@ import { loadINP, Puppet, Renderer } from './inochi-full.js';
 
 const $ = (id) => document.getElementById(id);
 const cv = $('cv'), cx = cv.getContext('2d');
-const NO_TEX = 4294967295, UNDO_MAX = 40;
+const NO_TEX = 4294967295, UNDO_MAX = 40, ZOOM_MAX = 64, GRID_AT = 8;
 const flat = document.createElement('canvas'), fx = flat.getContext('2d');   // the layers, flattened: 圖層濃度 fades them as one
 let M = null;                  // {id, json, textures, tail, layers (back -> front)}
 let cur = null, tool = 'hand', sel = null, base = null, dirty = false, draft = null;
-let view = { x: 0, y: 0, s: 1 }, need = false, cursor = null, soloOn = false, fitted = false;
+let view = { x: 0, y: 0, s: 1 }, need = false, cursor = null, soloOn = false, fitted = false, softSize = 24;
 const undo = [], redo = [];
 const ptrs = new Map();
 
@@ -72,7 +72,7 @@ async function openModel(bytes, id) {
   M = { id, json, textures, tail, layers };
   cur = null; sel = null; undo.length = redo.length = 0; dirty = false;
   $('hint').hidden = true;
-  for (const b of ['fit', 'preview', 'saveInp', 'saveInx']) $(b).disabled = false;
+  for (const b of ['fit', 'zoomIn', 'zoomOut', 'preview', 'saveInp', 'saveInx']) $(b).disabled = false;
   fitView(); renderList(); select(layers.find((l) => !l.hidden) ?? layers[0]); syncButtons();
 }
 
@@ -134,6 +134,7 @@ function render() {
   cx.setTransform(...T);
   cx.lineWidth = 1.5 / view.s;
   if (cur) { cx.strokeStyle = '#8a6fd1'; cx.setLineDash([6 / view.s, 4 / view.s]); cx.strokeRect(cur.x0, cur.y0, cur.x1 - cur.x0, cur.y1 - cur.y0); }
+  if (cur && view.s >= GRID_AT) drawGrid(r.width, r.height);
   const pts = draft ?? sel?.pts;
   if (pts) {
     cx.beginPath(); pts.forEach((p, i) => (i ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1]))); cx.closePath();
@@ -141,10 +142,29 @@ function render() {
     cx.setLineDash([5 / view.s, 5 / view.s]); cx.strokeStyle = '#000'; cx.lineWidth = 1.5 / view.s; cx.stroke();
   }
   cx.setLineDash([]);
+  if (cursor && tool === 'pixel' && cur) {
+    const b = pixelBox(cur, cursor), k = cur.w / (cur.x1 - cur.x0);
+    cx.lineWidth = 3 / view.s; cx.strokeStyle = '#fff'; cx.strokeRect(cur.x0 + b[0] / k, cur.y0 + b[1] / k, b[2] / k, b[2] / k);
+    cx.lineWidth = 1 / view.s; cx.strokeStyle = '#000'; cx.strokeRect(cur.x0 + b[0] / k, cur.y0 + b[1] / k, b[2] / k, b[2] / k);
+  }
   if (cursor && ['brush', 'erase', 'clone'].includes(tool)) {
     cx.beginPath(); cx.arc(cursor[0], cursor[1], +$('size').value / 2, 0, 7);
     cx.strokeStyle = '#fff'; cx.lineWidth = 3 / view.s; cx.stroke(); cx.strokeStyle = '#000'; cx.lineWidth = 1 / view.s; cx.stroke();
   }
+}
+
+function drawGrid(W, H) {                         // the current layer's own pixels, once they are big enough to aim at
+  const L = cur, k = L.w / (L.x1 - L.x0);
+  const left = Math.max(0, Math.floor((-view.x / view.s - L.x0) * k)), right = Math.min(L.w, Math.ceil(((W - view.x) / view.s - L.x0) * k));
+  const top = Math.max(0, Math.floor((-view.y / view.s - L.y0) * k)), bottom = Math.min(L.h, Math.ceil(((H - view.y) / view.s - L.y0) * k));
+  cx.beginPath();
+  for (let x = left; x <= right; x++) { cx.moveTo(L.x0 + x / k, L.y0 + top / k); cx.lineTo(L.x0 + x / k, L.y0 + bottom / k); }
+  for (let y = top; y <= bottom; y++) { cx.moveTo(L.x0 + left / k, L.y0 + y / k); cx.lineTo(L.x0 + right / k, L.y0 + y / k); }
+  cx.setLineDash([]); cx.strokeStyle = 'rgba(0,0,0,.22)'; cx.lineWidth = 1 / view.s; cx.stroke();
+}
+function zoomBy(k) {
+  const r = cv.getBoundingClientRect(), x = r.width / 2, y = r.height / 2, s = clamp(view.s * k, 0.05, ZOOM_MAX);
+  view.x = x - (x - view.x) * (s / view.s); view.y = y - (y - view.y) * (s / view.s); view.s = s; paint();
 }
 
 function modelBox() {
@@ -220,13 +240,34 @@ async function beginStroke(e) {
   strokeTo(toWorld(e), e.pressure);
 }
 function strokeTo(w, pressure) {
-  const s = stroke, r = +$('size').value / 2 * (s.pen ? Math.max(0.15, pressure) : 1);
-  const a = s.last ?? w, d = Math.hypot(w[0] - a[0], w[1] - a[1]), n = Math.max(1, Math.ceil(d / Math.max(0.5, r / 4)));
+  const s = stroke, pixel = s.tool === 'pixel', r = +$('size').value / 2 * (s.pen && !pixel ? Math.max(0.15, pressure) : 1);
+  const a = s.last ?? w, d = Math.hypot(w[0] - a[0], w[1] - a[1]);
+  const n = Math.max(1, Math.ceil(pixel ? d * s.L.w / (s.L.x1 - s.L.x0) : d / Math.max(0.5, r / 4)));
   for (let i = s.last ? 1 : 0; i <= n; i++) dab(a[0] + (w[0] - a[0]) * i / n, a[1] + (w[1] - a[1]) * i / n, r);
   s.last = w;
 }
+// 單格筆刷: an N x N block of the layer's own pixels, hard edged. It REPLACES what is there, so the colour and alpha the
+// dropper read go back exactly (不透明 = the pixel's alpha).
+function pixelBox(L, w) {
+  const N = Math.round(+$('size').value), [u, v] = toTex(L, w[0], w[1]), back = Math.floor((N - 1) / 2);
+  return [Math.floor(u) - back, Math.floor(v) - back, N];
+}
+function pixelDab(wx, wy) {
+  const { L } = stroke, [bx, by, N] = pixelBox(L, [wx, wy]), k = L.w / (L.x1 - L.x0);
+  const x0 = Math.max(0, bx), y0 = Math.max(0, by), x1 = Math.min(L.w - 1, bx + N - 1), y1 = Math.min(L.h - 1, by + N - 1);
+  if (x1 < x0 || y1 < y0) { toast('畫到圖層範圍外了：到圖層分頁按「擴大範圍」'); return; }
+  const c = $('color').value, lock = $('lockA').checked, al = Math.round(+$('flow').value * 2.55);
+  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+    if (inSel(L.x0 + (x + 0.5) / k, L.y0 + (y + 0.5) / k) < 0.5) continue;
+    const i = (y * L.w + x) * 4;
+    for (let n = 0; n < 3; n++) L.rgba[i + n] = parseInt(c.slice(1 + n * 2, 3 + n * 2), 16);
+    if (!lock) L.rgba[i + 3] = al;
+  }
+  touched(L, x0, y0, x1 - x0 + 1, y1 - y0 + 1);
+}
 function dab(wx, wy, r) {
   const { L, mask, src, tool: t } = stroke;
+  if (t === 'pixel') return pixelDab(wx, wy);
   const [px0, py0] = toTex(L, wx, wy), k = L.w / (L.x1 - L.x0), R = Math.max(0.5, r * k);
   const x0 = Math.max(0, Math.floor(px0 - R)), x1 = Math.min(L.w - 1, Math.ceil(px0 + R));
   const y0 = Math.max(0, Math.floor(py0 - R)), y1 = Math.min(L.h - 1, Math.ceil(py0 + R));
@@ -405,13 +446,84 @@ function layerAt(w) {
   }
   return null;
 }
+const hex = (r, g, b) => '#' + [r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('');
+function layerPixel(L, w) {                        // the layer's own stored value, colour under low alpha included
+  if (!L?.rgba || w[0] < L.x0 || w[0] >= L.x1 || w[1] < L.y0 || w[1] >= L.y1) return null;
+  const [u, v] = toTex(L, w[0], w[1]), x = Math.floor(u), y = Math.floor(v), i = (y * L.w + x) * 4, p = L.rgba;
+  return { x, y, r: p[i], g: p[i + 1], b: p[i + 2], a: p[i + 3] };
+}
+function showPixel(w) {
+  const e = $('px'), p = layerPixel(cur, w), top = layerAt(w);
+  e.hidden = false; e.textContent = '';
+  const add = (t) => e.append(t), sw = (c) => { const i = document.createElement('i'); i.style.background = c; add(i); };
+  if (p) { sw(`rgba(${p.r},${p.g},${p.b},${p.a / 255})`); add(`${cur.node.name} (${p.x}, ${p.y}) ${hex(p.r, p.g, p.b)} RGB ${p.r},${p.g},${p.b} A ${p.a}（${Math.round(p.a / 2.55)}%）`); }
+  else add(`${cur?.node.name ?? ''} 範圍外`);
+  add(`／最上層：${top?.node.name ?? '無'}`);
+}
+// 附近色 (2026-11-01, user: 滴管點下去自動算周圍色號，可選加深或淡化): the colours around the picked pixel, dark to light
+const NEAR_R = 8, NEAR_MAX = 7;
+const luma = (c) => 0.3 * c[0] + 0.59 * c[1] + 0.11 * c[2];
+const rgbOf = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+let near = [];
+function nearbyPixels(w) {
+  const out = [], L = cur;
+  if (layerPixel(L, w)?.a) {
+    const [u, v] = toTex(L, w[0], w[1]), cx0 = Math.floor(u), cy0 = Math.floor(v);
+    for (let y = Math.max(0, cy0 - NEAR_R); y <= Math.min(L.h - 1, cy0 + NEAR_R); y++)
+      for (let x = Math.max(0, cx0 - NEAR_R); x <= Math.min(L.w - 1, cx0 + NEAR_R); x++) {
+        const i = (y * L.w + x) * 4;
+        if (L.rgba[i + 3] > 127) out.push([L.rgba[i], L.rgba[i + 1], L.rgba[i + 2]]);
+      }
+  }
+  if (out.length >= 8) return out;
+  const n = NEAR_R * 2 + 1, c = new OffscreenCanvas(n, n), g = c.getContext('2d', { willReadFrequently: true });
+  g.translate(NEAR_R - Math.floor(w[0]), NEAR_R - Math.floor(w[1]));
+  if (base) g.drawImage(base.c, base.x, base.y, base.c.width * base.s, base.c.height * base.s);
+  for (const L2 of M.layers) if (L2.on || L2 === cur) g.drawImage(L2.src, L2.x0, L2.y0, L2.x1 - L2.x0, L2.y1 - L2.y0);
+  const d = g.getImageData(0, 0, n, n).data;
+  for (let i = 0; i < d.length; i += 4) if (d[i + 3] > 127) out.push([d[i], d[i + 1], d[i + 2]]);
+  return out;
+}
+function pickNear(w) {
+  const groups = new Map(), me = rgbOf($('color').value);
+  for (const p of nearbyPixels(w)) {
+    const k = (p[0] >> 4) << 8 | (p[1] >> 4) << 4 | p[2] >> 4, s = groups.get(k) ?? [0, 0, 0, 0];
+    s[0] += p[0]; s[1] += p[1]; s[2] += p[2]; s[3]++; groups.set(k, s);
+  }
+  const dist = (c) => Math.hypot(c[0] - me[0], c[1] - me[1], c[2] - me[2]);
+  near = [...groups.values()].map((s) => [s[0] / s[3], s[1] / s[3], s[2] / s[3]].map(Math.round))
+    .sort((a, b) => dist(a) - dist(b)).slice(0, NEAR_MAX).sort((a, b) => luma(a) - luma(b));
+  renderNear();
+}
+function renderNear() {
+  const box = $('near'), now = $('color').value;
+  box.textContent = '';
+  for (const c of near) {
+    const b = document.createElement('button'), h = hex(...c);
+    b.style.background = h; b.title = h; b.setAttribute('aria-label', `使用 ${h}`); b.setAttribute('aria-pressed', h === now);
+    b.onclick = () => { $('color').value = h; renderNear(); };
+    box.append(b);
+  }
+}
+function shade(dir) {                              // -1 加深, 1 淡化: the next nearby colour that way, else a small step
+  const me = rgbOf($('color').value), l = luma(me);
+  const hit = near.filter((c) => (luma(c) - l) * dir >= 4).sort((a, b) => (luma(a) - luma(b)) * dir)[0];
+  const next = hit ?? me.map((v) => Math.round(dir < 0 ? v * 0.92 : v + (255 - v) * 0.1));
+  $('color').value = hex(...next); renderNear();
+}
 function dropper(w) {
+  const own = layerPixel(cur, w);
+  if (own?.a) {                                    // the layer's pixel, alpha included; a transparent one falls through to the screen
+    $('color').value = hex(own.r, own.g, own.b);
+    $('flow').value = Math.max(1, Math.round(own.a / 2.55)); $('flowO').textContent = $('flow').value;
+    return;
+  }
   const c = new OffscreenCanvas(1, 1), g = c.getContext('2d', { willReadFrequently: true });
   g.translate(-Math.floor(w[0]), -Math.floor(w[1]));
   if (base) g.drawImage(base.c, base.x, base.y, base.c.width * base.s, base.c.height * base.s);
   for (const L of M.layers) if (L.on || L === cur) g.drawImage(L.src, L.x0, L.y0, L.x1 - L.x0, L.y1 - L.y0);
   const d = g.getImageData(0, 0, 1, 1).data;
-  $('color').value = '#' + [d[0], d[1], d[2]].map((v) => v.toString(16).padStart(2, '0')).join('');
+  $('color').value = hex(d[0], d[1], d[2]);
 }
 
 // ---- layer list ---------------------------------------------------------------------------------------------------
@@ -515,11 +627,11 @@ cv.addEventListener('pointerdown', async (e) => {
   }
   const w = toWorld(e);
   if (tool === 'hand' || e.button === 1) { pan = { x: e.clientX - view.x, y: e.clientY - view.y }; return; }
-  if (['brush', 'erase', 'clone'].includes(tool)) {
+  if (['brush', 'pixel', 'erase', 'clone'].includes(tool)) {
     if (!cur) return toast('先選一個圖層');
     if (tool === 'clone' && !base) return toast('先到底圖分頁載入底圖');
     await beginStroke(e);
-  } else if (tool === 'dropper') dropper(w);
+  } else if (tool === 'dropper') { if (cur) await ensure(cur); dropper(w); pickNear(w); showPixel(w); }
   else if (tool === 'layer') { const L = layerAt(w); if (L) { select(L); L.row?.scrollIntoView({ block: 'nearest' }); toast(L.node.name); } }
   else if (tool === 'rect' || tool === 'lasso') { drag = { o: w }; draft = [w]; }
   else if (tool === 'move') { if (cur) await beginMove(e); }
@@ -530,11 +642,12 @@ cv.addEventListener('pointermove', (e) => {
   if (ptrs.has(e.pointerId)) ptrs.set(e.pointerId, e);
   const w = toWorld(e); cursor = w;
   if (pinch && ptrs.size === 2) {
-    const n = pinchState(), r = cv.getBoundingClientRect(), k = n.d / pinch.d, s = clamp(view.s * k, 0.05, 40);
+    const n = pinchState(), r = cv.getBoundingClientRect(), k = n.d / pinch.d, s = clamp(view.s * k, 0.05, ZOOM_MAX);
     const ax = pinch.mx - r.left, ay = pinch.my - r.top, nx = n.mx - r.left, ny = n.my - r.top;
     view.x = nx - (ax - view.x) * (s / view.s); view.y = ny - (ay - view.y) * (s / view.s); view.s = s; pinch = n;
   } else if (pan) { view.x = e.clientX - pan.x; view.y = e.clientY - pan.y; }
   else if (stroke) strokeTo(w, e.pressure);
+  else if (tool === 'dropper') { showPixel(w); if (ptrs.has(e.pointerId)) { dropper(w); pickNear(w); } }
   else if (moving) moveTo(w);
   else if (drag && tool === 'rect') { const o = drag.o; draft = [o, [w[0], o[1]], w, [o[0], w[1]]]; }
   else if (drag && tool === 'lasso') draft.push(w);
@@ -555,18 +668,31 @@ cv.addEventListener('pointerleave', () => { cursor = null; paint(); });
 cv.addEventListener('wheel', (e) => {
   if (!M) return;
   e.preventDefault();
-  const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, s = clamp(view.s * Math.exp(-e.deltaY * 0.0015), 0.05, 40);
+  const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, s = clamp(view.s * Math.exp(-e.deltaY * 0.0015), 0.05, ZOOM_MAX);
   view.x = x - (x - view.x) * (s / view.s); view.y = y - (y - view.y) * (s / view.s); view.s = s; paint();
 }, { passive: false });
 
 document.querySelectorAll('[data-tool]').forEach((b) => { b.onclick = () => {
-  tool = b.dataset.tool; document.querySelectorAll('[data-tool]').forEach((o) => o.setAttribute('aria-pressed', o === b)); paint();
+  const was = tool;
+  tool = b.dataset.tool; document.querySelectorAll('[data-tool]').forEach((o) => o.setAttribute('aria-pressed', o === b));
+  if (tool === 'pixel' && was !== 'pixel') { softSize = +$('size').value; setSize(1); }   // (each brush keeps its own size)
+  if (tool !== 'pixel' && was === 'pixel') setSize(softSize);
+  if (tool === 'dropper' && cur) ensure(cur); else $('px').hidden = true;
+  paint();
 }; });
 document.querySelectorAll('[data-tab]').forEach((b) => { b.onclick = () => {
   document.querySelectorAll('[data-tab]').forEach((o) => o.setAttribute('aria-pressed', o === b));
   document.querySelectorAll('.pane').forEach((p) => p.classList.toggle('on', p.id === `tab-${b.dataset.tab}`));
 }; });
-for (const [id, o] of [['size', 'sizeO'], ['hard', 'hardO'], ['flow', 'flowO'], ['baseA', 'baseAO'], ['layerA', 'layerAO']])
+function setSize(v) { const n = clamp(Math.round(v) || 1, 1, 200); $('size').value = n; $('sizeN').value = n; paint(); }
+$('size').oninput = () => setSize(+$('size').value);
+$('sizeN').onchange = () => setSize(+$('sizeN').value);
+$('sizeD').onclick = () => setSize(+$('size').value - 1);
+$('sizeU').onclick = () => setSize(+$('size').value + 1);
+$('darker').onclick = () => shade(-1); $('lighter').onclick = () => shade(1);
+$('color').oninput = renderNear;
+$('zoomIn').onclick = () => zoomBy(2); $('zoomOut').onclick = () => zoomBy(0.5);
+for (const [id, o] of [['hard', 'hardO'], ['flow', 'flowO'], ['baseA', 'baseAO'], ['layerA', 'layerAO']])
   $(id).oninput = () => { $(o).textContent = $(id).value; paint(); };
 $('baseS').oninput = () => {
   $('baseSO').textContent = $('baseS').value;
