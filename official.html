@@ -118,7 +118,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <div class="viewctl" id="viewctl">
       <button data-v="in" title="放大">＋</button><button data-v="up" title="往上看">▲</button><button data-v="out" title="縮小">－</button>
       <button data-v="left" title="往左看">◀</button><button data-v="reset" title="還原">⟲</button><button data-v="right" title="往右看">▶</button>
-      <button data-v="head" title="頭部特寫">🙂</button><button data-v="down" title="往下看">▼</button><button data-v="move" title="移動模式：拖曳＝移動畫面">✋</button>
+      <button data-v="head" title="頭部特寫">🙂</button><button data-v="down" title="往下看">▼</button><button data-v="move" class="on" title="移動模式：拖曳＝移動畫面">✋</button>
     </div>
   </div>
   <aside>
@@ -211,7 +211,7 @@ mobilePanel(stage, document.querySelector('aside'), () => fitView());      // ph
 const R = new Renderer(cv);
 let P = null, model = null, view = { cx: 0, cy: 0, scale: 1 }, fit = null;
 const manual = new Set();             // params the user grabbed: the idle motion leaves them alone
-const auto = { follow: true, blink: true, breath: true, sway: true, talk: false, physics: true, breeze: true, grab: true };
+const auto = { follow: false, blink: true, breath: true, sway: true, talk: false, physics: true, breeze: true, grab: true };
 const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: '🫁 呼吸', sway: '🦶 重心移動', talk: '💬 說話', physics: '🌬 物理', breeze: '🍃 微風（小馬尾／耳朵輕晃）', grab: '🖐 重力拖曳（按住人物晃動）' };
 
 // ---- versions (2026-10-23): versions.js -- the date version on every model, ?v=<build> against the browser cache
@@ -979,7 +979,8 @@ cv.addEventListener('dblclick', fitView);
 
 // ---- (2026-10-30, user: demo 網站沒辦法拖拉模型也沒辦法放大) on-stage view buttons + move mode + pinch zoom.
 // Zoom keeps the stage centre fixed (pan is in model units, so only zoom changes); pan steps are a fifth of the view.
-let moveMode = false;
+let moveMode = true;                // (2026-11-01 user: 預設就是移動模式，比較常用)
+cv.style.cursor = 'move';
 const ZMIN = 0.4, ZMAX = 8;
 function setZoom(z) { zoom = Math.min(ZMAX, Math.max(ZMIN, z)); resize(); }
 function panBy(fx, fy) {                     // fx / fy: fraction of the visible stage
