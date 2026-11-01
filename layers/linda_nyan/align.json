@@ -90,6 +90,20 @@
    "img": "align_shock.webp"
   },
   {
+   "id": "unwell",
+   "name": "不舒服",
+   "scale": 0.997,
+   "fit": [
+    1.0
+   ],
+   "left": -0.003,
+   "dx": 0.1,
+   "dy": 0.8,
+   "parts": 3,
+   "status": "ok",
+   "img": "align_unwell.webp"
+  },
+  {
    "id": "angry",
    "name": "生氣",
    "scale": 1.069,
@@ -169,7 +183,7 @@
    "left": -0.0,
    "dx": 0,
    "dy": 0,
-   "parts": 3,
+   "parts": 4,
    "status": "ok",
    "img": "align_sad.webp"
   },
