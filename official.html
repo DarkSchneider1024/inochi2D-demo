@@ -196,6 +196,7 @@ const talkMouth = { open: 0, form: 0 };
 const MODELS = [
   { id: 'aka', name: 'Aka', desc: '紅髮狐耳少女', file: 'models/official/aka.inp' },
   { id: 'midori', name: 'Midori', desc: '綠髮少女（MeshGroup 版）', file: 'models/official/midori.inp' },
+  { id: 'carol_hand_v2', name: '卡洛兒姐姐（日系大眼 v2）', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/carol_hand_v2.inp', own: 'carol_hand_v2.py' },
   { id: 'carol_v3', name: '卡洛兒姐姐', desc: '卡洛特工作室原創（V3）', file: 'models/carol_v3.inp', own: 'make_carol3_puppet.py' },
   { id: 'bobo_v3', name: '兔子波波', desc: '卡洛特工作室原創（V3・GPT 部件圖層、表情做在模型裡）', file: 'models/bobo_v3.inp', own: 'make_bobo3_puppet.py' },
   { id: 'carol_v2', name: '卡洛兒姐姐 V2（舊版・不再維護）', desc: '卡洛特工作室原創（V2 舊版）', file: 'models/carol_v2.inp', own: 'make_carol2_puppet.py' },
@@ -323,7 +324,7 @@ for (const k of Object.keys(auto)) {
 }
 
 const layersList = fetch('layers/models.json', { cache: 'no-store' }).then((r) => r.ok ? r.json() : []).then((l) => l.map((m) => m.id)).catch(() => []);
-async function open(id) {
+async function open(id) { if (window.demo) window.demo.modelId = id;
   loadRef(id);
   stopMoveTour();
   model = MODELS.find((m) => m.id === id) || MODELS[0];
@@ -1090,7 +1091,7 @@ function frame(now) {
     applyMoves(dt);
     P.update();
     if (auto.physics) { stepBreeze(dt); P.stepPhysics(dt); }
-    R.draw(view);
+    window.__pivotApply?.(); R.draw(view);
     drawRef();
     drawFeel();
     uiT += dt;
@@ -1108,6 +1109,7 @@ function frame(now) {
 }
 requestAnimationFrame(frame);
 window.demo = { get puppet() { return P; }, renderer: R, auto, open, runQA, script: sc, get view() { return view; } };
+import('./pivot-tool.js').then((m) => m.init());   // (2026-11-02 user: 調整動作支點、儲存新動作)
 open(new URLSearchParams(location.search).get('model') || 'mr_carrot_sci').catch((e) => {
   $('loading').textContent = `載入失敗：${e.message}`;
   console.error(e);
