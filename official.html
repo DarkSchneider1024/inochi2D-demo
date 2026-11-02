@@ -228,6 +228,19 @@ for (const id of FEATURED_IDS) {
   option.textContent = `${m.name} ${vlabel(m.file) || ''}`.trim();
   $('models').appendChild(option);
 }
+// 2026-11-03 時光探險隊: the v2 models of 卡洛特時空探險 get their own group; add an id here when a model passes model_regress.py
+const TEAM_IDS = ['carol_hand_v2'];
+const teamGroup = document.createElement('optgroup');
+teamGroup.label = '時光探險隊';
+for (const id of TEAM_IDS) {
+  const m = MODELS.find(m => m.id === id);
+  if (!m) continue;
+  const option = document.createElement('option');
+  option.value = m.id;
+  option.textContent = m.name;
+  teamGroup.appendChild(option);
+}
+$('models').appendChild(teamGroup);
 $('models').onchange = () => open($('models').value);
 $('decorBtn').onclick = () => { decorOff = !decorOff; $('decorBtn').setAttribute('aria-pressed', decorOff); };
 // 學院風飾品 (2026-11-01, 卡洛兒): 魔法帽 is independent; 放下長髮 and 單馬尾 exclude each other
@@ -1047,7 +1060,7 @@ async function runQA() {
   const DT = 1 / 30, list = [];
   const yaw = () => (P.get('Head:: Yaw-Pitch') || [0, 0]);
   const tag = () => `轉 ${yaw()[0].toFixed(2)}／仰 ${(yaw()[1] ?? 0).toFixed(2)}／歪 ${(P.get('Head:: Roll')?.[0] ?? 0).toFixed(2)}`;
-  const step = (sweep) => { drive(DT); applyMoves(DT); P.update(); if (!sweep) P.stepPhysics(DT); R.draw(view); };
+  const step = (sweep) => { drive(DT); applyMoves(DT); headSwap(); P.update(); if (!sweep) P.stepPhysics(DT); R.draw(view); };
   const yieldUI = (msg) => { btn.textContent = msg; return new Promise((r) => setTimeout(r, 0)); };   // (rAF stalls in a background tab)
   for (let i = 0; i < 60; i++) step(false);                           // 2 s at rest (the chosen 表情 eases in)
   const ref = { c: grab(cv) };
@@ -1083,12 +1096,19 @@ $('reset').onclick = () => { if (!P) return; stopMoveTour(); P.reset(); manual.c
 $('snap').onclick = () => { const a = document.createElement('a'); a.download = `${model.id}.png`; a.href = cv.toDataURL('image/png'); a.click(); };
 
 // ---- loop ----
+// 2026-11-03: models with drawn 45-degree heads swap them in from the head yaw
+function headSwap() {
+  if (!P.has('Head:: Swap R')) return;
+  const y = (P.get('Head:: Yaw-Pitch') || [0, 0])[0];
+  P.set('Head:: Swap R', Math.max(0, Math.min(1, y))); P.set('Head:: Swap L', Math.max(0, Math.min(1, -y)));
+}
 let last = performance.now(), uiT = 0;
 function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
   if (P && !qaBusy) {
     drive(dt);
     applyMoves(dt);
+    headSwap();
     P.update();
     if (auto.physics) { stepBreeze(dt); P.stepPhysics(dt); }
     window.__pivotApply?.(); R.draw(view);

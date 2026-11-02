@@ -312,6 +312,7 @@ class Actor {
     blink = clamp(blink, 0, 1);
 
     p.set('Head:: Yaw-Pitch', clamp(st.yaw, -1, 1), clamp(-st.pitch, -1, 1));
+    if (p.byName['Head:: Swap R']) { p.set('Head:: Swap R', clamp(st.yaw, 0, 1)); p.set('Head:: Swap L', clamp(-st.yaw, 0, 1)); }   // drawn 45-degree head
     p.set('Head:: Roll', clamp(st.roll, -1, 1));
     p.set('Eye:: Left:: Blink', blink); p.set('Eye:: Right:: Blink', blink);
     if (isMidMouth(p.byName['Mouth:: Form'])) {

@@ -16,6 +16,13 @@
     "desc": "2026-10-30 與科學家共用骨架，每層 GPT 透明部件；外套前襬一整片、耳朵照原圖描。"
   },
   {
+    "id": "carol_hand_v2",
+    "name": "卡洛兒姐姐",
+    "file": "models/carol_hand_v2.inp",
+    "noIdleArms": true,
+    "desc": "卡洛特工作室原創（時光探險隊 v2，含左右 45 度換圖）"
+  },
+  {
     "id": "bobo",
     "name": "兔子波波",
     "file": "models/bobo.inp",
