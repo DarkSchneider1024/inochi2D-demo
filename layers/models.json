@@ -383,5 +383,12 @@
   "build": "2026-11-02",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "mr_carrot_lab_v2",
+  "name": "mr_carrot_lab_v2",
+  "build": "2026-10-29",
+  "private": false,
+  "category": "story"
  }
 ]

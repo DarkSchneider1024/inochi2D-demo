@@ -1370,34 +1370,23 @@
   {
    "name": "跪_腳_R",
    "file": "53.webp",
-   "x": 22,
-   "y": 975,
-   "w": 510,
-   "h": 316,
+   "x": 20,
+   "y": 1021,
+   "w": 517,
+   "h": 275,
    "group": "Body",
    "hidden": true,
    "backing": false,
    "z": 0.97,
-   "suspects": [
-    {
-     "type": "灰邊",
-     "box": [
-      172,
-      968,
-      35,
-      24
-     ],
-     "n": 29
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "跪_腳_L",
    "file": "54.webp",
-   "x": 532,
-   "y": 983,
-   "w": 508,
-   "h": 309,
+   "x": 527,
+   "y": 1027,
+   "w": 516,
+   "h": 268,
    "group": "Body",
    "hidden": true,
    "backing": false,

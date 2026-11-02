@@ -118,7 +118,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <div class="viewctl" id="viewctl">
       <button data-v="in" title="放大">＋</button><button data-v="up" title="往上看">▲</button><button data-v="out" title="縮小">－</button>
       <button data-v="left" title="往左看">◀</button><button data-v="reset" title="還原">⟲</button><button data-v="right" title="往右看">▶</button>
-      <button data-v="head" title="頭部特寫">🙂</button><button data-v="down" title="往下看">▼</button><button data-v="move" class="on" title="移動模式：拖曳＝移動畫面">✋</button>
+      <button data-v="head" title="頭部特寫">🙂</button><button data-v="down" title="往下看">▼</button><button data-v="move" title="移動模式：拖曳＝移動畫面">✋</button>
     </div>
   </div>
   <aside>
@@ -147,7 +147,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <!-- 2026-10-23: the model's own animations (表情/… 動作/… 手勢/…); a model without any shows none of these -->
     <section id="modelMoves" hidden aria-labelledby="modelMovesH">
     <h2 id="modelMovesH">模型動畫</h2>
-    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="baseBtn" aria-pressed="false" hidden>🩱 底圖</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="sunBtn" aria-pressed="false" hidden>👗 平口洋裝</button><button id="xmasBtn" aria-pressed="false" hidden>🎄 聖誕換裝</button><button id="deerBtn" aria-pressed="false" hidden>🦌 聖誕麋鹿裝</button><button id="hatBtn" aria-pressed="false" hidden>🧙 魔法帽</button><button id="hairDownBtn" aria-pressed="false" hidden>💇 放下長髮</button><button id="ponyBtn" aria-pressed="false" hidden>🎀 單馬尾</button><button id="foreBtn" aria-pressed="false" hidden>🎀 露額長髮</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button><button id="bustBtn" aria-pressed="false" hidden>🍑 胸部加大</button></div><div id="wearRows" hidden></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="0.875" aria-pressed="false">✨ 俐落短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div><div class="row" id="colorRow" hidden><button data-color="purple" aria-pressed="true">💜 紫色</button><button data-color="pink" aria-pressed="false">🌸 粉色</button><button data-color="tiffany" aria-pressed="false">🩵 蒂芬妮綠</button><button data-color="aqua" aria-pressed="false">💧 水藍</button><button data-color="orange" aria-pressed="false">🍊 橘色</button><button data-color="black" aria-pressed="false">🖤 純黑</button><button id="colorAcc" aria-pressed="true">🎀 配件一起換</button><button id="tartanBtn" aria-pressed="false">🏴 學院風：蘇格蘭配色</button></div><div class="row" id="eyeRow" hidden><button data-eye="purple" aria-pressed="true">👁 紫瞳</button><button data-eye="pink" aria-pressed="false">粉瞳</button><button data-eye="green" aria-pressed="false">綠瞳</button><button data-eye="blue" aria-pressed="false">藍瞳</button><button data-eye="amber" aria-pressed="false">琥珀瞳</button><button data-eye="red" aria-pressed="false">紅瞳</button></div><div class="row" id="skinRow" hidden><button data-skin="base" aria-pressed="true">🧑 原膚色</button><button data-skin="porcelain" aria-pressed="false">瓷白</button><button data-skin="rosy" aria-pressed="false">粉嫩</button><button data-skin="wheat" aria-pressed="false">小麥</button><button data-skin="honey" aria-pressed="false">蜜棕</button><button data-skin="deep" aria-pressed="false">深棕</button></div></div>
+    <div id="decorSec" hidden><h3>服裝</h3><div class="row"><button id="decorBtn" aria-pressed="false">🎀 拿掉裝飾（蝴蝶結、頸圈）</button><button id="baseBtn" aria-pressed="false" hidden>🩱 底圖</button><button id="acadBtn" aria-pressed="false" hidden>🎓 學院風換裝</button><button id="sunBtn" aria-pressed="false" hidden>👗 平口洋裝</button><button id="kneelBtn" aria-pressed="false" hidden>🧎 跪姿洋裝</button><button id="xmasBtn" aria-pressed="false" hidden>🎄 聖誕換裝</button><button id="deerBtn" aria-pressed="false" hidden>🦌 聖誕麋鹿裝</button><button id="hatBtn" aria-pressed="false" hidden>🧙 魔法帽</button><button id="hairDownBtn" aria-pressed="false" hidden>💇 放下長髮</button><button id="ponyBtn" aria-pressed="false" hidden>🎀 單馬尾</button><button id="foreBtn" aria-pressed="false" hidden>🎀 露額長髮</button><button id="blazerBtn" aria-pressed="false" hidden>👔 脫外套</button><button id="bustBtn" aria-pressed="false" hidden>🍑 胸部加大</button></div><div id="wearRows" hidden></div><div class="row" id="hairRow" hidden><button data-hair="0" aria-pressed="true">💇 放下來</button><button data-hair="0.5" aria-pressed="false">🎀 綁馬尾</button><button data-hair="0.25" aria-pressed="false">✂️ 無長髮</button><button data-hair="0.75" aria-pressed="false">💁 短髮</button><button data-hair="0.875" aria-pressed="false">✨ 俐落短髮</button><button data-hair="1" aria-pressed="false">🍡 瀏海上綁</button></div><div class="row" id="colorRow" hidden><button data-color="purple" aria-pressed="true">💜 紫色</button><button data-color="pink" aria-pressed="false">🌸 粉色</button><button data-color="tiffany" aria-pressed="false">🩵 蒂芬妮綠</button><button data-color="aqua" aria-pressed="false">💧 水藍</button><button data-color="orange" aria-pressed="false">🍊 橘色</button><button data-color="black" aria-pressed="false">🖤 純黑</button><button id="colorAcc" aria-pressed="true">🎀 配件一起換</button><button id="tartanBtn" aria-pressed="false">🏴 學院風：蘇格蘭配色</button></div><div class="row" id="eyeRow" hidden><button data-eye="purple" aria-pressed="true">👁 紫瞳</button><button data-eye="pink" aria-pressed="false">粉瞳</button><button data-eye="green" aria-pressed="false">綠瞳</button><button data-eye="blue" aria-pressed="false">藍瞳</button><button data-eye="amber" aria-pressed="false">琥珀瞳</button><button data-eye="red" aria-pressed="false">紅瞳</button></div><div class="row" id="skinRow" hidden><button data-skin="base" aria-pressed="true">🧑 原膚色</button><button data-skin="porcelain" aria-pressed="false">瓷白</button><button data-skin="rosy" aria-pressed="false">粉嫩</button><button data-skin="wheat" aria-pressed="false">小麥</button><button data-skin="honey" aria-pressed="false">蜜棕</button><button data-skin="deep" aria-pressed="false">深棕</button></div></div>
     <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
     <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div></div>
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
@@ -212,7 +212,7 @@ mobilePanel(stage, document.querySelector('aside'), () => fitView());      // ph
 const R = new Renderer(cv);
 let P = null, model = null, view = { cx: 0, cy: 0, scale: 1 }, fit = null;
 const manual = new Set();             // params the user grabbed: the idle motion leaves them alone
-const auto = { follow: false, blink: true, breath: true, sway: true, talk: false, physics: true, breeze: true, grab: true };
+const auto = { follow: true, blink: true, breath: true, sway: true, talk: false, physics: true, breeze: true, grab: true };
 const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: '🫁 呼吸', sway: '🦶 重心移動', talk: '💬 說話', physics: '🌬 物理', breeze: '🍃 微風（小馬尾／耳朵輕晃）', grab: '🖐 重力拖曳（按住人物晃動）' };
 
 // ---- versions (2026-10-23): versions.js -- the date version on every model, ?v=<build> against the browser cache
@@ -253,6 +253,8 @@ function showWear() {
   if (hasMix()) { academy = v.every((x) => x === 1); baseFit = v.every((x) => x === 2); }
   $('baseBtn').setAttribute('aria-pressed', baseFit); $('acadBtn').setAttribute('aria-pressed', academy);
   $('blazerBtn').hidden = !(P.has('Outfit:: Blazer Off') && (hasMix() ? wear.Top === 1 && wear.Arms === 1 : academy));
+  if (kneelOn && !v.every((x) => x === 3)) kneelOn = false;   // the kneeling skirt is the sundress one
+  $('kneelBtn').setAttribute('aria-pressed', kneelOn);
   if ($('blazerBtn').hidden && blazerOff) { blazerOff = false; $('blazerBtn').setAttribute('aria-pressed', 'false'); }
 }
 function wearAll(v) { for (const k in wear) wear[k] = v; showWear(); }
@@ -261,6 +263,7 @@ $('wearRows').innerHTML = WEAR.map(([k, n]) => `<div class="row"><b style="align
 for (const b of document.querySelectorAll('#wearRows button')) b.onclick = () => { wear[b.dataset.slot] = +b.dataset.v; showWear(); };
 // (2026-11-01 user: 新增這一套) 平口洋裝: a fourth choice in every slot, shown only on a model that has it
 $('sunBtn').onclick = () => wearAll(Object.values(wear).every((x) => x === 3) ? 0 : 3);
+$('kneelBtn').onclick = () => { const on = !kneelOn; wear.Top = wear.Arms = wear.Skirt = wear.Legs = 3; kneelOn = on; showWear(); };
 $('baseBtn').onclick = () => wearAll(baseFit ? 0 : 2);
 $('acadBtn').onclick = () => { if (hasMix()) wearAll(academy ? 0 : 1); else { academy = !academy; if (academy) { xmasOn = false; deerOn = false; } showWear(); showXmas(); } };
 // 聖誕換裝 (2026-11-01, 卡洛兒) / 聖誕麋鹿裝 (波波): one button each; 聖誕 and 學院 exclude each other
@@ -349,7 +352,7 @@ async function open(id) {
   decorOff = false; chest.live = false; chest.x1 = mk(); chest.y1 = mk(); $('decorBtn').setAttribute('aria-pressed', 'false'); $('decorSec').hidden = !P.has('Outfit:: Decor Off') && !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); $('decorBtn').hidden = !P.has('Outfit:: Decor Off'); $('decorBtn').textContent = P.has('Outfit:: Hat') ? '🎀 拿掉飾品' : '🎀 拿掉裝飾（蝴蝶結、頸圈）'; carolStyle.hat = false; carolStyle.hair = ''; showStyle(); $('hatBtn').hidden = !P.has('Outfit:: Hat'); $('hairDownBtn').hidden = !P.has('Outfit:: Hair Down'); $('ponyBtn').hidden = !P.has('Outfit:: Ponytail'); $('foreBtn').hidden = true;
   baseFit = false; $('baseBtn').hidden = !P.has('Mix:: Top:: Off'); $('wearRows').hidden = !P.has('Mix:: Top:: Off'); for (const k in wear) wear[k] = 0; $('sunBtn').hidden = !P.has('Mix:: Top:: Sun'); for (const b of document.querySelectorAll('#wearRows [data-sun]')) b.hidden = !P.has('Mix:: Top:: Sun');
   bigBust = false; $('bustBtn').setAttribute('aria-pressed', 'false'); $('bustBtn').hidden = !P.has('Body:: Bust');
-  academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); showWear(); xmasOn = false; deerOn = false; showXmas(); $('xmasBtn').hidden = !P.has('Outfit:: Christmas'); $('deerBtn').hidden = !P.has('Outfit:: Reindeer'); if (P.has('Outfit:: Reindeer') || P.has('Outfit:: Christmas')) $('decorSec').hidden = false;
+  kneelOn = false; $('kneelBtn').hidden = !P.has('Pose:: Kneel'); academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); showWear(); xmasOn = false; deerOn = false; showXmas(); $('xmasBtn').hidden = !P.has('Outfit:: Christmas'); $('deerBtn').hidden = !P.has('Outfit:: Reindeer'); if (P.has('Outfit:: Reindeer') || P.has('Outfit:: Christmas')) $('decorSec').hidden = false;
   hairStyle = 0; $('hairRow').hidden = !P.has('Hair:: Style');
   $('colorRow').hidden = $('skinRow').hidden = $('eyeRow').hidden = !P.has('Hair:: Style'); setSkin('base'); eyeId = 'purple'; document.querySelectorAll('#eyeRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.eye === 'purple')); colorId = 'purple'; tartan = false; $('tartanBtn').setAttribute('aria-pressed', 'false'); document.querySelectorAll('#colorRow button[data-color]').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === 'purple'));
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.hair === '0'));
@@ -450,7 +453,7 @@ const chest = { x1: mk(), x2: mk(), y1: mk(), y2: mk(), prevY: 0, prevBr: 0.5, p
 // 拿掉裝飾 (2026-10-30, Linda喵): Outfit:: Decor Off hides the bow / collar layers
 let decorOff = false;
 // 學院風換裝 (2026-10-30, Linda喵): Outfit:: Academy swaps the dress for the academy uniform
-let academy = false, blazerOff = false, baseFit = false, bigBust = false;
+let academy = false, blazerOff = false, baseFit = false, bigBust = false, kneelOn = false;
 // 換髮型 (2026-10-30, Linda喵): Hair:: Style 0 放下來 / .25 無長髮 / .5 綁馬尾 / .75 短髮 / .875 俐落短髮 / 1 瀏海上綁
 let hairStyle = 0;
 function drivenNow() {
@@ -569,6 +572,7 @@ function drive(dt) {
   if (P.has('Outfit:: Christmas')) set('Outfit:: Christmas', xmasOn ? 1 : 0);
   if (P.has('Outfit:: Reindeer')) set('Outfit:: Reindeer', deerOn ? 1 : 0);
   if (P.has('Outfit:: Blazer Off')) set('Outfit:: Blazer Off', blazerOff ? 1 : 0);
+  if (P.has('Pose:: Kneel')) set('Pose:: Kneel', kneelOn ? 1 : 0);
   if (P.has('Hair:: Style')) set('Hair:: Style', hairStyle);
   if (auto.blink) {
     blinkNext -= dt;
@@ -651,7 +655,7 @@ function buildMoves() {
   stopMoveTour(); stopScript();
   $('scriptSec').hidden = !P.has('Mouth:: Swap Shock'); if (!$('scriptSec').hidden) { scRender(); scListUI(); }
   feel.want = feel.shown = ''; feel.w = 0; act.a = gest.a = ''; act.touched.clear(); gest.touched.clear();
-  const fs = groupOf('表情'), as = groupOf('動作'), gs = groupOf('手勢');
+  const fs = groupOf('表情'), as = groupOf('動作').filter((n) => n !== '動作/跪下'), gs = groupOf('手勢');   // (2026-11-02 user: 跪下改成服裝) 跪姿洋裝 button instead
   moveTour.items = [...fs, ...as, ...gs];
   $('moveTourSec').hidden = !moveTour.items.length;
   $('modelMoves').hidden = !moveTour.items.length;
@@ -983,8 +987,7 @@ cv.addEventListener('dblclick', fitView);
 
 // ---- (2026-10-30, user: demo 網站沒辦法拖拉模型也沒辦法放大) on-stage view buttons + move mode + pinch zoom.
 // Zoom keeps the stage centre fixed (pan is in model units, so only zoom changes); pan steps are a fifth of the view.
-let moveMode = true;                // (2026-11-01 user: 預設就是移動模式，比較常用)
-cv.style.cursor = 'move';
+let moveMode = false;
 const ZMIN = 0.4, ZMAX = 8;
 function setZoom(z) { zoom = Math.min(ZMAX, Math.max(ZMIN, z)); resize(); }
 function panBy(fx, fy) {                     // fx / fy: fraction of the visible stage
