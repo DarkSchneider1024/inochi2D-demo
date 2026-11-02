@@ -7,13 +7,16 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 // mouth for that feeling (carol_v3); `lid` still narrows the eye under them
 export const FEEL = {
   neutral: { label: '😐 平常' },
-  happy: { label: '😊 微笑', brow: -0.15, raise: 0.3, mouth: 1.0, blush: 0.45, emote: 'sparkle' },
+  happy: { label: '😊 微笑', expr: 'Happy', brow: -0.15, raise: 0.3, mouth: 1.0, blush: 0.45, emote: 'sparkle' },
   laugh: { label: '😆 大笑', raise: 0.5, mouth: 1.0, blush: 0.6, smile: 1, open: 0.85, laugh: 1, roll: 0.12, emote: 'notes' },
   angry: { label: '😠 生氣', expr: 'Angry', brow: 1.0, mouth: -0.8, lid: 0.3, pitch: 0.12, shake: 0.35, emote: 'vein' },
   sad: { label: '😢 難過', expr: 'Sad', brow: -1.0, mouth: -1.0, lid: 0.35, pitch: 0.45, emote: 'tears' },
   surprise: { label: '😲 驚訝', raise: 1.0, shock: 0.6, open: 0.6, form: 1, pitch: -0.2, emote: 'bang' },
-  scared: { label: '😨 害怕', brow: -0.7, raise: 0.6, shock: 0.8, mouth: -0.6, open: 0.3, form: 1, tremble: 1, emote: 'sweat' },
+  scared: { label: '😨 害怕', expr: 'Scared', brow: -0.7, raise: 0.6, shock: 0.8, mouth: -0.6, open: 0.3, form: 1, tremble: 1, emote: 'sweat' },
   smug: { label: '😏 得意', brow: 0.45, mouth: 0.9, lid: 0.38, roll: -0.12, emote: 'glint' },
+  deadpan: { label: '😑 傻眼', expr: 'Deadpan' },
+  disgust: { label: '😖 討厭', expr: 'Disgust', pitch: 0.12 },
+  unwell: { label: '🤢 不舒服', expr: 'Unwell', pitch: 0.3 },
   shy: { label: '😳 害羞', expr: 'Shy', look: -0.6, brow: -0.4, mouth: 0.5, blush: 1.0, lid: 0.2, pitch: 0.3, emote: 'blush' },
 };
 
