@@ -171,6 +171,5 @@ export function init() {
     try { const a = JSON.parse(await e.target.files[0].text()); store(load().filter((x) => x.name !== a.name).concat(a)); listSaved(); $('pvHint').textContent = `已匯入「${a.name}」。`; }
     catch { $('pvHint').textContent = '這個檔案無法匯入。'; }
   };
-  fillParts();
-  listSaved();
+  if (window.demo?.puppet) { fillParts(); listSaved(); }   // otherwise the first frame with a model fills them
 }
