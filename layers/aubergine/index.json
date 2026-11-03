@@ -1356,10 +1356,10 @@
   {
    "name": "手臂_L_揮手",
    "file": "53.webp",
-   "x": 446,
+   "x": 458,
    "y": 267,
-   "w": 178,
-   "h": 455,
+   "w": 154,
+   "h": 392,
    "group": "Body",
    "hidden": true,
    "backing": false,
