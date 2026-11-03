@@ -290,6 +290,16 @@ const BOBO_V3 = [
       'Head:: Yaw-Pitch': [K([[0, 0], [0.45, -0.25], [2.75, -0.25], [3.2, 0]])(u), 0],
       'Face:: Blush': K([[0, 0], [0.5, 0.35], [2.7, 0.35], [3.2, 0]])(u),
       'Mouth:: Open': K([[0.35, 0], [0.5, 0.85], [2.6, 0.85], [2.75, 0]])(u)}, u, [0.35, 2.85]) },
+  // (2026-11-03, user: 兔子波波也請用一樣的揮手重建／原本的也保留 變成有兩種揮手) the second wave, as carol_v3's: the paw up in front
+  // of the shoulder, the forearm in front of the body swaying about its elbow (a hold at each end), head and body follow
+  { id: 'wave_front', label: '揮手', hint: '手掌舉在肩前揮、笑眼', dur: 4.0, f: (u) => face({
+      'Arm:: Left:: Wave Front': u >= 0.3 && u < 3.7 ? 1 : 0,
+      'Hand:: Left:: Wave Front': ((x) => Math.sign(x) * Math.sqrt(Math.abs(x)))(Math.sin(2 * Math.PI * (u - 0.3) / 0.7)) * env(0.3, 3.7, 0.25)(u),
+      'Head:: Roll': -0.3 * Math.sin(2 * Math.PI * (u - 0.45) / 1.4) * env(0.3, 3.7, 0.4)(u),
+      'Head:: Yaw-Pitch': [0.12 * Math.sin(2 * Math.PI * (u - 0.45) / 1.4) * env(0.3, 3.7, 0.4)(u), 0],
+      'Arm:: Right:: Swing': 0.4 * Math.sin(2 * Math.PI * (u - 0.3) / 1.4) * env(0.3, 3.7, 0.4)(u),
+      'Face:: Blush': K([[0, 0], [0.4, 0.35], [3.5, 0.35], [4.0, 0]])(u),
+      'Mouth:: Open': K([[0.35, 0], [0.5, 0.7], [3.5, 0.7], [3.65, 0]])(u)}, u, [0.4, 3.6]) },
   ...BOBO.filter((a) => ['shy', 'happy', 'nod', 'surprise'].includes(a.id)),
 ];
 
