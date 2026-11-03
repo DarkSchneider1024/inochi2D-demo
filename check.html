@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>底圖與圖層比對</title>
+<style>
+  :root { --bg: #f6f4ef; --card: #fff; --ink: #2a2622; --mute: #7a7166; --line: #e3ddd2; --accent: #d9480f; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #1d1b19; --card: #2a2724; --ink: #eee8df; --mute: #a59c90; --line: #3d3833; --accent: #ff8a4c; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.6 system-ui, "Noto Sans TC", sans-serif; }
+  header, main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+  nav a { color: var(--accent); margin-right: 14px; text-decoration: none; }
+  h1 { font-size: 22px; margin: 8px 0 4px; }
+  h2 { font-size: 18px; margin: 28px 0 8px; }
+  p.note { color: var(--mute); margin: 4px 0 12px; }
+  select { font: inherit; padding: 4px 8px; }
+  .base { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 16px; align-items: start; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px; }
+  .card img { width: 100%; height: auto; display: block; border-radius: 6px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .meta { font-size: 13px; color: var(--mute); margin-top: 6px; }
+  .meta b { color: var(--ink); }
+  .tag { display: inline-block; font-size: 12px; padding: 0 6px; border-radius: 4px; background: var(--line); margin-left: 6px; }
+  @media (max-width: 700px) { .base { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <nav><a href="official.html">← 精緻展示作品</a><a href="layers.html">圖層檢查</a></nav>
+  <h1>底圖與圖層比對</h1>
+  <p class="note">每一層都是 ChatGPT 單獨生成的透明部件，程式只做對位。左：部件本身；右：疊在淡化的底圖上，紅框是部件外框。</p>
+  <label>角色 <select id="pick"></select></label>
+</header>
+<main>
+  <h2>1. 底圖</h2>
+  <div class="base">
+    <div class="card"><img id="base" alt="底圖"><div class="meta">GPT 生成的比對目標圖（模型以它為準）</div></div>
+    <div class="card"><img id="comp" alt="底圖與全部圖層疊合比較"><div class="meta" id="compMeta"></div></div>
+  </div>
+  <h2>2. 圖層比對</h2>
+  <div class="grid" id="layers"></div>
+</main>
+<script>
+const IDS = { carol_hand_v2: '卡洛兒 v2' };
+const q = new URLSearchParams(location.search);
+const pick = document.getElementById('pick');
+for (const [id, name] of Object.entries(IDS)) pick.add(new Option(name, id));
+pick.value = IDS[q.get('model')] ? q.get('model') : Object.keys(IDS)[0];
+pick.onchange = () => { location.search = '?model=' + pick.value; };
+const dir = 'check/' + pick.value + '/';
+document.getElementById('base').src = dir + 'base.jpg';
+document.getElementById('comp').src = dir + 'comp.jpg';
+fetch(dir + 'index.json').then((r) => r.json()).then((d) => {
+  document.getElementById('compMeta').textContent = `左：底圖　右：全部圖層疊回去（不含閉眼、嘴型差分）　平均色差 ${d.diff}`;
+  const box = document.getElementById('layers');
+  for (const l of d.layers) {
+    const c = document.createElement('div');
+    c.className = 'card';
+    const img = document.createElement('img');
+    img.src = dir + l.img; img.alt = l.name; img.loading = 'lazy';
+    const m = document.createElement('div');
+    m.className = 'meta';
+    const b = document.createElement('b'); b.textContent = l.name; m.appendChild(b);
+    if (l.swap) { const t = document.createElement('span'); t.className = 'tag'; t.textContent = '差分'; m.appendChild(t); }
+    m.appendChild(document.createElement('br'));
+    m.appendChild(document.createTextNode(`外框 ${l.bbox.join(', ')}　色差 ${l.diff}　原檔 ${l.gpt}`));
+    c.append(img, m);
+    box.appendChild(c);
+  }
+});
+</script>
+</body>
+</html>

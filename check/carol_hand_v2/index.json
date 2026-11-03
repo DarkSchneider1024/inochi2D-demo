@@ -1,0 +1,335 @@
+{
+ "id": "carol_hand_v2",
+ "size": [
+  1024,
+  1536
+ ],
+ "diff": 8.77,
+ "layers": [
+  {
+   "name": "後腦",
+   "img": "後腦.jpg",
+   "bbox": [
+    390,
+    98,
+    630,
+    353
+   ],
+   "diff": 39.6,
+   "gpt": "backhead.png",
+   "swap": false
+  },
+  {
+   "name": "尾_R",
+   "img": "尾_R.jpg",
+   "bbox": [
+    209,
+    149,
+    413,
+    559
+   ],
+   "diff": 20.7,
+   "gpt": "tails.png",
+   "swap": false
+  },
+  {
+   "name": "尾_L",
+   "img": "尾_L.jpg",
+   "bbox": [
+    611,
+    148,
+    814,
+    559
+   ],
+   "diff": 22.2,
+   "gpt": "tails.png",
+   "swap": false
+  },
+  {
+   "name": "蝴蝶結_R",
+   "img": "蝴蝶結_R.jpg",
+   "bbox": [
+    159,
+    480,
+    325,
+    724
+   ],
+   "diff": 17.6,
+   "gpt": "tailend.png",
+   "swap": false
+  },
+  {
+   "name": "蝴蝶結_L",
+   "img": "蝴蝶結_L.jpg",
+   "bbox": [
+    698,
+    480,
+    861,
+    724
+   ],
+   "diff": 17.0,
+   "gpt": "tailend.png",
+   "swap": false
+  },
+  {
+   "name": "腿",
+   "img": "腿.jpg",
+   "bbox": [
+    354,
+    872,
+    654,
+    1509
+   ],
+   "diff": 7.6,
+   "gpt": "legs.png",
+   "swap": false
+  },
+  {
+   "name": "裙",
+   "img": "裙.jpg",
+   "bbox": [
+    321,
+    618,
+    699,
+    891
+   ],
+   "diff": 10.8,
+   "gpt": "skirt.png",
+   "swap": false
+  },
+  {
+   "name": "手_R",
+   "img": "手_R.jpg",
+   "bbox": [
+    180,
+    543,
+    417,
+    862
+   ],
+   "diff": 34.4,
+   "gpt": "arms.png",
+   "swap": false
+  },
+  {
+   "name": "手_L",
+   "img": "手_L.jpg",
+   "bbox": [
+    603,
+    543,
+    843,
+    861
+   ],
+   "diff": 34.3,
+   "gpt": "arms.png",
+   "swap": false
+  },
+  {
+   "name": "頸",
+   "img": "頸.jpg",
+   "bbox": [
+    430,
+    339,
+    594,
+    473
+   ],
+   "diff": 54.9,
+   "gpt": "neck.png",
+   "swap": false
+  },
+  {
+   "name": "上衣",
+   "img": "上衣.jpg",
+   "bbox": [
+    338,
+    387,
+    683,
+    640
+   ],
+   "diff": 39.9,
+   "gpt": "shirt.png",
+   "swap": false
+  },
+  {
+   "name": "領",
+   "img": "領.jpg",
+   "bbox": [
+    397,
+    354,
+    633,
+    628
+   ],
+   "diff": 45.0,
+   "gpt": "collar.png",
+   "swap": false
+  },
+  {
+   "name": "臉",
+   "img": "臉.jpg",
+   "bbox": [
+    414,
+    137,
+    609,
+    349
+   ],
+   "diff": 58.8,
+   "gpt": "face.png",
+   "swap": false
+  },
+  {
+   "name": "眼_R",
+   "img": "眼_R.jpg",
+   "bbox": [
+    432,
+    232,
+    493,
+    280
+   ],
+   "diff": 17.1,
+   "gpt": "eyes.png",
+   "swap": false
+  },
+  {
+   "name": "眼_L",
+   "img": "眼_L.jpg",
+   "bbox": [
+    532,
+    232,
+    593,
+    280
+   ],
+   "diff": 16.2,
+   "gpt": "eyes.png",
+   "swap": false
+  },
+  {
+   "name": "閉眼_R",
+   "img": "閉眼_R.jpg",
+   "bbox": [
+    434,
+    273,
+    505,
+    294
+   ],
+   "diff": 160.0,
+   "gpt": "eyesclosed.png",
+   "swap": true
+  },
+  {
+   "name": "閉眼_L",
+   "img": "閉眼_L.jpg",
+   "bbox": [
+    529,
+    273,
+    602,
+    293
+   ],
+   "diff": 146.4,
+   "gpt": "eyesclosed.png",
+   "swap": true
+  },
+  {
+   "name": "鼻",
+   "img": "鼻.jpg",
+   "bbox": [
+    435,
+    215,
+    577,
+    303
+   ],
+   "diff": 77.5,
+   "gpt": "nosemouth.png",
+   "swap": false
+  },
+  {
+   "name": "嘴",
+   "img": "嘴.jpg",
+   "bbox": [
+    486,
+    318,
+    529,
+    330
+   ],
+   "diff": 111.4,
+   "gpt": "nosemouth.png",
+   "swap": false
+  },
+  {
+   "name": "嘴_啊",
+   "img": "嘴_啊.jpg",
+   "bbox": [
+    492,
+    316,
+    522,
+    333
+   ],
+   "diff": 104.3,
+   "gpt": "mouth_a2.png",
+   "swap": true
+  },
+  {
+   "name": "嘴_喔",
+   "img": "嘴_喔.jpg",
+   "bbox": [
+    499,
+    316,
+    518,
+    339
+   ],
+   "diff": 121.3,
+   "gpt": "mouth_o.png",
+   "swap": true
+  },
+  {
+   "name": "瀏海",
+   "img": "瀏海.jpg",
+   "bbox": [
+    349,
+    98,
+    667,
+    367
+   ],
+   "diff": 27.1,
+   "gpt": "bangs.png",
+   "swap": false
+  },
+  {
+   "name": "呆毛",
+   "img": "呆毛.jpg",
+   "bbox": [
+    468,
+    9,
+    565,
+    116
+   ],
+   "diff": 25.8,
+   "gpt": "ahoge.png",
+   "swap": false
+  },
+  {
+   "name": "葉_R",
+   "img": "葉_R.jpg",
+   "bbox": [
+    307,
+    61,
+    438,
+    183
+   ],
+   "diff": 22.9,
+   "gpt": "leaves.png",
+   "swap": false
+  },
+  {
+   "name": "葉_L",
+   "img": "葉_L.jpg",
+   "bbox": [
+    586,
+    62,
+    716,
+    183
+   ],
+   "diff": 21.6,
+   "gpt": "leaves.png",
+   "swap": false
+  }
+ ]
+}

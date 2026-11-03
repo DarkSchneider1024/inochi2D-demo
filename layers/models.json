@@ -390,5 +390,12 @@
   "build": "2026-10-29",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "carol_hand_v2",
+  "name": "卡洛兒姐姐（日系大眼 v2）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
