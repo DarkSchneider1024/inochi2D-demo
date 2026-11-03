@@ -1,0 +1,1153 @@
+{
+ "id": "aubergine",
+ "private": false,
+ "name": "aubergine",
+ "W": 716,
+ "H": 1983,
+ "build": "2026-11-03",
+ "layers": [
+  {
+   "name": "後髮_墊底",
+   "file": "00.webp",
+   "x": 18,
+   "y": 15,
+   "w": 664,
+   "h": 862,
+   "group": "Head",
+   "hidden": false,
+   "backing": true,
+   "z": 0.42,
+   "suspects": []
+  },
+  {
+   "name": "後髮_R",
+   "file": "01.webp",
+   "x": 6,
+   "y": 4,
+   "w": 383,
+   "h": 886,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.41,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      108,
+      -2,
+      287,
+      899
+     ],
+     "n": 18229
+    },
+    {
+     "type": "藏線",
+     "box": [
+      93,
+      784,
+      41,
+      59
+     ],
+     "n": 178
+    },
+    {
+     "type": "藏線",
+     "box": [
+      115,
+      734,
+      64,
+      56
+     ],
+     "n": 148
+    },
+    {
+     "type": "藏線",
+     "box": [
+      279,
+      65,
+      27,
+      33
+     ],
+     "n": 132
+    },
+    {
+     "type": "破洞",
+     "box": [
+      23,
+      559,
+      55,
+      96
+     ],
+     "n": 922
+    },
+    {
+     "type": "破洞",
+     "box": [
+      196,
+      220,
+      39,
+      70
+     ],
+     "n": 622
+    },
+    {
+     "type": "破洞",
+     "box": [
+      80,
+      482,
+      41,
+      66
+     ],
+     "n": 535
+    },
+    {
+     "type": "破洞",
+     "box": [
+      131,
+      379,
+      38,
+      64
+     ],
+     "n": 448
+    },
+    {
+     "type": "破洞",
+     "box": [
+      209,
+      97,
+      39,
+      78
+     ],
+     "n": 442
+    },
+    {
+     "type": "破洞",
+     "box": [
+      96,
+      404,
+      34,
+      66
+     ],
+     "n": 315
+    },
+    {
+     "type": "破洞",
+     "box": [
+      163,
+      302,
+      34,
+      59
+     ],
+     "n": 311
+    },
+    {
+     "type": "破洞",
+     "box": [
+      80,
+      588,
+      27,
+      52
+     ],
+     "n": 248
+    },
+    {
+     "type": "破洞",
+     "box": [
+      45,
+      494,
+      31,
+      66
+     ],
+     "n": 213
+    },
+    {
+     "type": "破洞",
+     "box": [
+      18,
+      693,
+      32,
+      48
+     ],
+     "n": 199
+    },
+    {
+     "type": "破洞",
+     "box": [
+      116,
+      793,
+      22,
+      40
+     ],
+     "n": 93
+    },
+    {
+     "type": "破洞",
+     "box": [
+      142,
+      334,
+      25,
+      45
+     ],
+     "n": 58
+    }
+   ]
+  },
+  {
+   "name": "後髮_L",
+   "file": "02.webp",
+   "x": 362,
+   "y": 15,
+   "w": 334,
+   "h": 832,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.4,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      355,
+      8,
+      237,
+      642
+     ],
+     "n": 13429
+    },
+    {
+     "type": "藏線",
+     "box": [
+      447,
+      610,
+      149,
+      243
+     ],
+     "n": 1896
+    },
+    {
+     "type": "藏線",
+     "box": [
+      597,
+      659,
+      40,
+      107
+     ],
+     "n": 139
+    },
+    {
+     "type": "破洞",
+     "box": [
+      641,
+      559,
+      44,
+      85
+     ],
+     "n": 715
+    },
+    {
+     "type": "破洞",
+     "box": [
+      587,
+      482,
+      47,
+      60
+     ],
+     "n": 447
+    },
+    {
+     "type": "破洞",
+     "box": [
+      544,
+      384,
+      39,
+      64
+     ],
+     "n": 391
+    },
+    {
+     "type": "破洞",
+     "box": [
+      506,
+      306,
+      35,
+      55
+     ],
+     "n": 299
+    },
+    {
+     "type": "破洞",
+     "box": [
+      615,
+      577,
+      23,
+      41
+     ],
+     "n": 101
+    },
+    {
+     "type": "破洞",
+     "box": [
+      470,
+      115,
+      23,
+      57
+     ],
+     "n": 83
+    },
+    {
+     "type": "破洞",
+     "box": [
+      452,
+      601,
+      22,
+      45
+     ],
+     "n": 76
+    },
+    {
+     "type": "破洞",
+     "box": [
+      421,
+      463,
+      22,
+      44
+     ],
+     "n": 70
+    },
+    {
+     "type": "破洞",
+     "box": [
+      488,
+      214,
+      25,
+      27
+     ],
+     "n": 44
+    },
+    {
+     "type": "破洞",
+     "box": [
+      582,
+      444,
+      23,
+      24
+     ],
+     "n": 31
+    },
+    {
+     "type": "破洞",
+     "box": [
+      632,
+      486,
+      23,
+      27
+     ],
+     "n": 19
+    }
+   ]
+  },
+  {
+   "name": "裙_後",
+   "file": "03.webp",
+   "x": 75,
+   "y": 640,
+   "w": 567,
+   "h": 531,
+   "group": "Body",
+   "hidden": false,
+   "backing": true,
+   "z": 0.39,
+   "suspects": []
+  },
+  {
+   "name": "腿_R",
+   "file": "04.webp",
+   "x": 178,
+   "y": 1063,
+   "w": 159,
+   "h": 916,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.38,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      179,
+      1056,
+      165,
+      83
+     ],
+     "n": 2129
+    }
+   ]
+  },
+  {
+   "name": "腿_L",
+   "file": "05.webp",
+   "x": 376,
+   "y": 1063,
+   "w": 147,
+   "h": 916,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.37,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      369,
+      1056,
+      149,
+      81
+     ],
+     "n": 2039
+    }
+   ]
+  },
+  {
+   "name": "裙_紫襯",
+   "file": "06.webp",
+   "x": 125,
+   "y": 651,
+   "w": 504,
+   "h": 464,
+   "group": "Body",
+   "hidden": false,
+   "backing": true,
+   "z": 0.36,
+   "suspects": []
+  },
+  {
+   "name": "裙",
+   "file": "07.webp",
+   "x": 78,
+   "y": 645,
+   "w": 554,
+   "h": 488,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.35,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      226,
+      640,
+      265,
+      133
+     ],
+     "n": 4648
+    },
+    {
+     "type": "藏線",
+     "box": [
+      490,
+      708,
+      35,
+      48
+     ],
+     "n": 58
+    }
+   ]
+  },
+  {
+   "name": "手臂_R",
+   "file": "08.webp",
+   "x": 4,
+   "y": 374,
+   "w": 287,
+   "h": 642,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.34,
+   "suspects": []
+  },
+  {
+   "name": "手臂_L",
+   "file": "09.webp",
+   "x": 439,
+   "y": 356,
+   "w": 273,
+   "h": 660,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.33,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      433,
+      349,
+      95,
+      96
+     ],
+     "n": 115
+    },
+    {
+     "type": "藏線",
+     "box": [
+      447,
+      496,
+      38,
+      115
+     ],
+     "n": 88
+    }
+   ]
+  },
+  {
+   "name": "軀幹",
+   "file": "10.webp",
+   "x": 204,
+   "y": 347,
+   "w": 311,
+   "h": 420,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.32,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      429,
+      427,
+      93,
+      198
+     ],
+     "n": 834
+    },
+    {
+     "type": "藏線",
+     "box": [
+      199,
+      433,
+      54,
+      73
+     ],
+     "n": 57
+    }
+   ]
+  },
+  {
+   "name": "後領",
+   "file": "11.webp",
+   "x": 301,
+   "y": 265,
+   "w": 111,
+   "h": 76,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.31,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      369,
+      273,
+      51,
+      72
+     ],
+     "n": 483
+    },
+    {
+     "type": "藏線",
+     "box": [
+      295,
+      274,
+      53,
+      74
+     ],
+     "n": 477
+    }
+   ]
+  },
+  {
+   "name": "脖子",
+   "file": "12.webp",
+   "x": 326,
+   "y": 254,
+   "w": 66,
+   "h": 62,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.3,
+   "suspects": []
+  },
+  {
+   "name": "披肩",
+   "file": "13.webp",
+   "x": 115,
+   "y": 331,
+   "w": 471,
+   "h": 288,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.29,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      222,
+      329,
+      84,
+      115
+     ],
+     "n": 1180
+    },
+    {
+     "type": "藏線",
+     "box": [
+      424,
+      327,
+      74,
+      117
+     ],
+     "n": 1131
+    },
+    {
+     "type": "藏線",
+     "box": [
+      301,
+      324,
+      25,
+      32
+     ],
+     "n": 71
+    }
+   ]
+  },
+  {
+   "name": "前領",
+   "file": "14.webp",
+   "x": 302,
+   "y": 276,
+   "w": 117,
+   "h": 151,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.28,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      346,
+      352,
+      28,
+      35
+     ],
+     "n": 47
+    }
+   ]
+  },
+  {
+   "name": "胸針",
+   "file": "15.webp",
+   "x": 321,
+   "y": 310,
+   "w": 74,
+   "h": 70,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.27,
+   "suspects": []
+  },
+  {
+   "name": "臉",
+   "file": "16.webp",
+   "x": 264,
+   "y": 46,
+   "w": 183,
+   "h": 224,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.26,
+   "suspects": []
+  },
+  {
+   "name": "耳環_R",
+   "file": "17.webp",
+   "x": 282,
+   "y": 215,
+   "w": 14,
+   "h": 39,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.25,
+   "suspects": []
+  },
+  {
+   "name": "耳環_L",
+   "file": "18.webp",
+   "x": 417,
+   "y": 215,
+   "w": 14,
+   "h": 39,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.24,
+   "suspects": []
+  },
+  {
+   "name": "臉紅_1",
+   "file": "19.webp",
+   "x": 287,
+   "y": 196,
+   "w": 139,
+   "h": 55,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.23,
+   "suspects": []
+  },
+  {
+   "name": "眼白_R",
+   "file": "20.webp",
+   "x": 290,
+   "y": 173,
+   "w": 48,
+   "h": 21,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.22,
+   "suspects": []
+  },
+  {
+   "name": "眼白_L",
+   "file": "21.webp",
+   "x": 377,
+   "y": 173,
+   "w": 48,
+   "h": 21,
+   "group": "Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.21,
+   "suspects": []
+  },
+  {
+   "name": "眼球_R",
+   "file": "22.webp",
+   "x": 305,
+   "y": 168,
+   "w": 23,
+   "h": 26,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.2,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      300,
+      162,
+      36,
+      24
+     ],
+     "n": 65
+    }
+   ]
+  },
+  {
+   "name": "眼球_L",
+   "file": "23.webp",
+   "x": 387,
+   "y": 168,
+   "w": 23,
+   "h": 26,
+   "group": "Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.19,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      380,
+      161,
+      36,
+      24
+     ],
+     "n": 70
+    }
+   ]
+  },
+  {
+   "name": "上眼線_R",
+   "file": "24.webp",
+   "x": 277,
+   "y": 164,
+   "w": 61,
+   "h": 33,
+   "group": "Head/Eye R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.18,
+   "suspects": []
+  },
+  {
+   "name": "上眼線_L",
+   "file": "25.webp",
+   "x": 378,
+   "y": 163,
+   "w": 63,
+   "h": 34,
+   "group": "Head/Eye L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.17,
+   "suspects": []
+  },
+  {
+   "name": "閉眼_R",
+   "file": "26.webp",
+   "x": 284,
+   "y": 182,
+   "w": 53,
+   "h": 20,
+   "group": "Head/Eye R",
+   "hidden": true,
+   "backing": false,
+   "z": 0.16,
+   "suspects": []
+  },
+  {
+   "name": "閉眼_L",
+   "file": "27.webp",
+   "x": 376,
+   "y": 181,
+   "w": 53,
+   "h": 20,
+   "group": "Head/Eye L",
+   "hidden": true,
+   "backing": false,
+   "z": 0.15,
+   "suspects": []
+  },
+  {
+   "name": "笑眼_R",
+   "file": "28.webp",
+   "x": 287,
+   "y": 166,
+   "w": 55,
+   "h": 35,
+   "group": "Head/Eye R",
+   "hidden": true,
+   "backing": false,
+   "z": 0.14,
+   "suspects": []
+  },
+  {
+   "name": "笑眼_L",
+   "file": "29.webp",
+   "x": 377,
+   "y": 167,
+   "w": 53,
+   "h": 35,
+   "group": "Head/Eye L",
+   "hidden": true,
+   "backing": false,
+   "z": 0.13,
+   "suspects": []
+  },
+  {
+   "name": "鼻子",
+   "file": "30.webp",
+   "x": 354,
+   "y": 202,
+   "w": 10,
+   "h": 20,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.12,
+   "suspects": []
+  },
+  {
+   "name": "嘴_笑",
+   "file": "31.webp",
+   "x": 342,
+   "y": 235,
+   "w": 34,
+   "h": 10,
+   "group": "Head/Mouth",
+   "hidden": false,
+   "backing": false,
+   "z": 0.11,
+   "suspects": []
+  },
+  {
+   "name": "嘴_啊",
+   "file": "32.webp",
+   "x": 342,
+   "y": 232,
+   "w": 28,
+   "h": 24,
+   "group": "Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.1,
+   "suspects": []
+  },
+  {
+   "name": "嘴_喔",
+   "file": "33.webp",
+   "x": 351,
+   "y": 237,
+   "w": 13,
+   "h": 14,
+   "group": "Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.09,
+   "suspects": []
+  },
+  {
+   "name": "嘴_開笑",
+   "file": "34.webp",
+   "x": 345,
+   "y": 234,
+   "w": 29,
+   "h": 18,
+   "group": "Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.08,
+   "suspects": []
+  },
+  {
+   "name": "眉毛_R",
+   "file": "35.webp",
+   "x": 287,
+   "y": 147,
+   "w": 57,
+   "h": 8,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.07,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      280,
+      140,
+      62,
+      21
+     ],
+     "n": 86
+    }
+   ]
+  },
+  {
+   "name": "眉毛_L",
+   "file": "36.webp",
+   "x": 369,
+   "y": 147,
+   "w": 57,
+   "h": 9,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.06,
+   "suspects": []
+  },
+  {
+   "name": "頭頂髮",
+   "file": "37.webp",
+   "x": 219,
+   "y": 5,
+   "w": 272,
+   "h": 176,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.05,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      222,
+      20,
+      267,
+      169
+     ],
+     "n": 4947
+    },
+    {
+     "type": "破洞",
+     "box": [
+      217,
+      97,
+      33,
+      72
+     ],
+     "n": 260
+    },
+    {
+     "type": "破洞",
+     "box": [
+      467,
+      100,
+      27,
+      50
+     ],
+     "n": 64
+    }
+   ]
+  },
+  {
+   "name": "側髮_R",
+   "file": "38.webp",
+   "x": 227,
+   "y": 140,
+   "w": 84,
+   "h": 303,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.04,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      234,
+      152,
+      70,
+      37
+     ],
+     "n": 300
+    },
+    {
+     "type": "破洞",
+     "box": [
+      228,
+      206,
+      33,
+      64
+     ],
+     "n": 321
+    },
+    {
+     "type": "破洞",
+     "box": [
+      293,
+      283,
+      20,
+      49
+     ],
+     "n": 91
+    }
+   ]
+  },
+  {
+   "name": "側髮_L",
+   "file": "39.webp",
+   "x": 417,
+   "y": 145,
+   "w": 74,
+   "h": 293,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.03,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      454,
+      157,
+      41,
+      97
+     ],
+     "n": 580
+    },
+    {
+     "type": "破洞",
+     "box": [
+      444,
+      294,
+      40,
+      70
+     ],
+     "n": 576
+    },
+    {
+     "type": "破洞",
+     "box": [
+      416,
+      289,
+      20,
+      42
+     ],
+     "n": 64
+    },
+    {
+     "type": "破洞",
+     "box": [
+      416,
+      250,
+      25,
+      39
+     ],
+     "n": 60
+    }
+   ]
+  },
+  {
+   "name": "前髮",
+   "file": "40.webp",
+   "x": 224,
+   "y": 27,
+   "w": 214,
+   "h": 156,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.02,
+   "suspects": [
+    {
+     "type": "破洞",
+     "box": [
+      297,
+      143,
+      36,
+      30
+     ],
+     "n": 40
+    }
+   ]
+  },
+  {
+   "name": "髮飾_緞帶",
+   "file": "41.webp",
+   "x": 461,
+   "y": 161,
+   "w": 52,
+   "h": 91,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.01,
+   "suspects": []
+  }
+ ]
+}
