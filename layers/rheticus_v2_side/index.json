@@ -1,0 +1,457 @@
+{
+ "id": "rheticus_v2_side",
+ "private": false,
+ "name": "rheticus_v2_side",
+ "W": 506,
+ "H": 1739,
+ "build": "1.0-alpha",
+ "layers": [
+  {
+   "name": "手掌_後",
+   "file": "00.webp",
+   "x": 86,
+   "y": 829,
+   "w": 72,
+   "h": 178,
+   "group": "Body/Arm B/Forearm B",
+   "hidden": false,
+   "backing": false,
+   "z": 0.2,
+   "suspects": [
+    {
+     "type": "灰邊",
+     "box": [
+      95,
+      823,
+      48,
+      34
+     ],
+     "n": 27
+    }
+   ]
+  },
+  {
+   "name": "上臂_後",
+   "file": "01.webp",
+   "x": 116,
+   "y": 478,
+   "w": 86,
+   "h": 265,
+   "group": "Body/Arm B",
+   "hidden": false,
+   "backing": false,
+   "z": 0.19,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      113,
+      672,
+      88,
+      75
+     ],
+     "n": 782
+    },
+    {
+     "type": "藏線",
+     "box": [
+      184,
+      636,
+      24,
+      37
+     ],
+     "n": 79
+    }
+   ]
+  },
+  {
+   "name": "下臂_後",
+   "file": "02.webp",
+   "x": 99,
+   "y": 678,
+   "w": 102,
+   "h": 192,
+   "group": "Body/Arm B/Forearm B",
+   "hidden": false,
+   "backing": false,
+   "z": 0.18,
+   "suspects": []
+  },
+  {
+   "name": "小腿_後",
+   "file": "03.webp",
+   "x": 120,
+   "y": 1436,
+   "w": 141,
+   "h": 237,
+   "group": "Body/Thigh B/Shin B",
+   "hidden": false,
+   "backing": false,
+   "z": 0.17,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      116,
+      1432,
+      149,
+      245
+     ],
+     "n": 3353
+    }
+   ]
+  },
+  {
+   "name": "鞋_後",
+   "file": "04.webp",
+   "x": 119,
+   "y": 1648,
+   "w": 206,
+   "h": 87,
+   "group": "Body/Thigh B/Shin B/Foot B",
+   "hidden": false,
+   "backing": false,
+   "z": 0.16,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      191,
+      1642,
+      140,
+      94
+     ],
+     "n": 2150
+    }
+   ]
+  },
+  {
+   "name": "小腿_前",
+   "file": "05.webp",
+   "x": 192,
+   "y": 1436,
+   "w": 148,
+   "h": 237,
+   "group": "Body/Thigh F/Shin F",
+   "hidden": false,
+   "backing": false,
+   "z": 0.15,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      189,
+      1432,
+      107,
+      196
+     ],
+     "n": 2108
+    },
+    {
+     "type": "藏線",
+     "box": [
+      193,
+      1643,
+      152,
+      34
+     ],
+     "n": 1065
+    }
+   ]
+  },
+  {
+   "name": "鞋_前",
+   "file": "06.webp",
+   "x": 196,
+   "y": 1648,
+   "w": 213,
+   "h": 87,
+   "group": "Body/Thigh F/Shin F/Foot F",
+   "hidden": false,
+   "backing": false,
+   "z": 0.14,
+   "suspects": []
+  },
+  {
+   "name": "袍",
+   "file": "07.webp",
+   "x": 4,
+   "y": 251,
+   "w": 498,
+   "h": 1375,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.13,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      323,
+      270,
+      100,
+      726
+     ],
+     "n": 6066
+    },
+    {
+     "type": "藏線",
+     "box": [
+      171,
+      331,
+      146,
+      543
+     ],
+     "n": 4733
+    },
+    {
+     "type": "藏線",
+     "box": [
+      269,
+      938,
+      46,
+      71
+     ],
+     "n": 521
+    },
+    {
+     "type": "藏線",
+     "box": [
+      215,
+      248,
+      113,
+      59
+     ],
+     "n": 477
+    },
+    {
+     "type": "藏線",
+     "box": [
+      309,
+      906,
+      22,
+      73
+     ],
+     "n": 166
+    },
+    {
+     "type": "藏線",
+     "box": [
+      248,
+      244,
+      78,
+      37
+     ],
+     "n": 148
+    },
+    {
+     "type": "藏線",
+     "box": [
+      258,
+      937,
+      23,
+      34
+     ],
+     "n": 95
+    },
+    {
+     "type": "藏線",
+     "box": [
+      166,
+      417,
+      24,
+      64
+     ],
+     "n": 91
+    },
+    {
+     "type": "藏線",
+     "box": [
+      229,
+      623,
+      27,
+      24
+     ],
+     "n": 78
+    },
+    {
+     "type": "藏線",
+     "box": [
+      399,
+      939,
+      27,
+      41
+     ],
+     "n": 62
+    }
+   ]
+  },
+  {
+   "name": "頸",
+   "file": "08.webp",
+   "x": 231,
+   "y": 162,
+   "w": 116,
+   "h": 136,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.12,
+   "suspects": []
+  },
+  {
+   "name": "內衫",
+   "file": "09.webp",
+   "x": 314,
+   "y": 266,
+   "w": 101,
+   "h": 732,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.11,
+   "suspects": []
+  },
+  {
+   "name": "領",
+   "file": "10.webp",
+   "x": 223,
+   "y": 238,
+   "w": 123,
+   "h": 68,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.1,
+   "suspects": []
+  },
+  {
+   "name": "披肩",
+   "file": "11.webp",
+   "x": 99,
+   "y": 253,
+   "w": 342,
+   "h": 855,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.09,
+   "suspects": []
+  },
+  {
+   "name": "手掌_前",
+   "file": "12.webp",
+   "x": 239,
+   "y": 823,
+   "w": 92,
+   "h": 190,
+   "group": "Body/Arm F/Forearm F",
+   "hidden": false,
+   "backing": false,
+   "z": 0.08,
+   "suspects": []
+  },
+  {
+   "name": "上臂_前",
+   "file": "13.webp",
+   "x": 184,
+   "y": 335,
+   "w": 120,
+   "h": 370,
+   "group": "Body/Arm F",
+   "hidden": false,
+   "backing": false,
+   "z": 0.07,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      196,
+      648,
+      112,
+      64
+     ],
+     "n": 829
+    }
+   ]
+  },
+  {
+   "name": "下臂_前",
+   "file": "14.webp",
+   "x": 190,
+   "y": 652,
+   "w": 122,
+   "h": 211,
+   "group": "Body/Arm F/Forearm F",
+   "hidden": false,
+   "backing": false,
+   "z": 0.06,
+   "suspects": []
+  },
+  {
+   "name": "臉",
+   "file": "15.webp",
+   "x": 260,
+   "y": 99,
+   "w": 141,
+   "h": 158,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.05,
+   "suspects": []
+  },
+  {
+   "name": "眼",
+   "file": "16.webp",
+   "x": 342,
+   "y": 141,
+   "w": 42,
+   "h": 32,
+   "group": "Body/Head/Eye",
+   "hidden": false,
+   "backing": false,
+   "z": 0.04,
+   "suspects": []
+  },
+  {
+   "name": "嘴",
+   "file": "17.webp",
+   "x": 348,
+   "y": 199,
+   "w": 37,
+   "h": 30,
+   "group": "Body/Head/Mouth",
+   "hidden": false,
+   "backing": false,
+   "z": 0.03,
+   "suspects": []
+  },
+  {
+   "name": "頭髮",
+   "file": "18.webp",
+   "x": 168,
+   "y": 59,
+   "w": 247,
+   "h": 185,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.02,
+   "suspects": []
+  },
+  {
+   "name": "帽",
+   "file": "19.webp",
+   "x": 148,
+   "y": 4,
+   "w": 253,
+   "h": 125,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.01,
+   "suspects": []
+  }
+ ]
+}
