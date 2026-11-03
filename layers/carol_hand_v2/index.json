@@ -16,7 +16,7 @@
    "group": "Head",
    "hidden": false,
    "backing": true,
-   "z": 0.25,
+   "z": 0.29,
    "suspects": []
   },
   {
@@ -29,7 +29,7 @@
    "group": "Head",
    "hidden": false,
    "backing": false,
-   "z": 0.24,
+   "z": 0.28,
    "suspects": [
     {
      "type": "藏線",
@@ -63,7 +63,7 @@
    "group": "Head",
    "hidden": false,
    "backing": false,
-   "z": 0.23,
+   "z": 0.27,
    "suspects": [
     {
      "type": "藏線",
@@ -97,7 +97,7 @@
    "group": "Head",
    "hidden": false,
    "backing": false,
-   "z": 0.22,
+   "z": 0.26,
    "suspects": []
   },
   {
@@ -110,7 +110,7 @@
    "group": "Head",
    "hidden": false,
    "backing": false,
-   "z": 0.21,
+   "z": 0.25,
    "suspects": []
   },
   {
@@ -123,7 +123,7 @@
    "group": "Body",
    "hidden": false,
    "backing": false,
-   "z": 0.2,
+   "z": 0.24,
    "suspects": []
   },
   {
@@ -136,7 +136,7 @@
    "group": "Body",
    "hidden": false,
    "backing": false,
-   "z": 0.19,
+   "z": 0.23,
    "suspects": []
   },
   {
@@ -149,7 +149,7 @@
    "group": "Body",
    "hidden": false,
    "backing": false,
-   "z": 0.18,
+   "z": 0.22,
    "suspects": []
   },
   {
@@ -162,7 +162,7 @@
    "group": "Body",
    "hidden": false,
    "backing": false,
-   "z": 0.17,
+   "z": 0.21,
    "suspects": []
   },
   {
@@ -175,7 +175,7 @@
    "group": "Body",
    "hidden": false,
    "backing": false,
-   "z": 0.16,
+   "z": 0.2,
    "suspects": []
   },
   {
@@ -188,7 +188,7 @@
    "group": "Body",
    "hidden": false,
    "backing": false,
-   "z": 0.15,
+   "z": 0.19,
    "suspects": []
   },
   {
@@ -201,12 +201,64 @@
    "group": "Body",
    "hidden": false,
    "backing": false,
+   "z": 0.18,
+   "suspects": []
+  },
+  {
+   "name": "揮手臂",
+   "file": "12.webp",
+   "x": 152,
+   "y": 310,
+   "w": 185,
+   "h": 323,
+   "group": "Body",
+   "hidden": true,
+   "backing": false,
+   "z": 0.17,
+   "suspects": []
+  },
+  {
+   "name": "想想臂",
+   "file": "13.webp",
+   "x": 200,
+   "y": 379,
+   "w": 259,
+   "h": 349,
+   "group": "Body",
+   "hidden": true,
+   "backing": false,
+   "z": 0.16,
+   "suspects": []
+  },
+  {
+   "name": "有了臂",
+   "file": "14.webp",
+   "x": 477,
+   "y": 355,
+   "w": 156,
+   "h": 328,
+   "group": "Body",
+   "hidden": true,
+   "backing": false,
+   "z": 0.15,
+   "suspects": []
+  },
+  {
+   "name": "拍手臂",
+   "file": "15.webp",
+   "x": 228,
+   "y": 444,
+   "w": 381,
+   "h": 266,
+   "group": "Body",
+   "hidden": true,
+   "backing": false,
    "z": 0.14,
    "suspects": []
   },
   {
    "name": "臉",
-   "file": "12.webp",
+   "file": "16.webp",
    "x": 304,
    "y": 155,
    "w": 232,
@@ -230,7 +282,7 @@
   },
   {
    "name": "眼球_R",
-   "file": "13.webp",
+   "file": "17.webp",
    "x": 324,
    "y": 265,
    "w": 75,
@@ -243,7 +295,7 @@
   },
   {
    "name": "閉眼_R",
-   "file": "14.webp",
+   "file": "18.webp",
    "x": 326,
    "y": 313,
    "w": 86,
@@ -256,7 +308,7 @@
   },
   {
    "name": "眼球_L",
-   "file": "15.webp",
+   "file": "19.webp",
    "x": 441,
    "y": 265,
    "w": 75,
@@ -269,7 +321,7 @@
   },
   {
    "name": "閉眼_L",
-   "file": "16.webp",
+   "file": "20.webp",
    "x": 439,
    "y": 314,
    "w": 87,
@@ -282,7 +334,7 @@
   },
   {
    "name": "鼻",
-   "file": "17.webp",
+   "file": "21.webp",
    "x": 327,
    "y": 245,
    "w": 172,
@@ -316,7 +368,7 @@
   },
   {
    "name": "上唇",
-   "file": "18.webp",
+   "file": "22.webp",
    "x": 387,
    "y": 365,
    "w": 53,
@@ -329,7 +381,7 @@
   },
   {
    "name": "嘴_啊",
-   "file": "19.webp",
+   "file": "23.webp",
    "x": 394,
    "y": 363,
    "w": 39,
@@ -342,7 +394,7 @@
   },
   {
    "name": "嘴_喔",
-   "file": "20.webp",
+   "file": "24.webp",
    "x": 402,
    "y": 363,
    "w": 28,
@@ -355,7 +407,7 @@
   },
   {
    "name": "瀏海",
-   "file": "21.webp",
+   "file": "25.webp",
    "x": 228,
    "y": 108,
    "w": 375,
@@ -389,7 +441,7 @@
   },
   {
    "name": "呆毛",
-   "file": "22.webp",
+   "file": "26.webp",
    "x": 366,
    "y": 4,
    "w": 119,
@@ -402,7 +454,7 @@
   },
   {
    "name": "葉_R",
-   "file": "23.webp",
+   "file": "27.webp",
    "x": 179,
    "y": 66,
    "w": 156,
@@ -415,7 +467,7 @@
   },
   {
    "name": "葉_L",
-   "file": "24.webp",
+   "file": "28.webp",
    "x": 504,
    "y": 66,
    "w": 157,

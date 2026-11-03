@@ -330,6 +330,58 @@
    "diff": 21.6,
    "gpt": "leaves.png",
    "swap": false
+  },
+  {
+   "name": "揮手臂",
+   "img": "揮手臂.jpg",
+   "bbox": [
+    284,
+    269,
+    441,
+    544
+   ],
+   "diff": 75.1,
+   "gpt": "pose_wave.png",
+   "swap": true
+  },
+  {
+   "name": "想想臂",
+   "img": "想想臂.jpg",
+   "bbox": [
+    324,
+    330,
+    543,
+    623
+   ],
+   "diff": 54.7,
+   "gpt": "pose_think.png",
+   "swap": true
+  },
+  {
+   "name": "有了臂",
+   "img": "有了臂.jpg",
+   "bbox": [
+    563,
+    307,
+    694,
+    586
+   ],
+   "diff": 64.5,
+   "gpt": "pose_idea.png",
+   "swap": true
+  },
+  {
+   "name": "拍手臂",
+   "img": "拍手臂.jpg",
+   "bbox": [
+    350,
+    384,
+    671,
+    609
+   ],
+   "diff": 53.1,
+   "gpt": "pose_clap.png",
+   "swap": true
   }
  ]
 }
