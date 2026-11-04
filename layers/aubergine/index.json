@@ -1871,12 +1871,12 @@
    "suspects": []
   },
   {
-   "name": "臉",
+   "name": "耳環_R",
    "file": "48.webp",
-   "x": 383,
-   "y": 53,
-   "w": 183,
-   "h": 224,
+   "x": 401,
+   "y": 222,
+   "w": 14,
+   "h": 39,
    "group": "Head",
    "hidden": false,
    "backing": false,
@@ -1884,9 +1884,9 @@
    "suspects": []
   },
   {
-   "name": "耳環_R",
+   "name": "耳環_L",
    "file": "49.webp",
-   "x": 401,
+   "x": 536,
    "y": 222,
    "w": 14,
    "h": 39,
@@ -1897,12 +1897,12 @@
    "suspects": []
   },
   {
-   "name": "耳環_L",
+   "name": "臉",
    "file": "50.webp",
-   "x": 536,
-   "y": 222,
-   "w": 14,
-   "h": 39,
+   "x": 383,
+   "y": 53,
+   "w": 183,
+   "h": 224,
    "group": "Head",
    "hidden": false,
    "backing": false,
