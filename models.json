@@ -16,6 +16,13 @@
     "desc": "2026-10-30 與科學家共用骨架，每層 GPT 透明部件；外套前襬一整片、耳朵照原圖描。"
   },
   {
+    "id": "mr_carrot_hand_v2",
+    "name": "綠髮卡洛特 v2",
+    "file": "models/mr_carrot_hand_v2.inp",
+    "noIdleArms": true,
+    "desc": "時光探險隊・探險裝（GPT 單部件拆層）"
+  },
+  {
     "id": "rabbit_v2",
     "name": "兔子波波",
     "file": "models/rabbit_v2.inp",

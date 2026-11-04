@@ -1,0 +1,335 @@
+{
+ "id": "mr_carrot_hand_v2",
+ "size": [
+  1024,
+  1536
+ ],
+ "diff": 6.12,
+ "layers": [
+  {
+   "name": "後腦",
+   "img": "後腦.jpg",
+   "bbox": [
+    378,
+    8,
+    630,
+    243
+   ],
+   "diff": 53.7,
+   "gpt": "backhead.png",
+   "swap": false
+  },
+  {
+   "name": "腿",
+   "img": "腿.jpg",
+   "bbox": [
+    338,
+    646,
+    704,
+    1284
+   ],
+   "diff": 9.3,
+   "gpt": "legs.png",
+   "swap": false
+  },
+  {
+   "name": "靴",
+   "img": "靴.jpg",
+   "bbox": [
+    285,
+    1266,
+    748,
+    1522
+   ],
+   "diff": 6.0,
+   "gpt": "boots.png",
+   "swap": false
+  },
+  {
+   "name": "水壺",
+   "img": "水壺.jpg",
+   "bbox": [
+    309,
+    610,
+    395,
+    765
+   ],
+   "diff": 12.8,
+   "gpt": "canteen.png",
+   "swap": false
+  },
+  {
+   "name": "下臂_R",
+   "img": "下臂_R.jpg",
+   "bbox": [
+    254,
+    555,
+    357,
+    854
+   ],
+   "diff": 32.2,
+   "gpt": "forearm.png",
+   "swap": false
+  },
+  {
+   "name": "下臂_L",
+   "img": "下臂_L.jpg",
+   "bbox": [
+    656,
+    555,
+    753,
+    854
+   ],
+   "diff": 36.4,
+   "gpt": "forearm.png",
+   "swap": false
+  },
+  {
+   "name": "上臂_R",
+   "img": "上臂_R.jpg",
+   "bbox": [
+    272,
+    285,
+    412,
+    626
+   ],
+   "diff": 52.7,
+   "gpt": "upperarm.png",
+   "swap": false
+  },
+  {
+   "name": "上臂_L",
+   "img": "上臂_L.jpg",
+   "bbox": [
+    603,
+    279,
+    745,
+    614
+   ],
+   "diff": 54.1,
+   "gpt": "upperarm.png",
+   "swap": false
+  },
+  {
+   "name": "頸",
+   "img": "頸.jpg",
+   "bbox": [
+    459,
+    123,
+    565,
+    306
+   ],
+   "diff": 51.5,
+   "gpt": "neck_tall＋neck.png",
+   "swap": false
+  },
+  {
+   "name": "上衣",
+   "img": "上衣.jpg",
+   "bbox": [
+    353,
+    244,
+    661,
+    757
+   ],
+   "diff": 27.8,
+   "gpt": "torso.png",
+   "swap": false
+  },
+  {
+   "name": "領巾",
+   "img": "領巾.jpg",
+   "bbox": [
+    454,
+    235,
+    622,
+    375
+   ],
+   "diff": 38.9,
+   "gpt": "scarf.png",
+   "swap": false
+  },
+  {
+   "name": "臉",
+   "img": "臉.jpg",
+   "bbox": [
+    435,
+    76,
+    590,
+    242
+   ],
+   "diff": 71.1,
+   "gpt": "face.png",
+   "swap": false
+  },
+  {
+   "name": "眉毛_R",
+   "img": "眉毛_R.jpg",
+   "bbox": [
+    440,
+    141,
+    497,
+    156
+   ],
+   "diff": 90.1,
+   "gpt": "browsnose.png",
+   "swap": false
+  },
+  {
+   "name": "眉毛_L",
+   "img": "眉毛_L.jpg",
+   "bbox": [
+    502,
+    140,
+    556,
+    158
+   ],
+   "diff": 39.0,
+   "gpt": "browsnose.png",
+   "swap": false
+  },
+  {
+   "name": "眼_R",
+   "img": "眼_R.jpg",
+   "bbox": [
+    447,
+    156,
+    492,
+    184
+   ],
+   "diff": 94.1,
+   "gpt": "eyes.png",
+   "swap": false
+  },
+  {
+   "name": "眼_L",
+   "img": "眼_L.jpg",
+   "bbox": [
+    510,
+    153,
+    558,
+    181
+   ],
+   "diff": 65.6,
+   "gpt": "eyes.png",
+   "swap": false
+  },
+  {
+   "name": "閉眼_R",
+   "img": "閉眼_R.jpg",
+   "bbox": [
+    443,
+    167,
+    485,
+    178
+   ],
+   "diff": 150.8,
+   "gpt": "eyesclosed.png",
+   "swap": true
+  },
+  {
+   "name": "閉眼_L",
+   "img": "閉眼_L.jpg",
+   "bbox": [
+    513,
+    161,
+    555,
+    175
+   ],
+   "diff": 139.7,
+   "gpt": "eyesclosed.png",
+   "swap": true
+  },
+  {
+   "name": "鼻",
+   "img": "鼻.jpg",
+   "bbox": [
+    495,
+    167,
+    507,
+    203
+   ],
+   "diff": 51.9,
+   "gpt": "browsnose.png",
+   "swap": false
+  },
+  {
+   "name": "嘴",
+   "img": "嘴.jpg",
+   "bbox": [
+    471,
+    203,
+    535,
+    239
+   ],
+   "diff": 76.6,
+   "gpt": "mouth.png",
+   "swap": false
+  },
+  {
+   "name": "嘴_啊",
+   "img": "嘴_啊.jpg",
+   "bbox": [
+    478,
+    207,
+    542,
+    257
+   ],
+   "diff": 89.3,
+   "gpt": "mouth_a.png",
+   "swap": true
+  },
+  {
+   "name": "嘴_喔",
+   "img": "嘴_喔.jpg",
+   "bbox": [
+    499,
+    207,
+    521,
+    238
+   ],
+   "diff": 84.4,
+   "gpt": "mouth_o.png",
+   "swap": true
+  },
+  {
+   "name": "眼鏡",
+   "img": "眼鏡.jpg",
+   "bbox": [
+    434,
+    153,
+    561,
+    187
+   ],
+   "diff": 41.6,
+   "gpt": "ahogeglasses.png",
+   "swap": false
+  },
+  {
+   "name": "瀏海",
+   "img": "瀏海.jpg",
+   "bbox": [
+    382,
+    33,
+    624,
+    199
+   ],
+   "diff": 14.8,
+   "gpt": "bangs.png",
+   "swap": false
+  },
+  {
+   "name": "呆毛",
+   "img": "呆毛.jpg",
+   "bbox": [
+    465,
+    8,
+    530,
+    86
+   ],
+   "diff": 17.7,
+   "gpt": "ahogeglasses.png",
+   "swap": false
+  }
+ ]
+}

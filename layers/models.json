@@ -404,5 +404,12 @@
   "build": "2026-11-03",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "mr_carrot_hand_v2",
+  "name": "mr_carrot_hand_v2",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
