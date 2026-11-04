@@ -341,8 +341,15 @@ document.querySelectorAll('#skinRow button').forEach(b => b.onclick = () => setS
 document.querySelectorAll('#eyeRow button').forEach(b => b.onclick = () => { eyeId = b.dataset.eye; setColor(colorId); });
 $('colorAcc').onclick = () => { colorAcc = !colorAcc; setColor(colorId); };
 $('tartanBtn').onclick = () => { tartan = !tartan; setColor(colorId); };
-document.querySelectorAll('#hairRow button').forEach(b => b.onclick = () => { hairStyle = +b.dataset.hair;
-  document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x === b)); });
+// (2026-11-03 user: Aubergine 辮子馬尾、金髮大小姐) a model may bring its own Hair:: Style values; the row is rebuilt per model
+const LINDA_HAIRS = $('hairRow').innerHTML;
+const AUB_HAIRS = '<button data-hair="0" aria-pressed="true">🖤 黑色長捲髮</button><button data-hair="0.5" aria-pressed="false">🎀 辮子馬尾</button>'
+  + '<button data-hair="1" aria-pressed="false">👑 金髮大小姐</button>';
+function bindHairRow() {
+  document.querySelectorAll('#hairRow button').forEach(b => b.onclick = () => { hairStyle = +b.dataset.hair;
+    document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x === b)); });
+}
+bindHairRow();
 cv.addEventListener('dblclick', () => { chest.kick = 1; });            // double-click: a little hop (the bust bounces)
 for (const k of Object.keys(auto)) {
   const b = document.createElement('button');
@@ -385,7 +392,10 @@ async function open(id) { if (window.demo) window.demo.modelId = id;
   bigBust = false; $('bustBtn').setAttribute('aria-pressed', 'false'); $('bustBtn').hidden = !P.has('Body:: Bust');
   headUp = false; $('uprightBtn').hidden = !P.has('Head:: Upright'); handPose = 0; showHand(); $('handRow').hidden = !P.has('Hand:: Pose'); poseOn = ''; showPoses(); kneelOn = false; $('kneelBtn').hidden = !P.has('Pose:: Kneel'); academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); $('acadBtn').hidden = !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); showWear(); xmasOn = false; deerOn = false; showXmas(); $('xmasBtn').hidden = !P.has('Outfit:: Christmas'); $('deerBtn').hidden = !P.has('Outfit:: Reindeer'); if (P.has('Outfit:: Reindeer') || P.has('Outfit:: Christmas')) $('decorSec').hidden = false;
   hairStyle = 0; $('hairRow').hidden = !P.has('Hair:: Style');
-  $('colorRow').hidden = $('skinRow').hidden = $('eyeRow').hidden = !P.has('Hair:: Style'); setSkin('base'); eyeId = 'purple'; document.querySelectorAll('#eyeRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.eye === 'purple')); colorId = 'purple'; tartan = false; $('tartanBtn').setAttribute('aria-pressed', 'false'); document.querySelectorAll('#colorRow button[data-color]').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === 'purple'));
+  const aubHair = window.demo && window.demo.modelId === 'aubergine';
+  $('hairRow').innerHTML = aubHair ? AUB_HAIRS : LINDA_HAIRS; bindHairRow();
+  if (aubHair && P.has('Hair:: Style')) $('decorSec').hidden = false;
+  $('colorRow').hidden = $('skinRow').hidden = $('eyeRow').hidden = !P.has('Hair:: Style') || aubHair; setSkin('base'); eyeId = 'purple'; document.querySelectorAll('#eyeRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.eye === 'purple')); colorId = 'purple'; tartan = false; $('tartanBtn').setAttribute('aria-pressed', 'false'); document.querySelectorAll('#colorRow button[data-color]').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === 'purple'));
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.hair === '0'));
   settlePhysics();
   const b = P.bounds();
