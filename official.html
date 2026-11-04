@@ -346,7 +346,7 @@ $('tartanBtn').onclick = () => { tartan = !tartan; setColor(colorId); };
 const LINDA_HAIRS = $('hairRow').innerHTML;
 const AUB_HAIRS = '<button data-hair="0" aria-pressed="true">🖤 黑色長捲髮</button><button data-hair="0.5" aria-pressed="false">🎀 辮子馬尾</button>'
   + '<button data-hair="1" aria-pressed="false">👑 金髮大小姐</button><button data-hair="0" data-tied="1" aria-pressed="false">💜 綁好的馬尾</button>';
-const TIE_ACT = '動作/綁頭髮', TIE_AT = 2.6, TIE_END = 5.5;   // (the hair turns tied while the hands are up, and stays)
+const TIE_ACT = '動作/綁頭髮', TIE_AT = 1.8, TIE_END = 5.1;   // (the hair turns tied while the hands are up, and stays)
 let hairTied = false;
 function bindHairRow() {
   document.querySelectorAll('#hairRow button').forEach(b => b.onclick = () => { hairStyle = +b.dataset.hair;
