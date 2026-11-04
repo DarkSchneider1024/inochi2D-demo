@@ -1108,12 +1108,16 @@ async function runQA() {
   const tag = () => `轉 ${yaw()[0].toFixed(2)}／仰 ${(yaw()[1] ?? 0).toFixed(2)}／歪 ${(P.get('Head:: Roll')?.[0] ?? 0).toFixed(2)}`;
   const step = (sweep) => { drive(DT); applyMoves(DT); headSwap(); P.update(); if (!sweep) P.stepPhysics(DT); R.draw(view); };
   const yieldUI = (msg) => { btn.textContent = msg; return new Promise((r) => setTimeout(r, 0)); };   // (rAF stalls in a background tab)
+  // (2026-11-04) the same frame with every hair layer hidden: shake-qa.js tells a gap only hair closes from a real 破洞
+  const HAIR = /髮|馬尾|呆毛|鬢|辮/;
+  const grabNoHair = () => { const off = P.parts.filter((n) => HAIR.test(n.name) && n.alpha > 0); const keep = off.map((n) => n.alpha);
+    for (const n of off) n.alpha = 0; R.draw(view); const c = grab(cv); off.forEach((n, i) => { n.alpha = keep[i]; }); R.draw(view); return c; };
   for (let i = 0; i < 60; i++) step(false);                           // 2 s at rest (the chosen 表情 eases in)
-  const ref = { c: grab(cv) };
+  const ref = { c: grab(cv), c2: grabNoHair() };
   shakeT = 0;
   for (let i = 0; shakeT >= 0; i++) {                                  // the 晃動展示 script (10 s)
     const t = shakeT; step(false);
-    if (i % 3 === 2) list.push({ c: grab(cv), t, label: tag() });
+    if (i % 3 === 2) list.push({ c: grab(cv), c2: grabNoHair(), t, label: tag() });
     if (i % 6 === 5) await yieldUI(`📸 檢核中… ${t.toFixed(1)}s`);
   }
   const phys = [...new Set(P.physics.map((s) => s.param))];
@@ -1126,7 +1130,7 @@ async function runQA() {
     if (P.has('Head:: Roll')) P.set('Head:: Roll', 0.8 * c[0]);
     for (const p of phys) p.value = p.is_vec2 ? [clamp(k, p.min[0], p.max[0]), clamp(0.5 * k, p.min[1], p.max[1])] : [clamp(k, p.min[0], p.max[0]), 0];
     P.update(); R.draw(view);
-    if (i % 3 === 0) list.push({ c: grab(cv), t: t0 + i * DT, sweep: true, label: `物理 ${k.toFixed(2)}　${tag()}` });
+    if (i % 3 === 0) list.push({ c: grab(cv), c2: grabNoHair(), t: t0 + i * DT, sweep: true, label: `物理 ${k.toFixed(2)}　${tag()}` });
     if (i % 6 === 5) await yieldUI(`📸 檢核中… 極限 ${Math.round(v * 100)}%`);
   }
   Object.assign(auto, keep); zoom = z0; pan = p0; resize();

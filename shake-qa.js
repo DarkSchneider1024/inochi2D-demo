@@ -41,14 +41,42 @@ function erode(mask) {                            // shave 1 px: a piece hanging
   }
   return { ...mask, a: b };
 }
-export function analyse(c, box, ref, W = QA_W) {
+// (2026-11-03/04, user: 大晃動檢查可以改成不把「頭歪時被馬尾圍住的背景」算成破洞 -> 是) the background a hole holds is checked again
+// on the same frame drawn with every hair layer hidden (c2): when it then opens out to the edge, only hair closed it -- a lock
+// lying on a shoulder -- and it is not a 破洞. A gap that stays closed without the hair (body, neck, face, clothes, a mark) still is.
+function closedBg(mask) {                       // background pixels NOT connected to the frame's edge
+  const { a, w, h } = mask, open = new Uint8Array(w * h), st = [];
+  for (let x = 0; x < w; x++) for (const y of [0, h - 1]) { const i = y * w + x; if (!a[i] && !open[i]) { open[i] = 1; st.push(i); } }
+  for (let y = 0; y < h; y++) for (const x of [0, w - 1]) { const i = y * w + x; if (!a[i] && !open[i]) { open[i] = 1; st.push(i); } }
+  while (st.length) {
+    const j = st.pop(), x = j % w, y = (j / w) | 0;
+    for (const k of [x > 0 ? j - 1 : -1, x < w - 1 ? j + 1 : -1, y > 0 ? j - w : -1, y < h - 1 ? j + w : -1])
+      if (k >= 0 && !a[k] && !open[k]) { open[k] = 1; st.push(k); }
+  }
+  const closed = new Uint8Array(w * h);
+  for (let i = 0; i < w * h; i++) closed[i] = !a[i] && !open[i] ? 1 : 0;
+  return closed;
+}
+function hairOnly(m, closed1, closed2, p) {      // most of this hole's background opens out once the hair is hidden
+  let n = 0, op = 0;
+  for (let y = p.y0; y <= p.y1; y++) for (let x = p.x0; x <= p.x1; x++) {
+    const i = y * m.w + x;
+    if (closed1[i]) { n++; if (!closed2[i]) op++; }
+  }
+  return n > 0 && op / n >= 0.6;
+}
+export function analyse(c, box, ref, W = QA_W, c2 = null) {
   const m = maskOf(c, box, W);
   const fg = components(m, 1).sort((p, q) => q.n - p.n);
   const main = fg[0] ? fg[0].n : 1;
   const thin = components(erode(m), 1).sort((p, q) => q.n - p.n).slice(1).filter((p) => p.n >= 20);
   const islands = [...fg.slice(1).filter((p) => p.n >= 6),
     ...thin.filter((t) => !fg.slice(1).some((p) => Math.abs(p.cx - t.cx) < 6 && Math.abs(p.cy - t.cy) < 6)).map((t) => ({ ...t, thin: true }))];
-  const holes = components(m, 0).filter((p) => !p.border && p.n >= 24 && p.cy < m.h * 0.34);   // head / neck only
+  let holes = components(m, 0).filter((p) => !p.border && p.n >= 24 && p.cy < m.h * 0.34);   // head / neck only
+  if (c2 && holes.length) {
+    const closed1 = closedBg(m), closed2 = closedBg(maskOf(c2, box, W));
+    holes = holes.filter((p) => !hairOnly(m, closed1, closed2, p));
+  }
   const ghosts = components(erode(erode({ ...m, a: m.part })), 1).filter((p) => p.n >= Math.max(16, 0.0015 * main));
   if (!ref) return { m, islands, holes, ghosts, main };
   const issues = [];
@@ -224,8 +252,8 @@ function sheet() {                                // every frame on one contact 
 export function showQA({ title, file, list, ref, again, note = '' }) {
   if (!ui) build();
   const box = unionBox([ref, ...list]);
-  const r0 = analyse(ref.c, box, null);
-  for (const f of list) f.res = analyse(f.c, box, r0);
+  const r0 = analyse(ref.c, box, null, QA_W, ref.c2);
+  for (const f of list) f.res = analyse(f.c, box, r0, QA_W, f.c2);
   st = { title, file, list, box, again, onlyBad: false, idx: 0, view: list };
   const bad = list.filter((f) => f.res.issues.some((i) => i.kind === 'bad')).length;
   const warn = list.filter((f) => f.res.issues.length && !f.res.issues.some((i) => i.kind === 'bad')).length;
