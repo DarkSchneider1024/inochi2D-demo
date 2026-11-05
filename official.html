@@ -1151,7 +1151,7 @@ async function runQA() {
   const step = (sweep) => { drive(DT); applyMoves(DT); headSwap(); P.update(); if (!sweep) P.stepPhysics(DT); R.draw(view); };
   const yieldUI = (msg) => { btn.textContent = msg; return new Promise((r) => setTimeout(r, 0)); };   // (rAF stalls in a background tab)
   // (2026-11-04) the same frame with every hair layer hidden: shake-qa.js tells a gap only hair closes from a real 破洞
-  const HAIR = /髮|馬尾|呆毛|鬢|辮/;
+  const HAIR = /髮|馬尾|呆毛|鬢|辮|縱捲/;
   const grabNoHair = () => { const off = P.parts.filter((n) => HAIR.test(n.name) && n.alpha > 0); const keep = off.map((n) => n.alpha);
     for (const n of off) n.alpha = 0; R.draw(view); const c = grab(cv); off.forEach((n, i) => { n.alpha = keep[i]; }); R.draw(view); return c; };
   for (let i = 0; i < 60; i++) step(false);                           // 2 s at rest (the chosen 表情 eases in)

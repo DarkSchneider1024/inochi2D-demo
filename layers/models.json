@@ -401,7 +401,7 @@
  {
   "id": "aubergine",
   "name": "Aubergine",
-  "build": "2026-11-03",
+  "build": "2026-11-05-head9-r5",
   "private": false,
   "category": "story"
  },
