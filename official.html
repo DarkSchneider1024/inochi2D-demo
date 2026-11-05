@@ -111,7 +111,7 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
   <div class="stage" id="stage">
     <canvas id="cv"></canvas><canvas id="refcv" style="pointer-events: none"></canvas><canvas id="emo" style="pointer-events: none"></canvas>
     <div class="overlay">
-      <nav class="tabs"><a href="gallery.html">作品集</a><a href="official.html" aria-current="page">精緻展示作品</a><a href="layers.html">圖層檢查</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
+      <nav class="tabs"><a href="gallery.html">作品集</a><a href="official.html" aria-current="page">精緻展示作品</a><a href="head90.html">90° 九軸素體</a><a href="layers.html">圖層檢查</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
     </div>
     <div class="loading" id="loading"><div>載入模型中…<div class="bar"><i id="bar"></i></div></div></div>
     <div class="hint">按住人物拖曳＝重力晃動 · Shift／右鍵拖曳平移 · 滾輪縮放 · 雙擊回正 · 右下角按鈕可放大、移動</div>
@@ -136,7 +136,6 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
       <button id="alignRun" title="細節座標對位：比對每張 GPT 表情底圖和模型臉框的大小與位置，列出對位疑點。">📐 細節座標對位</button>
       <button id="reset">↺ 重設參數</button>
       <button id="snap">📸 存圖</button>
-      <a id="checkBtn" class="btn" href="check.html" title="底圖與每一層 GPT 部件的位置比對" style="display:none">🖼 底圖與圖層比對</a>
       <a id="layersBtn" class="btn" href="layers.html" title="打開這個角色的拆圖整合圖：逐層看（包含被上層蓋住的部分）與單圖層疑點檢查" style="display:none">🧩 分層檢視</a>
       <a id="transformBtn" class="btn" href="transform.html" title="綠髮科學家變身金髮魔法師" style="display:none">✨ 變身動畫</a>
     </div>
@@ -197,13 +196,22 @@ import { lipTarget, lipStep, isMidMouth } from './lipsync.js';
 const talkMouth = { open: 0, form: 0 };
 
 const MODELS = [
-  { id: 'mr_carrot_hand_v2', name: '綠髮卡洛特 v2', desc: '時光探險隊・探險裝（GPT 單部件拆層）', file: 'models/mr_carrot_hand_v2.inp', own: 'mr_carrot_hand_v2.py' },
-  { id: 'rabbit_v2', name: '兔子波波', desc: '卡洛特工作室原創（時光探險隊 v2）', file: 'models/rabbit_v2.inp', own: 'rabbit_v2.py' },
+  { id: 'aka_gemini', name: 'Aka × Gemini 拆件換裝', desc: '保留 Aka 原生九軸臉部與 19 組物理・以 Gemini 純白底生圖替換頭髮／狐耳／巫女服／長袖／裙／狐尾／雙腿（76 圖層）', file: 'models/aka_gemini.inp', own: 'replace_aka_psd_layers.py' },
+  { id: 'base_head_90deg_9axis', name: '90° 九軸可編輯素體', desc: '光頭無髮 16 圖層分離・Yaw ±90° × Pitch ±30°（27 關鍵幀）・T10 頭頂鎖定與獨立輪廓線', file: 'models/base_head_90deg_9axis.inp', own: 'make_base_head_inp.py' },
   { id: 'aka', name: 'Aka', desc: '紅髮狐耳少女', file: 'models/official/aka.inp' },
   { id: 'midori', name: 'Midori', desc: '綠髮少女（MeshGroup 版）', file: 'models/official/midori.inp' },
-  { id: 'carol_hand_v2', name: '卡洛兒姐姐（日系大眼 v2）', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/carol_hand_v2.inp', own: 'carol_hand_v2.py' },
+  { id: 'carol_hand_v2', name: '卡洛兒姐姐', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/carol_hand_v2.inp', own: 'carol_hand_v2.py' },
+  { id: 'carol_hand_v2_side', name: '卡洛兒姐姐（側面）', desc: '卡洛特工作室原創（向量拆層版・側面走路）', file: 'models/carol_hand_v2_side.inp', own: 'carol_hand_v2_side.py' },
+  { id: 'mr_carrot_hand_v2',name: '綠髮卡洛特', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/mr_carrot_hand_v2.inp', own: 'mr_carrot_hand_v2.py' },
+  { id: 'mr_carrot_hand_v2_side', name: '綠髮卡洛特（側面）', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/mr_carrot_hand_v2_side.inp', own: 'mr_carrot_hand_v2_side.py' },
+  { id: 'mr_carrot_gold_hand_v2', name: '金髮卡洛特', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/mr_carrot_gold_hand_v2.inp', own: 'mr_carrot_gold_hand_v2.py' },
+  { id: 'mr_carrot_gold_hand_v2_side', name: '金髮卡洛特（側面）', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/mr_carrot_gold_hand_v2_side.inp', own: 'mr_carrot_gold_hand_v2_side.py' },
+  { id: 'rabbit_v2', name: '兔子波波', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/rabbit_v2.inp', own: 'rabbit_v2.py' },
+  { id: 'rabbit_v2_side', name: '兔子波波（側面）', desc: '卡洛特工作室原創（向量拆層版・側面走路）', file: 'models/rabbit_v2_side.inp', own: 'rabbit_v2_side.py' },
   { id: 'rheticus_v2', name: '雷蒂庫斯', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/rheticus_v2.inp', own: 'rheticus_v2.py' },
   { id: 'rheticus_v2_side', name: '雷蒂庫斯（側面）', desc: '卡洛特工作室原創（向量拆層版・側面走路）', file: 'models/rheticus_v2_side.inp', own: 'rheticus_v2_side.py' },
+  { id: 'copernicus_v2', name: '哥白尼', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/copernicus_v2.inp', own: 'copernicus_v2.py' },
+  { id: 'copernicus_v2_side', name: '哥白尼（側面）', desc: '卡洛特工作室原創（向量拆層版・側面走路）', file: 'models/copernicus_v2_side.inp', own: 'copernicus_v2_side.py' },
   { id: 'carol_v3', name: '卡洛兒姐姐', desc: '卡洛特工作室原創（V3）', file: 'models/carol_v3.inp', own: 'make_carol3_puppet.py' },
   { id: 'bobo_v3', name: '兔子波波', desc: '卡洛特工作室原創（V3・GPT 部件圖層、表情做在模型裡）', file: 'models/bobo_v3.inp', own: 'make_bobo3_puppet.py' },
   { id: 'carol_v2', name: '卡洛兒姐姐 V2（舊版・不再維護）', desc: '卡洛特工作室原創（V2 舊版）', file: 'models/carol_v2.inp', own: 'make_carol2_puppet.py' },
@@ -237,7 +245,7 @@ for (const id of FEATURED_IDS) {
   $('models').appendChild(option);
 }
 // 2026-11-03 時光探險隊: the v2 models of 卡洛特時空探險 get their own group; add an id here when a model passes model_regress.py
-const TEAM_IDS = ['mr_carrot_hand_v2', 'rabbit_v2', 'carol_hand_v2'];
+const TEAM_IDS = ['carol_hand_v2'];
 const teamGroup = document.createElement('optgroup');
 teamGroup.label = '時光探險隊';
 for (const id of TEAM_IDS) {
@@ -386,7 +394,6 @@ async function open(id) { if (window.demo) window.demo.modelId = id;
   $('credit').innerHTML = model.own ? `「${model.name}」為卡洛特工作室原創角色，PSD 拆層與 Inochi2D 綁定由 Claude 以 Python 自動產生（<code>${model.own}</code>）。放在這裡和官方範例並排，比對參數、物理與畫面。播放器 <code>inochi-full.js</code> 為本站自寫。` + (ver && ver.history ? `<br>版本紀錄：${ver.history.slice(-5).reverse().map((h) => `<b>v${h.version}</b>（${h.build}）${h.note || ''}`).join('；')}` : '') : `「${model.name}」設計與綁定：<a href="${clean(m.contact) || 'https://twitter.com/seagetch'}" target="_blank" rel="noopener">${clean(m.artist) || 'seagetch'}</a>・授權 <a href="${clean(m.licenseURL) || 'https://creativecommons.org/licenses/by/4.0/'}" target="_blank" rel="noopener">CC BY 4.0</a>。來源：<a href="https://github.com/Inochi2D/example-models" target="_blank" rel="noopener">Inochi2D/example-models</a>（貼圖由 TGA 轉成 PNG，其餘未修改）。播放器 <code>inochi-full.js</code> 為本站自寫。`;
   // 🧩 分層檢視: only for the models that have a layer export (layers/models.json)
   $('transformBtn').style.display = model.id === 'mr_carrot_sci' ? '' : 'none';
-  { const c = $('checkBtn'); const ok = ['carol_hand_v2', 'mr_carrot_hand_v2'].includes(model.id); c.style.display = ok ? '' : 'none'; c.href = `check.html?model=${model.id}`; }   // 2026-11-03 底圖與圖層比對
   layersList.then((ids) => { const b = $('layersBtn'); b.style.display = ids.includes(model.id) ? '' : 'none'; b.href = `layers.html?model=${model.id}`; });
   buildParams();
   buildPhys();
@@ -652,8 +659,6 @@ function drive(dt) {
   }
   if (P.has('Outfit:: Decor Off')) set('Outfit:: Decor Off', decorOff ? 1 : 0);
   if (P.has('Acc:: Sprout Off')) { set('Acc:: Headphones Off', accOn('phones') ? 0 : 1); set('Acc:: Leaves Off', accOn('leaves') ? 0 : 1); set('Acc:: Sprout Off', accOn('sprout') ? 0 : 1); }
-  if (P.has('Hand:: Pose')) set('Hand:: Pose', handPose);
-  if (P.has('Head:: Upright')) set('Head:: Upright', headUp ? 1 : 0);
   if (P.has('Outfit:: Hat')) { set('Outfit:: Hat', carolStyle.hat ? 1 : 0); set('Outfit:: Hair Down', carolStyle.hair === 'down' ? 1 : 0); set('Outfit:: Ponytail', carolStyle.hair === 'pony' ? 1 : 0); if (P.has('Outfit:: Forehead')) set('Outfit:: Forehead', carolStyle.hair === 'fore' ? 1 : 0); }
   if (P.has('Mix:: Top:: Off')) for (const [k] of WEAR) { set(`Mix:: ${k}:: Academy`, wear[k] === 1 ? 1 : 0); set(`Mix:: ${k}:: Off`, wear[k] === 2 ? 1 : 0); if (P.has(`Mix:: ${k}:: Sun`)) set(`Mix:: ${k}:: Sun`, wear[k] === 3 ? 1 : 0); }
   if (P.has('Outfit:: White')) set('Outfit:: White', whiteFit ? 1 : 0);
@@ -665,6 +670,8 @@ function drive(dt) {
   if (P.has('Pose:: Kneel')) set('Pose:: Kneel', kneelOn ? 1 : 0);
   for (const [p] of POSES) if (P.has(p)) set(p, poseOn === p ? 1 : 0);
   if (P.has('Pose:: Squat Hold')) set('Pose:: Squat Hold', poseOn === 'Pose:: Squat' && !decorOff ? 1 : 0);   // (user: 大球算是配件) 拿掉裝飾 also takes the ball away
+  if (P.has('Hand:: Pose')) set('Hand:: Pose', handPose);
+  if (P.has('Head:: Upright')) set('Head:: Upright', headUp ? 1 : 0);
   if (P.has('Hair:: Style')) set('Hair:: Style', hairStyle);
   if (P.has('Hair:: Tied')) {
     if (act.a === TIE_ACT && hairStyle === 0) {
@@ -1151,7 +1158,7 @@ async function runQA() {
   const step = (sweep) => { drive(DT); applyMoves(DT); headSwap(); P.update(); if (!sweep) P.stepPhysics(DT); R.draw(view); };
   const yieldUI = (msg) => { btn.textContent = msg; return new Promise((r) => setTimeout(r, 0)); };   // (rAF stalls in a background tab)
   // (2026-11-04) the same frame with every hair layer hidden: shake-qa.js tells a gap only hair closes from a real 破洞
-  const HAIR = /髮|馬尾|呆毛|鬢|辮|縱捲/;
+  const HAIR = /髮|馬尾|呆毛|鬢|辮|縱捲/; // Include drill curls in the hair-free diagnostic pass.
   const grabNoHair = () => { const off = P.parts.filter((n) => HAIR.test(n.name) && n.alpha > 0); const keep = off.map((n) => n.alpha);
     for (const n of off) n.alpha = 0; R.draw(view); const c = grab(cv); off.forEach((n, i) => { n.alpha = keep[i]; }); R.draw(view); return c; };
   for (let i = 0; i < 60; i++) step(false);                           // 2 s at rest (the chosen 表情 eases in)

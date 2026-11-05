@@ -1,5 +1,12 @@
 [
  {
+  "id": "base_head_90deg_9axis",
+  "name": "90° 九軸可編輯素體",
+  "build": "2026-11-05-head90",
+  "private": false,
+  "category": "refined"
+ },
+ {
   "id": "mr_carrot_sci",
   "name": "科學家卡洛特先生",
   "build": "2026-10-29",
@@ -352,7 +359,7 @@
  {
   "id": "carol_v3",
   "name": "卡洛兒姐姐",
-  "build": "2026-10-28",
+  "build": "2026-11-04",
   "private": false,
   "category": "refined"
  },
@@ -380,7 +387,7 @@
  {
   "id": "bobo_v3",
   "name": "bobo_v3",
-  "build": "2026-11-02",
+  "build": "2026-11-04",
   "private": false,
   "category": "story"
  },
@@ -399,9 +406,30 @@
   "category": "story"
  },
  {
-  "id": "aubergine",
-  "name": "Aubergine",
-  "build": "2026-11-05-head9-r5",
+  "id": "rheticus_v2",
+  "name": "rheticus_v2",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "rheticus_v2_side",
+  "name": "rheticus_v2_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "rabbit_v2",
+  "name": "兔子波波（v2）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "rabbit_v2_side",
+  "name": "兔子波波（v2 側面）",
+  "build": "1.0-alpha",
   "private": false,
   "category": "story"
  },
@@ -409,6 +437,55 @@
   "id": "mr_carrot_hand_v2",
   "name": "mr_carrot_hand_v2",
   "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "mr_carrot_gold_hand_v2",
+  "name": "mr_carrot_gold_hand_v2",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "mr_carrot_hand_v2_side",
+  "name": "mr_carrot_hand_v2_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "mr_carrot_gold_hand_v2_side",
+  "name": "mr_carrot_gold_hand_v2_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "copernicus_v2",
+  "name": "copernicus_v2",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "copernicus_v2_side",
+  "name": "copernicus_v2_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "carol_hand_v2_side",
+  "name": "carol_hand_v2_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "aubergine",
+  "name": "aubergine",
+  "build": "2026-11-05-head9-r5",
   "private": false,
   "category": "story"
  }

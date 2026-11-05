@@ -1,11 +1,27 @@
 [
   {
+    "id": "aka_gemini",
+    "name": "Aka 九軸 × Gemini 拆件換裝（保留原臉九軸）",
+    "file": "models/aka_gemini.inp",
+    "thumb": "thumbs/aka_gemini.png",
+    "noIdleArms": false,
+    "desc": "以官方 Aka（34 個參數、9×3 手調九軸轉頭、19 組彈簧擺物理）為骨架基底，保留原始臉部與五官九軸網格，使用 Gemini 純白背景生成之銀紫狐耳巫女拆件替換頭髮、獸耳、髮飾、巫女上衣、紫蝴蝶結、百褶裙、荷葉邊、大狐尾、振袖、雙手與白長襪雙腿（共 76 圖層）。附可編輯 76 層 PSD 與 .inp/.inx。"
+  },
+  {
+    "id": "base_head_90deg_9axis",
+    "name": "90° 九軸可編輯素體（Inochi2D / Live2D）",
+    "file": "models/base_head_90deg_9axis.inp",
+    "thumb": "thumbs/base_head_90deg_9axis.png",
+    "noIdleArms": true,
+    "desc": "光頭無髮 16 圖層分離 90° 九軸（Yaw ±90° × Pitch ±30° 共 27 關鍵幀）可編輯素體。無框線臉底＋獨立共邊輪廓線、遠側耳自動遮擋、通過 T10 頭頂零形變與下巴中點對齊審計；附 Live2D .cmo3 工程檔與 Blender 3D 九軸位移表。"
+  },
+  {
     "id": "mr_carrot_sci",
     "name": "科學家卡洛特先生",
     "file": "models/mr_carrot_sci.inp",
     "thumb": "thumbs/mr_carrot_sci.png",
     "noIdleArms": true,
-    "desc": "2026-10-29 新底稿（張手歡迎姿勢），每層 GPT 透明部件。"
+    "desc": "2026-10-29 新底稿（張手歡迎姿勢），每層 GPT 透明部件；製作中。"
   },
   {
     "id": "mr_carrot_mage",
@@ -13,28 +29,27 @@
     "file": "models/mr_carrot_mage.inp",
     "thumb": "thumbs/mr_carrot_mage.png",
     "noIdleArms": true,
-    "desc": "2026-10-30 與科學家共用骨架，每層 GPT 透明部件；外套前襬一整片、耳朵照原圖描。"
-  },
-  {
-    "id": "mr_carrot_hand_v2",
-    "name": "綠髮卡洛特 v2",
-    "file": "models/mr_carrot_hand_v2.inp",
-    "noIdleArms": true,
-    "desc": "時光探險隊・探險裝（GPT 單部件拆層）"
+    "desc": "2026-10-29 與科學家共用骨架，每層 GPT 透明部件；製作中。"
   },
   {
     "id": "rabbit_v2",
-    "name": "兔子波波",
+    "name": "兔子波波（v2）",
     "file": "models/rabbit_v2.inp",
     "noIdleArms": true,
-    "desc": "卡洛特工作室原創（時光探險隊 v2）"
+    "desc": "2026-11-02 灰底目標圖抽向量後拆層。"
+  },
+  {
+    "id": "rabbit_v2_side",
+    "name": "兔子波波（v2 側面）",
+    "file": "models/rabbit_v2_side.inp",
+    "desc": "2026-11-02 側面走路。"
   },
   {
     "id": "carol_hand_v2",
-    "name": "卡洛兒姐姐",
+    "name": "卡洛兒姐姐（日系大眼 v2）",
     "file": "models/carol_hand_v2.inp",
     "noIdleArms": true,
-    "desc": "卡洛特工作室原創（時光探險隊 v2，含左右 45 度換圖）"
+    "desc": "2026-11-02 日系大眼版：灰底目標圖抽向量後拆層，輪廓吻合 99.98%。"
   },
   {
     "id": "bobo",
@@ -307,14 +322,14 @@
     "name": "孫悟空（金甲・Q版）｜西遊記前傳",
     "file": "models/journey_wukong.inp",
     "thumb": "thumbs/journey_wukong.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   },
   {
     "id": "journey_wukong_young",
     "name": "孫悟空（學藝・Q版）｜西遊記前傳",
     "file": "models/journey_wukong_young.inp",
     "thumb": "thumbs/journey_wukong_young.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   },
   {
     "id": "journey_heaven_sage",
@@ -377,14 +392,14 @@
     "name": "孫悟空（金甲・側面走路）｜西遊記前傳",
     "file": "models/journey_wukong_side.inp",
     "thumb": "thumbs/journey_wukong_side.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   },
   {
     "id": "journey_wukong_young_side",
     "name": "孫悟空（學藝・側面走路）｜西遊記前傳",
     "file": "models/journey_wukong_young_side.inp",
     "thumb": "thumbs/journey_wukong_young_side.png",
-    "desc": "卡洛兒姊姊說故事第三集 v2（2026-10-26）。Python 筆刷分層角色；猴子為 Q 版造型（圓頭、愛心臉罩、捲尾巴），有九軸轉頭、眨眼、啊／喔嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式在 carrot-video/live2d/characters/journey_hero*.py。"
+    "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
   },
   {
     "id": "journey_monkey_elder_side",
