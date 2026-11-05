@@ -11,6 +11,18 @@
       }
     ]
   },
+  "aka_carol": {
+    "version": "2026-11-05",
+    "build": "20261105-aka-carol",
+    "note": "新增卡洛兒姐姐（Aka 九軸 × Gemini 純白底拆件換裝版，保留原臉九軸與 19 組物理）",
+    "history": [
+      {
+        "version": "2026-11-05",
+        "build": "20261105-aka-carol",
+        "note": "新增卡洛兒姐姐（Aka 九軸 × Gemini 純白底拆件換裝版，保留原臉九軸與 19 組物理）"
+      }
+    ]
+  },
   "aka_gemini": {
     "version": "2026-11-05",
     "build": "20261105-aka-gemini",

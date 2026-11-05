@@ -1,5 +1,19 @@
 [
  {
+  "id": "aka_carol",
+  "name": "卡洛兒姐姐（Aka 九軸 × Gemini 拆件版）",
+  "build": "2026-11-05-aka-carol",
+  "private": false,
+  "category": "refined"
+ },
+ {
+  "id": "aka_gemini",
+  "name": "Aka × Gemini 拆件換裝",
+  "build": "2026-11-05-aka-gemini",
+  "private": false,
+  "category": "refined"
+ },
+ {
   "id": "base_head_90deg_9axis",
   "name": "90° 九軸可編輯素體",
   "build": "2026-11-05-head90",

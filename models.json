@@ -1,5 +1,13 @@
 [
   {
+    "id": "aka_carol",
+    "name": "卡洛兒姐姐（Aka 九軸 × Gemini 拆件版）",
+    "file": "models/aka_carol.inp",
+    "thumb": "thumbs/aka_carol.png",
+    "noIdleArms": false,
+    "desc": "以官方 Aka（34 個參數、9×3 手調九軸轉頭、19 組彈簧擺物理）為骨架基底，保留原始臉部與五官九軸網格，使用 Gemini 純白背景生成之「卡洛兒姐姐（Sister Carol）」部件替換橘色雙馬尾長髮、胡蘿蔔髮夾、頭頂嫩芽呆毛、左右蘿蔔葉裝飾、白橘水手領上衣、綠結橘領帶、橘色百褶裙、綠色荷葉邊內襯、綠邊白手套與胡蘿蔔長襪運動短靴（76 圖層）。"
+  },
+  {
     "id": "aka_gemini",
     "name": "Aka 九軸 × Gemini 拆件換裝（保留原臉九軸）",
     "file": "models/aka_gemini.inp",

@@ -136,7 +136,7 @@ $('modelSearch').oninput = filterModels;
 const qs = new URLSearchParams(location.search);
 
 async function loadModels() {
-  const featured = ['mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'aka', 'midori'];
+  const featured = ['aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'aka', 'midori'];
   const raw = await (await fetch('layers/models.json', { cache: 'no-store' })).json();
   const list = raw.filter(m => m.category !== 'refined' || featured.includes(m.id));
   list.sort((a, b) => (featured.indexOf(a.id) + 1 || 99) - (featured.indexOf(b.id) + 1 || 99));
