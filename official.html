@@ -201,6 +201,12 @@ const MODELS = [
   { id: 'base_head_90deg_9axis', name: '90° 九軸可編輯素體', desc: '光頭無髮 16 圖層分離・Yaw ±90° × Pitch ±30°（27 關鍵幀）・T10 頭頂鎖定與獨立輪廓線', file: 'models/base_head_90deg_9axis.inp', own: 'make_base_head_inp.py' },
   { id: 'aka', name: 'Aka', desc: '紅髮狐耳少女', file: 'models/official/aka.inp' },
   { id: 'midori', name: 'Midori', desc: '綠髮少女（MeshGroup 版）', file: 'models/official/midori.inp' },
+  { id: 'carol_hand', name: '卡洛兒姐姐', desc: '故事 V1 手繪版・內建表情與揮手', file: 'models/carol_hand.inp', own: 'carol_hand.py' },
+  { id: 'carol_hand_side', name: '卡洛兒姐姐（側面）', desc: '故事 V1 手繪版・內建走路', file: 'models/carol_hand_side.inp', own: 'carol_hand_side.py' },
+  { id: 'mr_carrot_hand', name: '卡洛特先生', desc: '故事 V1 手繪版・內建表情與揮手', file: 'models/mr_carrot_hand.inp', own: 'mr_carrot_hand.py' },
+  { id: 'mr_carrot_hand_side', name: '卡洛特先生（側面）', desc: '故事 V1 手繪版・內建走路', file: 'models/mr_carrot_hand_side.inp', own: 'mr_carrot_hand_side.py' },
+  { id: 'rabbit', name: '兔子波波', desc: '故事 V1 手繪版・內建表情與揮手', file: 'models/rabbit.inp', own: 'rabbit.py' },
+  { id: 'rabbit_side', name: '兔子波波（側面）', desc: '故事 V1 手繪版・內建走路', file: 'models/rabbit_side.inp', own: 'rabbit_side.py' },
   { id: 'carol_hand_v2', name: '卡洛兒姐姐', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/carol_hand_v2.inp', own: 'carol_hand_v2.py' },
   { id: 'carol_hand_v2_side', name: '卡洛兒姐姐（側面）', desc: '卡洛特工作室原創（向量拆層版・側面走路）', file: 'models/carol_hand_v2_side.inp', own: 'carol_hand_v2_side.py' },
   { id: 'mr_carrot_hand_v2',name: '綠髮卡洛特', desc: '卡洛特工作室原創（向量拆層版）', file: 'models/mr_carrot_hand_v2.inp', own: 'mr_carrot_hand_v2.py' },
@@ -220,7 +226,7 @@ const MODELS = [
   { id: 'mr_carrot_lab_v2', name: '卡洛特先生（實驗室 GPT 版）', desc: '《卡洛特實驗室》綠髮・白袍橘領巾紫手套・每層 GPT 透明部件・大頭 2.8 頭身', file: 'models/mr_carrot_lab_v2.inp', own: 'make_mrcarrot5_puppet.py' },
   { id: 'mr_carrot_mage', name: '魔法師卡洛特先生', desc: '與科學家共用骨架・每層 GPT 透明部件・外套前襬一整片・耳朵照原圖描', file: 'models/mr_carrot_mage.inp', own: 'make_mrcarrot5_puppet.py' },
   { id: 'linda_nyan', name: 'Linda喵', desc: '紫髮貓耳少女（GPT 部件圖層・甩尾／貓耳／裙擺物理・表情做在模型裡）', file: 'models/linda_nyan.inp', own: 'make_linda_puppet.py' },
-  { id: 'aubergine_v2', name: '茄子 V2（預覽）', desc: '平口衣裝・長脖子與鎖骨底層・紫瞳與 AKA 九軸，頭部原型 seagetch（CC BY 4.0）', file: 'models/aubergine_v2.inp' },
+  { id: 'aubergine_v2', name: '茄子 V2', desc: '紫瞳・AKA 九軸與眨眼・長脖子與鎖骨底層（頭部原型：seagetch，CC BY 4.0）', file: 'models/aubergine_v2.inp' },
   { id: 'aubergine', name: 'Aubergine', desc: '黑髮魔法學院教授（GPT 部件圖層・畫風與晃動比照〈赤羽亞矢2.0〉展示・原創角色）', file: 'models/aubergine.inp', own: 'make_aubergine_puppet.py' },
 ];
 // our own puppets name a few params differently (inochi-lite / the video stage use these): drive them under their names
@@ -246,19 +252,21 @@ for (const id of FEATURED_IDS) {
   option.textContent = `${m.name} ${vlabel(m.file) || ''}`.trim();
   $('models').appendChild(option);
 }
-// 2026-11-03 時光探險隊: the v2 models of 卡洛特時空探險 get their own group; add an id here when a model passes model_regress.py
-const TEAM_IDS = ['carol_hand_v2'];
-const teamGroup = document.createElement('optgroup');
-teamGroup.label = '時光探險隊';
-for (const id of TEAM_IDS) {
-  const m = MODELS.find(m => m.id === id);
-  if (!m) continue;
-  const option = document.createElement('option');
-  option.value = m.id;
-  option.textContent = m.name;
-  teamGroup.appendChild(option);
+for (const [label, ids] of [
+  ['故事 V1・卡洛特三人組', ['carol_hand', 'carol_hand_side', 'mr_carrot_hand', 'mr_carrot_hand_side', 'rabbit', 'rabbit_side']],
+  ['時光探險隊', ['carol_hand_v2']],
+]) {
+  const group = document.createElement('optgroup');
+  group.label = label;
+  for (const id of ids) {
+    const m = MODELS.find(m => m.id === id);
+    const option = document.createElement('option');
+    option.value = id;
+    option.textContent = m.name;
+    group.appendChild(option);
+  }
+  $('models').appendChild(group);
 }
-$('models').appendChild(teamGroup);
 $('models').onchange = () => open($('models').value);
 $('decorBtn').onclick = () => { decorOff = !decorOff; $('decorBtn').setAttribute('aria-pressed', decorOff); };
 // 學院風飾品 (2026-11-01, 卡洛兒): 魔法帽 is independent; 放下長髮 and 單馬尾 exclude each other
@@ -695,7 +703,8 @@ function drive(dt) {
     const p = P.byName['Mouth:: Shape'];
     const open = Math.max(0, Math.sin(time * 11) * 0.6 + Math.sin(time * 4.3) * 0.4);
     const vowel = (Math.sin(time * 1.7) + 1) / 2;
-    set('Mouth:: Shape', ease(p.min[0], p.max[0], vowel), ease(p.defaults[1], p.max[1], open));
+    set('Mouth:: Shape', ease(p.min[0], p.max[0], vowel), ease(p.defaults[1], p.min[1], open));
+    if (P.has('Mouth:: Open')) set('Mouth:: Open', open);
   } else if (!manual.has('Mouth:: Shape') && P.has('Mouth:: Shape')) P.set('Mouth:: Shape', P.byName['Mouth:: Shape'].defaults);
   if (!P.has('Mouth:: Shape') && isMidMouth(P.byName['Mouth:: Form'])) {   // (2026-10-30) 啊 / 咿 / 喔 + in-between sizes
     lipStep(talkMouth, auto.talk ? lipTarget(time, 0.9) : { open: 0, form: talkMouth.form }, dt);
