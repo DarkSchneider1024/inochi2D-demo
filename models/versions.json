@@ -40,6 +40,18 @@
       }
     ]
   },
+  "acad_carrot": {
+    "version": "2026-11-08-r1",
+    "build": "2026-11-08-r1",
+    "note": "學院卡洛特無外套版（男靴、細脖子），回歸 PASS 第7輪，測試紀錄見 psd-create/qa_reports/acad_carrot",
+    "history": [
+      {
+        "version": "2026-11-08-r1",
+        "build": "2026-11-08-r1",
+        "note": "學院卡洛特無外套版（男靴、細脖子），回歸 PASS 第7輪，測試紀錄見 psd-create/qa_reports/acad_carrot"
+      }
+    ]
+  },
   "aubergine": {
     "version": "2026-11-05-head9-r5",
     "build": "20261105-head9-r5",
