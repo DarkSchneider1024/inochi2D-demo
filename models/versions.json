@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261107-story-v3-test-eyes2",
+    "build": "20261107-story-v3-test-face9",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-07",
+        "build": "20261107-story-v3-test-face9",
+        "note": "九軸轉頭加抬頭時臉頰往內折的凹口修掉：角落改成轉頭＋抬頭相加，臉的轉頭位移沿網格平滑"
+      },
       {
         "version": "2026-11-07",
         "build": "20261107-story-v3-test-eyes2",
