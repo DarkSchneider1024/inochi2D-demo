@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-back-lock-below-ear",
+    "build": "20261108-back-lock-slivers",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-back-lock-slivers",
+        "note": "耳下頭髮切給後髮時留下的兩條前髮碎片也歸後髮（轉頭甩髮時不再分開飄）"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-back-lock-below-ear",
