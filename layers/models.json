@@ -502,5 +502,19 @@
   "build": "2026-11-05-head9-r5",
   "private": false,
   "category": "story"
- }
+ },
+{
+ "id": "carol_hand_v3",
+ "name": "卡洛兒姐姐說故事 v3",
+ "build": "20261107-story-v3",
+ "private": false,
+ "category": "story"
+},
+{
+ "id": "mr_carrot_hand_v3",
+ "name": "卡洛特先生說故事 v3",
+ "build": "20261107-story-v3",
+ "private": false,
+ "category": "story"
+}
 ]
