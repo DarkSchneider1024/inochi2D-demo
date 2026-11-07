@@ -504,30 +504,30 @@
   "category": "story"
  },
  {
+  "id": "aubergine_v2",
+  "name": "aubergine_v2",
+  "build": "2026-11-06-v2",
+  "private": false,
+  "category": "story"
+ },
+ {
   "id": "carol_hand_v3",
   "name": "卡洛兒姐姐說故事 v3",
-  "build": "20261107-story-v3",
+  "build": "1.0-alpha",
   "private": false,
   "category": "story"
  },
  {
   "id": "mr_carrot_hand_v3",
   "name": "卡洛特先生說故事 v3",
-  "build": "20261107-story-v3",
+  "build": "1.0-alpha",
   "private": false,
   "category": "story"
  },
  {
-  "id": "mr_carrot_hand_v3_test",
-  "name": "卡洛特先生 v3 素體測試",
-  "build": "20261107-story-v3-test-eyes",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "carol_hand_v3_test",
-  "name": "卡洛兒姐姐 v3 素體測試",
-  "build": "20261107-story-v3-test-eyes",
+  "id": "acad_carrot",
+  "name": "acad_carrot",
+  "build": "2026-11-08-r1",
   "private": false,
   "category": "story"
  }
