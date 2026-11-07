@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-hair-glasses",
+    "build": "20261108-traced-hair-big-eyes",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-traced-hair-big-eyes",
+        "note": "頭髮三層全取自底圖：外輪廓用底圖頭髮遮罩，前髮邊線沿底圖最暗的髮線抓出，髮線與暗面照底圖描；頭頂層墊在前髮底下。眼睛照舊版比例放大（寬 1.1、高 1.6 倍），眼鏡加高、眉毛上移 5 px"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-hair-glasses",
