@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261107-story-v3-test-eyes",
+    "build": "20261107-story-v3-test-eyes2",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-07",
+        "build": "20261107-story-v3-test-eyes2",
+        "note": "照眼睛製作教學重做：眨眼改成網格變形（上眼皮沿弧線壓到下眼皮、眼白夾扁、眼球被眼白裁切），雙眼皮線只降一半、眼線閉起來會變細；轉頭時眼球比眼眶多移；虹膜紋理、眼皮厚度、臥蠶、淚線"
+      },
       {
         "version": "2026-11-07",
         "build": "20261107-story-v3-test-eyes",
