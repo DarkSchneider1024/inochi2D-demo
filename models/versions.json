@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-hair-locks-wind",
+    "build": "20261108-glasses-toggle",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-glasses-toggle",
+        "note": "新增 Acc:: Glasses Off：Demo「服裝」區的「👓 拿掉眼鏡」、角色工坊的「戴眼鏡」勾選框可以拿掉眼鏡"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-hair-locks-wind",
