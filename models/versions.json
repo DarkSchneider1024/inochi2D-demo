@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-bangs-only-front",
+    "build": "20261108-hair-locks-wind",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-hair-locks-wind",
+        "note": "頭髮拆成 14 片獨立圖層（沿底圖輪廓凹口與髮線切），每片繞自己的髮根擺、幅度與彎曲各不同，大晃動像被風吹；瀏海照底圖五個明暗色階描出髮絲；頸後一撮綁在身體；眼鏡縮小一點"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-bangs-only-front",
