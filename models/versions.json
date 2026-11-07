@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261107-story-v3-test-cloth",
+    "build": "20261107-story-v3-test-glasses",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-07",
+        "build": "20261107-story-v3-test-glasses",
+        "note": "眼鏡照底圖重畫放回（細金屬圓角方框、鼻托、鏡片反光）；外眼角睫毛拆成獨立一層，閉眼時繞根部往下轉；新增眼球左右看（眼球被眼白裁切、高光移得少）"
+      },
       {
         "version": "2026-11-07",
         "build": "20261107-story-v3-test-cloth",
