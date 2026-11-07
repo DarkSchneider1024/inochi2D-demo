@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261107-story-v3-test-face9",
+    "build": "20261107-story-v3-test-cloth",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-07",
+        "build": "20261107-story-v3-test-cloth",
+        "note": "服裝照底圖重畫：合身工作背心（V 領、扣袋蓋口袋、前排銅扣）、開領襯衫、捲到手肘的袖子與袖絆、扁皮帶方扣與褲耳、同色褲頭與門襟"
+      },
       {
         "version": "2026-11-07",
         "build": "20261107-story-v3-test-face9",
