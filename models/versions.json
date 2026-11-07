@@ -41,10 +41,15 @@
     ]
   },
   "acad_carrot": {
-    "version": "2026-11-08-r1",
-    "build": "2026-11-08-r1",
-    "note": "學院卡洛特無外套版（男靴、細脖子），回歸 PASS 第7輪，測試紀錄見 psd-create/qa_reports/acad_carrot",
+    "version": "2026-11-08-r2",
+    "build": "2026-11-08-r2",
+    "note": "學院卡洛特加「拿掉背心」換裝（Outfit:: Vest Off），回歸 PASS 第11輪（線上）",
     "history": [
+      {
+        "version": "2026-11-08-r2",
+        "build": "2026-11-08-r2",
+        "note": "學院卡洛特加「拿掉背心」換裝（Outfit:: Vest Off），回歸 PASS 第11輪（線上）"
+      },
       {
         "version": "2026-11-08-r1",
         "build": "2026-11-08-r1",
