@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-tears",
+    "build": "20261108-hair-glasses",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-hair-glasses",
+        "note": "頭髮照底圖用髮束重畫（S 形髮束、髮尖外翹、呆毛），轉頭時髮尖落後、擺動加大且各撮不同；眼鏡照舊版比例放大（鏡片寬 1.1 倍、高 1.25 倍、圓角）"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-tears",
