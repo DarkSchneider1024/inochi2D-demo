@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-traced-hair-big-eyes",
+    "build": "20261108-ears-back-hair",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-ears-back-hair",
+        "note": "後髮在耳朵位置補滿、耳朵照底圖放到臉頰外側並排在後髮前面（使用者：後髮不需要把耳朵拿掉，耳朵自然擋住他）"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-traced-hair-big-eyes",
