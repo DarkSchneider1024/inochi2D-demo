@@ -2127,9 +2127,14 @@
   },
   "mr_carrot_hand_v3": {
     "version": "2026-11-07",
-    "build": "20261107-story-v3",
+    "build": "20261107-story-v3-hair",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-07",
+        "build": "20261107-story-v3-hair",
+        "note": "頭髮改回舊版比例（等比縮放，不再拉成安全帽），輪廓 89.0%→89.8%"
+      },
       {
         "version": "2026-11-07",
         "build": "20261107-story-v3",
