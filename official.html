@@ -1037,7 +1037,13 @@ async function loadRef(id) {
     const img = new Image(); img.src = `refs/${j.img}`; await img.decode();
     ref = { ...j, im: img }; $('refSec').hidden = false;
     for (const a of Object.values(ref.alts || {})) { a.im = new Image(); a.im.src = `refs/${a.img}`; }
-  } catch (e) { $('refSec').hidden = false; $('refBtn').disabled = true; $('refBtn').textContent = '📐 基底：此作品沒有基底圖'; }
+    // (2026-11-07 user: 這幾張請放到 demo 網站的底圖裡面) a model may list several references; a select picks one
+    let pick = $('refPick');
+    if (!pick) { pick = document.createElement('select'); pick.id = 'refPick'; pick.style.marginLeft = '6px'; $('refBtn').after(pick); pick.onchange = () => { ref.cur = +pick.value; }; }
+    pick.hidden = !(ref.list && ref.list.length);
+    if (ref.list) { pick.innerHTML = ref.list.map((r, i) => `<option value="${i}">${r.label}</option>`).join(''); ref.cur = 0;
+      for (const r of ref.list) { r.im = new Image(); r.im.src = `refs/${r.img}`; } }
+  } catch (e) { $('refSec').hidden = false; $('refBtn').disabled = true; $('refBtn').textContent = '📐 基底：此作品沒有基底圖'; if ($('refPick')) $('refPick').hidden = true; }
 }
 // (2026-11-01, user: 換裝的時候 底圖也要換成參考底圖) each outfit shows its own reference, from refs/<id>.json "alts"
 function refKey() {
@@ -1054,7 +1060,8 @@ function drawRef() {
   if (!ref || !refMode) return;
   // (2026-10-31 user: 基底變成所有作品的共通按鈕) a ref without its own puppet-space box (x0/y0/w/h) is fitted by its
   // drawn figure's bbox onto the puppet's rest bounds (fit): same height, same centre
-  const alt = ref.alts && ref.alts[refKey()], r = alt && alt.im.complete && alt.im.naturalWidth ? alt : ref;
+  const alt = ref.alts && ref.alts[refKey()], pk = ref.list && ref.list[ref.cur || 0],
+    r = pk && pk.im.complete && pk.im.naturalWidth ? pk : alt && alt.im.complete && alt.im.naturalWidth ? alt : ref;
   if (r.x0 === undefined && r.bbox && fit) {
     const [bx0, by0, bx1, by1] = r.bbox, k = fit.h / (by1 - by0);
     Object.assign(r, { x0: fit.cx - k * (bx0 + bx1) / 2, y0: fit.cy - k * (by0 + by1) / 2, w: r.iw * k, h: r.ih * k });

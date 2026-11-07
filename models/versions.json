@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261107-story-v3-test-glasses",
+    "build": "20261107-story-v3-test-moods",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-07",
+        "build": "20261107-story-v3-test-moods",
+        "note": "生氣、難過改成用變形改眼型（生氣：內眼角壓低、微瞇；難過：外眼角下垂），不再換差分眼睛；基底比對加上四張參考圖可切換"
+      },
       {
         "version": "2026-11-07",
         "build": "20261107-story-v3-test-glasses",
