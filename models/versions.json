@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261107-story-v3-test-extreme1",
+    "build": "20261108-neck-still",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-neck-still",
+        "note": "九軸轉頭時脖子不再跟著變形，只跟身體動（使用者：9軸脖子應該不能跟著變形）"
+      },
       {
         "version": "2026-11-07",
         "build": "20261107-story-v3-test-extreme1",
@@ -2186,9 +2191,14 @@
   },
   "carol_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261107-story-v3-test-eyes",
+    "build": "20261108-neck-still",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-neck-still",
+        "note": "九軸轉頭時脖子不再跟著變形，只跟身體動（使用者：9軸脖子應該不能跟著變形）"
+      },
       {
         "version": "2026-11-07",
         "build": "20261107-story-v3-test-eyes",
