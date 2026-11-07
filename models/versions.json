@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-back-lock-slivers",
+    "build": "20261108-bangs-only-front",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-bangs-only-front",
+        "note": "只有瀏海是前髮；頭頂層只留髮際線以上；兩側鬢角、外翹髮尖、耳下頭髮都歸後髮，排在臉後面，後髮也照底圖帶髮線與亮面（使用者：只有瀏海是前髮，其他都是後髮）"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-back-lock-slivers",

@@ -28,9 +28,20 @@
    "h": 299,
    "group": "Head",
    "hidden": false,
-   "backing": true,
+   "backing": false,
    "z": 0.68,
-   "suspects": []
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      166,
+      2,
+      325,
+      247
+     ],
+     "n": 7266
+    }
+   ]
   },
   {
    "name": "小腿_R",
@@ -536,7 +547,7 @@
    "h": 60,
    "group": "Head",
    "hidden": false,
-   "backing": true,
+   "backing": false,
    "z": 0.41,
    "suspects": []
   },
@@ -1321,18 +1332,7 @@
    "hidden": false,
    "backing": false,
    "z": 0.04,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      360,
-      169,
-      37,
-      21
-     ],
-     "n": 49
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "頭頂髮",
@@ -1340,7 +1340,7 @@
    "x": 169,
    "y": 5,
    "w": 324,
-   "h": 299,
+   "h": 216,
    "group": "Head",
    "hidden": false,
    "backing": false,
@@ -1349,22 +1349,22 @@
     {
      "type": "藏線",
      "box": [
-      183,
-      85,
-      311,
-      179
+      236,
+      86,
+      201,
+      137
      ],
-     "n": 5671
+     "n": 2376
     }
    ]
   },
   {
    "name": "瀏海",
    "file": "86.webp",
-   "x": 181,
-   "y": 72,
-   "w": 312,
-   "h": 231,
+   "x": 237,
+   "y": 70,
+   "w": 200,
+   "h": 153,
    "group": "Head",
    "hidden": false,
    "backing": false,
@@ -1376,9 +1376,9 @@
       391,
       173,
       46,
-      52
+      48
      ],
-     "n": 65
+     "n": 61
     }
    ]
   },
