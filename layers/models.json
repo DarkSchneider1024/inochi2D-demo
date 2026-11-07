@@ -530,5 +530,33 @@
   "build": "2026-11-08-r1",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "asc_cat",
+  "name": "asc_cat",
+  "build": "2026-11-08",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "asc_cat_orange",
+  "name": "asc_cat_orange",
+  "build": "2026-11-08",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "asc_cat_blue",
+  "name": "asc_cat_blue",
+  "build": "2026-11-08",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "asc_cat_gray",
+  "name": "asc_cat_gray",
+  "build": "2026-11-08",
+  "private": false,
+  "category": "story"
  }
 ]
