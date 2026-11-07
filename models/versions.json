@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261107-story-v3-test-moods",
+    "build": "20261107-story-v3-test-extreme1",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-07",
+        "build": "20261107-story-v3-test-extreme1",
+        "note": "極限檢核第 1 輪：褲頭下緣淡出接進褲管（去掉 W 形色差），左小腿改成和右小腿鏡像對齊（去掉膝蓋台階）"
+      },
       {
         "version": "2026-11-07",
         "build": "20261107-story-v3-test-moods",
