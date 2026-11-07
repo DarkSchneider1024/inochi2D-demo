@@ -2149,9 +2149,14 @@
   },
   "mr_carrot_hand_v3": {
     "version": "2026-11-08",
-    "build": "20261108-official-from-plain",
+    "build": "20261108-wrist-canteen",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-wrist-canteen",
+        "note": "手腕接縫改成手掌上緣不畫線、淡入下臂；水壺照底圖重畫（灰色水壺、黑蓋、皮革十字吊帶、金扣）"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-official-from-plain",
