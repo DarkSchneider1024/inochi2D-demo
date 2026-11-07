@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-neck-still",
+    "build": "20261108-tears",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-tears",
+        "note": "眼淚照新眼睛重畫：淚水沿下眼皮積一條、淚滴從外眼角下緣滑下；卡洛兒的淚跟著眼睛轉頭（使用者：難過的眼淚位置怪怪的）"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-neck-still",
@@ -2191,9 +2196,14 @@
   },
   "carol_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-neck-still",
+    "build": "20261108-tears",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-tears",
+        "note": "眼淚照新眼睛重畫：淚水沿下眼皮積一條、淚滴從外眼角下緣滑下；卡洛兒的淚跟著眼睛轉頭（使用者：難過的眼淚位置怪怪的）"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-neck-still",
