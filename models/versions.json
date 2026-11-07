@@ -2144,9 +2144,14 @@
   },
   "mr_carrot_hand_v3_test": {
     "version": "2026-11-07",
-    "build": "20261108-ears-back-hair",
+    "build": "20261108-back-lock-below-ear",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-back-lock-below-ear",
+        "note": "右耳下方、下巴旁那撮頭髮改歸後髮，排在臉和耳朵後面（使用者：這裡耳朵下面應該要做到後髮）"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-ears-back-hair",
