@@ -203,6 +203,7 @@ const MODELS = [
   { id: 'midori', name: 'Midori', desc: '綠髮少女（MeshGroup 版）', file: 'models/official/midori.inp' },
   { id: 'carol_hand', name: '卡洛兒姐姐', desc: '故事 V1 手繪版・內建表情與揮手', file: 'models/carol_hand.inp', own: 'carol_hand.py' },
   { id: 'carol_hand_v3', name: '卡洛兒姐姐說故事 v3', desc: '全手繪版・螺旋雙馬尾、九軸轉頭與揮手', file: 'models/carol_hand_v3.inp' },
+  { id: 'carol_hand_v3_test', name: '卡洛兒姐姐 v3 素體測試', desc: '精緻版分層眼睛・變形眨眼・無髮飾', file: 'models/carol_hand_v3_test.inp' },
   { id: 'carol_hand_side', name: '卡洛兒姐姐（側面）', desc: '故事 V1 手繪版・內建走路', file: 'models/carol_hand_side.inp', own: 'carol_hand_side.py' },
   { id: 'mr_carrot_hand', name: '卡洛特先生', desc: '故事 V1 手繪版・內建表情與揮手', file: 'models/mr_carrot_hand.inp', own: 'mr_carrot_hand.py' },
   { id: 'mr_carrot_hand_v3', name: '卡洛特先生說故事 v3', desc: '手繪探險服・九軸轉頭與手勢', file: 'models/mr_carrot_hand_v3.inp' },
@@ -256,7 +257,7 @@ for (const id of FEATURED_IDS) {
   $('models').appendChild(option);
 }
 for (const [label, ids] of [
-  ['卡洛兒說故事', ['carol_hand_v3', 'mr_carrot_hand_v3', 'mr_carrot_hand_v3_test']],
+  ['卡洛兒說故事', ['carol_hand_v3', 'carol_hand_v3_test', 'mr_carrot_hand_v3', 'mr_carrot_hand_v3_test']],
   ['故事 V1・卡洛特三人組', ['carol_hand', 'carol_hand_side', 'mr_carrot_hand', 'mr_carrot_hand_side', 'rabbit', 'rabbit_side']],
   ['時光探險隊', ['carol_hand_v2']],
 ]) {

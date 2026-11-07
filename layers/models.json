@@ -523,5 +523,12 @@
   "build": "20261107-story-v3-test-eyes",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "carol_hand_v3_test",
+  "name": "卡洛兒姐姐 v3 素體測試",
+  "build": "20261107-story-v3-test-eyes",
+  "private": false,
+  "category": "story"
  }
 ]
