@@ -2132,9 +2132,14 @@
   },
   "carol_hand_v3": {
     "version": "2026-11-08",
-    "build": "20261108-official-from-plain",
+    "build": "20261108-bald-face-98",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-bald-face-98",
+        "note": "光頭臉重做：臉型、耳朵、雙眼（左右各自量）、眉、鼻、嘴、腮紅、脖子照底圖＋光頭參考描，光頭臉相似度 62.1% → 98.1%"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-official-from-plain",
