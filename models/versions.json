@@ -2520,10 +2520,15 @@
     ]
   },
   "uncle_hand_v3": {
-    "version": "2026-11-09-b",
-    "build": "20261109-uncle-hand-v3-carrothair",
-    "note": "頭髮改用卡洛特 v3 的乾淨髮片換深灰黑色、往頭收短，兩鬢一點灰；鬍渣改成很淡的膚色偏灰漸層＋沿下巴的細短線；眼神改兇：上眼皮壓低（內眼角往下）、虹膜稍小偏上、粗直眉壓低；回歸只卡 T6 整體輪廓 90.7%",
+    "version": "2026-11-09-c",
+    "build": "20261109-uncle-hand-v3-strands",
+    "note": "帥大叔：自己的側分後梳短髮改用規則髮束手繪（根深尖亮漸層、S 形髮束、帶狀高光、分隔線，兩鬢灰）；拿掉睫毛只留粗平上眼線、眼形細長、虹膜小偏上、粗眉壓低；淡法令紋與眼下細紋；回歸只卡 T6 整體輪廓 91.4%",
     "history": [
+      {
+        "version": "2026-11-09-c",
+        "build": "20261109-uncle-hand-v3-strands",
+        "note": "帥大叔：自己的側分後梳短髮改用規則髮束手繪（根深尖亮漸層、S 形髮束、帶狀高光、分隔線，兩鬢灰）；拿掉睫毛只留粗平上眼線、眼形細長、虹膜小偏上、粗眉壓低；淡法令紋與眼下細紋；回歸只卡 T6 整體輪廓 91.4%"
+      },
       {
         "version": "2026-11-09-b",
         "build": "20261109-uncle-hand-v3-carrothair",
@@ -2547,10 +2552,15 @@
     ]
   },
   "guy_hand_v3": {
-    "version": "2026-11-09-b",
-    "build": "20261109-guy-hand-v3-carrothair",
-    "note": "頭髮改用卡洛特 v3 的乾淨髮片換栗色；眉毛加粗；回歸只卡 T6 整體輪廓 91.1%",
+    "version": "2026-11-09-c",
+    "build": "20261109-guy-hand-v3-strands",
+    "note": "路人男：自己的蓬鬆亂翹栗色短髮改用規則髮束手繪；回歸只卡 T6 整體輪廓 91.7%",
     "history": [
+      {
+        "version": "2026-11-09-c",
+        "build": "20261109-guy-hand-v3-strands",
+        "note": "路人男：自己的蓬鬆亂翹栗色短髮改用規則髮束手繪；回歸只卡 T6 整體輪廓 91.7%"
+      },
       {
         "version": "2026-11-09-b",
         "build": "20261109-guy-hand-v3-carrothair",
@@ -2574,10 +2584,15 @@
     ]
   },
   "tristan_uncv3": {
-    "version": "2026-11-09-b",
-    "build": "20261109-tristan-uncv3-carrothair",
-    "note": "跟著帥大叔臉模重建（新頭髮、鬍渣、兇眼神）；回歸只卡 T6 整體輪廓 89.4%",
+    "version": "2026-11-09-c",
+    "build": "20261109-tristan-uncv3-strands",
+    "note": "跟著帥大叔臉模重建；回歸只卡 T6 整體輪廓 89.9%",
     "history": [
+      {
+        "version": "2026-11-09-c",
+        "build": "20261109-tristan-uncv3-strands",
+        "note": "跟著帥大叔臉模重建；回歸只卡 T6 整體輪廓 89.9%"
+      },
       {
         "version": "2026-11-09-b",
         "build": "20261109-tristan-uncv3-carrothair",
@@ -2591,10 +2606,15 @@
     ]
   },
   "kay_guyv3": {
-    "version": "2026-11-09-b",
-    "build": "20261109-kay-guyv3-carrothair",
-    "note": "跟著路人男臉模重建（新頭髮、粗眉）；回歸只卡 T6 整體輪廓 89.3%",
+    "version": "2026-11-09-c",
+    "build": "20261109-kay-guyv3-strands",
+    "note": "跟著路人男臉模重建；回歸只卡 T6 整體輪廓 89.7%",
     "history": [
+      {
+        "version": "2026-11-09-c",
+        "build": "20261109-kay-guyv3-strands",
+        "note": "跟著路人男臉模重建；回歸只卡 T6 整體輪廓 89.7%"
+      },
       {
         "version": "2026-11-09-b",
         "build": "20261109-kay-guyv3-carrothair",
