@@ -2146,10 +2146,15 @@
     ]
   },
   "carol_hand_v3": {
-    "version": "2026-11-08",
-    "build": "20261108-wave-legs",
+    "version": "2026-11-09",
+    "build": "20261109-face-fix-wave-legs",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-09",
+        "build": "20261109-face-fix-wave-legs",
+        "note": "眼褶改成一條乾淨手繪弧線（生氣不再有眉間短撇）；拿掉耳朵側頰上的殘線；嘴改成平滑弧線並跟著抬頭低頭移動；九軸四個斜角和正上、正下一致；揮手與腿長同前版。光頭臉 98.72%"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-wave-legs",
