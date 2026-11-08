@@ -1,7 +1,7 @@
 {
  "id": "elder_f_hand_v3",
  "private": false,
- "name": "elder_f_hand_v3",
+ "name": "老婆婆說故事 v3",
  "W": 806,
  "H": 1872,
  "build": "1.0-alpha",
@@ -93,30 +93,9 @@
    "h": 227,
    "group": "Body",
    "hidden": false,
-   "backing": false,
+   "backing": true,
    "z": 0.86,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      258,
-      1328,
-      93,
-      70
-     ],
-     "n": 753
-    },
-    {
-     "type": "藏線",
-     "box": [
-      235,
-      1514,
-      78,
-      37
-     ],
-     "n": 267
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "小腿_L",
@@ -127,40 +106,9 @@
    "h": 227,
    "group": "Body",
    "hidden": false,
-   "backing": false,
+   "backing": true,
    "z": 0.85,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      438,
-      1321,
-      99,
-      80
-     ],
-     "n": 842
-    },
-    {
-     "type": "藏線",
-     "box": [
-      517,
-      1513,
-      37,
-      37
-     ],
-     "n": 177
-    },
-    {
-     "type": "藏線",
-     "box": [
-      476,
-      1513,
-      32,
-      32
-     ],
-     "n": 59
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "鞋_R",
@@ -173,7 +121,58 @@
    "hidden": false,
    "backing": false,
    "z": 0.84,
-   "suspects": []
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      255,
+      1698,
+      66,
+      47
+     ],
+     "n": 513
+    },
+    {
+     "type": "藏線",
+     "box": [
+      232,
+      1691,
+      20,
+      43
+     ],
+     "n": 80
+    },
+    {
+     "type": "藏線",
+     "box": [
+      213,
+      1554,
+      20,
+      55
+     ],
+     "n": 79
+    },
+    {
+     "type": "藏線",
+     "box": [
+      204,
+      1686,
+      24,
+      41
+     ],
+     "n": 65
+    },
+    {
+     "type": "藏線",
+     "box": [
+      215,
+      1515,
+      21,
+      36
+     ],
+     "n": 49
+    }
+   ]
   },
   {
    "name": "鞋_L",
@@ -186,7 +185,38 @@
    "hidden": false,
    "backing": false,
    "z": 0.83,
-   "suspects": []
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      465,
+      1702,
+      66,
+      45
+     ],
+     "n": 471
+    },
+    {
+     "type": "藏線",
+     "box": [
+      531,
+      1696,
+      21,
+      42
+     ],
+     "n": 83
+    },
+    {
+     "type": "藏線",
+     "box": [
+      556,
+      1691,
+      25,
+      42
+     ],
+     "n": 64
+    }
+   ]
   },
   {
    "name": "大腿_R",
@@ -196,41 +226,10 @@
    "w": 171,
    "h": 673,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.82,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      247,
-      741,
-      173,
-      304
-     ],
-     "n": 4214
-    },
-    {
-     "type": "藏線",
-     "box": [
-      246,
-      740,
-      83,
-      260
-     ],
-     "n": 1783
-    },
-    {
-     "type": "藏線",
-     "box": [
-      250,
-      742,
-      46,
-      51
-     ],
-     "n": 285
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "大腿_L",
@@ -240,21 +239,10 @@
    "w": 176,
    "h": 673,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.81,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      370,
-      743,
-      179,
-      304
-     ],
-     "n": 6575
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "裙_後",
@@ -277,8 +265,8 @@
    "w": 246,
    "h": 77,
    "group": "Body",
-   "hidden": false,
-   "backing": true,
+   "hidden": true,
+   "backing": false,
    "z": 0.79,
    "suspects": []
   },
@@ -355,21 +343,10 @@
    "w": 248,
    "h": 89,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.73,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      282,
-      695,
-      242,
-      83
-     ],
-     "n": 1864
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "裙_擺_R",
@@ -379,41 +356,10 @@
    "w": 243,
    "h": 93,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.721,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      308,
-      947,
-      105,
-      101
-     ],
-     "n": 827
-    },
-    {
-     "type": "藏線",
-     "box": [
-      223,
-      947,
-      50,
-      32
-     ],
-     "n": 255
-    },
-    {
-     "type": "藏線",
-     "box": [
-      164,
-      947,
-      24,
-      32
-     ],
-     "n": 43
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "裙_R",
@@ -436,31 +382,10 @@
    "w": 241,
    "h": 93,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.711,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      394,
-      947,
-      224,
-      32
-     ],
-     "n": 1428
-    },
-    {
-     "type": "藏線",
-     "box": [
-      613,
-      947,
-      26,
-      32
-     ],
-     "n": 54
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "裙_L",
@@ -478,10 +403,10 @@
   {
    "name": "裙_中",
    "file": "24.webp",
-   "x": 162,
-   "y": 697,
-   "w": 482,
-   "h": 274,
+   "x": 164,
+   "y": 687,
+   "w": 478,
+   "h": 1064,
    "group": "Body",
    "hidden": false,
    "backing": false,
@@ -509,7 +434,7 @@
    "w": 246,
    "h": 108,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.68,
    "suspects": []
@@ -535,7 +460,7 @@
    "w": 88,
    "h": 170,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.66,
    "suspects": []
@@ -574,7 +499,7 @@
    "w": 84,
    "h": 175,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.65,
    "suspects": []
@@ -626,21 +551,10 @@
    "w": 254,
    "h": 140,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.63,
-   "suspects": [
-    {
-     "type": "破洞",
-     "box": [
-      366,
-      419,
-      77,
-      53
-     ],
-     "n": 1117
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "領巾結",
@@ -650,7 +564,7 @@
    "w": 63,
    "h": 50,
    "group": "Body",
-   "hidden": false,
+   "hidden": true,
    "backing": false,
    "z": 0.62,
    "suspects": []
