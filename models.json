@@ -437,5 +437,61 @@
     "thumb": "thumbs/aubergine_hand_v3.png",
     "noIdleArms": true,
     "desc": "全手繪成人版說故事角色（媽媽、皇后的臉模）。波浪長髮、九軸轉頭、表情、講話與揮手。"
+  },
+  {
+    "id": "mom_aubv3",
+    "name": "媽媽（茄子 v3）",
+    "file": "models/mom_aubv3.inp",
+    "thumb": "thumbs/mom_aubv3.png",
+    "noIdleArms": true,
+    "desc": "茄子小姐說故事 v3 的臉模換髮型服裝（小紅帽媽媽等）。"
+  },
+  {
+    "id": "jack_mom_aubv3",
+    "name": "傑克媽媽（茄子 v3）",
+    "file": "models/jack_mom_aubv3.inp",
+    "thumb": "thumbs/jack_mom_aubv3.png",
+    "noIdleArms": true,
+    "desc": "茄子小姐說故事 v3 的臉模換髮型服裝（傑克與豌豆）。"
+  },
+  {
+    "id": "aladdin_mom_aubv3",
+    "name": "阿拉丁媽媽（茄子 v3）",
+    "file": "models/aladdin_mom_aubv3.inp",
+    "thumb": "thumbs/aladdin_mom_aubv3.png",
+    "noIdleArms": true,
+    "desc": "茄子小姐說故事 v3 的臉模換髮型服裝（阿拉丁）。"
+  },
+  {
+    "id": "queen_aubv3",
+    "name": "白雪的皇后（茄子 v3）",
+    "file": "models/queen_aubv3.inp",
+    "thumb": "thumbs/queen_aubv3.png",
+    "noIdleArms": true,
+    "desc": "茄子小姐說故事 v3 的臉模換髮型服裝（白雪公主）。"
+  },
+  {
+    "id": "heart_queen_aubv3",
+    "name": "紅心皇后（茄子 v3）",
+    "file": "models/heart_queen_aubv3.inp",
+    "thumb": "thumbs/heart_queen_aubv3.png",
+    "noIdleArms": true,
+    "desc": "茄子小姐說故事 v3 的臉模換髮型服裝（愛麗絲夢遊仙境）。"
+  },
+  {
+    "id": "bone_girl_aubv3",
+    "name": "白骨精人形（茄子 v3）",
+    "file": "models/bone_girl_aubv3.inp",
+    "thumb": "thumbs/bone_girl_aubv3.png",
+    "noIdleArms": true,
+    "desc": "茄子小姐說故事 v3 的臉模換髮型服裝（西遊記・白骨精）。"
+  },
+  {
+    "id": "fan_lady_aubv3",
+    "name": "鐵扇公主（茄子 v3）",
+    "file": "models/fan_lady_aubv3.inp",
+    "thumb": "thumbs/fan_lady_aubv3.png",
+    "noIdleArms": true,
+    "desc": "茄子小姐說故事 v3 的臉模換髮型服裝（西遊記・芭蕉扇）。"
   }
 ]
