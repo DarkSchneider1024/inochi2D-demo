@@ -642,5 +642,19 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "elder_m_hand_v3",
+  "name": "老爺爺說故事 v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "elder_f_hand_v3",
+  "name": "老婆婆說故事 v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
