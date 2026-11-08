@@ -2184,9 +2184,14 @@
   },
   "mr_carrot_hand_v3": {
     "version": "2026-11-09",
-    "build": "20261109-clean-hair-neck",
+    "build": "20261109-wave-legs",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-09",
+        "build": "20261109-wave-legs",
+        "note": "打招呼改用茄子小姐精緻版的揮手：雙手舉起、手掌張開、拇指分開，前臂從捲起的袖口伸出、繞手肘左右擺（Arm:: Wave、Arm:: Wave:: Sway）；大腿照精緻版比例拉長（膝蓋 64%→70%）"
+      },
       {
         "version": "2026-11-09",
         "build": "20261109-clean-hair-neck",
