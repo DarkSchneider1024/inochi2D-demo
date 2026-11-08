@@ -614,5 +614,19 @@
   "build": "2026-11-08",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "uncle_hand_v3",
+  "name": "帥大叔說故事 v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "guy_hand_v3",
+  "name": "路人男說故事 v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]

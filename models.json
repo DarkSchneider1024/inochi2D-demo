@@ -439,6 +439,20 @@
     "desc": "全手繪成人版說故事角色（媽媽、皇后的臉模）。波浪長髮、九軸轉頭、表情、講話與揮手。"
   },
   {
+    "id": "uncle_hand_v3",
+    "name": "帥大叔說故事 v3",
+    "file": "models/uncle_hand_v3.inp",
+    "thumb": "thumbs/uncle_hand_v3.png",
+    "desc": "男性配角臉模・帥大叔（崔斯坦、騎士長、父親、獵人…）：Gemini 底圖、照底圖描的臉與分層眼睛、變形眨眼、可拿掉頭髮；光頭臉相似度 98%。"
+  },
+  {
+    "id": "guy_hand_v3",
+    "name": "路人男說故事 v3",
+    "file": "models/guy_hand_v3.inp",
+    "thumb": "thumbs/guy_hand_v3.png",
+    "desc": "男性配角臉模・路人男（凱伊、村民、士兵、侍從…）：Gemini 底圖、雀斑圓臉、分層眼睛、變形眨眼、可拿掉頭髮；光頭臉相似度 98%。"
+  },
+  {
     "id": "mom_aubv3",
     "name": "媽媽（茄子 v3）",
     "file": "models/mom_aubv3.inp",
