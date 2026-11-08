@@ -2184,9 +2184,14 @@
   },
   "mr_carrot_hand_v3": {
     "version": "2026-11-09",
-    "build": "20261109-wave-legs",
+    "build": "20261109-hand-hair",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-09",
+        "build": "20261109-hand-hair",
+        "note": "頭髮改照卡洛兒做法：規則手繪髮束（瀏海 5、頭頂 3 含呆毛、兩側外翹 7、耳下 2），根深尖亮漸層、一道亮面、等寬外框；耳朵跟臉、閉眼眼皮平滑"
+      },
       {
         "version": "2026-11-09",
         "build": "20261109-wave-legs",
