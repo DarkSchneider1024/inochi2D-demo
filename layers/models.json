@@ -525,6 +525,13 @@
   "category": "story"
  },
  {
+  "id": "aubergine_hand_v3",
+  "name": "茄子小姐說故事 v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
   "id": "acad_carrot",
   "name": "acad_carrot",
   "build": "2026-11-08-r1",

@@ -429,5 +429,13 @@
     "file": "models/journey_monkey_youth_side.inp",
     "thumb": "thumbs/journey_monkey_youth_side.png",
     "desc": "卡洛兒姊姊說故事第三集 v3（2026-10-26）。猴子改用《青蛙王子》青蛙骨架：圓梨形身體、短胖手腳；所有猴子側面後腦都是悟空的尖毛。有九軸轉頭、眨眼、嘴型、呼吸、手臂、踏步與尾巴擺動；側面版為關節走路骨架。建模程式 carrot-video/live2d/characters/journey_frog.py。"
+  },
+  {
+    "id": "aubergine_hand_v3",
+    "name": "茄子小姐說故事 v3",
+    "file": "models/aubergine_hand_v3.inp",
+    "thumb": "thumbs/aubergine_hand_v3.png",
+    "noIdleArms": true,
+    "desc": "全手繪成人版說故事角色（媽媽、皇后的臉模）。波浪長髮、九軸轉頭、表情、講話與揮手。"
   }
 ]

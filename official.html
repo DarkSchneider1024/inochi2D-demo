@@ -203,6 +203,7 @@ const MODELS = [
   { id: 'midori', name: 'Midori', desc: '綠髮少女（MeshGroup 版）', file: 'models/official/midori.inp' },
   { id: 'carol_hand', name: '卡洛兒姐姐', desc: '故事 V1 手繪版・內建表情與揮手', file: 'models/carol_hand.inp', own: 'carol_hand.py' },
   { id: 'carol_hand_v3', name: '卡洛兒姐姐說故事 v3', desc: '全手繪正式版・分層眼睛、變形眨眼、可拿掉頭髮', file: 'models/carol_hand_v3.inp' },
+  { id: 'aubergine_hand_v3', name: '茄子小姐說故事 v3', desc: '全手繪成人版（媽媽、皇后的臉模）・分層眼睛、變形眨眼、可拿掉頭髮', file: 'models/aubergine_hand_v3.inp' },
   { id: 'carol_hand_side', name: '卡洛兒姐姐（側面）', desc: '故事 V1 手繪版・內建走路', file: 'models/carol_hand_side.inp', own: 'carol_hand_side.py' },
   { id: 'carol_hand_side_sit', name: '卡洛兒姐姐（坐椅）', desc: '故事 V1 手繪版・側坐扶手椅', file: 'models/carol_hand_side_sit.inp', own: 'carol_hand_side_sit.py' },
   { id: 'mr_carrot_hand', name: '卡洛特先生', desc: '故事 V1 手繪版・內建表情與揮手', file: 'models/mr_carrot_hand.inp', own: 'mr_carrot_hand.py' },
@@ -262,7 +263,7 @@ for (const id of FEATURED_IDS) {
   $('models').appendChild(option);
 }
 for (const [label, ids] of [
-  ['卡洛兒說故事', ['carol_hand_v3', 'mr_carrot_hand_v3']],
+  ['卡洛兒說故事', ['carol_hand_v3', 'mr_carrot_hand_v3', 'aubergine_hand_v3']],
   ['故事 V1・卡洛特三人組', ['carol_hand', 'carol_hand_side', 'carol_hand_side_sit', 'mr_carrot_hand', 'mr_carrot_hand_side', 'rabbit', 'rabbit_side']],
   ['時光探險隊', ['carol_hand_v2']],
 ]) {
