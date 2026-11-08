@@ -58,10 +58,15 @@
     ]
   },
   "aubergine": {
-    "version": "2026-11-08-tights-r1",
-    "build": "20261108-tights-r1",
-    "note": "拿掉裙子開關（👗 裙子）：整條絲襪腿到大腿根＋絲襪臀部（GPT 透明部件），回歸第 88 輪 PASS",
+    "version": "2026-11-08-chibi-brooch",
+    "build": "20261108-chibi-brooch",
+    "note": "Q版脖子縮短（頭放低到領口）；拿掉胸針後不再出現兩個領結（刪掉不跟身體轉動的重複領巾層），回歸第 92 輪 PASS",
     "history": [
+      {
+        "version": "2026-11-08-chibi-brooch",
+        "build": "20261108-chibi-brooch",
+        "note": "Q版脖子縮短（頭放低到領口）；拿掉胸針後不再出現兩個領結（刪掉不跟身體轉動的重複領巾層），回歸第 92 輪 PASS"
+      },
       {
         "version": "2026-11-08-head9-r6",
         "build": "20261108-head9-r6",
@@ -2355,10 +2360,15 @@
     ]
   },
   "mr_carrot_sci": {
-    "version": "2026-11-08",
-    "build": "20261108-0800",
-    "note": "揮手前臂回到原圖粗細；下蹲／邁開腿舉手改用放下的手",
+    "version": "2026-11-08-chibi",
+    "build": "20261108-chibi",
+    "note": "Q版脖子縮短（頭放低到領口，只露一小段脖子），回歸 PASS",
     "history": [
+      {
+        "version": "2026-11-08-chibi",
+        "build": "20261108-chibi",
+        "note": "Q版脖子縮短（頭放低到領口，只露一小段脖子），回歸 PASS"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-0800",
@@ -2367,10 +2377,15 @@
     ]
   },
   "mr_carrot_mage": {
-    "version": "2026-11-08",
-    "build": "20261108-0800",
-    "note": "下蹲／邁開腿舉手改用放下的手",
+    "version": "2026-11-08-chibi",
+    "build": "20261108-chibi",
+    "note": "Q版脖子縮短（頭放低到領口，只露一小段脖子），回歸 PASS",
     "history": [
+      {
+        "version": "2026-11-08-chibi",
+        "build": "20261108-chibi",
+        "note": "Q版脖子縮短（頭放低到領口，只露一小段脖子），回歸 PASS"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-0800",
