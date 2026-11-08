@@ -2147,9 +2147,14 @@
   },
   "carol_hand_v3": {
     "version": "2026-11-08",
-    "build": "20261108-bald-face-98-clean",
+    "build": "20261108-wave-legs",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-wave-legs",
+        "note": "打招呼改用茄子小姐精緻版的揮手：雙手舉起、手掌張開、拇指分開，前臂繞手肘左右擺（Arm:: Wave、Arm:: Wave:: Sway）；大腿照精緻版比例拉長（膝蓋 65%→70%），大腿畫到裙內胯下"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-bald-face-98-clean",

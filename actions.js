@@ -323,9 +323,12 @@ export const GENERIC = [
   // (the story rigs' arms swing only ~6 deg / bend ~18 deg -- a raised-arm wave needs its own key drawings)
   { id: 'hello', label: '打招呼', hint: '嗨～笑著歪頭、小幅擺手', dur: 2.6, f: (u) => {
       const e = env(0, 2.6, 0.35)(u);
+      // (2026-11-08 user: 打招呼，不管是卡洛兒、卡洛特、茄子，都要用最新的揮手動作，請參考茄子小姐精緻版) a rig with the
+      // aubergine_v2 wave (Arm:: Wave swaps in both raised arms, Arm:: Wave:: Sway turns the forearms) uses it; others ignore it
+      const s = Math.sin(2 * Math.PI * u / 0.7);
       return { 'Arm:: Right:: Swing': 1.0 * e, 'Arm:: Right:: Bend': 1.0 * e,
                'Hand:: Right:: Wrist': e * Math.sin(2 * Math.PI * u / 0.45), 'Head:: Roll': -0.2 * e, 'Mouth:: Mood': e,
-               'Brow:: Raise': 0.3 * e }; } },
+               'Brow:: Raise': 0.3 * e, 'Arm:: Wave': e > 0.5 ? 1 : 0, 'Arm:: Wave:: Sway': e * Math.sign(s) * Math.sqrt(Math.abs(s)) }; } },
   { id: 'happy', label: '開心', hint: '笑眼、搖頭晃腦', dur: 2.4, f: (u) => {
       const e = env(0, 2.4, 0.3)(u), s = Math.sin(2 * Math.PI * u / 0.8);
       return { ...both(e > 0.5 ? 1 : 0), 'Mouth:: Mood': e, 'Mouth:: Open': 0.7 * e, 'Mouth:: Form': 0, 'Face:: Blush': 0.7 * e,
