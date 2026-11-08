@@ -4,7 +4,7 @@
  "name": "aubergine",
  "W": 894,
  "H": 1990,
- "build": "2026-11-05-head9-r5",
+ "build": "2026-11-05-head9-r7",
  "layers": [
   {
    "name": "後髮_墊底",
@@ -26,7 +26,7 @@
       702,
       987
      ],
-     "n": 59446
+     "n": 59330
     },
     {
      "type": "藏線",
@@ -436,7 +436,7 @@
       287,
       899
      ],
-     "n": 18227
+     "n": 18174
     },
     {
      "type": "藏線",
@@ -610,7 +610,7 @@
       237,
       636
      ],
-     "n": 13425
+     "n": 13360
     },
     {
      "type": "藏線",
@@ -1725,38 +1725,17 @@
    "h": 76,
    "group": "Body",
    "hidden": false,
-   "backing": false,
+   "backing": true,
    "z": 0.94,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      488,
-      280,
-      51,
-      72
-     ],
-     "n": 483
-    },
-    {
-     "type": "藏線",
-     "box": [
-      414,
-      281,
-      53,
-      74
-     ],
-     "n": 477
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "脖子",
    "file": "42.webp",
-   "x": 441,
-   "y": 253,
-   "w": 67,
-   "h": 68,
+   "x": 440,
+   "y": 216,
+   "w": 70,
+   "h": 103,
    "group": "Body",
    "hidden": false,
    "backing": false,
@@ -1951,10 +1930,10 @@
   {
    "name": "眼白_R",
    "file": "54.webp",
-   "x": 409,
+   "x": 410,
    "y": 180,
-   "w": 48,
-   "h": 21,
+   "w": 45,
+   "h": 23,
    "group": "Head/Eye R/EyeBall R",
    "hidden": false,
    "backing": false,
@@ -1966,8 +1945,8 @@
    "file": "55.webp",
    "x": 496,
    "y": 180,
-   "w": 48,
-   "h": 21,
+   "w": 44,
+   "h": 23,
    "group": "Head/Eye L/EyeBall L",
    "hidden": false,
    "backing": false,
@@ -1977,10 +1956,10 @@
   {
    "name": "眼球_R",
    "file": "56.webp",
-   "x": 424,
-   "y": 175,
-   "w": 23,
-   "h": 26,
+   "x": 423,
+   "y": 178,
+   "w": 29,
+   "h": 29,
    "group": "Head/Eye R/EyeBall R",
    "hidden": false,
    "backing": false,
@@ -1989,22 +1968,22 @@
     {
      "type": "藏線",
      "box": [
-      419,
-      169,
-      36,
+      423,
+      171,
+      35,
       24
      ],
-     "n": 65
+     "n": 55
     }
    ]
   },
   {
    "name": "眼球_L",
    "file": "57.webp",
-   "x": 506,
-   "y": 175,
-   "w": 23,
-   "h": 26,
+   "x": 502,
+   "y": 178,
+   "w": 28,
+   "h": 29,
    "group": "Head/Eye L/EyeBall L",
    "hidden": false,
    "backing": false,
@@ -2013,12 +1992,12 @@
     {
      "type": "藏線",
      "box": [
-      499,
-      168,
-      36,
-      24
+      496,
+      171,
+      34,
+      23
      ],
-     "n": 70
+     "n": 46
     }
    ]
   },
@@ -2026,9 +2005,9 @@
    "name": "上眼線_R",
    "file": "58.webp",
    "x": 396,
-   "y": 171,
+   "y": 170,
    "w": 61,
-   "h": 33,
+   "h": 35,
    "group": "Head/Eye R",
    "hidden": false,
    "backing": false,
@@ -2038,10 +2017,10 @@
   {
    "name": "上眼線_L",
    "file": "59.webp",
-   "x": 497,
+   "x": 495,
    "y": 170,
-   "w": 63,
-   "h": 34,
+   "w": 61,
+   "h": 35,
    "group": "Head/Eye L",
    "hidden": false,
    "backing": false,
@@ -2311,10 +2290,10 @@
   {
    "name": "鼻樑",
    "file": "80.webp",
-   "x": 467,
-   "y": 182,
-   "w": 29,
-   "h": 57,
+   "x": 420,
+   "y": 136,
+   "w": 105,
+   "h": 138,
    "group": "Head",
    "hidden": false,
    "backing": false,
