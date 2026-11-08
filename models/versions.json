@@ -2137,9 +2137,14 @@
   },
   "carol_hand_v3": {
     "version": "2026-11-08",
-    "build": "20261108-bald-face-98",
+    "build": "20261108-bald-face-98-clean",
     "note": "",
     "history": [
+      {
+        "version": "2026-11-08",
+        "build": "20261108-bald-face-98-clean",
+        "note": "光頭臉畫質乾淨化：眼睛改平滑漸層、臉輪廓一條乾淨線、脖子柔和下巴陰影、笑眼與生氣難過眉重畫；光頭臉相似度 98.8%"
+      },
       {
         "version": "2026-11-08",
         "build": "20261108-bald-face-98",
