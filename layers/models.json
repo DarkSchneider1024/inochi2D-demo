@@ -628,5 +628,19 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "tristan_uncv3",
+  "name": "崔斯坦（帥大叔臉模）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "kay_guyv3",
+  "name": "凱伊（路人男臉模）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
