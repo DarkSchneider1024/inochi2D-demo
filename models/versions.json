@@ -83,10 +83,15 @@
   ]
  },
  "aubergine": {
-  "version": "2026-11-09-posearms-r1",
-  "build": "20261109-posearms-r1",
-  "note": "飛行服、禮服的揮手手臂換成各自的袖子（GPT 重畫）；回歸第 104 輪 PASS",
+  "version": "2026-11-09-neck-r1",
+  "build": "20261109-neck-r1",
+  "note": "迷彩服改用素體脖子（不再露出立領內襯灰圈）、泳裝脖子移到身體下面（接縫消失）；回歸第 108 輪 PASS",
   "history": [
+   {
+    "version": "2026-11-09-posearms-r1",
+    "build": "20261109-posearms-r1",
+    "note": "飛行服、禮服的揮手手臂換成各自的袖子（GPT 重畫）；回歸第 104 輪 PASS"
+   },
    {
     "version": "2026-11-09-swim-r1",
     "build": "20261109-swim-r1",
