@@ -1,0 +1,733 @@
+{
+ "id": "frenchie",
+ "private": false,
+ "name": "frenchie",
+ "W": 978,
+ "H": 1727,
+ "build": "2026-11-09",
+ "layers": [
+  {
+   "name": "尾巴",
+   "file": "00.webp",
+   "x": 826,
+   "y": 1098,
+   "w": 126,
+   "h": 150,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.31,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      818,
+      1123,
+      117,
+      130
+     ],
+     "n": 1218
+    }
+   ]
+  },
+  {
+   "name": "身體",
+   "file": "01.webp",
+   "x": 35,
+   "y": 841,
+   "w": 905,
+   "h": 703,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.3,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      215,
+      1204,
+      80,
+      258
+     ],
+     "n": 1010
+    },
+    {
+     "type": "藏線",
+     "box": [
+      675,
+      1359,
+      30,
+      99
+     ],
+     "n": 308
+    },
+    {
+     "type": "藏線",
+     "box": [
+      295,
+      835,
+      44,
+      34
+     ],
+     "n": 219
+    },
+    {
+     "type": "藏線",
+     "box": [
+      653,
+      834,
+      43,
+      34
+     ],
+     "n": 210
+    },
+    {
+     "type": "藏線",
+     "box": [
+      261,
+      870,
+      45,
+      31
+     ],
+     "n": 194
+    },
+    {
+     "type": "藏線",
+     "box": [
+      682,
+      869,
+      42,
+      32
+     ],
+     "n": 183
+    },
+    {
+     "type": "藏線",
+     "box": [
+      436,
+      1498,
+      36,
+      30
+     ],
+     "n": 160
+    },
+    {
+     "type": "藏線",
+     "box": [
+      254,
+      1497,
+      32,
+      36
+     ],
+     "n": 156
+    },
+    {
+     "type": "藏線",
+     "box": [
+      716,
+      897,
+      32,
+      37
+     ],
+     "n": 151
+    },
+    {
+     "type": "藏線",
+     "box": [
+      510,
+      1498,
+      36,
+      30
+     ],
+     "n": 149
+    },
+    {
+     "type": "藏線",
+     "box": [
+      231,
+      899,
+      33,
+      35
+     ],
+     "n": 146
+    },
+    {
+     "type": "藏線",
+     "box": [
+      686,
+      1500,
+      32,
+      34
+     ],
+     "n": 146
+    }
+   ]
+  },
+  {
+   "name": "前腳_R",
+   "file": "02.webp",
+   "x": 40,
+   "y": 654,
+   "w": 611,
+   "h": 1069,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.29,
+   "suspects": []
+  },
+  {
+   "name": "前腳_L",
+   "file": "03.webp",
+   "x": 515,
+   "y": 961,
+   "w": 234,
+   "h": 595,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.28,
+   "suspects": []
+  },
+  {
+   "name": "項圈",
+   "file": "04.webp",
+   "x": 234,
+   "y": 863,
+   "w": 511,
+   "h": 130,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.27,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      227,
+      857,
+      525,
+      77
+     ],
+     "n": 3662
+    },
+    {
+     "type": "藏線",
+     "box": [
+      467,
+      971,
+      61,
+      28
+     ],
+     "n": 283
+    },
+    {
+     "type": "藏線",
+     "box": [
+      527,
+      969,
+      27,
+      28
+     ],
+     "n": 93
+    },
+    {
+     "type": "藏線",
+     "box": [
+      447,
+      971,
+      27,
+      27
+     ],
+     "n": 90
+    }
+   ]
+  },
+  {
+   "name": "吊牌",
+   "file": "05.webp",
+   "x": 439,
+   "y": 904,
+   "w": 128,
+   "h": 242,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.26,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      470,
+      906,
+      50,
+      27
+     ],
+     "n": 208
+    }
+   ]
+  },
+  {
+   "name": "耳朵_R",
+   "file": "06.webp",
+   "x": 4,
+   "y": 4,
+   "w": 376,
+   "h": 536,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.25,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      105,
+      266,
+      202,
+      281
+     ],
+     "n": 1636
+    },
+    {
+     "type": "藏線",
+     "box": [
+      354,
+      234,
+      31,
+      31
+     ],
+     "n": 129
+    }
+   ]
+  },
+  {
+   "name": "耳朵_L",
+   "file": "07.webp",
+   "x": 602,
+   "y": 6,
+   "w": 372,
+   "h": 536,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.24,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      676,
+      271,
+      192,
+      278
+     ],
+     "n": 2351
+    },
+    {
+     "type": "藏線",
+     "box": [
+      596,
+      236,
+      30,
+      31
+     ],
+     "n": 128
+    }
+   ]
+  },
+  {
+   "name": "頭",
+   "file": "08.webp",
+   "x": 80,
+   "y": 222,
+   "w": 811,
+   "h": 707,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.23,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      331,
+      562,
+      441,
+      306
+     ],
+     "n": 8971
+    },
+    {
+     "type": "藏線",
+     "box": [
+      216,
+      718,
+      268,
+      151
+     ],
+     "n": 1287
+    },
+    {
+     "type": "藏線",
+     "box": [
+      214,
+      655,
+      89,
+      73
+     ],
+     "n": 103
+    },
+    {
+     "type": "藏線",
+     "box": [
+      393,
+      561,
+      85,
+      39
+     ],
+     "n": 71
+    }
+   ]
+  },
+  {
+   "name": "臉紅_1",
+   "file": "09.webp",
+   "x": 137,
+   "y": 693,
+   "w": 725,
+   "h": 122,
+   "group": "Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.22,
+   "suspects": []
+  },
+  {
+   "name": "眼白_R",
+   "file": "10.webp",
+   "x": 225,
+   "y": 483,
+   "w": 152,
+   "h": 165,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": true,
+   "z": 0.21,
+   "suspects": []
+  },
+  {
+   "name": "眼白_L",
+   "file": "11.webp",
+   "x": 624,
+   "y": 483,
+   "w": 154,
+   "h": 165,
+   "group": "Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": true,
+   "z": 0.2,
+   "suspects": []
+  },
+  {
+   "name": "眼球_R",
+   "file": "12.webp",
+   "x": 210,
+   "y": 459,
+   "w": 171,
+   "h": 186,
+   "group": "Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.19,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      207,
+      452,
+      178,
+      92
+     ],
+     "n": 1498
+    },
+    {
+     "type": "藏線",
+     "box": [
+      307,
+      604,
+      56,
+      46
+     ],
+     "n": 86
+    }
+   ]
+  },
+  {
+   "name": "眼球_L",
+   "file": "13.webp",
+   "x": 617,
+   "y": 461,
+   "w": 169,
+   "h": 185,
+   "group": "Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.18,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      613,
+      454,
+      178,
+      87
+     ],
+     "n": 1382
+    }
+   ]
+  },
+  {
+   "name": "上眼線_R",
+   "file": "14.webp",
+   "x": 165,
+   "y": 450,
+   "w": 214,
+   "h": 202,
+   "group": "Head/Eye R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.17,
+   "suspects": []
+  },
+  {
+   "name": "上眼線_L",
+   "file": "15.webp",
+   "x": 619,
+   "y": 452,
+   "w": 209,
+   "h": 199,
+   "group": "Head/Eye L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.16,
+   "suspects": []
+  },
+  {
+   "name": "閉眼_R",
+   "file": "16.webp",
+   "x": 186,
+   "y": 486,
+   "w": 208,
+   "h": 195,
+   "group": "Head/Eye R",
+   "hidden": true,
+   "backing": false,
+   "z": 0.15,
+   "suspects": []
+  },
+  {
+   "name": "閉眼_L",
+   "file": "17.webp",
+   "x": 608,
+   "y": 487,
+   "w": 209,
+   "h": 195,
+   "group": "Head/Eye L",
+   "hidden": true,
+   "backing": false,
+   "z": 0.14,
+   "suspects": []
+  },
+  {
+   "name": "笑眼_R",
+   "file": "18.webp",
+   "x": 167,
+   "y": 479,
+   "w": 244,
+   "h": 190,
+   "group": "Head/Eye R",
+   "hidden": true,
+   "backing": false,
+   "z": 0.13,
+   "suspects": []
+  },
+  {
+   "name": "笑眼_L",
+   "file": "19.webp",
+   "x": 582,
+   "y": 476,
+   "w": 242,
+   "h": 194,
+   "group": "Head/Eye L",
+   "hidden": true,
+   "backing": false,
+   "z": 0.12,
+   "suspects": []
+  },
+  {
+   "name": "怒眼_R",
+   "file": "20.webp",
+   "x": 151,
+   "y": 440,
+   "w": 277,
+   "h": 238,
+   "group": "Head/Eye R",
+   "hidden": true,
+   "backing": false,
+   "z": 0.11,
+   "suspects": []
+  },
+  {
+   "name": "怒眼_L",
+   "file": "21.webp",
+   "x": 572,
+   "y": 440,
+   "w": 277,
+   "h": 237,
+   "group": "Head/Eye L",
+   "hidden": true,
+   "backing": false,
+   "z": 0.1,
+   "suspects": []
+  },
+  {
+   "name": "哀眼_R",
+   "file": "22.webp",
+   "x": 149,
+   "y": 446,
+   "w": 262,
+   "h": 260,
+   "group": "Head/Eye R",
+   "hidden": true,
+   "backing": false,
+   "z": 0.09,
+   "suspects": []
+  },
+  {
+   "name": "哀眼_L",
+   "file": "23.webp",
+   "x": 578,
+   "y": 446,
+   "w": 257,
+   "h": 262,
+   "group": "Head/Eye L",
+   "hidden": true,
+   "backing": false,
+   "z": 0.08,
+   "suspects": []
+  },
+  {
+   "name": "口鼻",
+   "file": "24.webp",
+   "x": 186,
+   "y": 453,
+   "w": 609,
+   "h": 419,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.07,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      241,
+      654,
+      499,
+      167
+     ],
+     "n": 6121
+    },
+    {
+     "type": "藏線",
+     "box": [
+      426,
+      535,
+      151,
+      111
+     ],
+     "n": 1820
+    }
+   ]
+  },
+  {
+   "name": "鼻子",
+   "file": "25.webp",
+   "x": 432,
+   "y": 541,
+   "w": 139,
+   "h": 100,
+   "group": "Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.06,
+   "suspects": []
+  },
+  {
+   "name": "嘴_笑",
+   "file": "26.webp",
+   "x": 247,
+   "y": 658,
+   "w": 486,
+   "h": 167,
+   "group": "Head/Mouth",
+   "hidden": false,
+   "backing": false,
+   "z": 0.05,
+   "suspects": []
+  },
+  {
+   "name": "嘴_啊",
+   "file": "27.webp",
+   "x": 259,
+   "y": 651,
+   "w": 477,
+   "h": 267,
+   "group": "Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.04,
+   "suspects": []
+  },
+  {
+   "name": "嘴_喔",
+   "file": "28.webp",
+   "x": 457,
+   "y": 715,
+   "w": 87,
+   "h": 99,
+   "group": "Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.03,
+   "suspects": []
+  },
+  {
+   "name": "嘴_怒",
+   "file": "29.webp",
+   "x": 429,
+   "y": 697,
+   "w": 150,
+   "h": 93,
+   "group": "Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.02,
+   "suspects": []
+  },
+  {
+   "name": "嘴_哀",
+   "file": "30.webp",
+   "x": 410,
+   "y": 693,
+   "w": 189,
+   "h": 110,
+   "group": "Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.01,
+   "suspects": []
+  }
+ ]
+}

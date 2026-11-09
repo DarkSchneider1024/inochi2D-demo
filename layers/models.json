@@ -670,5 +670,12 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "frenchie",
+  "name": "frenchie",
+  "build": "2026-11-09",
+  "private": false,
+  "category": "story"
  }
 ]
