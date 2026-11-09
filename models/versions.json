@@ -2816,5 +2816,65 @@
         "note": "31 層 GPT 部件、35 參數"
       }
     ]
+  },
+  "beast_hand_v3": {
+    "version": "2026-11-09",
+    "build": "20261109-beast-hand-v3-v1",
+    "note": "野獸臉模 v3 首版：Gemini 大野狼底圖量形狀、乾淨手繪 SVG；素臉不含耳朵（耳朵、吻部、尾巴、衣服、毛色獨立，可換狐狸、老虎、獅子、熊）；Face:: Snout 吻部長短、Acc:: Ears Off；八種表情、雙手揮手、原地踏步；回歸 PASS",
+    "history": [
+      {
+        "version": "2026-11-09",
+        "build": "20261109-beast-hand-v3-v1",
+        "note": "野獸臉模 v3 首版：Gemini 大野狼底圖量形狀、乾淨手繪 SVG；素臉不含耳朵（耳朵、吻部、尾巴、衣服、毛色獨立，可換狐狸、老虎、獅子、熊）；Face:: Snout 吻部長短、Acc:: Ears Off；八種表情、雙手揮手、原地踏步；回歸 PASS"
+      }
+    ]
+  },
+  "wolf_beastv3": {
+    "version": "2026-11-09",
+    "build": "20261109-wolf-beastv3-v1",
+    "note": "小紅帽大野狼（野獸臉模 v3）首版：破背心、襯衫、吊帶褲；得意壞笑、生氣、驚訝、害怕等八種表情、揮手；回歸 PASS",
+    "history": [
+      {
+        "version": "2026-11-09",
+        "build": "20261109-wolf-beastv3-v1",
+        "note": "小紅帽大野狼（野獸臉模 v3）首版：破背心、襯衫、吊帶褲；得意壞笑、生氣、驚訝、害怕等八種表情、揮手；回歸 PASS"
+      }
+    ]
+  },
+  "wolf_beastv3_side": {
+    "version": "2026-11-09",
+    "build": "20261109-wolf-beastv3-side-v1",
+    "note": "大野狼（野獸臉模 v3）側面走路首版：近遠手腳分開擺，腳一前一後踏實；回歸 PASS",
+    "history": [
+      {
+        "version": "2026-11-09",
+        "build": "20261109-wolf-beastv3-side-v1",
+        "note": "大野狼（野獸臉模 v3）側面走路首版：近遠手腳分開擺，腳一前一後踏實；回歸 PASS"
+      }
+    ]
+  },
+  "wolf_grandma_beastv3": {
+    "version": "2026-11-09",
+    "build": "20261109-wolf-grandma-beastv3-v1",
+    "note": "大野狼外婆裝（野獸臉模 v3）首版：睡帽（耳朵伸出來）、圓眼鏡、碎花睡袍、蕾絲領；回歸 PASS",
+    "history": [
+      {
+        "version": "2026-11-09",
+        "build": "20261109-wolf-grandma-beastv3-v1",
+        "note": "大野狼外婆裝（野獸臉模 v3）首版：睡帽（耳朵伸出來）、圓眼鏡、碎花睡袍、蕾絲領；回歸 PASS"
+      }
+    ]
+  },
+  "wolf_grandma_beastv3_side": {
+    "version": "2026-11-09",
+    "build": "20261109-wolf-grandma-beastv3-side-v1",
+    "note": "大野狼外婆裝側面走路首版：睡袍不動、腳在下襬下踏實；回歸 PASS",
+    "history": [
+      {
+        "version": "2026-11-09",
+        "build": "20261109-wolf-grandma-beastv3-side-v1",
+        "note": "大野狼外婆裝側面走路首版：睡袍不動、腳在下襬下踏實；回歸 PASS"
+      }
+    ]
   }
 }

@@ -677,5 +677,40 @@
   "build": "2026-11-09",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "wolf_beastv3",
+  "name": "大野狼（野獸臉模 v3）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "wolf_grandma_beastv3",
+  "name": "大野狼外婆裝（野獸臉模 v3）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "beast_hand_v3",
+  "name": "野獸臉模 v3（基底）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "wolf_beastv3_side",
+  "name": "大野狼（野獸臉模 v3・側面）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "wolf_grandma_beastv3_side",
+  "name": "大野狼外婆裝（野獸臉模 v3・側面）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
