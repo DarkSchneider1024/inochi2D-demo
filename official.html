@@ -225,6 +225,7 @@ const MODELS = [
   { id: 'red_hood_carolv3', name: '小紅帽（卡洛兒 v3）', desc: '卡洛兒說故事 v3 的臉模換髮型服裝・女主角・可拿掉頭髮', file: 'models/red_hood_carolv3.inp' },
   { id: 'red_hood_carolv3_side', name: '小紅帽（卡洛兒 v3・側面）', desc: '側面走路・頭部用正面同一張臉固定 3/4（九軸）・腳一前一後踏實', file: 'models/red_hood_carolv3_side.inp' },
   { id: 'red_hood_carolv3_side_crouch', name: '小紅帽（卡洛兒 v3・蹲下採花）', desc: '側面蹲姿・手伸向花、拔起、舉到臉前（Arm:: Front:: Swing／Elbow）・眨眼、張嘴、點頭', file: 'models/red_hood_carolv3_side_crouch.inp' },
+  { id: 'wolf_grandma_beastv3_side_belly', name: '大野狼外婆裝（野獸臉模 v3・肚子裝石頭・側面）', desc: '側面走路・石頭大肚子・正面頭九軸轉向・表情固定痛苦', file: 'models/wolf_grandma_beastv3_side_belly.inp' },
   { id: 'mom_aubv3_side', name: '媽媽（茄子 v3・側面）', desc: '側面走路・身體沿用手繪側面，頭用正面同一顆頭九軸轉向走路方向', file: 'models/mom_aubv3_side.inp' },
   { id: 'jack_mom_aubv3_side', name: '傑克媽媽（茄子 v3・側面）', desc: '側面走路・身體沿用手繪側面，頭用正面同一顆頭九軸轉向走路方向', file: 'models/jack_mom_aubv3_side.inp' },
   { id: 'aladdin_mom_aubv3_side', name: '阿拉丁媽媽（茄子 v3・側面）', desc: '側面走路・身體沿用手繪側面，頭用正面同一顆頭九軸轉向走路方向', file: 'models/aladdin_mom_aubv3_side.inp' },
@@ -310,7 +311,7 @@ for (const id of FEATURED_IDS) {
   $('models').appendChild(option);
 }
 for (const [label, ids] of [
-  ['卡洛兒說故事', ['carol_hand_v3', 'mr_carrot_hand_v3', 'aubergine_hand_v3', 'bobo_hand_v3', 'bobo_hand_v3_side', 'beast_hand_v3', 'wolf_beastv3', 'wolf_beastv3_side', 'wolf_grandma_beastv3', 'wolf_grandma_beastv3_side', 'mom_aubv3', 'jack_mom_aubv3', 'aladdin_mom_aubv3', 'queen_aubv3', 'heart_queen_aubv3', 'bone_girl_aubv3', 'fan_lady_aubv3', 'mom_aubv3_side', 'jack_mom_aubv3_side', 'aladdin_mom_aubv3_side', 'queen_aubv3_side', 'heart_queen_aubv3_side', 'bone_girl_aubv3_side', 'fan_lady_aubv3_side', 'red_hood_carolv3', 'red_hood_carolv3_side', 'red_hood_carolv3_side_crouch', 'hunter_uncv3', 'hunter_uncv3_side', 'grandma_elderv3', 'snow_white_carolv3', 'princess_carolv3', 'blue_fairy_carolv3', 'alice_carolv3', 'badr_carolv3', 'guanyin_carolv3', 'lynette_carolv3', 'guinevere_carolv3', 'prince_mrcv3', 'aladdin_mrcv3', 'arthur_mrcv3', 'knight_arthur_mrcv3', 'tangseng_mrcv3', 'uncle_hand_v3', 'guy_hand_v3', 'tristan_uncv3', 'kay_guyv3', 'elder_m_hand_v3', 'elder_f_hand_v3']],
+  ['卡洛兒說故事', ['carol_hand_v3', 'mr_carrot_hand_v3', 'aubergine_hand_v3', 'bobo_hand_v3', 'bobo_hand_v3_side', 'beast_hand_v3', 'wolf_beastv3', 'wolf_beastv3_side', 'wolf_grandma_beastv3', 'wolf_grandma_beastv3_side', 'wolf_grandma_beastv3_side_belly', 'mom_aubv3', 'jack_mom_aubv3', 'aladdin_mom_aubv3', 'queen_aubv3', 'heart_queen_aubv3', 'bone_girl_aubv3', 'fan_lady_aubv3', 'mom_aubv3_side', 'jack_mom_aubv3_side', 'aladdin_mom_aubv3_side', 'queen_aubv3_side', 'heart_queen_aubv3_side', 'bone_girl_aubv3_side', 'fan_lady_aubv3_side', 'red_hood_carolv3', 'red_hood_carolv3_side', 'red_hood_carolv3_side_crouch', 'hunter_uncv3', 'hunter_uncv3_side', 'grandma_elderv3', 'snow_white_carolv3', 'princess_carolv3', 'blue_fairy_carolv3', 'alice_carolv3', 'badr_carolv3', 'guanyin_carolv3', 'lynette_carolv3', 'guinevere_carolv3', 'prince_mrcv3', 'aladdin_mrcv3', 'arthur_mrcv3', 'knight_arthur_mrcv3', 'tangseng_mrcv3', 'uncle_hand_v3', 'guy_hand_v3', 'tristan_uncv3', 'kay_guyv3', 'elder_m_hand_v3', 'elder_f_hand_v3']],
   ['故事 V1・卡洛特三人組', ['carol_hand', 'carol_hand_side', 'carol_hand_side_sit', 'mr_carrot_hand', 'mr_carrot_hand_side', 'rabbit', 'rabbit_side']],
   ['時光探險隊', ['carol_hand_v2']],
 ]) {
