@@ -656,5 +656,19 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "bobo_hand_v3",
+  "name": "兔子波波說故事 v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "bobo_hand_v3_side",
+  "name": "兔子波波說故事 v3（側面）",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]

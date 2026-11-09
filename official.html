@@ -204,6 +204,8 @@ const MODELS = [
   { id: 'carol_hand', name: '卡洛兒姐姐', desc: '故事 V1 手繪版・內建表情與揮手', file: 'models/carol_hand.inp', own: 'carol_hand.py' },
   { id: 'carol_hand_v3', name: '卡洛兒姐姐說故事 v3', desc: '全手繪正式版・分層眼睛、變形眨眼、可拿掉頭髮', file: 'models/carol_hand_v3.inp' },
   { id: 'aubergine_hand_v3', name: '茄子小姐說故事 v3', desc: '全手繪成人版（媽媽、皇后的臉模）・分層眼睛、變形眨眼、可拿掉頭髮', file: 'models/aubergine_hand_v3.inp' },
+  { id: 'bobo_hand_v3', name: '兔子波波說故事 v3', desc: '全手繪可愛動物底・耳朵／尾巴／衣服／毛色獨立，可換成小豬、小羊、貓、狐…', file: 'models/bobo_hand_v3.inp' },
+  { id: 'bobo_hand_v3_side', name: '兔子波波說故事 v3（側面）', desc: '全手繪側面走路・腳一前一後踏實', file: 'models/bobo_hand_v3_side.inp' },
   { id: 'mom_aubv3', name: '媽媽（茄子 v3）', desc: '茄子小姐說故事 v3 的臉模換髮型服裝（小紅帽媽媽等）・可拿掉頭髮', file: 'models/mom_aubv3.inp' },
   { id: 'jack_mom_aubv3', name: '傑克媽媽（茄子 v3）', desc: '茄子小姐說故事 v3 的臉模換髮型服裝（傑克與豌豆）・可拿掉頭髮', file: 'models/jack_mom_aubv3.inp' },
   { id: 'aladdin_mom_aubv3', name: '阿拉丁媽媽（茄子 v3）', desc: '茄子小姐說故事 v3 的臉模換髮型服裝（阿拉丁）・可拿掉頭髮', file: 'models/aladdin_mom_aubv3.inp' },
@@ -290,7 +292,7 @@ for (const id of FEATURED_IDS) {
   $('models').appendChild(option);
 }
 for (const [label, ids] of [
-  ['卡洛兒說故事', ['carol_hand_v3', 'mr_carrot_hand_v3', 'aubergine_hand_v3', 'mom_aubv3', 'jack_mom_aubv3', 'aladdin_mom_aubv3', 'queen_aubv3', 'heart_queen_aubv3', 'bone_girl_aubv3', 'fan_lady_aubv3', 'red_hood_carolv3', 'snow_white_carolv3', 'princess_carolv3', 'blue_fairy_carolv3', 'alice_carolv3', 'badr_carolv3', 'guanyin_carolv3', 'lynette_carolv3', 'guinevere_carolv3', 'prince_mrcv3', 'aladdin_mrcv3', 'arthur_mrcv3', 'knight_arthur_mrcv3', 'tangseng_mrcv3', 'uncle_hand_v3', 'guy_hand_v3', 'tristan_uncv3', 'kay_guyv3', 'elder_m_hand_v3', 'elder_f_hand_v3']],
+  ['卡洛兒說故事', ['carol_hand_v3', 'mr_carrot_hand_v3', 'aubergine_hand_v3', 'bobo_hand_v3', 'bobo_hand_v3_side', 'mom_aubv3', 'jack_mom_aubv3', 'aladdin_mom_aubv3', 'queen_aubv3', 'heart_queen_aubv3', 'bone_girl_aubv3', 'fan_lady_aubv3', 'red_hood_carolv3', 'snow_white_carolv3', 'princess_carolv3', 'blue_fairy_carolv3', 'alice_carolv3', 'badr_carolv3', 'guanyin_carolv3', 'lynette_carolv3', 'guinevere_carolv3', 'prince_mrcv3', 'aladdin_mrcv3', 'arthur_mrcv3', 'knight_arthur_mrcv3', 'tangseng_mrcv3', 'uncle_hand_v3', 'guy_hand_v3', 'tristan_uncv3', 'kay_guyv3', 'elder_m_hand_v3', 'elder_f_hand_v3']],
   ['故事 V1・卡洛特三人組', ['carol_hand', 'carol_hand_side', 'carol_hand_side_sit', 'mr_carrot_hand', 'mr_carrot_hand_side', 'rabbit', 'rabbit_side']],
   ['時光探險隊', ['carol_hand_v2']],
 ]) {
