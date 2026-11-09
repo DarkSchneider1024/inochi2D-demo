@@ -1624,7 +1624,7 @@
    "w": 182,
    "h": 153,
    "group": "Head",
-   "hidden": true,
+   "hidden": false,
    "backing": false,
    "z": 0.005,
    "suspects": []
