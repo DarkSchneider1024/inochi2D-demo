@@ -719,5 +719,12 @@
   "build": "2026-11-10-r1",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "new_carol",
+  "name": "new_carol",
+  "build": "2026-11-10-r1",
+  "private": false,
+  "category": "story"
  }
 ]

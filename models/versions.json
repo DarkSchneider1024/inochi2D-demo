@@ -4042,5 +4042,17 @@
     "note": "首版，回歸第 5 輪 PASS"
    }
   ]
+ },
+ "new_carol": {
+  "version": "2026-11-10-r1",
+  "build": "2026-11-10-r1",
+  "note": "新卡洛兒姐姐（橘髮雙馬尾水手服）第一套衣服：GPT 部件 56 層、9 種表情、揮手、單手摀嘴；回歸第 13 輪 PASS，紀錄見 psd-create/qa_reports/new_carol",
+  "history": [
+   {
+    "version": "2026-11-10-r1",
+    "build": "2026-11-10-r1",
+    "note": "新卡洛兒姐姐（橘髮雙馬尾水手服）第一套衣服：GPT 部件 56 層、9 種表情、揮手、單手摀嘴；回歸第 13 輪 PASS，紀錄見 psd-create/qa_reports/new_carol"
+   }
+  ]
  }
 }
