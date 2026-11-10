@@ -304,7 +304,7 @@ const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: 
 const { verOf, vurl, vlabel } = await import('./versions.js');
 
 // ---- model picker ----
-const FEATURED_IDS = ['aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
+const FEATURED_IDS = ['aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'new_carol', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
 for (const id of FEATURED_IDS) {
   const m = MODELS.find(m => m.id === id);
   const option = document.createElement('option');
