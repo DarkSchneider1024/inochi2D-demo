@@ -83,9 +83,9 @@
   ]
  },
  "aubergine": {
-  "version": "2026-11-10-bust-r1",
-  "build": "20261110-bust-r1",
-  "note": "新服裝：洋裝（豐滿、無披肩），胸部照跳舞影片加大，Outfit:: Bust；回歸第 116 輪 PASS",
+  "version": "2026-11-10",
+  "build": "20261110-1428",
+  "note": "打電動改白色手把、禮服摀嘴手臂",
   "history": [
    {
     "version": "2026-11-10-thigh-r1",
