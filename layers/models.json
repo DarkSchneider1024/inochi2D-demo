@@ -716,7 +716,7 @@
  {
   "id": "new_carrot",
   "name": "new_carrot",
-  "build": "2026-11-10-r3",
+  "build": "2026-11-10-r4",
   "private": false,
   "category": "story"
  },
