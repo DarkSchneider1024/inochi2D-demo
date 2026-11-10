@@ -280,6 +280,7 @@ const MODELS = [
   { id: 'aubergine_v2', name: '茄子 V2', desc: '紫瞳・AKA 九軸與眨眼・長脖子與鎖骨底層（頭部原型：seagetch，CC BY 4.0）', file: 'models/aubergine_v2.inp' },
   { id: 'aubergine', name: 'Aubergine', desc: '黑髮魔法學院教授（GPT 部件圖層・畫風與晃動比照〈赤羽亞矢2.0〉展示・原創角色）', file: 'models/aubergine.inp', own: 'make_aubergine_puppet.py' },
   { id: 'acad_carrot', name: '學院卡洛特', desc: '金髮眼鏡學院魔術師・無外套版（白襯衫黑背心、男靴；GPT 部件圖層，外套之後另做）', file: 'models/acad_carrot.inp', own: 'make_acad_carrot_puppet.py' },
+  { id: 'new_carrot', name: '新卡洛特先生', desc: '綠髮眼鏡探險服（背心、領巾、水壺、指南針；GPT 部件圖層，第一套衣服）', file: 'models/new_carrot.inp', own: 'make_new_carrot_puppet.py' },
   { id: 'asc_cat', name: 'Kiwi・美國短毛貓', desc: '銀虎斑美國短毛貓・坐姿・橘圍巾胡蘿蔔胸針（GPT 部件圖層；招手、甩尾巴、耳朵／圍巾尾／鬍鬚物理）', file: 'models/asc_cat.inp', own: 'make_asc_cat_puppet.py' },
   { id: 'asc_cat_orange', name: 'Kiwi・美國短毛貓（橘）', desc: '橘虎斑配色・同坐姿與動作（配色部件為 GPT 重畫）', file: 'models/asc_cat_orange.inp', own: 'make_asc_cat_puppet.py' },
   { id: 'asc_cat_blue', name: 'Kiwi・美國短毛貓（藍）', desc: '藍灰配色・同坐姿與動作（配色部件為 GPT 重畫）', file: 'models/asc_cat_blue.inp', own: 'make_asc_cat_puppet.py' },
@@ -302,7 +303,7 @@ const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: 
 const { verOf, vurl, vlabel } = await import('./versions.js');
 
 // ---- model picker ----
-const FEATURED_IDS = ['aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
+const FEATURED_IDS = ['aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
 for (const id of FEATURED_IDS) {
   const m = MODELS.find(m => m.id === id);
   const option = document.createElement('option');
