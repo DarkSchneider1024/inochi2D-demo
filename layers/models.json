@@ -716,14 +716,14 @@
  {
   "id": "new_carrot",
   "name": "new_carrot",
-  "build": "2026-11-10-r2",
+  "build": "2026-11-10-r3",
   "private": false,
   "category": "story"
  },
  {
   "id": "new_carol",
   "name": "new_carol",
-  "build": "2026-11-10-r2",
+  "build": "2026-11-10-r3",
   "private": false,
   "category": "story"
  }
