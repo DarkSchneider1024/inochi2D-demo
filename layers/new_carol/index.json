@@ -4,7 +4,7 @@
  "name": "new_carol",
  "W": 916,
  "H": 1961,
- "build": "2026-11-11-r6",
+ "build": "2026-11-11-r7",
  "layers": [
   {
    "name": "後髮_墊底",
@@ -581,10 +581,10 @@
   {
    "name": "怒眼_R",
    "file": "35.webp",
-   "x": 372,
-   "y": 312,
-   "w": 70,
-   "h": 44,
+   "x": 360,
+   "y": 254,
+   "w": 80,
+   "h": 107,
    "group": "Head/Eye R",
    "hidden": true,
    "backing": false,
@@ -594,10 +594,10 @@
   {
    "name": "怒眼_L",
    "file": "36.webp",
-   "x": 493,
-   "y": 312,
-   "w": 68,
-   "h": 44,
+   "x": 485,
+   "y": 310,
+   "w": 79,
+   "h": 53,
    "group": "Head/Eye L",
    "hidden": true,
    "backing": false,

@@ -723,7 +723,7 @@
   {
     "id": "new_carol",
     "name": "new_carol",
-    "build": "2026-11-11-r6",
+    "build": "2026-11-11-r7",
     "private": false,
     "category": "story"
   }
