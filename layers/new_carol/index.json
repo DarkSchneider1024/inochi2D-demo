@@ -4,7 +4,7 @@
  "name": "new_carol",
  "W": 916,
  "H": 1961,
- "build": "2026-11-11-r7",
+ "build": "2026-11-11-r8",
  "layers": [
   {
    "name": "後髮_墊底",
@@ -698,10 +698,10 @@
   {
    "name": "嘴_怒",
    "file": "44.webp",
-   "x": 457,
-   "y": 389,
-   "w": 13,
-   "h": 18,
+   "x": 348,
+   "y": 393,
+   "w": 149,
+   "h": 142,
    "group": "Head/Mouth",
    "hidden": true,
    "backing": false,

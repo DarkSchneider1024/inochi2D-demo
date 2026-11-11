@@ -4,7 +4,7 @@
  "name": "new_carrot",
  "W": 1033,
  "H": 2008,
- "build": "2026-11-11-r7",
+ "build": "2026-11-11-r8",
  "layers": [
   {
    "name": "後髮",
@@ -939,10 +939,10 @@
   {
    "name": "嘴_怒",
    "file": "52.webp",
-   "x": 512,
-   "y": 299,
-   "w": 17,
-   "h": 22,
+   "x": 504,
+   "y": 307,
+   "w": 31,
+   "h": 7,
    "group": "Head/Mouth",
    "hidden": true,
    "backing": false,
