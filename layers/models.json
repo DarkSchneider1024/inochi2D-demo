@@ -726,5 +726,12 @@
     "build": "2026-11-11-r7",
     "private": false,
     "category": "story"
+  },
+  {
+    "id": "new_aubergine",
+    "name": "new_aubergine",
+    "build": "2026-11-11-r1",
+    "private": false,
+    "category": "story"
   }
 ]
