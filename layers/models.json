@@ -716,7 +716,7 @@
  {
   "id": "new_carrot",
   "name": "new_carrot",
-  "build": "2026-11-11-r14",
+  "build": "2026-11-11-r15",
   "private": false,
   "category": "story"
  },
@@ -730,7 +730,7 @@
  {
   "id": "new_aubergine",
   "name": "new_aubergine",
-  "build": "2026-11-11-eye-r11",
+  "build": "2026-11-11-eye-r12",
   "private": false,
   "category": "story"
  }
