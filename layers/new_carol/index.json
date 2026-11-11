@@ -4,7 +4,7 @@
  "name": "new_carol",
  "W": 916,
  "H": 1961,
- "build": "2026-11-11-r9",
+ "build": "2026-11-11-r10",
  "layers": [
   {
    "name": "後髮_墊底",
@@ -398,7 +398,7 @@
       49,
       33
      ],
-     "n": 185
+     "n": 184
     }
    ]
   },
@@ -419,10 +419,10 @@
      "box": [
       489,
       297,
-      46,
+      47,
       36
      ],
-     "n": 138
+     "n": 143
     }
    ]
   },
@@ -506,7 +506,7 @@
    "x": 368,
    "y": 301,
    "w": 69,
-   "h": 58,
+   "h": 46,
    "group": "Head/Eye R",
    "hidden": false,
    "backing": false,
@@ -514,25 +514,25 @@
    "suspects": []
   },
   {
-   "name": "上眼線_L",
+   "name": "下眼線_R",
    "file": "30.webp",
-   "x": 493,
-   "y": 300,
-   "w": 69,
-   "h": 57,
-   "group": "Head/Eye L",
+   "x": 397,
+   "y": 349,
+   "w": 27,
+   "h": 9,
+   "group": "Head/Eye R",
    "hidden": false,
    "backing": false,
    "z": 0.32,
    "suspects": []
   },
   {
-   "name": "閉眼_R",
+   "name": "笑眼線_R",
    "file": "31.webp",
-   "x": 377,
-   "y": 334,
-   "w": 68,
-   "h": 33,
+   "x": 368,
+   "y": 301,
+   "w": 69,
+   "h": 46,
    "group": "Head/Eye R",
    "hidden": true,
    "backing": false,
@@ -540,38 +540,38 @@
    "suspects": []
   },
   {
-   "name": "閉眼_L",
+   "name": "上眼線_L",
    "file": "32.webp",
-   "x": 490,
-   "y": 333,
-   "w": 67,
-   "h": 32,
+   "x": 493,
+   "y": 300,
+   "w": 69,
+   "h": 46,
    "group": "Head/Eye L",
-   "hidden": true,
+   "hidden": false,
    "backing": false,
    "z": 0.3,
    "suspects": []
   },
   {
-   "name": "笑眼_R",
+   "name": "下眼線_L",
    "file": "33.webp",
-   "x": 374,
-   "y": 327,
-   "w": 68,
-   "h": 36,
-   "group": "Head/Eye R",
-   "hidden": true,
+   "x": 507,
+   "y": 348,
+   "w": 27,
+   "h": 9,
+   "group": "Head/Eye L",
+   "hidden": false,
    "backing": false,
    "z": 0.29,
    "suspects": []
   },
   {
-   "name": "笑眼_L",
+   "name": "笑眼線_L",
    "file": "34.webp",
-   "x": 494,
-   "y": 327,
-   "w": 66,
-   "h": 36,
+   "x": 493,
+   "y": 300,
+   "w": 69,
+   "h": 46,
    "group": "Head/Eye L",
    "hidden": true,
    "backing": false,
