@@ -1,730 +1,730 @@
 [
- {
-  "id": "aka_carol",
-  "name": "卡洛兒姐姐（Aka 九軸 × Gemini 拆件版）",
-  "build": "2026-11-05-aka-carol",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "aka_gemini",
-  "name": "Aka × Gemini 拆件換裝",
-  "build": "2026-11-05-aka-gemini",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "base_head_90deg_9axis",
-  "name": "90° 九軸可編輯素體",
-  "build": "2026-11-05-head90",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "mr_carrot_sci",
-  "name": "科學家卡洛特先生",
-  "build": "2026-10-29",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot_mage",
-  "name": "魔法師卡洛特先生",
-  "build": "2026-10-29",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "carol_v2",
-  "name": "卡洛兒姐姐",
-  "build": "2026-10-23",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "bobo",
-  "name": "兔子波波",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "bobo_lab",
-  "name": "兔子波波（卡洛特實驗室版）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "lab"
- },
- {
-  "id": "carol_hand",
-  "name": "卡洛兒姐姐（手繪說故事版）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "carol_hand_side",
-  "name": "卡洛兒姐姐（手繪・側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "carol_hand_side_sit",
-  "name": "卡洛兒姐姐（手繪・側坐）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "carol_lab",
-  "name": "卡洛兒姐姐（卡洛特實驗室版）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "lab"
- },
- {
-  "id": "frog_prince",
-  "name": "青蛙王子",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "gardener",
-  "name": "麥格雷戈先生（園丁）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "gardener_side",
-  "name": "麥格雷戈先生（側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "girl_dress",
-  "name": "紫髮少女・平口洋裝",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "girl_v4",
-  "name": "紫髮水手服少女",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "grandma_classic",
-  "name": "外婆",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "guard",
-  "name": "衛兵",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "hunter",
-  "name": "獵人",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "hunter_side",
-  "name": "獵人（側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_buddha",
-  "name": "如來佛祖｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_erlang",
-  "name": "二郎神｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_heaven_sage",
-  "name": "太白金星｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_wukong",
-  "name": "孫悟空（金甲）｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_wukong_young",
-  "name": "孫悟空（學藝）｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "king",
-  "name": "國王",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot",
-  "name": "卡洛特先生（初版）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "mr_carrot_hand",
-  "name": "卡洛特先生（手繪版）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot_hand_side",
-  "name": "卡洛特先生（手繪・側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot_lab",
-  "name": "卡洛特先生（卡洛特實驗室版・綠髮）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "lab"
- },
- {
-  "id": "mr_carrot_lab_gold",
-  "name": "學霸卡洛特（卡洛特實驗室版・金髮）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "lab"
- },
- {
-  "id": "potter",
-  "name": "波特小姐",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "potter_side",
-  "name": "波特小姐（側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "prince",
-  "name": "王子",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "prince_side",
-  "name": "王子（側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "princess",
-  "name": "紫髮公主",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "princess_noball",
-  "name": "公主（沒拿金球）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "princess_side",
-  "name": "紫髮公主（側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "rabbit",
-  "name": "兔子",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "rabbit_jacket",
-  "name": "兔子波波（藍外套）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "rabbit_side",
-  "name": "兔子（側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "red_hood",
-  "name": "小紅帽",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "red_hood_side",
-  "name": "小紅帽（側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "red_hood_side_crouch",
-  "name": "小紅帽（蹲下摘花）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "wolf",
-  "name": "大野狼",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "wolf_granny",
-  "name": "大野狼（外婆裝）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "wolf_side",
-  "name": "大野狼（側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_monkey_elder",
-  "name": "老猴子｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_monkey_child",
-  "name": "小猴子｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_monkey_youth",
-  "name": "年輕猴子｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_magic_wolf",
-  "name": "七十二變灰狼｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "journey_xiaotian",
-  "name": "哮天犬｜西遊記前傳",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "carol_v3",
-  "name": "卡洛兒姐姐",
-  "build": "2026-11-04",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "aka",
-  "name": "Aka",
-  "build": "v0.7.1-39-g59837f6",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "midori",
-  "name": "Midori",
-  "build": "v0.7.2-120-g7989a2c",
-  "private": false,
-  "category": "refined"
- },
- {
-  "id": "linda_nyan",
-  "name": "linda_nyan",
-  "build": "2026-10-29",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "bobo_v3",
-  "name": "bobo_v3",
-  "build": "2026-11-04",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot_lab_v2",
-  "name": "mr_carrot_lab_v2",
-  "build": "2026-10-29",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "carol_hand_v2",
-  "name": "卡洛兒姐姐（日系大眼 v2）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "rheticus_v2",
-  "name": "rheticus_v2",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "rheticus_v2_side",
-  "name": "rheticus_v2_side",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "rabbit_v2",
-  "name": "兔子波波（v2）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "rabbit_v2_side",
-  "name": "兔子波波（v2 側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot_hand_v2",
-  "name": "mr_carrot_hand_v2",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot_gold_hand_v2",
-  "name": "mr_carrot_gold_hand_v2",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot_hand_v2_side",
-  "name": "mr_carrot_hand_v2_side",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot_gold_hand_v2_side",
-  "name": "mr_carrot_gold_hand_v2_side",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "copernicus_v2",
-  "name": "copernicus_v2",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "copernicus_v2_side",
-  "name": "copernicus_v2_side",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "carol_hand_v2_side",
-  "name": "carol_hand_v2_side",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "aubergine",
-  "name": "aubergine",
-  "build": "2026-11-11-head9-r8",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "aubergine_v2",
-  "name": "aubergine_v2",
-  "build": "2026-11-06-v2",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "carol_hand_v3",
-  "name": "卡洛兒姐姐說故事 v3",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mr_carrot_hand_v3",
-  "name": "卡洛特先生說故事 v3",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "aubergine_hand_v3",
-  "name": "茄子小姐說故事 v3",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "mom_aubv3",
-  "name": "媽媽（茄子 v3）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "jack_mom_aubv3",
-  "name": "傑克媽媽（茄子 v3）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "aladdin_mom_aubv3",
-  "name": "阿拉丁媽媽（茄子 v3）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "queen_aubv3",
-  "name": "白雪的皇后（茄子 v3）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "heart_queen_aubv3",
-  "name": "紅心皇后（茄子 v3）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "bone_girl_aubv3",
-  "name": "白骨精人形（茄子 v3）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "fan_lady_aubv3",
-  "name": "鐵扇公主（茄子 v3）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "acad_carrot",
-  "name": "acad_carrot",
-  "build": "2026-11-08-r1",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "asc_cat",
-  "name": "asc_cat",
-  "build": "2026-11-08",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "asc_cat_orange",
-  "name": "asc_cat_orange",
-  "build": "2026-11-08",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "asc_cat_blue",
-  "name": "asc_cat_blue",
-  "build": "2026-11-08",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "asc_cat_gray",
-  "name": "asc_cat_gray",
-  "build": "2026-11-08",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "uncle_hand_v3",
-  "name": "帥大叔說故事 v3",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "guy_hand_v3",
-  "name": "路人男說故事 v3",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "tristan_uncv3",
-  "name": "崔斯坦（帥大叔臉模）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "kay_guyv3",
-  "name": "凱伊（路人男臉模）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "elder_m_hand_v3",
-  "name": "老爺爺說故事 v3",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "elder_f_hand_v3",
-  "name": "老婆婆說故事 v3",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "bobo_hand_v3",
-  "name": "兔子波波說故事 v3",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "bobo_hand_v3_side",
-  "name": "兔子波波說故事 v3（側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "frenchie",
-  "name": "frenchie",
-  "build": "2026-11-09",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "wolf_beastv3",
-  "name": "大野狼（野獸臉模 v3）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "wolf_grandma_beastv3",
-  "name": "大野狼外婆裝（野獸臉模 v3）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "beast_hand_v3",
-  "name": "野獸臉模 v3（基底）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "wolf_beastv3_side",
-  "name": "大野狼（野獸臉模 v3・側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "wolf_grandma_beastv3_side",
-  "name": "大野狼外婆裝（野獸臉模 v3・側面）",
-  "build": "1.0-alpha",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "new_carrot",
-  "name": "new_carrot",
-  "build": "2026-11-11-r6",
-  "private": false,
-  "category": "story"
- },
- {
-  "id": "new_carol",
-  "name": "new_carol",
-  "build": "2026-11-11-r5",
-  "private": false,
-  "category": "story"
- }
+  {
+    "id": "aka_carol",
+    "name": "卡洛兒姐姐（Aka 九軸 × Gemini 拆件版）",
+    "build": "2026-11-05-aka-carol",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "aka_gemini",
+    "name": "Aka × Gemini 拆件換裝",
+    "build": "2026-11-05-aka-gemini",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "base_head_90deg_9axis",
+    "name": "90° 九軸可編輯素體",
+    "build": "2026-11-05-head90",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "mr_carrot_sci",
+    "name": "科學家卡洛特先生",
+    "build": "2026-10-29",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot_mage",
+    "name": "魔法師卡洛特先生",
+    "build": "2026-10-29",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "carol_v2",
+    "name": "卡洛兒姐姐",
+    "build": "2026-10-23",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "bobo",
+    "name": "兔子波波",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "bobo_lab",
+    "name": "兔子波波（卡洛特實驗室版）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "lab"
+  },
+  {
+    "id": "carol_hand",
+    "name": "卡洛兒姐姐（手繪說故事版）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "carol_hand_side",
+    "name": "卡洛兒姐姐（手繪・側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "carol_hand_side_sit",
+    "name": "卡洛兒姐姐（手繪・側坐）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "carol_lab",
+    "name": "卡洛兒姐姐（卡洛特實驗室版）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "lab"
+  },
+  {
+    "id": "frog_prince",
+    "name": "青蛙王子",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "gardener",
+    "name": "麥格雷戈先生（園丁）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "gardener_side",
+    "name": "麥格雷戈先生（側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "girl_dress",
+    "name": "紫髮少女・平口洋裝",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "girl_v4",
+    "name": "紫髮水手服少女",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "grandma_classic",
+    "name": "外婆",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "guard",
+    "name": "衛兵",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "hunter",
+    "name": "獵人",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "hunter_side",
+    "name": "獵人（側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_buddha",
+    "name": "如來佛祖｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_erlang",
+    "name": "二郎神｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_heaven_sage",
+    "name": "太白金星｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_wukong",
+    "name": "孫悟空（金甲）｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_wukong_young",
+    "name": "孫悟空（學藝）｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "king",
+    "name": "國王",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot",
+    "name": "卡洛特先生（初版）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "mr_carrot_hand",
+    "name": "卡洛特先生（手繪版）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot_hand_side",
+    "name": "卡洛特先生（手繪・側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot_lab",
+    "name": "卡洛特先生（卡洛特實驗室版・綠髮）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "lab"
+  },
+  {
+    "id": "mr_carrot_lab_gold",
+    "name": "學霸卡洛特（卡洛特實驗室版・金髮）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "lab"
+  },
+  {
+    "id": "potter",
+    "name": "波特小姐",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "potter_side",
+    "name": "波特小姐（側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "prince",
+    "name": "王子",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "prince_side",
+    "name": "王子（側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "princess",
+    "name": "紫髮公主",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "princess_noball",
+    "name": "公主（沒拿金球）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "princess_side",
+    "name": "紫髮公主（側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "rabbit",
+    "name": "兔子",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "rabbit_jacket",
+    "name": "兔子波波（藍外套）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "rabbit_side",
+    "name": "兔子（側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "red_hood",
+    "name": "小紅帽",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "red_hood_side",
+    "name": "小紅帽（側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "red_hood_side_crouch",
+    "name": "小紅帽（蹲下摘花）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "wolf",
+    "name": "大野狼",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "wolf_granny",
+    "name": "大野狼（外婆裝）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "wolf_side",
+    "name": "大野狼（側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_monkey_elder",
+    "name": "老猴子｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_monkey_child",
+    "name": "小猴子｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_monkey_youth",
+    "name": "年輕猴子｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_magic_wolf",
+    "name": "七十二變灰狼｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "journey_xiaotian",
+    "name": "哮天犬｜西遊記前傳",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "carol_v3",
+    "name": "卡洛兒姐姐",
+    "build": "2026-11-04",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "aka",
+    "name": "Aka",
+    "build": "v0.7.1-39-g59837f6",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "midori",
+    "name": "Midori",
+    "build": "v0.7.2-120-g7989a2c",
+    "private": false,
+    "category": "refined"
+  },
+  {
+    "id": "linda_nyan",
+    "name": "linda_nyan",
+    "build": "2026-10-29",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "bobo_v3",
+    "name": "bobo_v3",
+    "build": "2026-11-04",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot_lab_v2",
+    "name": "mr_carrot_lab_v2",
+    "build": "2026-10-29",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "carol_hand_v2",
+    "name": "卡洛兒姐姐（日系大眼 v2）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "rheticus_v2",
+    "name": "rheticus_v2",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "rheticus_v2_side",
+    "name": "rheticus_v2_side",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "rabbit_v2",
+    "name": "兔子波波（v2）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "rabbit_v2_side",
+    "name": "兔子波波（v2 側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot_hand_v2",
+    "name": "mr_carrot_hand_v2",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot_gold_hand_v2",
+    "name": "mr_carrot_gold_hand_v2",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot_hand_v2_side",
+    "name": "mr_carrot_hand_v2_side",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot_gold_hand_v2_side",
+    "name": "mr_carrot_gold_hand_v2_side",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "copernicus_v2",
+    "name": "copernicus_v2",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "copernicus_v2_side",
+    "name": "copernicus_v2_side",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "carol_hand_v2_side",
+    "name": "carol_hand_v2_side",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "aubergine",
+    "name": "aubergine",
+    "build": "2026-11-11-head9-r8",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "aubergine_v2",
+    "name": "aubergine_v2",
+    "build": "2026-11-06-v2",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "carol_hand_v3",
+    "name": "卡洛兒姐姐說故事 v3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mr_carrot_hand_v3",
+    "name": "卡洛特先生說故事 v3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "aubergine_hand_v3",
+    "name": "茄子小姐說故事 v3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "mom_aubv3",
+    "name": "媽媽（茄子 v3）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "jack_mom_aubv3",
+    "name": "傑克媽媽（茄子 v3）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "aladdin_mom_aubv3",
+    "name": "阿拉丁媽媽（茄子 v3）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "queen_aubv3",
+    "name": "白雪的皇后（茄子 v3）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "heart_queen_aubv3",
+    "name": "紅心皇后（茄子 v3）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "bone_girl_aubv3",
+    "name": "白骨精人形（茄子 v3）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "fan_lady_aubv3",
+    "name": "鐵扇公主（茄子 v3）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "acad_carrot",
+    "name": "acad_carrot",
+    "build": "2026-11-08-r1",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "asc_cat",
+    "name": "asc_cat",
+    "build": "2026-11-08",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "asc_cat_orange",
+    "name": "asc_cat_orange",
+    "build": "2026-11-08",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "asc_cat_blue",
+    "name": "asc_cat_blue",
+    "build": "2026-11-08",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "asc_cat_gray",
+    "name": "asc_cat_gray",
+    "build": "2026-11-08",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "uncle_hand_v3",
+    "name": "帥大叔說故事 v3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "guy_hand_v3",
+    "name": "路人男說故事 v3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "tristan_uncv3",
+    "name": "崔斯坦（帥大叔臉模）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "kay_guyv3",
+    "name": "凱伊（路人男臉模）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "elder_m_hand_v3",
+    "name": "老爺爺說故事 v3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "elder_f_hand_v3",
+    "name": "老婆婆說故事 v3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "bobo_hand_v3",
+    "name": "兔子波波說故事 v3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "bobo_hand_v3_side",
+    "name": "兔子波波說故事 v3（側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "frenchie",
+    "name": "frenchie",
+    "build": "2026-11-09",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "wolf_beastv3",
+    "name": "大野狼（野獸臉模 v3）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "wolf_grandma_beastv3",
+    "name": "大野狼外婆裝（野獸臉模 v3）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "beast_hand_v3",
+    "name": "野獸臉模 v3（基底）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "wolf_beastv3_side",
+    "name": "大野狼（野獸臉模 v3・側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "wolf_grandma_beastv3_side",
+    "name": "大野狼外婆裝（野獸臉模 v3・側面）",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "new_carrot",
+    "name": "new_carrot",
+    "build": "2026-11-11-r6",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "new_carol",
+    "name": "new_carol",
+    "build": "2026-11-11-r6",
+    "private": false,
+    "category": "story"
+  }
 ]
