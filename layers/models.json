@@ -499,7 +499,7 @@
  {
   "id": "aubergine",
   "name": "aubergine",
-  "build": "2026-11-11-head9-r8",
+  "build": "2026-11-12-jelly-r9",
   "private": false,
   "category": "story"
  },
