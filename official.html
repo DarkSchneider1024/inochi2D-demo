@@ -696,9 +696,10 @@ function stepBreeze(dt) {
   for (const s of P.physics) {
     const nm = s.param.name;
     // (2026-10-28, user: 兔子波波平常耳朵多一點晃動) a rabbit's ears / tail / carrot leaves ride the breeze too
-    const w = /Twin Tail Tip/.test(nm) ? 1 : /^Ear::/.test(nm) ? 0.8 : /^Tail::|^Carrot Leaves/.test(nm) ? 0.5 : /Side Hair|Twin Tail::/.test(nm) ? 0.35 : 0;
+    // (2026-11-11 user: 金髮的披風需要有風吹的晃動感) the mage tailcoat's hem and the gold hair tufts ride the breeze too
+    const w = /Twin Tail Tip/.test(nm) ? 1 : /^Coat:: Hem::/.test(nm) ? 0.7 : /^Ear::/.test(nm) ? 0.8 : /^Tail::|^Carrot Leaves/.test(nm) ? 0.5 : /Side Hair|Twin Tail::|^Mage Hair::/.test(nm) ? 0.35 : 0;
     if (!w || !s.v) continue;
-    const ph = /Left/.test(nm) ? 1.7 : 0;
+    const ph = /Left|_L::/.test(nm) ? 1.7 : /^(Coat|Mage Hair)::.*:: 2::/.test(nm) ? 0.9 : 0;
     s.v[0] += dt * w * 900 * (Math.sin(time * 1.3 + ph) + 0.5 * Math.sin(time * 2.9 + ph * 2));
   }
 }
