@@ -4,7 +4,7 @@
  "name": "new_aubergine",
  "W": 804,
  "H": 1911,
- "build": "2026-11-11-r1",
+ "build": "2026-11-11-r2",
  "layers": [
   {
    "name": "後髮_墊底",
@@ -254,8 +254,34 @@
    ]
   },
   {
-   "name": "軀幹",
+   "name": "後領",
    "file": "10.webp",
+   "x": 339,
+   "y": 289,
+   "w": 124,
+   "h": 78,
+   "group": "Body",
+   "hidden": false,
+   "backing": true,
+   "z": 0.4,
+   "suspects": []
+  },
+  {
+   "name": "脖子",
+   "file": "11.webp",
+   "x": 150,
+   "y": 4,
+   "w": 482,
+   "h": 694,
+   "group": "Body",
+   "hidden": false,
+   "backing": true,
+   "z": 0.39,
+   "suspects": []
+  },
+  {
+   "name": "軀幹",
+   "file": "12.webp",
    "x": 280,
    "y": 381,
    "w": 237,
@@ -263,7 +289,7 @@
    "group": "Body",
    "hidden": false,
    "backing": false,
-   "z": 0.4,
+   "z": 0.38,
    "suspects": [
     {
      "type": "藏線",
@@ -306,53 +332,6 @@
      "n": 50
     }
    ]
-  },
-  {
-   "name": "後領",
-   "file": "11.webp",
-   "x": 339,
-   "y": 289,
-   "w": 124,
-   "h": 78,
-   "group": "Body",
-   "hidden": false,
-   "backing": false,
-   "z": 0.39,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      331,
-      292,
-      71,
-      82
-     ],
-     "n": 478
-    },
-    {
-     "type": "藏線",
-     "box": [
-      412,
-      294,
-      59,
-      80
-     ],
-     "n": 464
-    }
-   ]
-  },
-  {
-   "name": "脖子",
-   "file": "12.webp",
-   "x": 371,
-   "y": 282,
-   "w": 63,
-   "h": 53,
-   "group": "Body",
-   "hidden": false,
-   "backing": false,
-   "z": 0.38,
-   "suspects": []
   },
   {
    "name": "披肩",
@@ -485,28 +464,50 @@
   {
    "name": "眼白_R",
    "file": "18.webp",
-   "x": 327,
-   "y": 191,
-   "w": 47,
-   "h": 31,
+   "x": 288,
+   "y": 180,
+   "w": 85,
+   "h": 79,
    "group": "Head/Eye R/EyeBall R",
    "hidden": false,
    "backing": false,
    "z": 0.32,
-   "suspects": []
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      315,
+      174,
+      62,
+      35
+     ],
+     "n": 48
+    }
+   ]
   },
   {
    "name": "眼白_L",
    "file": "19.webp",
-   "x": 426,
-   "y": 192,
-   "w": 46,
-   "h": 30,
+   "x": 425,
+   "y": 163,
+   "w": 52,
+   "h": 61,
    "group": "Head/Eye L/EyeBall L",
    "hidden": false,
    "backing": false,
    "z": 0.31,
-   "suspects": []
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      421,
+      177,
+      62,
+      29
+     ],
+     "n": 40
+    }
+   ]
   },
   {
    "name": "眼球_R",
