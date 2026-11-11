@@ -730,7 +730,7 @@
  {
   "id": "new_aubergine",
   "name": "new_aubergine",
-  "build": "2026-11-11-eye-r12",
+  "build": "2026-11-12-r13",
   "private": false,
   "category": "story"
  }
