@@ -289,6 +289,7 @@ const MODELS = [
   { id: 'asc_cat_gray', name: 'Kiwi・美國短毛貓（灰）', desc: '炭灰白雙色配色・同坐姿與動作（配色部件為 GPT 重畫）', file: 'models/asc_cat_gray.inp', own: 'make_asc_cat_puppet.py' },
   { id: 'asc_cat_fur', name: 'Kiwi・美國短毛貓（四色切換）', desc: '銀／橘／藍／灰四種毛色在同一個模型，用「毛色」按鈕切換（Outfit:: Fur）', file: 'models/asc_cat_fur.inp', own: 'make_asc_cat_fur.py' },
   { id: 'frenchie', name: '可頌・法鬥', desc: '奶油色法式鬥牛犬幼犬・坐姿・綠項圈胡蘿蔔吊牌（GPT 部件圖層；與美國短毛貓同一套動作、甩尾巴、耳朵／吊牌物理）', file: 'models/frenchie.inp', own: 'make_asc_cat_puppet.py' },
+  { id: 'male2', name: '香皮尼先生', desc: '銀白髮冰藍眼美男子（立領襯衫、淡藍領巾胸針、雙排扣背心、深藍銀邊長外套、白手套、長靴；GPT 部件圖層，基礎版）', file: 'models/male2.inp', own: 'make_male2_puppet.py' },
 ];
 // our own puppets name a few params differently (inochi-lite / the video stage use these): drive them under their names
 const ALIAS = { 'Breath': 'Body:: Breath' };
@@ -305,7 +306,7 @@ const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: 
 const { verOf, vurl, vlabel } = await import('./versions.js');
 
 // ---- model picker ----
-const FEATURED_IDS = ['aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'new_carol', 'new_aubergine', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
+const FEATURED_IDS = ['aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'new_carol', 'new_aubergine', 'male2', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
 for (const id of FEATURED_IDS) {
   const m = MODELS.find(m => m.id === id);
   const option = document.createElement('option');

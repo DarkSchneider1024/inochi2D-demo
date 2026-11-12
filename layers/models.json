@@ -733,5 +733,12 @@
   "build": "2026-11-12-r14",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "male2",
+  "name": "male2",
+  "build": "2026-11-13-r2",
+  "private": false,
+  "category": "story"
  }
 ]
