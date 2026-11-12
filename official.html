@@ -761,6 +761,14 @@ function drive(dt) {
     set('Chest:: Sway X', Math.tanh(-chest.x1.x));
     set('Chest:: Bounce Y', Math.tanh(chest.y1.x));
     set('Chest:: Squash', Math.tanh(-0.06 * chest.y1.v));                                  // widens as it falls
+    // (2026-11-12 user: 豐滿身材的晃動 ... 跟這樣一樣的晃動參數 youtube VnNSFXYNQ04) the full bust: its lower half swings again a beat
+    // late (Sway X2), the jabot / collar hanging on it sways the other way (Cloth X) and follows the bounce late (Cloth Y)
+    if (P.has('Chest:: Sway X2')) {
+      spring(chest.x2, chest.x1.x, dt, 9.0, 3.2); spring(chest.y2, chest.y1.x, dt, 10.0, 3.6);
+      set('Chest:: Sway X2', Math.tanh(-1.4 * (chest.x2.x - chest.x1.x) - 0.5 * chest.x1.x));
+      if (P.has('Chest:: Cloth X')) set('Chest:: Cloth X', Math.tanh(0.9 * chest.x2.x));
+      if (P.has('Chest:: Cloth Y')) set('Chest:: Cloth Y', Math.tanh(0.9 * chest.y2.x));
+    }
   }
   if (P.has('Outfit:: Decor Off')) set('Outfit:: Decor Off', decorOff ? 1 : 0);
   if (P.has('Acc:: Sprout Off')) { set('Acc:: Headphones Off', accOn('phones') ? 0 : 1); set('Acc:: Leaves Off', accOn('leaves') ? 0 : 1); set('Acc:: Sprout Off', accOn('sprout') ? 0 : 1); }
