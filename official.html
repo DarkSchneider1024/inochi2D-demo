@@ -772,7 +772,7 @@ function drive(dt) {
   }
   if (P.has('Outfit:: Decor Off')) set('Outfit:: Decor Off', decorOff ? 1 : 0);
   if (P.has('Acc:: Sprout Off')) { set('Acc:: Headphones Off', accOn('phones') ? 0 : 1); set('Acc:: Leaves Off', accOn('leaves') ? 0 : 1); set('Acc:: Sprout Off', accOn('sprout') ? 0 : 1); }
-  if (P.has('Outfit:: Hat')) { set('Outfit:: Hat', carolStyle.hat ? 1 : 0); set('Outfit:: Hair Down', carolStyle.hair === 'down' ? 1 : 0); set('Outfit:: Ponytail', carolStyle.hair === 'pony' ? 1 : 0); if (P.has('Outfit:: Forehead')) set('Outfit:: Forehead', carolStyle.hair === 'fore' ? 1 : 0); }
+  if (P.has('Outfit:: Hair Down') && !P.has('Outfit:: Hat')) set('Outfit:: Hair Down', carolStyle.hair === 'down' ? 1 : 0); if (P.has('Outfit:: Hat')) { set('Outfit:: Hat', carolStyle.hat ? 1 : 0); set('Outfit:: Hair Down', carolStyle.hair === 'down' ? 1 : 0); set('Outfit:: Ponytail', carolStyle.hair === 'pony' ? 1 : 0); if (P.has('Outfit:: Forehead')) set('Outfit:: Forehead', carolStyle.hair === 'fore' ? 1 : 0); }
   if (P.has('Mix:: Top:: Off')) for (const [k] of WEAR) { set(`Mix:: ${k}:: Academy`, wear[k] === 1 ? 1 : 0); set(`Mix:: ${k}:: Off`, wear[k] === 2 ? 1 : 0); if (P.has(`Mix:: ${k}:: Sun`)) set(`Mix:: ${k}:: Sun`, wear[k] === 3 ? 1 : 0); }
   if (P.has('Outfit:: White')) set('Outfit:: White', whiteFit ? 1 : 0);
   if (P.has('Body:: Bust')) set('Body:: Bust', bigBust ? 1 : 0);
