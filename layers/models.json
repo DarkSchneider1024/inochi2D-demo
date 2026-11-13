@@ -768,5 +768,47 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "grandpa_hand_v3",
+  "name": "grandpa_hand_v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "grandpa_hand_v3_side",
+  "name": "grandpa_hand_v3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "merlin_hand_v3",
+  "name": "merlin_hand_v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "merlin_hand_v3_side",
+  "name": "merlin_hand_v3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "tristan_m2v3",
+  "name": "tristan_m2v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "tristan_m2v3_side",
+  "name": "tristan_m2v3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]

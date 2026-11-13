@@ -1,0 +1,1172 @@
+{
+ "id": "merlin_hand_v3_side",
+ "private": false,
+ "name": "merlin_hand_v3_side",
+ "W": 694,
+ "H": 1929,
+ "build": "1.0-alpha",
+ "layers": [
+  {
+   "name": "影子",
+   "file": "00.webp",
+   "x": 87,
+   "y": 1843,
+   "w": 400,
+   "h": 82,
+   "group": "",
+   "hidden": false,
+   "backing": false,
+   "z": 0.69,
+   "suspects": []
+  },
+  {
+   "name": "後髮_主",
+   "file": "01.webp",
+   "x": 37,
+   "y": 25,
+   "w": 653,
+   "h": 1058,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.68,
+   "suspects": []
+  },
+  {
+   "name": "肩前髮束",
+   "file": "02.webp",
+   "x": 131,
+   "y": 166,
+   "w": 124,
+   "h": 346,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.675,
+   "suspects": []
+  },
+  {
+   "name": "上臂_L",
+   "file": "03.webp",
+   "x": 334,
+   "y": 383,
+   "w": 165,
+   "h": 355,
+   "group": "Body/Arm B",
+   "hidden": false,
+   "backing": true,
+   "z": 0.664,
+   "suspects": []
+  },
+  {
+   "name": "下臂_L",
+   "file": "04.webp",
+   "x": 356,
+   "y": 707,
+   "w": 213,
+   "h": 395,
+   "group": "Body/Arm B/Forearm B",
+   "hidden": false,
+   "backing": false,
+   "z": 0.663,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      351,
+      702,
+      181,
+      405
+     ],
+     "n": 5272
+    }
+   ]
+  },
+  {
+   "name": "手掌_L",
+   "file": "05.webp",
+   "x": 438,
+   "y": 950,
+   "w": 104,
+   "h": 237,
+   "group": "Body/Arm B/Forearm B",
+   "hidden": false,
+   "backing": false,
+   "z": 0.662,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      433,
+      1006,
+      46,
+      177
+     ],
+     "n": 369
+    }
+   ]
+  },
+  {
+   "name": "袍襬_後",
+   "file": "06.webp",
+   "x": 188,
+   "y": 843,
+   "w": 236,
+   "h": 868,
+   "group": "Body",
+   "hidden": false,
+   "backing": true,
+   "z": 0.66,
+   "suspects": []
+  },
+  {
+   "name": "大腿_L",
+   "file": "07.webp",
+   "x": 306,
+   "y": 843,
+   "w": 53,
+   "h": 554,
+   "group": "Body/Thigh B",
+   "hidden": false,
+   "backing": true,
+   "z": 0.64,
+   "suspects": []
+  },
+  {
+   "name": "大腿_R",
+   "file": "08.webp",
+   "x": 215,
+   "y": 843,
+   "w": 53,
+   "h": 554,
+   "group": "Body/Thigh F",
+   "hidden": false,
+   "backing": true,
+   "z": 0.637,
+   "suspects": []
+  },
+  {
+   "name": "小腿_L",
+   "file": "09.webp",
+   "x": 306,
+   "y": 1363,
+   "w": 53,
+   "h": 432,
+   "group": "Body/Thigh B/Shin B",
+   "hidden": false,
+   "backing": false,
+   "z": 0.636,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      301,
+      1358,
+      63,
+      319
+     ],
+     "n": 1980
+    },
+    {
+     "type": "藏線",
+     "box": [
+      301,
+      1710,
+      63,
+      90
+     ],
+     "n": 690
+    }
+   ]
+  },
+  {
+   "name": "小腿_R",
+   "file": "10.webp",
+   "x": 215,
+   "y": 1363,
+   "w": 53,
+   "h": 432,
+   "group": "Body/Thigh F/Shin F",
+   "hidden": false,
+   "backing": true,
+   "z": 0.633,
+   "suspects": []
+  },
+  {
+   "name": "鞋_L",
+   "file": "11.webp",
+   "x": 294,
+   "y": 1718,
+   "w": 169,
+   "h": 205,
+   "group": "Body/Thigh B/Shin B/Foot B",
+   "hidden": false,
+   "backing": false,
+   "z": 0.626,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      292,
+      1842,
+      80,
+      81
+     ],
+     "n": 731
+    }
+   ]
+  },
+  {
+   "name": "鞋_R",
+   "file": "12.webp",
+   "x": 202,
+   "y": 1718,
+   "w": 169,
+   "h": 205,
+   "group": "Body/Thigh F/Shin F/Foot F",
+   "hidden": false,
+   "backing": false,
+   "z": 0.622,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      205,
+      1710,
+      49,
+      85
+     ],
+     "n": 791
+    }
+   ]
+  },
+  {
+   "name": "披肩_後",
+   "file": "13.webp",
+   "x": 43,
+   "y": 322,
+   "w": 495,
+   "h": 343,
+   "group": "Body",
+   "hidden": false,
+   "backing": true,
+   "z": 0.606,
+   "suspects": []
+  },
+  {
+   "name": "襯衫下擺",
+   "file": "14.webp",
+   "x": 218,
+   "y": 778,
+   "w": 191,
+   "h": 894,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.6,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      212,
+      773,
+      96,
+      904
+     ],
+     "n": 3256
+    },
+    {
+     "type": "藏線",
+     "box": [
+      323,
+      812,
+      92,
+      865
+     ],
+     "n": 3011
+    },
+    {
+     "type": "藏線",
+     "box": [
+      303,
+      851,
+      21,
+      90
+     ],
+     "n": 260
+    },
+    {
+     "type": "藏線",
+     "box": [
+      313,
+      784,
+      31,
+      40
+     ],
+     "n": 45
+    }
+   ]
+  },
+  {
+   "name": "立領_後",
+   "file": "15.webp",
+   "x": 260,
+   "y": 288,
+   "w": 137,
+   "h": 79,
+   "group": "Body",
+   "hidden": false,
+   "backing": true,
+   "z": 0.597,
+   "suspects": []
+  },
+  {
+   "name": "脖子",
+   "file": "16.webp",
+   "x": 240,
+   "y": 224,
+   "w": 117,
+   "h": 195,
+   "group": "Body",
+   "hidden": false,
+   "backing": true,
+   "z": 0.59,
+   "suspects": []
+  },
+  {
+   "name": "胸腔",
+   "file": "17.webp",
+   "x": 243,
+   "y": 331,
+   "w": 195,
+   "h": 455,
+   "group": "Body",
+   "hidden": false,
+   "backing": true,
+   "z": 0.58,
+   "suspects": []
+  },
+  {
+   "name": "袍襬_R",
+   "file": "18.webp",
+   "x": 27,
+   "y": 677,
+   "w": 299,
+   "h": 1113,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.572,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      134,
+      672,
+      197,
+      435
+     ],
+     "n": 3996
+    }
+   ]
+  },
+  {
+   "name": "袍襬_L",
+   "file": "19.webp",
+   "x": 324,
+   "y": 677,
+   "w": 223,
+   "h": 1113,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.571,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      318,
+      672,
+      118,
+      197
+     ],
+     "n": 1881
+    }
+   ]
+  },
+  {
+   "name": "長袍_上_R",
+   "file": "20.webp",
+   "x": 159,
+   "y": 328,
+   "w": 196,
+   "h": 536,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.56,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      154,
+      329,
+      206,
+      540
+     ],
+     "n": 7985
+    }
+   ]
+  },
+  {
+   "name": "長袍_上_L",
+   "file": "21.webp",
+   "x": 323,
+   "y": 328,
+   "w": 162,
+   "h": 536,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.55,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      321,
+      323,
+      169,
+      352
+     ],
+     "n": 5415
+    },
+    {
+     "type": "藏線",
+     "box": [
+      327,
+      720,
+      129,
+      138
+     ],
+     "n": 2138
+    }
+   ]
+  },
+  {
+   "name": "腰帶",
+   "file": "22.webp",
+   "x": 177,
+   "y": 724,
+   "w": 274,
+   "h": 130,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.53,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      171,
+      724,
+      47,
+      127
+     ],
+     "n": 814
+    }
+   ]
+  },
+  {
+   "name": "立領_前",
+   "file": "23.webp",
+   "x": 257,
+   "y": 289,
+   "w": 156,
+   "h": 124,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.5,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      303,
+      320,
+      106,
+      98
+     ],
+     "n": 521
+    }
+   ]
+  },
+  {
+   "name": "手掌_R",
+   "file": "24.webp",
+   "x": 32,
+   "y": 950,
+   "w": 104,
+   "h": 237,
+   "group": "Body/Arm F/Forearm F",
+   "hidden": false,
+   "backing": false,
+   "z": 0.474,
+   "suspects": []
+  },
+  {
+   "name": "下臂_R",
+   "file": "25.webp",
+   "x": 5,
+   "y": 707,
+   "w": 213,
+   "h": 395,
+   "group": "Body/Arm F/Forearm F",
+   "hidden": false,
+   "backing": false,
+   "z": 0.47,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      71,
+      702,
+      152,
+      41
+     ],
+     "n": 919
+    }
+   ]
+  },
+  {
+   "name": "上臂_R",
+   "file": "26.webp",
+   "x": 75,
+   "y": 383,
+   "w": 165,
+   "h": 355,
+   "group": "Body/Arm F",
+   "hidden": false,
+   "backing": false,
+   "z": 0.462,
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      92,
+      379,
+      153,
+      268
+     ],
+     "n": 2294
+    }
+   ]
+  },
+  {
+   "name": "披肩_前",
+   "file": "27.webp",
+   "x": 35,
+   "y": 317,
+   "w": 505,
+   "h": 354,
+   "group": "Body",
+   "hidden": false,
+   "backing": false,
+   "z": 0.458,
+   "suspects": []
+  },
+  {
+   "name": "耳朵_R",
+   "file": "28.webp",
+   "x": 207,
+   "y": 152,
+   "w": 40,
+   "h": 81,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.41,
+   "suspects": []
+  },
+  {
+   "name": "耳朵_L",
+   "file": "29.webp",
+   "x": 379,
+   "y": 152,
+   "w": 29,
+   "h": 81,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.4,
+   "suspects": []
+  },
+  {
+   "name": "臉",
+   "file": "30.webp",
+   "x": 216,
+   "y": 22,
+   "w": 172,
+   "h": 283,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.39,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_臉紅_1",
+   "file": "31.webp",
+   "x": 256,
+   "y": 180,
+   "w": 119,
+   "h": 129,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.385,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_臉紅_2",
+   "file": "32.webp",
+   "x": 235,
+   "y": 161,
+   "w": 146,
+   "h": 94,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.385,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_臉紅_3",
+   "file": "33.webp",
+   "x": 243,
+   "y": 82,
+   "w": 137,
+   "h": 155,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.385,
+   "suspects": []
+  },
+  {
+   "name": "鬍子",
+   "file": "34.webp",
+   "x": 237,
+   "y": 205,
+   "w": 144,
+   "h": 162,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.384,
+   "suspects": []
+  },
+  {
+   "name": "鼻子",
+   "file": "35.webp",
+   "x": 316,
+   "y": 161,
+   "w": 40,
+   "h": 90,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.36,
+   "suspects": []
+  },
+  {
+   "name": "下唇陰影",
+   "file": "36.webp",
+   "x": 334,
+   "y": 264,
+   "w": 8,
+   "h": 3,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.35,
+   "suspects": []
+  },
+  {
+   "name": "口腔",
+   "file": "37.webp",
+   "x": 332,
+   "y": 256,
+   "w": 10,
+   "h": 4,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.34,
+   "suspects": []
+  },
+  {
+   "name": "舌頭",
+   "file": "38.webp",
+   "x": 335,
+   "y": 257,
+   "w": 4,
+   "h": 3,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.33,
+   "suspects": []
+  },
+  {
+   "name": "下排牙齒",
+   "file": "39.webp",
+   "x": 335,
+   "y": 257,
+   "w": 6,
+   "h": 3,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.32,
+   "suspects": []
+  },
+  {
+   "name": "上排牙齒",
+   "file": "40.webp",
+   "x": 334,
+   "y": 256,
+   "w": 7,
+   "h": 3,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.31,
+   "suspects": []
+  },
+  {
+   "name": "上唇",
+   "file": "41.webp",
+   "x": 305,
+   "y": 252,
+   "w": 57,
+   "h": 14,
+   "group": "Body/Head/Mouth",
+   "hidden": false,
+   "backing": false,
+   "z": 0.3,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_嘴_笑_Happy",
+   "file": "42.webp",
+   "x": 311,
+   "y": 250,
+   "w": 47,
+   "h": 23,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.298,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_嘴_平_Angry",
+   "file": "43.webp",
+   "x": 311,
+   "y": 256,
+   "w": 47,
+   "h": 12,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.298,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_嘴_嘟_Sad",
+   "file": "44.webp",
+   "x": 317,
+   "y": 256,
+   "w": 38,
+   "h": 12,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.298,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_嘴_啊_Laugh",
+   "file": "45.webp",
+   "x": 311,
+   "y": 249,
+   "w": 47,
+   "h": 34,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.298,
+   "suspects": []
+  },
+  {
+   "name": "嘴_啊",
+   "file": "46.webp",
+   "x": 316,
+   "y": 250,
+   "w": 40,
+   "h": 27,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.29,
+   "suspects": []
+  },
+  {
+   "name": "嘴_喔",
+   "file": "47.webp",
+   "x": 326,
+   "y": 249,
+   "w": 24,
+   "h": 29,
+   "group": "Body/Head/Mouth",
+   "hidden": true,
+   "backing": false,
+   "z": 0.28,
+   "suspects": []
+  },
+  {
+   "name": "八字鬍",
+   "file": "48.webp",
+   "x": 266,
+   "y": 236,
+   "w": 109,
+   "h": 36,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.275,
+   "suspects": []
+  },
+  {
+   "name": "下眼線_R",
+   "file": "49.webp",
+   "x": 239,
+   "y": 170,
+   "w": 78,
+   "h": 23,
+   "group": "Body/Head/Eye R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.26,
+   "suspects": []
+  },
+  {
+   "name": "眼白_R",
+   "file": "50.webp",
+   "x": 257,
+   "y": 166,
+   "w": 59,
+   "h": 17,
+   "group": "Body/Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.25,
+   "suspects": []
+  },
+  {
+   "name": "眼球_R",
+   "file": "51.webp",
+   "x": 280,
+   "y": 163,
+   "w": 26,
+   "h": 21,
+   "group": "Body/Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.24,
+   "suspects": []
+  },
+  {
+   "name": "上眼線_R",
+   "file": "52.webp",
+   "x": 247,
+   "y": 158,
+   "w": 70,
+   "h": 22,
+   "group": "Body/Head/Eye R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.23,
+   "suspects": []
+  },
+  {
+   "name": "高光_R",
+   "file": "53.webp",
+   "x": 282,
+   "y": 166,
+   "w": 14,
+   "h": 10,
+   "group": "Body/Head/Eye R/EyeBall R",
+   "hidden": false,
+   "backing": false,
+   "z": 0.19,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_閉眼_R_Happy",
+   "file": "54.webp",
+   "x": 253,
+   "y": 167,
+   "w": 66,
+   "h": 17,
+   "group": "Body/Head/Eye R",
+   "hidden": true,
+   "backing": false,
+   "z": 0.176,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_閉眼_R_Laugh",
+   "file": "55.webp",
+   "x": 253,
+   "y": 167,
+   "w": 66,
+   "h": 17,
+   "group": "Body/Head/Eye R",
+   "hidden": true,
+   "backing": false,
+   "z": 0.176,
+   "suspects": []
+  },
+  {
+   "name": "下眼線_L",
+   "file": "56.webp",
+   "x": 355,
+   "y": 170,
+   "w": 26,
+   "h": 23,
+   "group": "Body/Head/Eye L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.16,
+   "suspects": []
+  },
+  {
+   "name": "眼白_L",
+   "file": "57.webp",
+   "x": 356,
+   "y": 166,
+   "w": 21,
+   "h": 17,
+   "group": "Body/Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.15,
+   "suspects": []
+  },
+  {
+   "name": "眼球_L",
+   "file": "58.webp",
+   "x": 363,
+   "y": 163,
+   "w": 10,
+   "h": 21,
+   "group": "Body/Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.14,
+   "suspects": []
+  },
+  {
+   "name": "上眼線_L",
+   "file": "59.webp",
+   "x": 355,
+   "y": 158,
+   "w": 24,
+   "h": 22,
+   "group": "Body/Head/Eye L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.13,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_淚_積",
+   "file": "60.webp",
+   "x": 259,
+   "y": 176,
+   "w": 118,
+   "h": 12,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.127,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      337,
+      175,
+      42,
+      14
+     ],
+     "n": 127
+    }
+   ]
+  },
+  {
+   "name": "故事差分_淚_滴",
+   "file": "61.webp",
+   "x": 253,
+   "y": 178,
+   "w": 125,
+   "h": 47,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.127,
+   "suspects": [
+    {
+     "type": "碎塊",
+     "box": [
+      362,
+      177,
+      18,
+      50
+     ],
+     "n": 308
+    }
+   ]
+  },
+  {
+   "name": "高光_L",
+   "file": "62.webp",
+   "x": 367,
+   "y": 166,
+   "w": 5,
+   "h": 10,
+   "group": "Body/Head/Eye L/EyeBall L",
+   "hidden": false,
+   "backing": false,
+   "z": 0.09,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_閉眼_L_Happy",
+   "file": "63.webp",
+   "x": 354,
+   "y": 167,
+   "w": 24,
+   "h": 17,
+   "group": "Body/Head/Eye L",
+   "hidden": true,
+   "backing": false,
+   "z": 0.076,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_閉眼_L_Laugh",
+   "file": "64.webp",
+   "x": 354,
+   "y": 167,
+   "w": 24,
+   "h": 17,
+   "group": "Body/Head/Eye L",
+   "hidden": true,
+   "backing": false,
+   "z": 0.076,
+   "suspects": []
+  },
+  {
+   "name": "腮紅_R",
+   "file": "65.webp",
+   "x": 247,
+   "y": 196,
+   "w": 64,
+   "h": 39,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.07,
+   "suspects": []
+  },
+  {
+   "name": "腮紅_L",
+   "file": "66.webp",
+   "x": 358,
+   "y": 196,
+   "w": 21,
+   "h": 39,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.06,
+   "suspects": []
+  },
+  {
+   "name": "頭頂髮",
+   "file": "67.webp",
+   "x": 185,
+   "y": 5,
+   "w": 244,
+   "h": 172,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.03,
+   "suspects": []
+  },
+  {
+   "name": "眉毛_R",
+   "file": "68.webp",
+   "x": 237,
+   "y": 144,
+   "w": 95,
+   "h": 30,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.006,
+   "suspects": []
+  },
+  {
+   "name": "眉毛_L",
+   "file": "69.webp",
+   "x": 344,
+   "y": 144,
+   "w": 38,
+   "h": 30,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": 0.006,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_眉毛_怒",
+   "file": "70.webp",
+   "x": 237,
+   "y": 145,
+   "w": 144,
+   "h": 35,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.006,
+   "suspects": []
+  },
+  {
+   "name": "故事差分_眉毛_哀",
+   "file": "71.webp",
+   "x": 241,
+   "y": 141,
+   "w": 140,
+   "h": 30,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.006,
+   "suspects": []
+  }
+ ]
+}

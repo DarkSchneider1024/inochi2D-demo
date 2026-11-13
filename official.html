@@ -294,6 +294,14 @@ const MODELS = [
   { id: 'male2', name: '香皮尼先生', desc: '銀白髮冰藍眼美男子（立領襯衫、淡藍領巾胸針、雙排扣背心、深藍銀邊長外套、白手套、長靴；GPT 部件圖層，基礎版）', file: 'models/male2.inp', own: 'make_male2_puppet.py' },
   { id: 'male2_hand_v3', name: '香皮尼（說故事版）', desc: '說故事手繪版・新臉模基底（崔斯坦等男配角）：窄臉細長眼的冷靜美男子，規則手繪銀白髮束、深藍銀邊長外套；九軸、表情、揮手、下蹲舉手、果凍眼', file: 'models/male2_hand_v3.inp' },
   { id: 'male2_hand_v3_side', name: '香皮尼（說故事版・側面）', desc: '側面走路・腳一前一後踏實；頭用正面頭九軸轉向，外套下襬會擺', file: 'models/male2_hand_v3_side.inp' },
+  { id: 'grandpa_hand_v3', name: '老爺爺新基底（說故事版・製作中）', desc: '說故事手繪版・慈祥長者新基底（艾克特爵士、老國王、傑佩托等）：照自己的底圖 v2 全手繪；正面回歸通過，光頭臉 96% 比對未跑', file: 'models/grandpa_hand_v3.inp' },
+  { id: 'grandpa_hand_v3_side', name: '老爺爺新基底（說故事版・側面・製作中）', desc: '側面走路；後腦髮量不足待補', file: 'models/grandpa_hand_v3_side.inp' },
+  { id: 'merlin_hand_v3', name: '梅林（說故事版・製作中）', desc: '說故事手繪版・帥老人梅林：自己的底圖與臉模；正面回歸通過，頭髮層次與眼色待修', file: 'models/merlin_hand_v3.inp' },
+  { id: 'merlin_hand_v3_side', name: '梅林（說故事版・側面・製作中）', desc: '側面走路；臉扁、下顎線未出，待重做', file: 'models/merlin_hand_v3_side.inp' },
+  { id: 'tristan_m2v3', name: '崔斯坦（香皮尼臉模・製作中）', desc: '香皮尼臉模換裝；臉模定稿後會重建', file: 'models/tristan_m2v3.inp' },
+  { id: 'tristan_m2v3_side', name: '崔斯坦（香皮尼臉模・側面・製作中）', desc: '側面走路；等香皮尼側面重建', file: 'models/tristan_m2v3_side.inp' },
+  { id: 'kay_burlyv3', name: '凱伊（柏達克臉模・製作中）', desc: '柏達克臉模換裝；未驗收、沒有側面', file: 'models/kay_burlyv3.inp' },
+  { id: 'wukong_mrcv3', name: '帥悟空（卡洛特臉模・製作中）', desc: '卡洛特 v3 換裝的帥悟空（有猴毛）；未驗收、沒有側面、身高未定', file: 'models/wukong_mrcv3.inp' },
 ];
 // our own puppets name a few params differently (inochi-lite / the video stage use these): drive them under their names
 const ALIAS = { 'Breath': 'Body:: Breath' };
@@ -319,7 +327,7 @@ for (const id of FEATURED_IDS) {
   $('models').appendChild(option);
 }
 for (const [label, ids] of [
-  ['卡洛兒說故事', ['carol_hand_v3', 'mr_carrot_hand_v3', 'aubergine_hand_v3', 'bobo_hand_v3', 'bobo_hand_v3_side', 'beast_hand_v3', 'wolf_beastv3', 'wolf_beastv3_side', 'wolf_grandma_beastv3', 'wolf_grandma_beastv3_side', 'wolf_grandma_beastv3_side_belly', 'mom_aubv3', 'jack_mom_aubv3', 'aladdin_mom_aubv3', 'queen_aubv3', 'heart_queen_aubv3', 'bone_girl_aubv3', 'fan_lady_aubv3', 'mom_aubv3_side', 'jack_mom_aubv3_side', 'aladdin_mom_aubv3_side', 'queen_aubv3_side', 'heart_queen_aubv3_side', 'bone_girl_aubv3_side', 'fan_lady_aubv3_side', 'red_hood_carolv3', 'red_hood_carolv3_side', 'red_hood_carolv3_side_crouch', 'hunter_uncv3', 'hunter_uncv3_side', 'grandma_elderv3', 'snow_white_carolv3', 'princess_carolv3', 'blue_fairy_carolv3', 'alice_carolv3', 'badr_carolv3', 'guanyin_carolv3', 'lynette_carolv3', 'guinevere_carolv3', 'prince_mrcv3', 'aladdin_mrcv3', 'arthur_mrcv3', 'knight_arthur_mrcv3', 'tangseng_mrcv3', 'uncle_hand_v3', 'guy_hand_v3', 'burly_hand_v3', 'burly_hand_v3_side', 'tristan_uncv3', 'kay_guyv3', 'elder_m_hand_v3', 'elder_f_hand_v3', 'male2_hand_v3', 'male2_hand_v3_side']],
+  ['卡洛兒說故事', ['carol_hand_v3', 'mr_carrot_hand_v3', 'aubergine_hand_v3', 'bobo_hand_v3', 'bobo_hand_v3_side', 'beast_hand_v3', 'wolf_beastv3', 'wolf_beastv3_side', 'wolf_grandma_beastv3', 'wolf_grandma_beastv3_side', 'wolf_grandma_beastv3_side_belly', 'mom_aubv3', 'jack_mom_aubv3', 'aladdin_mom_aubv3', 'queen_aubv3', 'heart_queen_aubv3', 'bone_girl_aubv3', 'fan_lady_aubv3', 'mom_aubv3_side', 'jack_mom_aubv3_side', 'aladdin_mom_aubv3_side', 'queen_aubv3_side', 'heart_queen_aubv3_side', 'bone_girl_aubv3_side', 'fan_lady_aubv3_side', 'red_hood_carolv3', 'red_hood_carolv3_side', 'red_hood_carolv3_side_crouch', 'hunter_uncv3', 'hunter_uncv3_side', 'grandma_elderv3', 'snow_white_carolv3', 'princess_carolv3', 'blue_fairy_carolv3', 'alice_carolv3', 'badr_carolv3', 'guanyin_carolv3', 'lynette_carolv3', 'guinevere_carolv3', 'prince_mrcv3', 'aladdin_mrcv3', 'arthur_mrcv3', 'knight_arthur_mrcv3', 'tangseng_mrcv3', 'uncle_hand_v3', 'guy_hand_v3', 'burly_hand_v3', 'burly_hand_v3_side', 'tristan_uncv3', 'kay_guyv3', 'elder_m_hand_v3', 'elder_f_hand_v3', 'male2_hand_v3', 'male2_hand_v3_side', 'grandpa_hand_v3', 'grandpa_hand_v3_side', 'merlin_hand_v3', 'merlin_hand_v3_side', 'tristan_m2v3', 'tristan_m2v3_side', 'kay_burlyv3', 'wukong_mrcv3']],
   ['故事 V1・卡洛特三人組', ['carol_hand', 'carol_hand_side', 'carol_hand_side_sit', 'mr_carrot_hand', 'mr_carrot_hand_side', 'rabbit', 'rabbit_side']],
   ['時光探險隊', ['carol_hand_v2']],
 ]) {
