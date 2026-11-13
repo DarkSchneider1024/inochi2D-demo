@@ -761,5 +761,12 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "burly_hand_v3_side",
+  "name": "burly_hand_v3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
