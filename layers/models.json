@@ -754,5 +754,12 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "burly_hand_v3",
+  "name": "burly_hand_v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
