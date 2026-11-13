@@ -744,14 +744,14 @@
  {
   "id": "male2_hand_v3",
   "name": "male2_hand_v3",
-  "build": "1.0-alpha",
+  "build": "2026-11-13-r4",
   "private": false,
   "category": "story"
  },
  {
   "id": "male2_hand_v3_side",
   "name": "male2_hand_v3_side",
-  "build": "1.0-alpha",
+  "build": "2026-11-13-r7",
   "private": false,
   "category": "story"
  },
