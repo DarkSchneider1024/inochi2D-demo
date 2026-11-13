@@ -810,5 +810,12 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "carol_hand_v3_side",
+  "name": "carol_hand_v3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
