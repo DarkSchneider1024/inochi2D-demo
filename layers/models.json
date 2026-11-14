@@ -838,5 +838,33 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "guard_m2mix",
+  "name": "guard_m2mix",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "guard_m2mix_side",
+  "name": "guard_m2mix_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "ector_m2mix",
+  "name": "ector_m2mix",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "ector_m2mix_side",
+  "name": "ector_m2mix_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
