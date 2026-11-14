@@ -4760,5 +4760,29 @@
     "note": "新卡洛兒姐姐坐姿（水手服、坐紅圓凳、雙手交疊膝上）：GPT 部件 51 層（凳子單獨一層）、九軸以 3/4 偏頭為中心、怒／哀／開心／驚訝表情、果凍眼、標準圓頂脖子；回歸第 13 輪 PASS，紀錄見 psd-create/qa_reports/new_carol_sit"
    }
   ]
+ },
+ "newton_m2v3": {
+  "version": "2026-11-14",
+  "build": "20261114-newton1",
+  "note": "新增牛頓（香皮尼臉模換裝，時空探險 EP00）",
+  "history": [
+   {
+    "version": "2026-11-14",
+    "build": "20261114-newton1",
+    "note": "新增牛頓（香皮尼臉模換裝，時空探險 EP00）"
+   }
+  ]
+ },
+ "newton_m2v3_side": {
+  "version": "2026-11-14",
+  "build": "20261114-newton1",
+  "note": "新增牛頓側面走路",
+  "history": [
+   {
+    "version": "2026-11-14",
+    "build": "20261114-newton1",
+    "note": "新增牛頓側面走路"
+   }
+  ]
  }
 }
