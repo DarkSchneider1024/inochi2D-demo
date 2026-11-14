@@ -824,5 +824,19 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "king_gpv3",
+  "name": "king_gpv3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "king_gpv3_side",
+  "name": "king_gpv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
