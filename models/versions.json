@@ -4910,9 +4910,14 @@
  },
  "guard_m2mix": {
   "version": "2026-11-14",
-  "build": "1.0-alpha",
-  "note": "身材×眼睛混搭變體（tools/story_mix），回歸 PASS",
+  "build": "1.0-alpha2",
+  "note": "遠側手臂順序更新（T19 手肘），回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14",
+    "build": "1.0-alpha2",
+    "note": "遠側手臂順序更新（T19 手肘），回歸 PASS"
+   },
    {
     "version": "2026-11-14",
     "build": "1.0-alpha",
@@ -4922,9 +4927,14 @@
  },
  "guard_m2mix_side": {
   "version": "2026-11-14",
-  "build": "1.0-alpha",
-  "note": "身材×眼睛混搭變體（tools/story_mix），回歸 PASS",
+  "build": "1.0-alpha2",
+  "note": "遠側手臂順序更新（T19 手肘），回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14",
+    "build": "1.0-alpha2",
+    "note": "遠側手臂順序更新（T19 手肘），回歸 PASS"
+   },
    {
     "version": "2026-11-14",
     "build": "1.0-alpha",
@@ -4934,9 +4944,14 @@
  },
  "ector_m2mix": {
   "version": "2026-11-14",
-  "build": "1.0-alpha",
-  "note": "身材×眼睛混搭變體（tools/story_mix），回歸 PASS",
+  "build": "1.0-alpha2",
+  "note": "遠側手臂順序更新（T19 手肘），回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14",
+    "build": "1.0-alpha2",
+    "note": "遠側手臂順序更新（T19 手肘），回歸 PASS"
+   },
    {
     "version": "2026-11-14",
     "build": "1.0-alpha",
@@ -4946,9 +4961,14 @@
  },
  "ector_m2mix_side": {
   "version": "2026-11-14",
-  "build": "1.0-alpha",
-  "note": "身材×眼睛混搭變體（tools/story_mix），回歸 PASS",
+  "build": "1.0-alpha2",
+  "note": "遠側手臂順序更新（T19 手肘），回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14",
+    "build": "1.0-alpha2",
+    "note": "遠側手臂順序更新（T19 手肘），回歸 PASS"
+   },
    {
     "version": "2026-11-14",
     "build": "1.0-alpha",

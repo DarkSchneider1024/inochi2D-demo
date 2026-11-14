@@ -64,25 +64,46 @@
    ]
   },
   {
-   "name": "手指_L",
+   "name": "上臂_L",
    "file": "02.webp",
-   "x": 363,
-   "y": 1092,
-   "w": 83,
-   "h": 65,
-   "group": "Body/Arm B/Forearm B",
-   "hidden": true,
+   "x": 298,
+   "y": 394,
+   "w": 356,
+   "h": 468,
+   "group": "Body/Arm B",
+   "hidden": false,
    "backing": false,
    "z": 0.663,
-   "suspects": []
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      364,
+      432,
+      200,
+      433
+     ],
+     "n": 4232
+    },
+    {
+     "type": "藏線",
+     "box": [
+      379,
+      598,
+      39,
+      58
+     ],
+     "n": 212
+    }
+   ]
   },
   {
-   "name": "手掌_L",
+   "name": "下臂_L",
    "file": "03.webp",
-   "x": 477,
-   "y": 986,
-   "w": 109,
-   "h": 186,
+   "x": 400,
+   "y": 751,
+   "w": 246,
+   "h": 298,
    "group": "Body/Arm B/Forearm B",
    "hidden": false,
    "backing": false,
@@ -91,12 +112,12 @@
     {
      "type": "藏線",
      "box": [
-      500,
-      993,
-      25,
-      36
+      427,
+      781,
+      76,
+      246
      ],
-     "n": 40
+     "n": 2182
     }
    ]
   },
@@ -182,62 +203,30 @@
    "suspects": []
   },
   {
-   "name": "下臂_L",
+   "name": "手掌_L",
    "file": "07.webp",
-   "x": 400,
-   "y": 751,
-   "w": 246,
-   "h": 298,
+   "x": 477,
+   "y": 986,
+   "w": 109,
+   "h": 186,
    "group": "Body/Arm B/Forearm B",
    "hidden": false,
    "backing": false,
    "z": 0.661,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      427,
-      777,
-      138,
-      250
-     ],
-     "n": 2728
-    }
-   ]
+   "suspects": []
   },
   {
-   "name": "上臂_L",
+   "name": "手指_L",
    "file": "08.webp",
-   "x": 298,
-   "y": 394,
-   "w": 356,
-   "h": 468,
-   "group": "Body/Arm B",
-   "hidden": false,
+   "x": 363,
+   "y": 1092,
+   "w": 83,
+   "h": 65,
+   "group": "Body/Arm B/Forearm B",
+   "hidden": true,
    "backing": false,
    "z": 0.66,
-   "suspects": [
-    {
-     "type": "藏線",
-     "box": [
-      364,
-      432,
-      136,
-      427
-     ],
-     "n": 3685
-    },
-    {
-     "type": "藏線",
-     "box": [
-      379,
-      598,
-      39,
-      58
-     ],
-     "n": 212
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "肩甲_L",
