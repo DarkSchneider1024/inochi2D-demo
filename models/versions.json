@@ -4531,10 +4531,15 @@
   ]
  },
  "male2_hand_v3_side": {
-  "version": "2026-11-14-r10",
-  "build": "20261114-r10",
-  "note": "側面 r10：同步新表情、脖子略收窄；回歸第 44 輪 PASS",
+  "version": "2026-11-14-elbow2",
+  "build": "20261114-elbow2",
+  "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14-elbow2",
+    "build": "20261114-elbow2",
+    "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS"
+   },
    {
     "version": "2026-11-14-r10",
     "build": "20261114-r10",
@@ -4649,10 +4654,15 @@
   ]
  },
  "grandpa_hand_v3_side": {
-  "version": "2026-11-14-side2",
-  "build": "20261114-side2",
-  "note": "側面補後腦髮量（後髮_後腦層）、頭改用下巴中軸九軸轉 30 度、標準脖子；回歸第 5 輪 PASS",
+  "version": "2026-11-14-elbow2",
+  "build": "20261114-elbow2",
+  "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14-elbow2",
+    "build": "20261114-elbow2",
+    "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS"
+   },
    {
     "version": "2026-11-14-side2",
     "build": "20261114-side2",
@@ -4666,10 +4676,15 @@
   ]
  },
  "merlin_hand_v3": {
-  "version": "2026-11-14-front2",
-  "build": "20261114-front2",
-  "note": "正面：九軸改下巴中軸、標準脖子、臉型比例對光頭參考通過；回歸第 12 輪 PASS",
+  "version": "2026-11-14-elbow2",
+  "build": "20261114-elbow2",
+  "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14-elbow2",
+    "build": "20261114-elbow2",
+    "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS"
+   },
    {
     "version": "2026-11-14-front2",
     "build": "20261114-front2",
@@ -4683,10 +4698,15 @@
   ]
  },
  "merlin_hand_v3_side": {
-  "version": "2026-11-14-side3",
-  "build": "20261114-side3",
-  "note": "側面重做：下顎線出來、後腦髮量加厚、近側耳露出、下巴中軸九軸轉 30 度、標準脖子、步幅 0.23 身高；回歸第 7 輪 PASS",
+  "version": "2026-11-14-elbow2",
+  "build": "20261114-elbow2",
+  "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14-elbow2",
+    "build": "20261114-elbow2",
+    "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS"
+   },
    {
     "version": "2026-11-14-side3",
     "build": "20261114-side3",
@@ -4717,10 +4737,15 @@
   ]
  },
  "tristan_m2v3_side": {
-  "version": "2026-11-14-r10",
-  "build": "20261114-r10",
-  "note": "側面改接新臉模、步幅 0.30 身高；回歸第 7 輪 PASS",
+  "version": "2026-11-14-elbow2",
+  "build": "20261114-elbow2",
+  "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14-elbow2",
+    "build": "20261114-elbow2",
+    "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS"
+   },
    {
     "version": "2026-11-14-r10",
     "build": "20261114-r10",
@@ -4799,10 +4824,15 @@
   ]
  },
  "newton_m2v3_side": {
-  "version": "2026-11-14",
-  "build": "20261114-newton1",
-  "note": "新增牛頓側面走路",
+  "version": "2026-11-14-elbow2",
+  "build": "20261114-elbow2",
+  "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14-elbow2",
+    "build": "20261114-elbow2",
+    "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS"
+   },
    {
     "version": "2026-11-14",
     "build": "20261114-newton1",
@@ -4823,10 +4853,15 @@
   ]
  },
  "king_gpv3_side": {
-  "version": "2026-11-14",
-  "build": "20261114-king1",
-  "note": "側面走路；回歸 PASS",
+  "version": "2026-11-14-elbow2",
+  "build": "20261114-elbow2",
+  "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS",
   "history": [
+   {
+    "version": "2026-11-14-elbow2",
+    "build": "20261114-elbow2",
+    "note": "手肘圖層：前臂改排在上臂前面；回歸 PASS"
+   },
    {
     "version": "2026-11-14",
     "build": "20261114-king1",
