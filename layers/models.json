@@ -866,5 +866,19 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "guinevere_carolv3_side",
+  "name": "guinevere_carolv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "lynette_carolv3_side",
+  "name": "lynette_carolv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
