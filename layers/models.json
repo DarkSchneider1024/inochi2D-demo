@@ -728,6 +728,13 @@
   "category": "story"
  },
  {
+  "id": "new_carol_sit",
+  "name": "new_carol_sit",
+  "build": "2026-11-14-r1",
+  "private": false,
+  "category": "story"
+ },
+ {
   "id": "new_aubergine",
   "name": "new_aubergine",
   "build": "2026-11-12-r14",
