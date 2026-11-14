@@ -880,5 +880,19 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "arthur_boy_v3",
+  "name": "arthur_boy_v3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "arthur_boy_v3_side",
+  "name": "arthur_boy_v3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
