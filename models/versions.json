@@ -3870,10 +3870,15 @@
   ]
  },
  "arthur_mrcv3": {
-  "version": "2026-11-14-elbow",
-  "build": "20261114-elbow",
-  "note": "揮手時前臂改排在上臂袖子前面（手肘不再被袖口蓋住），揮手前臂補上綠色長袖",
+  "version": "2026-11-15-sword",
+  "build": "20261115-sword",
+  "note": "新增手持石中劍（Arm:: Right:: Hold，預設關）",
   "history": [
+   {
+    "version": "2026-11-15-sword",
+    "build": "20261115-sword",
+    "note": "新增手持石中劍（Arm:: Right:: Hold，預設關）"
+   },
    {
     "version": "2026-11-14-elbow",
     "build": "20261114-elbow",
@@ -4010,10 +4015,15 @@
   ]
  },
  "knight_arthur_mrcv3": {
-  "version": "2026-11-14-elbow",
-  "build": "20261114-elbow",
-  "note": "揮手時前臂改排在上臂袖子前面（手肘不再被袖口蓋住），揮手前臂補上藍色長袖",
+  "version": "2026-11-15-sword",
+  "build": "20261115-sword",
+  "note": "新增手持王者之劍、舊劍與空劍鞘（Arm:: Right:: Hold，預設關）",
   "history": [
+   {
+    "version": "2026-11-15-sword",
+    "build": "20261115-sword",
+    "note": "新增手持王者之劍、舊劍與空劍鞘（Arm:: Right:: Hold，預設關）"
+   },
    {
     "version": "2026-11-14-elbow",
     "build": "20261114-elbow",
