@@ -4818,5 +4818,29 @@
     "note": "側面走路；回歸 PASS"
    }
   ]
+ },
+ "gold_mrcv3": {
+  "version": "2026-11-14",
+  "build": "20261114-gold1",
+  "note": "新增卡洛特故事版魔法師換裝（Outfit:: Mage）",
+  "history": [
+   {
+    "version": "2026-11-14",
+    "build": "20261114-gold1",
+    "note": "新增卡洛特故事版魔法師換裝（Outfit:: Mage）"
+   }
+  ]
+ },
+ "gold_mrcv3_side": {
+  "version": "2026-11-14",
+  "build": "20261114-gold1",
+  "note": "新增魔法師換裝側面走路",
+  "history": [
+   {
+    "version": "2026-11-14",
+    "build": "20261114-gold1",
+    "note": "新增魔法師換裝側面走路"
+   }
+  ]
  }
 }
