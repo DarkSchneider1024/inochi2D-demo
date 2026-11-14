@@ -9,6 +9,9 @@ const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const ease = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
 export const FEET = { mr_carrot_hand: 999, mr_carrot_hand_side: 999, potter: 990, potter_side: 990, rabbit: 987, rabbit_side: 987, red_hood: 996, wolf: 999, red_hood_side: 960, prince: 979, prince_side: 979, wolf_side: 999, hunter: 999, hunter_side: 999, gardener: 999, gardener_side: 999, carol_hand: 996, carol_hand_side: 996, carol_hand_side_sit: 684, princess: 996, princess_side: 996 };
 const TURN_AT = 0.18, TURN_FADE = 0.16;   // walk start: head turns 30 deg first, then front -> profile cross-fade         // lowest opaque row of the puppet (puppet units, y down)
+// 側面走路的大腿擺幅（弧度，前後各）。2026-11-14 使用者：「側面走路的跨腳太大了 看起來很怪」→ 0.42 降到 0.30（約 17 度）：
+// 兩腳踝最遠約 0.20～0.28 身高（CLAUDE.md〈側面走路模型〉走路跨步不要太大）。各模型可在 joints.json 寫 walkHip 覆寫（上限 0.35）
+const SIDE_WALK_HIP = 0.30;
 const TALL = { red_hood: 1901, wolf: 1886 };       // head top -> feet, puppet units
 
 function rng(seed) {                                // mulberry32
@@ -167,6 +170,7 @@ class Actor {
     if (side) {
       const j = side.joints;
       this.Lt = j['Shin F'][1] - j['Thigh F'][1]; this.Ls = j['Foot F'][1] - j['Shin F'][1];
+      this.walkHip = Math.min(0.35, j.walkHip ?? SIDE_WALK_HIP);
       this.sideFeet = FEET[spec.side];
     }
     this.k = spec.height / TALL[spec.puppet];
@@ -249,7 +253,7 @@ class Actor {
     st.prevX = st.x; st.x = x;
     if (dir) st.lastDir = dir;
     // half-cycle stride: with the side rig it is exactly what the legs cover (2 L sin A) -> feet do not slide
-    const stride = this.side ? 2 * (this.Lt + this.Ls) * this.k * Math.sin(0.42) : 0.26 * this.s.height;
+    const stride = this.side ? 2 * (this.Lt + this.Ls) * this.k * Math.sin(this.walkHip) : 0.26 * this.s.height;
     st.phase += (Math.abs(st.x - st.prevX) / stride) * Math.PI;
     const ph = st.phase, wk = walking;
     const talk = this.env(t);
@@ -360,7 +364,7 @@ class Actor {
 
   // profile walk: joint angles in radians (+ = forward); body height follows the supporting leg
   stepSide(lt, ph, wk, talk, blink, dt) {
-    const p = this.side.p, st = this.st, s = Math.sin(ph), c = Math.cos(ph), A = 0.42 * wk;
+    const p = this.side.p, st = this.st, s = Math.sin(ph), c = Math.cos(ph), A = this.walkHip * wk;
     const hipF = A * s, hipB = -A * s;
     const kneeF = wk * (0.06 + 0.8 * Math.max(0, c) ** 2), kneeB = wk * (0.06 + 0.8 * Math.max(0, -c) ** 2);
     const hF = this.Lt * Math.cos(hipF) + this.Ls * Math.cos(kneeF - hipF);

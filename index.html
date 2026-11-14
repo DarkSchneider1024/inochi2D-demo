@@ -448,8 +448,9 @@ const extra = { basket: mk(), sprout: mk(), leafL: mk(), leafR: mk(), sproutYaw:
 const chest = { x1: mk(), x2: mk(), y1: mk(), y2: mk(), prevY: 0, prevBr: 0.5, kick: 0 };
 canvas.addEventListener('dblclick', () => { chest.kick = 1; });           // double-click: give her a little hop
 // profile walk in place: joint angles in radians, like live2d/player/stage.js; returns the body drop (puppet units)
+// 2026-11-14 使用者：「側面走路的跨腳太大了」：擺幅 0.42 -> 0.30（joints.json 的 walkHip 可覆寫，上限 0.35；同 stage.js SIDE_WALK_HIP）
 function sideWalk(setP, t, wk, sd) {
-  const ph = t * 4.2, s = Math.sin(ph), c = Math.cos(ph), A = 0.42 * wk;
+  const ph = t * 4.2, s = Math.sin(ph), c = Math.cos(ph), A = Math.min(0.35, sd?.joints?.walkHip ?? 0.30) * wk;
   const hipF = A * s, hipB = -A * s;
   const kneeF = wk * (0.06 + 0.8 * Math.max(0, c) ** 2), kneeB = wk * (0.06 + 0.8 * Math.max(0, -c) ** 2);
   setP('Leg:: Front:: Hip', hipF); setP('Leg:: Front:: Knee', kneeF); setP('Leg:: Front:: Foot', (kneeF - hipF) * 0.85);
