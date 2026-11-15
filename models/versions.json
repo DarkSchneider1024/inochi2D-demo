@@ -3993,10 +3993,15 @@
   ]
  },
  "guinevere_carolv3": {
-  "version": "2026-11-15-aubeyes",
-  "build": "20261115-aubeyes",
-  "note": "眼睛換成茄子小姐的眼型（紫色杏眼、灰棕眉），卡洛兒 v3 基底不變，和琳奈特區分",
+  "version": "2026-11-15-aubeyes2",
+  "build": "20261115-aubeyes2",
+  "note": "表情眼重畫：生氣、難過、哭、驚訝改成乾淨眼線與斜切眼皮，虹膜看得到；睫毛毛邊修順",
   "history": [
+   {
+    "version": "2026-11-15-aubeyes2",
+    "build": "20261115-aubeyes2",
+    "note": "表情眼重畫：生氣、難過、哭、驚訝改成乾淨眼線與斜切眼皮，虹膜看得到；睫毛毛邊修順"
+   },
    {
     "version": "2026-11-15-aubeyes",
     "build": "20261115-aubeyes",
@@ -5047,10 +5052,15 @@
   ]
  },
  "guinevere_carolv3_side": {
-  "version": "2026-11-15-aubeyes",
-  "build": "20261115-aubeyes",
-  "note": "側面隨正面換眼重產",
+  "version": "2026-11-15-aubeyes2",
+  "build": "20261115-aubeyes2",
+  "note": "側面隨正面表情眼重產",
   "history": [
+   {
+    "version": "2026-11-15-aubeyes2",
+    "build": "20261115-aubeyes2",
+    "note": "側面隨正面表情眼重產"
+   },
    {
     "version": "2026-11-15-aubeyes",
     "build": "20261115-aubeyes",
