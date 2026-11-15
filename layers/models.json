@@ -894,5 +894,26 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "kay_burlyv3_side",
+  "name": "kay_burlyv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "hunter_burlyv3",
+  "name": "hunter_burlyv3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "hunter_burlyv3_side",
+  "name": "hunter_burlyv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
