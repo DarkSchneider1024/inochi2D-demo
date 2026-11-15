@@ -929,5 +929,19 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "pellinore_burlymix",
+  "name": "pellinore_burlymix",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "pellinore_burlymix_side",
+  "name": "pellinore_burlymix_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
