@@ -3502,10 +3502,15 @@
   ]
  },
  "wolf_beastv3": {
-  "version": "2026-11-15-side34",
-  "build": "20261115-side34",
-  "note": "脖子破洞修正、腋下襯衫補回",
+  "version": "2026-11-15-neck-r6",
+  "build": "20261115-neck-r6",
+  "note": "脖子加粗、帶頸毛；側面肩膀色塊修正",
   "history": [
+   {
+    "version": "2026-11-15-neck-r6",
+    "build": "20261115-neck-r6",
+    "note": "脖子加粗、帶頸毛；側面肩膀色塊修正"
+   },
    {
     "version": "2026-11-15-side34",
     "build": "20261115-side34",
@@ -3539,10 +3544,15 @@
   ]
  },
  "wolf_beastv3_side": {
-  "version": "2026-11-15-side34-r5",
-  "build": "20261115-side34-r5",
-  "note": "近側耳根接回頭部（走路時不再像斷掉）",
+  "version": "2026-11-15-neck-r6",
+  "build": "20261115-neck-r6",
+  "note": "脖子加粗、帶頸毛；側面肩膀色塊修正",
   "history": [
+   {
+    "version": "2026-11-15-neck-r6",
+    "build": "20261115-neck-r6",
+    "note": "脖子加粗、帶頸毛；側面肩膀色塊修正"
+   },
    {
     "version": "2026-11-15-side34-r5",
     "build": "20261115-side34-r5",
@@ -3571,10 +3581,15 @@
   ]
  },
  "wolf_grandma_beastv3": {
-  "version": "2026-11-15-side34",
-  "build": "20261115-side34",
-  "note": "隨大野狼正面重建",
+  "version": "2026-11-15-neck-r6",
+  "build": "20261115-neck-r6",
+  "note": "脖子加粗、帶頸毛；側面肩膀色塊修正",
   "history": [
+   {
+    "version": "2026-11-15-neck-r6",
+    "build": "20261115-neck-r6",
+    "note": "脖子加粗、帶頸毛；側面肩膀色塊修正"
+   },
    {
     "version": "2026-11-15-side34",
     "build": "20261115-side34",
@@ -3608,10 +3623,15 @@
   ]
  },
  "wolf_grandma_beastv3_side": {
-  "version": "2026-11-15-side34-r5",
-  "build": "20261115-side34-r5",
-  "note": "近側耳根接回頭部（走路時不再像斷掉）",
+  "version": "2026-11-15-neck-r6",
+  "build": "20261115-neck-r6",
+  "note": "脖子加粗、帶頸毛；側面肩膀色塊修正",
   "history": [
+   {
+    "version": "2026-11-15-neck-r6",
+    "build": "20261115-neck-r6",
+    "note": "脖子加粗、帶頸毛；側面肩膀色塊修正"
+   },
    {
     "version": "2026-11-15-side34-r5",
     "build": "20261115-side34-r5",
@@ -3899,10 +3919,15 @@
   "note": "媽媽臉模頭整組放大 1.2 倍（使用者：「1.2倍 7位媽媽都改」）；側面重接放大後的頭"
  },
  "wolf_grandma_beastv3_side_belly": {
-  "version": "2026-11-15-side34-r5",
-  "build": "20261115-side34-r5",
-  "note": "近側耳根接回頭部（走路時不再像斷掉）",
+  "version": "2026-11-15-neck-r6",
+  "build": "20261115-neck-r6",
+  "note": "脖子加粗、帶頸毛；側面肩膀色塊修正",
   "history": [
+   {
+    "version": "2026-11-15-neck-r6",
+    "build": "20261115-neck-r6",
+    "note": "脖子加粗、帶頸毛；側面肩膀色塊修正"
+   },
    {
     "version": "2026-11-15-side34-r5",
     "build": "20261115-side34-r5",
