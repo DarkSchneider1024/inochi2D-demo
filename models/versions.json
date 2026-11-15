@@ -3988,10 +3988,15 @@
   ]
  },
  "guinevere_carolv3": {
-  "version": "2026-11-10",
-  "build": "20261110-grip",
-  "note": "",
+  "version": "2026-11-15-aubeyes",
+  "build": "20261115-aubeyes",
+  "note": "眼睛換成茄子小姐的眼型（紫色杏眼、灰棕眉），卡洛兒 v3 基底不變，和琳奈特區分",
   "history": [
+   {
+    "version": "2026-11-15-aubeyes",
+    "build": "20261115-aubeyes",
+    "note": "眼睛換成茄子小姐的眼型（紫色杏眼、灰棕眉），卡洛兒 v3 基底不變，和琳奈特區分"
+   },
    {
     "version": "2026-11-10",
     "build": "20261110-grip",
@@ -5007,10 +5012,15 @@
   ]
  },
  "guinevere_carolv3_side": {
-  "version": "2026-11-15",
-  "build": "20261115-v1side",
-  "note": "側面走路・V1 式 3/4 側身：長裙隨步伐擺、長槍盾牌披風跟著轉；嘴位兩項沿自正面卡洛兒臉模待修",
+  "version": "2026-11-15-aubeyes",
+  "build": "20261115-aubeyes",
+  "note": "側面隨正面換眼重產",
   "history": [
+   {
+    "version": "2026-11-15-aubeyes",
+    "build": "20261115-aubeyes",
+    "note": "側面隨正面換眼重產"
+   },
    {
     "version": "2026-11-15",
     "build": "20261115-v1side",
