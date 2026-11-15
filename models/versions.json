@@ -4224,10 +4224,15 @@
   ]
  },
  "new_carrot": {
-  "version": "2026-11-12-r19",
-  "build": "20261112-calm",
-  "note": "頭腳不再亂晃：Head:: Roll 只留晃頭晃腦，腳步與身體平移只留走路、跳舞、跳躍、下蹲等該動的動作（calm_anims.py，骨架參數不變）；回歸第 52 輪 PASS",
+  "version": "2026-11-15-explain",
+  "build": "20261115-explain",
+  "note": "新增動作「講解」（Arm:: Explain：一手舉起指食指、一手腰側攤掌，三層 GPT 部件）；脖子圓頂待修",
   "history": [
+   {
+    "version": "2026-11-15-explain",
+    "build": "20261115-explain",
+    "note": "新增動作「講解」（Arm:: Explain：一手舉起指食指、一手腰側攤掌，三層 GPT 部件）；脖子圓頂待修"
+   },
    {
     "version": "2026-11-12-r18",
     "build": "2026-11-12-r18",
