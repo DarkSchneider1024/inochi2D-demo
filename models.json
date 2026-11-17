@@ -1,5 +1,12 @@
 [
   {
+    "id": "yanli",
+    "name": "焰璃",
+    "file": "models/yanli.inp",
+    "thumb": "thumbs/yanli.png",
+    "desc": "銀白長髮雪豹少女・平口迷你洋裝・九軸轉頭、眨眼、說話、前傾與髮尾擺動"
+  },
+  {
     "id": "aka_carol",
     "name": "卡洛兒姐姐（Aka 九軸 × Gemini 拆件版）",
     "file": "models/aka_carol.inp",

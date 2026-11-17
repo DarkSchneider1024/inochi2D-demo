@@ -29,10 +29,10 @@ DEMO = os.path.abspath(os.path.join(HERE, '..'))
 
 MULTI = ('眼鏡', '閉眼', '眼線', '眉', '嘴', '眼白', '眼球')   # drawn in several strokes on purpose
 PRIVATE_IDS = set()   # (2026-10-30: the private-area characters were removed at the user's request)
-NAMES = {'mr_carrot_v4': '卡洛特先生', 'aka': 'Aka', 'midori': 'Midori', 'mr_carrot': '卡洛特先生（初版）', 'mr_carrot_v2': '卡洛特先生（V2）', 'mr_carrot_v3': '卡洛特先生', 'mr_carrot_gold_mage': '金髮魔法師卡洛特', 'carol_v3': '卡洛兒姐姐', 'carol_v2': '卡洛兒姐姐（V2）', 'bobo': '兔子波波'}
+NAMES = {'yanli': '焰璃', 'mr_carrot_v4': '卡洛特先生', 'aka': 'Aka', 'midori': 'Midori', 'mr_carrot': '卡洛特先生（初版）', 'mr_carrot_v2': '卡洛特先生（V2）', 'mr_carrot_v3': '卡洛特先生', 'mr_carrot_gold_mage': '金髮魔法師卡洛特', 'carol_v3': '卡洛兒姐姐', 'carol_v2': '卡洛兒姐姐（V2）', 'bobo': '兔子波波'}
 
 
-REFINED_IDS = {'mr_carrot_v4', 'aka', 'midori', 'mr_carrot', 'mr_carrot_v2', 'mr_carrot_v3', 'mr_carrot_gold_mage',
+REFINED_IDS = {'yanli', 'mr_carrot_v4', 'aka', 'midori', 'mr_carrot', 'mr_carrot_v2', 'mr_carrot_v3', 'mr_carrot_gold_mage',
                'mr_carrot_v2_gold', 'gold_mage_gpt_v1', 'carol_v2', 'carol_v3', 'bobo',
                'girl_v4', 'girl_dress'}
 
