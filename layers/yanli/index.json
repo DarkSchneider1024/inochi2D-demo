@@ -4,7 +4,7 @@
  "name": "焰璃",
  "W": 790,
  "H": 1513,
- "build": "2026-11-17",
+ "build": "2026-11-18",
  "layers": [
   {
    "name": "豹尾",
@@ -198,10 +198,10 @@
   {
    "name": "眼白_R",
    "file": "12.webp",
-   "x": 390,
-   "y": 148,
-   "w": 64,
-   "h": 38,
+   "x": 408,
+   "y": 158,
+   "w": 40,
+   "h": 23,
    "group": "Body/Head",
    "hidden": false,
    "backing": false,
@@ -211,10 +211,10 @@
   {
    "name": "眼白_L",
    "file": "13.webp",
-   "x": 479,
-   "y": 148,
-   "w": 64,
-   "h": 38,
+   "x": 487,
+   "y": 159,
+   "w": 38,
+   "h": 22,
    "group": "Body/Head",
    "hidden": false,
    "backing": false,
@@ -222,38 +222,60 @@
    "suspects": []
   },
   {
-   "name": "閉眼_R",
+   "name": "眼球_R",
    "file": "14.webp",
-   "x": 393,
-   "y": 164,
-   "w": 62,
-   "h": 14,
+   "x": 416,
+   "y": 156,
+   "w": 26,
+   "h": 26,
    "group": "Body/Head",
-   "hidden": true,
+   "hidden": false,
    "backing": false,
    "z": -14.0,
-   "suspects": []
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      410,
+      149,
+      37,
+      22
+     ],
+     "n": 49
+    }
+   ]
   },
   {
-   "name": "閉眼_L",
+   "name": "眼球_L",
    "file": "15.webp",
-   "x": 477,
-   "y": 164,
-   "w": 62,
-   "h": 14,
+   "x": 493,
+   "y": 156,
+   "w": 24,
+   "h": 25,
    "group": "Body/Head",
-   "hidden": true,
+   "hidden": false,
    "backing": false,
    "z": -15.0,
-   "suspects": []
+   "suspects": [
+    {
+     "type": "藏線",
+     "box": [
+      488,
+      148,
+      35,
+      23
+     ],
+     "n": 58
+    }
+   ]
   },
   {
-   "name": "嘴_笑",
+   "name": "下眼線_R",
    "file": "16.webp",
-   "x": 448,
-   "y": 213,
-   "w": 36,
-   "h": 13,
+   "x": 403,
+   "y": 168,
+   "w": 42,
+   "h": 15,
    "group": "Body/Head",
    "hidden": false,
    "backing": false,
@@ -261,8 +283,112 @@
    "suspects": []
   },
   {
-   "name": "嘴_張",
+   "name": "下眼線_L",
    "file": "17.webp",
+   "x": 490,
+   "y": 168,
+   "w": 40,
+   "h": 14,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": -17.0,
+   "suspects": []
+  },
+  {
+   "name": "上眼線_R",
+   "file": "18.webp",
+   "x": 397,
+   "y": 152,
+   "w": 54,
+   "h": 23,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": -18.0,
+   "suspects": []
+  },
+  {
+   "name": "上眼線_L",
+   "file": "19.webp",
+   "x": 485,
+   "y": 153,
+   "w": 50,
+   "h": 21,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": -19.0,
+   "suspects": []
+  },
+  {
+   "name": "笑眼線_R",
+   "file": "20.webp",
+   "x": 397,
+   "y": 154,
+   "w": 54,
+   "h": 21,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": -20.0,
+   "suspects": []
+  },
+  {
+   "name": "笑眼線_L",
+   "file": "21.webp",
+   "x": 485,
+   "y": 154,
+   "w": 50,
+   "h": 20,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": -21.0,
+   "suspects": []
+  },
+  {
+   "name": "閉眼線_R",
+   "file": "22.webp",
+   "x": 398,
+   "y": 152,
+   "w": 53,
+   "h": 12,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": -22.0,
+   "suspects": []
+  },
+  {
+   "name": "閉眼線_L",
+   "file": "23.webp",
+   "x": 485,
+   "y": 153,
+   "w": 49,
+   "h": 11,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": -23.0,
+   "suspects": []
+  },
+  {
+   "name": "嘴_笑",
+   "file": "24.webp",
+   "x": 448,
+   "y": 213,
+   "w": 36,
+   "h": 13,
+   "group": "Body/Head",
+   "hidden": false,
+   "backing": false,
+   "z": -24.0,
+   "suspects": []
+  },
+  {
+   "name": "嘴_張",
+   "file": "25.webp",
    "x": 444,
    "y": 211,
    "w": 44,
@@ -270,12 +396,12 @@
    "group": "Body/Head",
    "hidden": true,
    "backing": false,
-   "z": -17.0,
+   "z": -25.0,
    "suspects": []
   },
   {
    "name": "前髮",
-   "file": "18.webp",
+   "file": "26.webp",
    "x": 336,
    "y": 18,
    "w": 259,
@@ -283,7 +409,7 @@
    "group": "Body/Head",
    "hidden": false,
    "backing": false,
-   "z": -18.0,
+   "z": -26.0,
    "suspects": [
     {
      "type": "灰邊",
