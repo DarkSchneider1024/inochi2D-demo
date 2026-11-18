@@ -1,36 +1,36 @@
 {
   "new_carol_side": {
     "version": "2026-11-18-test",
-    "build": "20261118-test1",
+    "build": "20261118-test2",
     "note": "測試版：回歸第 8 輪 PASS；頭部側面特寫待使用者定稿",
     "history": [
       {
         "version": "2026-11-18-test",
-        "build": "20261118-test1",
+        "build": "20261118-test2",
         "note": "測試版：回歸第 8 輪 PASS；頭部側面特寫待使用者定稿"
       }
     ]
   },
   "new_carrot_side": {
     "version": "2026-11-18-test",
-    "build": "20261118-test1",
+    "build": "20261118-test2",
     "note": "測試版：回歸第 4 輪 FAIL（只剩脖子 T18），等 GPT 重畫脖子、魔法師外套後片、大腿",
     "history": [
       {
         "version": "2026-11-18-test",
-        "build": "20261118-test1",
+        "build": "20261118-test2",
         "note": "測試版：回歸第 4 輪 FAIL（只剩脖子 T18），等 GPT 重畫脖子、魔法師外套後片、大腿"
       }
     ]
   },
   "newton_m2_side": {
     "version": "2026-11-18-test",
-    "build": "20261118-test1",
+    "build": "20261118-test2",
     "note": "測試版：回歸第 6 輪 FAIL（只剩臉部件半透明殘影），等 GPT 重畫臉",
     "history": [
       {
         "version": "2026-11-18-test",
-        "build": "20261118-test1",
+        "build": "20261118-test2",
         "note": "測試版：回歸第 6 輪 FAIL（只剩臉部件半透明殘影），等 GPT 重畫臉"
       }
     ]
