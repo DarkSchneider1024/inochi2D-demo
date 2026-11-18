@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>波波側面跳躍</title>
+<!-- 2026-11-18 使用者：「在 demo 網站加上一個跳躍動作按鈕 並有慢動作解析版」。動作照《波波追紅蘿蔔》影片的跳法
+     （chase6 hop_phase＋chase8 hop_pose：著地 0.13 秒壓膝、騰空 0.36 秒依序換 Leg:: Pose 的腳）。 -->
+<style>
+  :root { --bg: #f7efe8; --bg2: #efd9dc; --card: rgba(255,255,255,.85); --ink: #2d2436; --muted: #6f6479;
+          --accent: #e0742a; --line: rgba(60,40,80,.14); --ground: rgba(60,40,80,.25); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1d1826; --bg2: #2c2034; --card: rgba(34,27,45,.88); --ink: #efe8f6;
+      --muted: #b3a8c2; --accent: #ff9a52; --line: rgba(255,255,255,.12); --ground: rgba(255,255,255,.25); }
+  }
+  :root[data-theme="dark"] { --bg: #1d1826; --bg2: #2c2034; --card: rgba(34,27,45,.88); --ink: #efe8f6;
+      --muted: #b3a8c2; --accent: #ff9a52; --line: rgba(255,255,255,.12); --ground: rgba(255,255,255,.25); }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink); font-family: system-ui, "Microsoft JhengHei", sans-serif;
+         background: radial-gradient(120% 90% at 20% 10%, var(--bg) 0%, var(--bg2) 100%) fixed; min-height: 100vh; }
+  header { padding: 14px 16px 4px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  header h1 { font-size: 20px; margin: 0; }
+  header a { color: var(--muted); font-size: 14px; }
+  main { max-width: 960px; margin: 0 auto; padding: 8px 16px 24px; }
+  #stage { position: relative; width: 100%; aspect-ratio: 4 / 3; max-height: 70vh; background: var(--card);
+           border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  #cv { width: 100%; height: 100%; display: block; }
+  #ground { position: absolute; left: 6%; right: 6%; height: 2px; background: var(--ground); }
+  #phase { position: absolute; left: 12px; top: 10px; font-size: 22px; font-weight: 700; color: var(--accent);
+           text-shadow: 0 1px 2px rgba(0,0,0,.15); }
+  #speed { position: absolute; right: 12px; top: 12px; font-size: 14px; color: var(--muted); }
+  #loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  button { font: inherit; font-size: 16px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line);
+           background: var(--card); color: var(--ink); cursor: pointer; min-height: 44px; }
+  button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  #steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-top: 12px; }
+  #steps div { font-size: 13px; text-align: center; padding: 6px 2px; border-radius: 8px; border: 1px solid var(--line);
+               background: var(--card); color: var(--muted); cursor: pointer; }
+  #steps div.on { background: var(--accent); color: #fff; border-color: transparent; }
+  #bar { height: 6px; border-radius: 3px; background: var(--line); margin-top: 6px; overflow: hidden; }
+  #bar i { display: block; height: 100%; width: 0; background: var(--accent); }
+  p.note { color: var(--muted); font-size: 14px; line-height: 1.6; }
+  @media (max-width: 560px) { #steps { grid-template-columns: repeat(3, 1fr); } button { font-size: 15px; padding: 9px 12px; } }
+</style>
+</head>
+<body>
+<header><h1>波波側面跳躍</h1><a href="official.html">← 回模型展示</a></header>
+<main>
+  <div id="stage">
+    <canvas id="cv"></canvas>
+    <div id="ground"></div>
+    <div id="phase"></div>
+    <div id="speed"></div>
+    <div id="loading">載入模型中…</div>
+  </div>
+  <div class="row">
+    <button id="hopBtn" aria-pressed="false">🐇 跳躍</button>
+    <button id="slowBtn" aria-pressed="false">🐢 慢動作解析</button>
+    <button id="prevBtn">◀ 上一格</button>
+    <button id="nextBtn">下一格 ▶</button>
+    <button id="stopBtn">⏹ 停</button>
+  </div>
+  <div id="steps"></div>
+  <div id="bar"><i></i></div>
+  <p class="note">「跳躍」是影片裡的速度（著地 0.13 秒、騰空 0.36 秒）。「慢動作解析」放慢 8 倍播放，左上角顯示現在是哪一個動作；
+    按下面六格或「上一格／下一格」可以停在單一動作看腳的樣子。六個動作的腳都是 GPT 部件圖層，用 <code>Leg:: Pose</code> 切換。</p>
+</main>
+<script type="module">
+import { loadINP, Puppet, Renderer } from './inochi-full.js';
+const $ = (id) => document.getElementById(id);
+const cv = $('cv'), stage = $('stage');
+const FILE = 'models/new_bobo_side.inp';
+const POSE = { land: 0 / 6, push: 1 / 6, rise: 2 / 6, high: 3 / 6, apex: 4 / 6, fall: 5 / 6, orig: 1 };
+const STEPS = [['land', '1 壓腳／落地'], ['push', '2 蹬地'], ['rise', '3 收腳'], ['high', '4 最高'], ['apex', '5 前腳亮腳掌'], ['fall', '6 伸腳落地']];
+const G = 0.13, A = 0.36, CYCLE = G + A;            // 影片：著地、騰空秒數
+const SLOW = 8;
+const hopPose = (u) => (u < 0.14 ? 'push' : u < 0.36 ? 'rise' : u < 0.56 ? 'high' : u < 0.78 ? 'apex' : 'fall');
+
+const R = new Renderer(cv);
+let P = null, fit = null, view = { cx: 0, cy: 0, scale: 1 };
+let mode = 'idle', t = 0, last = performance.now(), hold = null;
+
+function resize() {
+  const dpr = Math.min(2, devicePixelRatio || 1), r = stage.getBoundingClientRect();
+  cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+  if (!fit) return;
+  const scale = Math.min(cv.width / (fit.w * 1.15), cv.height / (fit.h * 1.32));
+  view = { cx: fit.cx, cy: fit.cy - fit.h * 0.12, scale };
+  $('ground').style.top = `${((fit.y1 - view.cy) * scale + cv.height / 2) / cv.height * 100}%`;
+}
+new ResizeObserver(resize).observe(stage);
+
+for (const [k, label] of STEPS) {
+  const d = document.createElement('div'); d.textContent = label; d.dataset.k = k;
+  d.onclick = () => { setMode('hold'); hold = STEPS.findIndex((s) => s[0] === k); };
+  $('steps').appendChild(d);
+}
+
+function setMode(m) {
+  mode = m; t = 0;
+  $('hopBtn').setAttribute('aria-pressed', m === 'hop');
+  $('slowBtn').setAttribute('aria-pressed', m === 'slow');
+  $('speed').textContent = m === 'slow' ? `慢動作 1/${SLOW}` : m === 'hold' ? '停格' : '';
+}
+$('hopBtn').onclick = () => setMode(mode === 'hop' ? 'idle' : 'hop');
+$('slowBtn').onclick = () => setMode(mode === 'slow' ? 'idle' : 'slow');
+$('stopBtn').onclick = () => setMode('idle');
+const step = (d) => { const cur = hold ?? 0; setMode('hold'); hold = (cur + d + STEPS.length) % STEPS.length; };
+$('prevBtn').onclick = () => step(-1);
+$('nextBtn').onclick = () => step(1);
+
+// 一個跳躍週期裡 tc 秒的狀態（照影片 chase6／chase8）
+function hopState(tc) {
+  const p = { 'Leg:: Front:: Knee': 0, 'Leg:: Back:: Knee': 0, 'Body:: Lean': 0, 'Hair:: Sway': 0 };
+  let lift = 0, key;
+  if (tc < G) {                                         // 著地：落地腳、膝蓋壓一下、耳朵往前甩
+    const c = Math.sin(Math.PI * tc / G);
+    key = 'land';
+    p['Leg:: Front:: Knee'] = p['Leg:: Back:: Knee'] = 0.10 * c;
+    p['Hair:: Sway'] = 0.16 * c;
+  } else {                                              // 騰空：依序換腳、身體拋物線、耳朵往後飄
+    const u = (tc - G) / A;
+    key = hopPose(u);
+    lift = Math.sin(Math.PI * u);
+    p['Body:: Lean'] = -0.10 * Math.sin(Math.PI * u);
+    p['Hair:: Sway'] = -0.10 - 0.38 * Math.sin(Math.PI * Math.min(1, u * 1.3));
+    p['Mouth:: Open'] = 0.25;
+  }
+  return { p, key, lift };
+}
+
+function apply(st) {
+  P.reset();
+  for (const [k, v] of Object.entries(st.p)) if (P.has(k)) P.set(k, v);
+  P.set('Leg:: Pose', POSE[st.key]);
+}
+
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (P) {
+    let st, prog = 0;
+    if (mode === 'hop' || mode === 'slow') {
+      t += mode === 'slow' ? dt / SLOW : dt;
+      const tc = t % CYCLE; prog = tc / CYCLE;
+      st = hopState(tc);
+    } else if (mode === 'hold') {
+      const k = STEPS[hold][0];
+      // 停格：落地在地上，其他動作放在騰空裡該動作中段的高度
+      const mid = { land: -1, push: 0.07, rise: 0.25, high: 0.46, apex: 0.67, fall: 0.89 }[k];
+      st = mid < 0 ? { p: {}, key: 'land', lift: 0 } : hopState(G + mid * A);
+      prog = mid < 0 ? 0 : (G + mid * A) / CYCLE;
+    } else {
+      st = { p: { 'Body:: Breath': 0.5 + 0.5 * Math.sin(now / 1000 / 3.4 * 6.283) }, key: 'land', lift: 0 };
+    }
+    apply(st);
+    if (mode !== 'idle') P.set('Eye:: Blink', 0);
+    P.update();
+    const lift = st.lift * fit.h * 0.14;
+    R.draw({ ...view, cy: view.cy + lift });
+    const label = STEPS.find((s) => s[0] === st.key)?.[1] || '';
+    $('phase').textContent = mode === 'slow' || mode === 'hold' ? label : '';
+    $('bar').firstChild.style.width = `${(prog * 100).toFixed(1)}%`;
+    for (const d of $('steps').children) d.classList.toggle('on', mode !== 'idle' && mode !== 'hop' && d.dataset.k === st.key);
+  }
+  requestAnimationFrame(frame);
+}
+
+const data = await loadINP(`${FILE}?v=${Date.now()}`);
+P = new Puppet(data);
+R.attach(P);
+P.set('Leg:: Pose', POSE.land); P.update();
+const b = P.bounds();
+fit = { cx: (b.x0 + b.x1) / 2, cy: (b.y0 + b.y1) / 2, w: b.x1 - b.x0, h: b.y1 - b.y0, y1: b.y1 };
+resize();
+$('loading').style.display = 'none';
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
