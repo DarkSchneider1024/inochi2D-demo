@@ -2,7 +2,7 @@
  "new_carol_side": {
   "version": "2026-11-18-gold",
   "build": "20261118-gold1",
-  "note": "【測試版，回歸中／未通過】新增「✨ 金髮魔力版」Outfit:: Gold Magic：金色長直髮＋黑緞帶髮箍（兩端藏在側髮下）、金眉（含生氣、難過），長髮隨 Hair:: Sway 擺動",
+  "note": "新增「✨ 金髮魔力版」Outfit:: Gold Magic：金色長直髮＋黑緞帶髮箍（兩端藏在側髮下）、金眉（含生氣、難過），長髮隨 Hair:: Sway 擺動；回歸第 10 輪 PASS，頭部側面特寫待使用者定稿",
   "history": [
    {
     "version": "2026-11-18-test",
