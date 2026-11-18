@@ -950,5 +950,26 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "new_carol_side",
+  "name": "new_carol_side",
+  "build": "2026-11-18-test",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "new_carrot_side",
+  "name": "new_carrot_side",
+  "build": "2026-11-18-test",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "newton_m2_side",
+  "name": "newton_m2_side",
+  "build": "2026-11-18-test",
+  "private": false,
+  "category": "story"
  }
 ]
