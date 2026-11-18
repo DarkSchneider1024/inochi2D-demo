@@ -1,37 +1,37 @@
 {
   "new_carol_side": {
     "version": "2026-11-18-test",
-    "build": "20261118-test2",
+    "build": "20261118-test3",
     "note": "測試版：回歸第 8 輪 PASS；頭部側面特寫待使用者定稿",
     "history": [
       {
         "version": "2026-11-18-test",
-        "build": "20261118-test2",
+        "build": "20261118-test3",
         "note": "測試版：回歸第 8 輪 PASS；頭部側面特寫待使用者定稿"
       }
     ]
   },
   "new_carrot_side": {
     "version": "2026-11-18-test",
-    "build": "20261118-test2",
-    "note": "測試版：回歸第 4 輪 FAIL（只剩脖子 T18），等 GPT 重畫脖子、魔法師外套後片、大腿",
+    "build": "20261118-test3",
+    "note": "回歸第 6 輪 PASS（重畫脖子、魔法師外套後片、大腿）；待使用者看頭部側面特寫定稿",
     "history": [
       {
         "version": "2026-11-18-test",
-        "build": "20261118-test2",
-        "note": "測試版：回歸第 4 輪 FAIL（只剩脖子 T18），等 GPT 重畫脖子、魔法師外套後片、大腿"
+        "build": "20261118-test3",
+        "note": "回歸第 6 輪 PASS（重畫脖子、魔法師外套後片、大腿）；待使用者看頭部側面特寫定稿"
       }
     ]
   },
   "newton_m2_side": {
     "version": "2026-11-18-test",
-    "build": "20261118-test2",
-    "note": "測試版：回歸第 6 輪 FAIL（只剩臉部件半透明殘影），等 GPT 重畫臉",
+    "build": "20261118-test3",
+    "note": "測試版：回歸第 9 輪 FAIL（重畫臉、脖子後只剩 T16 說話嘴偏中線 0.080，疑似量尺誤差）",
     "history": [
       {
         "version": "2026-11-18-test",
-        "build": "20261118-test2",
-        "note": "測試版：回歸第 6 輪 FAIL（只剩臉部件半透明殘影），等 GPT 重畫臉"
+        "build": "20261118-test3",
+        "note": "測試版：回歸第 9 輪 FAIL（重畫臉、脖子後只剩 T16 說話嘴偏中線 0.080，疑似量尺誤差）"
       }
     ]
   },
