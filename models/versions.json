@@ -1,40 +1,45 @@
 {
-  "new_carol_side": {
+ "new_carol_side": {
+  "version": "2026-11-18-gold",
+  "build": "20261118-gold1",
+  "note": "【測試版，回歸中／未通過】新增「✨ 金髮魔力版」Outfit:: Gold Magic：金色長直髮＋黑緞帶髮箍（兩端藏在側髮下）、金眉（含生氣、難過），長髮隨 Hair:: Sway 擺動",
+  "history": [
+   {
     "version": "2026-11-18-test",
     "build": "20261118-test3",
-    "note": "測試版：回歸第 8 輪 PASS；頭部側面特寫待使用者定稿",
-    "history": [
-      {
-        "version": "2026-11-18-test",
-        "build": "20261118-test3",
-        "note": "測試版：回歸第 8 輪 PASS；頭部側面特寫待使用者定稿"
-      }
-    ]
-  },
-  "new_carrot_side": {
+    "note": "測試版：回歸第 8 輪 PASS；頭部側面特寫待使用者定稿"
+   },
+   {
     "version": "2026-11-18-test",
     "build": "20261118-test3",
-    "note": "回歸第 6 輪 PASS（重畫脖子、魔法師外套後片、大腿）；待使用者看頭部側面特寫定稿",
-    "history": [
-      {
-        "version": "2026-11-18-test",
-        "build": "20261118-test3",
-        "note": "回歸第 6 輪 PASS（重畫脖子、魔法師外套後片、大腿）；待使用者看頭部側面特寫定稿"
-      }
-    ]
-  },
-  "newton_m2_side": {
+    "note": "測試版：回歸第 8 輪 PASS；頭部側面特寫待使用者定稿"
+   }
+  ]
+ },
+ "new_carrot_side": {
+  "version": "2026-11-18-test",
+  "build": "20261118-test3",
+  "note": "回歸第 6 輪 PASS（重畫脖子、魔法師外套後片、大腿）；待使用者看頭部側面特寫定稿",
+  "history": [
+   {
     "version": "2026-11-18-test",
     "build": "20261118-test3",
-    "note": "回歸第 10 輪 PASS（重畫臉、脖子；T16 量尺修正）；三個新動作與頭部側面特寫待使用者看",
-    "history": [
-      {
-        "version": "2026-11-18-test",
-        "build": "20261118-test3",
-        "note": "回歸第 10 輪 PASS（重畫臉、脖子；T16 量尺修正）；三個新動作與頭部側面特寫待使用者看"
-      }
-    ]
-  },
+    "note": "回歸第 6 輪 PASS（重畫脖子、魔法師外套後片、大腿）；待使用者看頭部側面特寫定稿"
+   }
+  ]
+ },
+ "newton_m2_side": {
+  "version": "2026-11-18-test",
+  "build": "20261118-test3",
+  "note": "回歸第 10 輪 PASS（重畫臉、脖子；T16 量尺修正）；三個新動作與頭部側面特寫待使用者看",
+  "history": [
+   {
+    "version": "2026-11-18-test",
+    "build": "20261118-test3",
+    "note": "回歸第 10 輪 PASS（重畫臉、脖子；T16 量尺修正）；三個新動作與頭部側面特寫待使用者看"
+   }
+  ]
+ },
  "yanli": {
   "version": "2026-11-18",
   "build": "20261118-30f5f6ccfdc0",
