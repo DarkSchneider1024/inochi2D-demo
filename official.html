@@ -153,6 +153,16 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <div id="feelSec" hidden><h3 id="feelH">表情（點一下切換）</h3><div class="row" id="feels"></div></div>
     <div id="actSec" hidden><h3>動作（點一下連續播放，再按一次停止）</h3><div class="row" id="acts"></div><div class="row"><button id="nineBtn" aria-pressed="false">🧭 九軸展示</button></div></div>
     <div id="gestSec" hidden><h3>手勢（播一次）</h3><div class="row" id="gests"></div></div>
+    <!-- 2026-11-18 (user: 所有精緻角色展示區的連串動作 都新增分段解析的進入點；細節先用通用寫法) -->
+    <div id="anaSec" hidden><h3>分段解析（慢動作、逐段看動作）</h3>
+      <div class="row"><button id="anaBtn" aria-pressed="false">🔍 分段解析</button><a id="anaDetail" class="btn" hidden>🔎 細節頁</a></div>
+      <div id="anaPanel" hidden>
+        <div class="row" id="anaSpeed"><button data-s="1">原速</button><button data-s="0.5">1/2</button><button data-s="0.25" aria-pressed="true">1/4</button><button data-s="0.125">1/8</button></div>
+        <div class="row"><button id="anaPrev">◀ 上一段</button><button id="anaPause" aria-pressed="false">⏸ 暫停</button><button id="anaNext">下一段 ▶</button></div>
+        <div class="row" id="anaSegs"></div>
+        <p id="anaStatus" role="status">先點上面的動作或手勢，再用這裡放慢、逐段看。</p>
+      </div>
+    </div>
     <div id="scriptSec" hidden><h3>動作腳本（眼睛、嘴巴、胸部自由搭配）</h3>
       <div class="row"><button id="scPlay" class="primary">▶ 播放</button><button id="scLoop" aria-pressed="true">🔁 循環</button><button id="scAdd">＋ 新增一段</button><button id="scDemo">範本：嚇一大跳</button></div>
       <p id="scStatus" role="status" class="sc-note">調整時會即時套用。換圖頻率＝每秒換幾次，要先選「換成」才有作用。</p>
@@ -295,7 +305,7 @@ const MODELS = [
   { id: 'new_carol_sit', name: '新卡洛兒姐姐（坐姿）', desc: '水手服坐在紅色圓凳上，雙手戴白手套交疊放在膝上，頭微偏 3/4（GPT 部件圖層，凳子單獨一層）', file: 'models/new_carol_sit.inp', own: 'make_new_carol_sit_puppet.py' },
   { id: 'new_aubergine', name: '新歐蓓樂希姊姊', desc: '紫黑長捲髮、披肩束腰、燈籠袖、長靴（GPT 部件圖層；生氣嘟嘴、難過水汪汪大眼）', file: 'models/new_aubergine.inp', own: 'make_new_aubergine_puppet.py' },
   { id: 'new_bobo', name: '新兔子波波', desc: '精緻版兔子波波（GPT 部件圖層；九軸、眨眼、^^ 笑眼、開心／生氣／難過含淚／驚訝／害怕／害羞、紅暈三級、果凍眼、耳朵圍巾尾巴物理）', file: 'models/new_bobo.inp', own: 'make_new_bobo_puppet.py' },
-  { id: 'new_bobo_side', name: '新兔子波波（側面走路）', desc: '3/4 側身、頭朝前進方向，抱胡蘿蔔走路（GPT 部件圖層；眨眼、說話；表情：開心 ^^、驚訝、著急、撲空失望、生氣嘟嘴、害羞）', file: 'models/new_bobo_side.inp', own: 'make_new_bobo_side_puppet.py' },
+  { id: 'new_bobo_side', name: '新兔子波波（側面・波波跳）', desc: '3/4 側身、頭朝前進方向，抱胡蘿蔔跳（動作「波波跳」：六組 GPT 跳躍腳＋肚子連續收放；GPT 部件圖層；眨眼、說話；表情：開心 ^^、驚訝、著急、撲空失望、生氣嘟嘴、害羞）', file: 'models/new_bobo_side.inp', own: 'make_new_bobo_side_puppet.py' },
   { id: 'new_carol_side', name: '新卡洛兒（側面走路・測試版）', desc: '奧丁式 3/4 側身走路，頭朝前進方向（GPT 部件圖層；果凍眼、眨眼、說話、表情、揮手）。回歸第 8 輪 PASS，頭部側面特寫待使用者定稿', file: 'models/new_carol_side.inp', own: 'make_new_carol_side_puppet.py' },
   { id: 'new_carrot_side', name: '新卡洛特先生（側面走路・測試版）', desc: '奧丁式 3/4 側身走路，綠髮＋Outfit:: Mage 魔法師。回歸中（脖子待 GPT 重畫）', file: 'models/new_carrot_side.inp', own: 'make_new_carrot_side_puppet.py' },
   { id: 'newton_m2_side', name: '牛頓（側面走路・測試版）', desc: '奧丁式 3/4 側身走路，香皮尼臉＋牛頓服裝；新動作 Arm:: Think、Body:: Lean Forward、Arm:: Hold Up。回歸中（臉部件待 GPT 重畫）', file: 'models/newton_m2_side.inp', own: 'make_newton_m2_side_puppet.py' },
@@ -950,7 +960,77 @@ function buildMoves() {
   showUpright();
   buttons($('acts'), as, (n) => { stopMoveTour(); act.a = act.a === n ? '' : n; act.t0 = time; if (act.a && !mix) noFeel(); });
   buttons($('gests'), gs, (n) => { stopMoveTour(); gest.a = gest.a === n ? '' : n; gest.t0 = time; if (gest.a) noFeel(); });
+  anaReset(as.length + gs.length > 0);
 }
+// ---- 分段解析 (2026-11-18 user: 所有的精緻腳色展示區的連串動作 都新增分段解析的進入點 ... 其他腳色的細節先用通用的寫法):
+// any 動作／手勢 baked in the model plays slowed down (原速 / 1/2 / 1/4 / 1/8) or paused, and steps segment by segment. The
+// segments are where a stepped lane (a layer swap, e.g. Leg:: Pose) changes; an animation without one is cut into 8 equal
+// parts. A model with its own detail page (DETAIL) also gets a 🔎 link.
+const DETAIL = { new_bobo_side: ['bobo_hop.html', '🐇 波波跳細節（六個動作）'] };
+const ana = { on: false, speed: 0.25, pause: false, name: '', segs: [] };
+const anaCur = () => act.a || gest.a || '';
+function anaSegs(name) {
+  const a = P.animations[name]; if (!a) return [0];
+  const len = a.length * a.timestep, cuts = new Set();
+  for (const l of a.lanes) if (/^(Nearest|Stepped)$/.test(l.interpolation)) {
+    const k = l.keyframes;
+    for (let i = 1; i < k.length; i++) if (k[i].value !== k[i - 1].value) cuts.add(+(k[i].frame * a.timestep).toFixed(4));
+  }
+  let c = [...cuts].filter((x) => x > 1e-3 && x < len - 1e-3).sort((x, y) => x - y);
+  if (c.length < 2) c = Array.from({ length: 7 }, (_, i) => (len * (i + 1)) / 8);
+  return [0, ...c];
+}
+function anaT(name) {
+  const s = name === act.a ? act : gest, a = P.animations[name], len = P.animationLength(name) || 1, t = time - s.t0;
+  return a && a.loop === false ? Math.min(Math.max(t, 0), len) : ((t % len) + len) % len;
+}
+function anaStart() {           // nothing playing: start the first action (or gesture) so there is something to look at
+  if (anaCur()) return;
+  const n = groupOf('動作').filter((x) => !POSE_ACTS.includes(x))[0] || groupOf('手勢')[0];
+  if (!n) return;
+  stopMoveTour();
+  if (n.startsWith('動作/')) { act.a = n; act.t0 = time; } else { gest.a = n; gest.t0 = time; }
+}
+function anaJump(d) {
+  anaStart(); const n = anaCur(); if (!n) return;
+  const segs = anaSegs(n), t = anaT(n);
+  let k = segs.findLastIndex((x) => x <= t + 1e-3);
+  k = (k + d + segs.length) % segs.length;
+  const s = n === act.a ? act : gest;
+  s.t0 = time - segs[k] - 2e-3;
+  ana.pause = true; anaButtons();
+}
+function anaButtons() {
+  $('anaPause').textContent = ana.pause ? '▶ 繼續' : '⏸ 暫停'; $('anaPause').setAttribute('aria-pressed', ana.pause);
+  for (const b of $('anaSpeed').children) b.setAttribute('aria-pressed', +b.dataset.s === ana.speed);
+}
+function anaTick() {
+  if (!ana.on || !P) return;
+  const n = anaCur();
+  if (n !== ana.name) {
+    ana.name = n; ana.segs = n ? anaSegs(n) : [];
+    $('anaSegs').textContent = '';
+    ana.segs.forEach((x, i) => { const b = document.createElement('button'); b.textContent = `${i + 1}`; b.title = `從 ${x.toFixed(2)} 秒開始`;
+      b.onclick = () => { const s = n === act.a ? act : gest; s.t0 = time - x - 2e-3; ana.pause = true; anaButtons(); }; $('anaSegs').appendChild(b); });
+  }
+  if (!n) { $('anaStatus').textContent = '先點上面的動作或手勢，再用這裡放慢、逐段看。'; return; }
+  const t = anaT(n), len = P.animationLength(n), k = ana.segs.findLastIndex((x) => x <= t + 1e-3);
+  [...$('anaSegs').children].forEach((b, i) => b.setAttribute('aria-pressed', i === k));
+  $('anaStatus').textContent = `${n.replace('/', '・')}　第 ${k + 1}／${ana.segs.length} 段　${t.toFixed(2)}／${len.toFixed(2)} 秒　${ana.pause ? '暫停' : ana.speed === 1 ? '原速' : '慢動作 ' + ({ 0.5: '1/2', 0.25: '1/4', 0.125: '1/8' })[ana.speed]}`;
+}
+function anaReset(has) {
+  ana.on = false; ana.pause = false; ana.name = ''; $('anaBtn').setAttribute('aria-pressed', 'false'); $('anaPanel').hidden = true;
+  $('anaSec').hidden = !has;
+  const d = DETAIL[model?.id]; $('anaDetail').hidden = !d; if (d) { $('anaDetail').href = d[0]; $('anaDetail').textContent = d[1]; }
+}
+$('anaBtn').onclick = () => {
+  ana.on = !ana.on; $('anaBtn').setAttribute('aria-pressed', ana.on); $('anaPanel').hidden = !ana.on; ana.name = '';
+  if (ana.on) { ana.pause = false; anaStart(); } anaButtons();
+};
+for (const b of $('anaSpeed').children) b.onclick = () => { ana.speed = +b.dataset.s; ana.pause = false; anaButtons(); };
+$('anaPause').onclick = () => { ana.pause = !ana.pause; anaButtons(); };
+$('anaPrev').onclick = () => anaJump(-1);
+$('anaNext').onclick = () => anaJump(1);
 function handBack(s) {                     // an animation stopped: its params go back to rest (unless the user holds them)
   for (const p of s.touched) if (!manual.has(p.name.trim())) p.value = [...p.defaults];
   s.touched.clear();
@@ -1385,10 +1465,12 @@ function ninePose(t) { const k = [[0,0],[-1,0],[-1,1],[0,1],[1,1],[1,0],[1,-1],[
 let nineT = -1;
 document.getElementById('nineBtn').onclick = () => { nineT = nineT < 0 ? 0 : -1; document.getElementById('nineBtn').setAttribute('aria-pressed', nineT >= 0); if (nineT < 0 && P && P.has('Head:: Yaw-Pitch')) P.set('Head:: Yaw-Pitch', 0, 0); };
 function frame(now) {
-  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  const dt0 = Math.min(0.05, (now - last) / 1000); last = now;
+  const dt = ana.on ? (ana.pause ? 0 : dt0 * ana.speed) : dt0;      // 分段解析: slow motion / pause
   if (P && !qaBusy) {
     drive(dt);
     applyMoves(dt);
+    anaTick();
     if (nineT >= 0 && P.has('Head:: Yaw-Pitch')) { nineT += dt; const q = ninePose(nineT); P.set('Head:: Yaw-Pitch', q[0], q[1]); }
     headSwap();
     P.update();
