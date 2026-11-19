@@ -841,6 +841,27 @@ function drive(dt) {
   if (P.has('Body:: Bust')) set('Body:: Bust', bigBust ? 1 : 0);
   if (P.has('Outfit:: Academy')) set('Outfit:: Academy', academy ? 1 : 0);
   if (P.has('Outfit:: Red Hood')) set('Outfit:: Red Hood', redHood ? 1 : 0);
+  // (2026-11-19 user: 果凍眼改為無時無刻都會啟動) always-on jelly-eye spring driven by head motion, blink reopen & gentle idle pulse
+  if (P.has('Eye:: Jelly')) {
+    const j = (window._jellyEye = window._jellyEye || { x: 0, vx: 0, y: 0, vy: 0, px: 0, py: 0, pb: 1, live: false });
+    const g = (n, i) => (P.get(n) || [0, 0])[i] || 0;
+    const yw = g('Head:: Yaw-Pitch', 0), pt = g('Head:: Yaw-Pitch', 1), bl = g('Eye:: Left:: Blink', 0);
+    if (!j.live) { j.live = true; j.px = yw; j.py = pt; j.pb = bl; }
+    const inv = 1 / Math.max(dt, 1e-3);
+    const dvx = Math.max(-6, Math.min(6, (yw - j.px) * inv));
+    const dvy = Math.max(-6, Math.min(6, (pt - j.py) * inv));
+    const dbl = bl - j.pb;
+    j.px = yw; j.py = pt; j.pb = bl;
+    j.vx -= dvx * 1.8; j.vy -= dvy * 1.8;
+    if (dbl > 0.12) { j.vy += 6.5 * dbl; j.vx += 2.2 * dbl * Math.sin(time * 5.3); }
+    const w = 2 * Math.PI * 2.4, z = 0.18;
+    j.vx += (-w * w * j.x - 2 * z * w * j.vx) * dt; j.x += j.vx * dt;
+    j.vy += (-w * w * j.y - 2 * z * w * j.vy) * dt; j.y += j.vy * dt;
+    const cyc = time % 2.6, pulse = cyc < 1.2 ? Math.exp(-cyc * 2.4) * Math.sin(2 * Math.PI * 2.3 * cyc) : 0;
+    const jx = Math.tanh(j.x + 0.55 * pulse + 0.18 * Math.sin(time * 3.1));
+    const jy = Math.tanh(j.y + 0.45 * pulse * Math.cos(2 * Math.PI * 1.15 * cyc) + 0.15 * Math.cos(time * 2.7));
+    set('Eye:: Jelly', jx, jy);
+  }
   if (P.has('Acc:: Glasses Off')) set('Acc:: Glasses Off', glassesOff ? 1 : 0);
   if (P.has('Outfit:: Vest Off')) set('Outfit:: Vest Off', vestOff ? 1 : 0);
   if (P.has('Outfit:: Mage')) set('Outfit:: Mage', mageOn ? 1 : 0);
