@@ -4303,10 +4303,10 @@
     ]
   },
   "new_bobo_side": {
-    "version": "2026-11-19-r29",
-    "build": "20261119-bobo-tail-highF-ref",
-    "note": "尾巴移至身體後方；修復跳躍「4 最高」前腳腳踝缺黑線與多餘羽化殘塊；bobo_hop.html 新增 Gemini 答案圖即時並排比對",
-    "updated": "2026-11-19T16:51:00+08:00"
+    "version": "2026-11-19-r30",
+    "build": "20261119-bobo-butt-seamless",
+    "note": "移除後腳臀部交界處殘留白線，改用平滑羽化過渡完全無縫銜接",
+    "updated": "2026-11-19T16:58:00+08:00"
   },
   "new_carol": {
     "version": "2026-11-19-r32",
