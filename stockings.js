@@ -10,6 +10,8 @@ export function installStockings(puppet) {
   for (const part of parts) {
     // The front-view texture includes the boot. Split walking legs have separate boot parts.
     part.stockingCut = id.startsWith('new_carol') && /^腿_/.test(part.name) ? 0.68 : 1;
+    // The older academy leg already has black tights and its own brown boot in one texture.
+    if (id === 'carol_v3' && part.name.startsWith('學院_')) part.stockingCut = 0;
   }
   if (puppet.byName[STOCKINGS_PARAM]) return;
   const parameter = {
