@@ -2,6 +2,7 @@
 // driven by the timeline.json that live2d/make_video.py compiles.  Deterministic: frame i always looks the same
 // (random blinks are seeded, springs are stepped at the video frame rate from the start of each scene).
 import { loadINP, Puppet } from './inochi-lite.js';
+import { STOCKINGS_GLSL } from './stockings.js';
 import { lipTarget, lipStep, isMidMouth } from './lipsync.js';
 
 const W = 1920, H = 1080;
@@ -29,13 +30,14 @@ export class GL {                     // also used by the web demo (transparent 
       void main(){ vUV=aUV; gl_Position=vec4(aPos.x*uView.x+uView.z, -(aPos.y*uView.y+uView.w), 0., 1.); }`;
     const fs = `#version 300 es
       precision mediump float; in vec2 vUV; uniform sampler2D uTex; uniform float uOpacity; out vec4 o;
-      void main(){ o = texture(uTex, vUV) * uOpacity; }`;
+      ${STOCKINGS_GLSL}
+      void main(){ o = dressStocking(texture(uTex, vUV), vUV) * uOpacity; }`;
     const sh = (t, s) => { const x = gl.createShader(t); gl.shaderSource(x, s); gl.compileShader(x);
       if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(x)); return x; };
     const p = (this.prog = gl.createProgram());
     gl.attachShader(p, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p);
     this.loc = { pos: gl.getAttribLocation(p, 'aPos'), uv: gl.getAttribLocation(p, 'aUV'),
-      view: gl.getUniformLocation(p, 'uView'), op: gl.getUniformLocation(p, 'uOpacity') };
+      view: gl.getUniformLocation(p, 'uView'), op: gl.getUniformLocation(p, 'uOpacity'), stocking: gl.getUniformLocation(p, 'uStocking'), stockingCut: gl.getUniformLocation(p, 'uStockingCut') };
     this.posBuf = gl.createBuffer(); this.uvBuf = gl.createBuffer(); this.idxBuf = gl.createBuffer();
     this.black = this.texture(Object.assign(document.createElement('canvas'), { width: 2, height: 2 }), '#000');
   }
@@ -81,7 +83,7 @@ export class GL {                     // also used by the web demo (transparent 
   }
 
   // local px -> screen px = p * k + (ox, oy)
-  mesh(pos, uvs, idx, tex, k, ox, oy, opacity = 1) {      // k: scale, or [kx, ky] (kx < 0 mirrors)
+  mesh(pos, uvs, idx, tex, k, ox, oy, opacity = 1, stocking = 0, stockingCut = 1) {      // k: scale, or [kx, ky] (kx < 0 mirrors)
     const gl = this.gl, kx = Array.isArray(k) ? k[0] : k, ky = Array.isArray(k) ? k[1] : k, w = this.w, h = this.h;
     gl.uniform4f(this.loc.view, 2 * kx / w, 2 * ky / h, 2 * ox / w - 1, 2 * oy / h - 1);
     gl.bindBuffer(gl.ARRAY_BUFFER, this.posBuf); gl.bufferData(gl.ARRAY_BUFFER, pos, gl.DYNAMIC_DRAW);
@@ -90,6 +92,7 @@ export class GL {                     // also used by the web demo (transparent 
     gl.enableVertexAttribArray(this.loc.uv); gl.vertexAttribPointer(this.loc.uv, 2, gl.FLOAT, false, 0, 0);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.idxBuf); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, idx, gl.DYNAMIC_DRAW);
     gl.bindTexture(gl.TEXTURE_2D, tex); gl.uniform1f(this.loc.op, opacity);
+    gl.uniform1f(this.loc.stocking, stocking); gl.uniform1f(this.loc.stockingCut, stockingCut);
     gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
   }
 
@@ -157,7 +160,7 @@ export class GL {                     // also used by the web demo (transparent 
         pos[2 * i + 1] = M[1] * x + M[3] * y + M[5];
       }
       if (!m._uv) { m._uv = new Float32Array(m.uvs); m._idx = new Uint16Array(m.indices); }
-      this.mesh(pos, m._uv, m._idx, texs[n.textures[0]], k, ox, oy, n.alpha ?? n.opacity ?? 1);
+      this.mesh(pos, m._uv, m._idx, texs[n.textures[0]], k, ox, oy, n.alpha ?? n.opacity ?? 1, n.stocking || 0, n.stockingCut ?? 1);
     }
   }
 }

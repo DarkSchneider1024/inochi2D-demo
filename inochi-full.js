@@ -12,6 +12,8 @@
 //     the page decides how to mix them (official.html: 動作 / 表情 loop, 手勢 once)
 // Not implemented: Cubic interpolation (treated as linear), emission / bump maps.
 
+import { installStockings, updateStockings, STOCKINGS_GLSL } from './stockings.js';
+
 const NONE = 4294967295;
 
 export async function loadINP(url, onProgress) {
@@ -115,6 +117,7 @@ export class Puppet {
         axis_points: [ax[0] || [0, 1], ax[1] || [0]], value: [...two(p.defaults, 0)] };
     });
     this.byName = Object.fromEntries(this.params.map((p) => [p.name.trim(), p]));
+    installStockings(this);
     this.byUuid = new Map(this.params.map((p) => [p.uuid, p]));
     const ph = json.physics || {};
     this.world = { ppm: ph.pixelsPerMeter ?? 1000, g: ph.gravity ?? 9.8 };
@@ -214,6 +217,7 @@ export class Puppet {
   }
 
   update() {
+    updateStockings(this);
     for (const n of this.nodes.values()) {
       n.off = { t: [0, 0, 0], r: [0, 0, 0], s: [1, 1], z: 0, op: 1 };
       n.deform = null;
@@ -365,6 +369,7 @@ export class Renderer {
       void main(){ vUV=aUV; gl_Position=vec4(aPos.x*uView.x+uView.z, -(aPos.y*uView.y+uView.w), 0., 1.); }`, `#version 300 es
       precision mediump float; in vec2 vUV; uniform sampler2D uTex; uniform float uOpacity, uThr, uHueMin, uSkinMin, uSkinCut; uniform vec4 uHue, uSkin;
       uniform vec3 uTint, uScreen; out vec4 o;
+      ${STOCKINGS_GLSL}
       void main(){ vec4 t = texture(uTex, vUV);
         // Creator meshes reach past the texture; inochi2d clamps to a transparent border, WebGL has no
         // CLAMP_TO_BORDER, so edge texels would smear into bars
@@ -386,6 +391,7 @@ export class Renderer {
           w *= 1. - sk;                                              // texels n.skin already changed stay skin
           vec2 r = vec2(c.x * uHue.x - c.y * uHue.y, c.x * uHue.y + c.y * uHue.x) * uHue.w; Y *= mix(1., uHue.z, w); c = mix(c, r, w);
           t.rgb = clamp(vec3(Y + .956 * c.x + .621 * c.y, Y - .272 * c.x - .647 * c.y, Y - 1.106 * c.x + 1.703 * c.y), 0., 1.) * t.a; }
+        t = dressStocking(t, vUV);
         vec3 s = vec3(1.) - (vec3(1.) - t.rgb) * (vec3(1.) - uScreen * t.a);
         o = vec4(s, t.a) * vec4(uTint, 1.) * uOpacity; }`);
     this.quad = prog(`#version 300 es
@@ -395,7 +401,7 @@ export class Renderer {
         vec3 s = vec3(1.) - (vec3(1.) - t.rgb) * (vec3(1.) - uScreen * t.a);
         o = vec4(s, t.a) * vec4(uTint, 1.) * uOpacity; }`);
     const U = (p, ...names) => Object.fromEntries(names.map((n) => [n, gl.getUniformLocation(p, n)]));
-    this.u = U(this.part, 'uView', 'uTex', 'uOpacity', 'uThr', 'uTint', 'uScreen', 'uHue', 'uHueMin', 'uSkin', 'uSkinMin', 'uSkinCut');
+    this.u = U(this.part, 'uView', 'uTex', 'uOpacity', 'uThr', 'uTint', 'uScreen', 'uHue', 'uHueMin', 'uSkin', 'uSkinMin', 'uSkinCut', 'uStocking', 'uStockingCut');
     this.uq = U(this.quad, 'uTex', 'uOpacity', 'uTint', 'uScreen');
     this.quadVao = gl.createVertexArray(); gl.bindVertexArray(this.quadVao);
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
@@ -480,6 +486,7 @@ export class Renderer {
     gl.bindTexture(gl.TEXTURE_2D, this.tex[ti]);
     gl.uniform1f(this.u.uThr, thr); gl.uniform1f(this.u.uOpacity, opacity);
     gl.uniform3fv(this.u.uTint, n.tint || [1, 1, 1]); gl.uniform3fv(this.u.uScreen, n.screenTint || [0, 0, 0]); gl.uniform4fv(this.u.uHue, n.hue || [1, 0, 1, 1]); gl.uniform1f(this.u.uHueMin, n.hueMin || 0); gl.uniform4fv(this.u.uSkin, n.skin || [1, 1, 1, 0]); gl.uniform1f(this.u.uSkinMin, n.skinMin || 0.035); gl.uniform1f(this.u.uSkinCut, n.skinCut || 2);
+    gl.uniform1f(this.u.uStocking, n.stocking || 0); gl.uniform1f(this.u.uStockingCut, n.stockingCut ?? 1);
     gl.drawElements(gl.TRIANGLES, b.count, gl.UNSIGNED_SHORT, 0);
   }
 

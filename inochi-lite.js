@@ -12,6 +12,8 @@
 //   * SimplePhysics: approximated by a damped pendulum driven by the head motion (see stepPhysics)
 // Not implemented (unused by this puppet): masks, composites, mesh groups, other blend modes, animations.
 
+import { installStockings, updateStockings, STOCKINGS_GLSL } from './stockings.js';
+
 export async function loadINP(url) {
   const buf = new Uint8Array(await (await fetch(url, { cache: 'no-cache' })).arrayBuffer());   // revalidate: a re-rigged model shows at once
   const dv = new DataView(buf.buffer);
@@ -61,6 +63,7 @@ export class Puppet {
       return param;
     });
     this.byName = Object.fromEntries(this.params.map((p) => [p.name, p]));
+    installStockings(this);
     this.physics = [...this.nodes.values()].filter((n) => n.type === 'SimplePhysics')
       .map((n) => ({ node: n, param: this.params.find((p) => p.uuid === n.param), angle: 0, vel: 0 }));
   }
@@ -91,6 +94,7 @@ export class Puppet {
   }
 
   update() {
+    updateStockings(this);
     for (const n of this.nodes.values()) {
       n.off = { tx: 0, ty: 0, rz: 0, sx: 1, sy: 1, z: 0, op: 1 };
       n.deform = null;
@@ -163,13 +167,14 @@ export class Renderer {
       void main(){ vUV=aUV; gl_Position=vec4((aPos.x*uView.x+uView.z), -(aPos.y*uView.y+uView.w), 0., 1.); }`;
     const fs = `#version 300 es
       precision mediump float; in vec2 vUV; uniform sampler2D uTex; uniform float uOpacity; out vec4 o;
-      void main(){ o = texture(uTex, vUV) * uOpacity; }   // textures are uploaded premultiplied`;
+      ${STOCKINGS_GLSL}
+      void main(){ o = dressStocking(texture(uTex, vUV), vUV) * uOpacity; }   // textures are uploaded premultiplied`;
     const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
       if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
     const pr = (this.prog = gl.createProgram());
     gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr);
     this.loc = { pos: gl.getAttribLocation(pr, 'aPos'), uv: gl.getAttribLocation(pr, 'aUV'),
-      view: gl.getUniformLocation(pr, 'uView'), op: gl.getUniformLocation(pr, 'uOpacity') };
+      view: gl.getUniformLocation(pr, 'uView'), op: gl.getUniformLocation(pr, 'uOpacity'), stocking: gl.getUniformLocation(pr, 'uStocking'), stockingCut: gl.getUniformLocation(pr, 'uStockingCut') };
     this.posBuf = gl.createBuffer(); this.uvBuf = gl.createBuffer(); this.idxBuf = gl.createBuffer();
   }
 
@@ -228,6 +233,7 @@ export class Renderer {
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(m.indices), gl.DYNAMIC_DRAW);
       gl.bindTexture(gl.TEXTURE_2D, this.tex[n.textures[0]]);
       gl.uniform1f(this.loc.op, n.alpha);
+      gl.uniform1f(this.loc.stocking, n.stocking || 0); gl.uniform1f(this.loc.stockingCut, n.stockingCut ?? 1);
       gl.drawElements(gl.TRIANGLES, m.indices.length, gl.UNSIGNED_SHORT, 0);
     }
   }
