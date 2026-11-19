@@ -129,7 +129,7 @@ function hopState(tc) {
     lift = Math.sin(Math.PI * u);
     p['Body:: Lean'] = -0.10 * Math.sin(Math.PI * u);
     p['Hair:: Sway'] = -0.10 - 0.38 * Math.sin(Math.PI * Math.min(1, u * 1.3));
-    p['Mouth:: Open'] = 0.25;
+    p['Mouth:: Open'] = 0;   // 2026-11-19 靜止＝張嘴笑（0），0.5 閉、1 張
     p['Body:: Tuck'] = tuckAir(u);
   }
   return { p, key, lift };
