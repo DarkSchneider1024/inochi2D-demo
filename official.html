@@ -298,6 +298,7 @@ const MODELS = [
   { id: 'mr_carrot_mage', name: '魔法師卡洛特先生', desc: '與科學家共用骨架・每層 GPT 透明部件・外套前襬一整片・耳朵照原圖描', file: 'models/mr_carrot_mage.inp', own: 'make_mrcarrot5_puppet.py' },
   { id: 'linda_nyan', name: 'Linda喵', desc: '紫髮貓耳少女（GPT 部件圖層・甩尾／貓耳／裙擺物理・表情做在模型裡）', file: 'models/linda_nyan.inp', own: 'make_linda_puppet.py' },
   { id: 'aubergine_v2', name: '茄子 V2', desc: '紫瞳・AKA 九軸與眨眼・長脖子與鎖骨底層（頭部原型：seagetch，CC BY 4.0）', file: 'models/aubergine_v2.inp' },
+  { id: 'aubergine_academy_gestures', name: '歐貝樂希｜學院服手勢版', desc: '舊版歐貝樂希學院服，新增比愛心、飛吻與抱書', file: 'models/aubergine_academy_gestures.inp', own: 'make_aubergine_puppet.py' },
   { id: 'aubergine', name: 'Aubergine', desc: '黑髮魔法學院教授（GPT 部件圖層・畫風與晃動比照〈赤羽亞矢2.0〉展示・原創角色）', file: 'models/aubergine.inp', own: 'make_aubergine_puppet.py' },
   { id: 'acad_carrot', name: '學院卡洛特', desc: '金髮眼鏡學院魔術師・無外套版（白襯衫黑背心、男靴；GPT 部件圖層，外套之後另做）', file: 'models/acad_carrot.inp', own: 'make_acad_carrot_puppet.py' },
   { id: 'new_carrot', name: '新卡洛特先生', desc: '綠髮眼鏡探險服（背心、領巾、水壺、指南針；GPT 部件圖層，第一套衣服）', file: 'models/new_carrot.inp', own: 'make_new_carrot_puppet.py' },
@@ -359,7 +360,7 @@ const { verOf, vurl, vlabel } = await import('./versions.js');
 
 // ---- model picker ----
 const FEATURED_IDS = ['yanli', 'aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'new_carol', 'new_carol_sit', 'new_aubergine', 'new_bobo', 'new_bobo_side', 'new_carol_side', 'new_carrot_side', 'male2', 'newton_m2', 'newton_m2_side', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
-for (const id of FEATURED_IDS) {
+for (const id of ['aubergine_academy_gestures', ...FEATURED_IDS]) {
   const m = MODELS.find(m => m.id === id);
   const option = document.createElement('option');
   option.value = m.id;
@@ -567,11 +568,13 @@ async function open(id) { if (window.demo) window.demo.modelId = id;
   buildDecos();
   hairStyle = 0; $('hairRow').hidden = !P.has('Hair:: Style');
   uniform = 0; swim = 0; bustOut = 0; $('uniBtn_bs').hidden = !P.has('Outfit:: Bust'); $('uniBtn_sw').hidden = $('uniBtn_bk').hidden = $('uniBtn_wt').hidden = !P.has('Outfit:: Swim'); $('uniRow').hidden = !P.has('Outfit:: Uniform'); document.querySelectorAll('#uniRow button').forEach(x => x.setAttribute('aria-pressed', x.id === 'uniBtn_main'));
-  const aubHair = window.demo && window.demo.modelId === 'aubergine';
+  const academyGestures = model.id === 'aubergine_academy_gestures';
+  const aubHair = model.id === 'aubergine' || academyGestures;
   $('hairRow').innerHTML = aubHair ? AUB_HAIRS : LINDA_HAIRS; bindHairRow();
   if (aubHair && P.has('Hair:: Style')) $('decorSec').hidden = false;
   $('colorRow').hidden = $('skinRow').hidden = $('eyeRow').hidden = !P.has('Hair:: Style') || aubHair; setSkin('base'); eyeId = 'purple'; document.querySelectorAll('#eyeRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.eye === 'purple')); colorId = 'purple'; tartan = false; $('tartanBtn').setAttribute('aria-pressed', 'false'); document.querySelectorAll('#colorRow button[data-color]').forEach(x => x.setAttribute('aria-pressed', x.dataset.color === 'purple'));
   document.querySelectorAll('#hairRow button').forEach(x => x.setAttribute('aria-pressed', x.dataset.hair === '0'));
+  if (academyGestures) $('uniBtn_ac').click();
   settlePhysics();
   const b = P.bounds();
   fit = { cx: (b.x0 + b.x1) / 2, cy: (b.y0 + b.y1) / 2, w: b.x1 - b.x0, h: b.y1 - b.y0 };
