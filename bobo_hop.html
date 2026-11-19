@@ -71,7 +71,7 @@ import { loadINP, Puppet, Renderer } from './inochi-full.js';
 const $ = (id) => document.getElementById(id);
 const cv = $('cv'), stage = $('stage');
 const FILE = 'models/new_bobo_side.inp';
-const POSE = { land: 0 / 6, push: 1 / 6, rise: 2 / 6, high: 3 / 6, apex: 4 / 6, fall: 5 / 6, orig: 1 };
+const POSE = { land: 0 / 6, push: 1 / 6, rise: 2 / 6, high: 3 / 6, apex: 4 / 6, fall: 5 / 6, orig: 1, stand: -1 / 6 };   // stand：2026-11-18 站立底圖（靜止）
 const STEPS = [['land', '1 壓腳／落地'], ['push', '2 蹬地'], ['rise', '3 收腳'], ['high', '4 最高'], ['apex', '5 前腳亮腳掌'], ['fall', '6 伸腳落地']];
 const G = 0.13, A = 0.36, CYCLE = G + A;            // 影片：著地、騰空秒數
 const SLOW = 8;
@@ -156,7 +156,7 @@ function frame(now) {
       st = mid < 0 ? { p: {}, key: 'land', lift: 0 } : hopState(G + mid * A);
       prog = mid < 0 ? 0 : (G + mid * A) / CYCLE;
     } else {
-      st = { p: { 'Body:: Breath': 0.5 + 0.5 * Math.sin(now / 1000 / 3.4 * 6.283) }, key: 'land', lift: 0 };
+      st = { p: { 'Body:: Breath': 0.5 + 0.5 * Math.sin(now / 1000 / 3.4 * 6.283) }, key: 'stand', lift: 0 };
     }
     apply(st);
     if (mode !== 'idle') P.set('Eye:: Blink', 0);
@@ -174,7 +174,7 @@ function frame(now) {
 const data = await loadINP(`${FILE}?v=${Date.now()}`);
 P = new Puppet(data);
 R.attach(P);
-P.set('Leg:: Pose', POSE.land); P.update();
+P.set('Leg:: Pose', POSE.stand); P.update();
 const b = P.bounds();
 fit = { cx: (b.x0 + b.x1) / 2, cy: (b.y0 + b.y1) / 2, w: b.x1 - b.x0, h: b.y1 - b.y0, y1: b.y1 };
 resize();
