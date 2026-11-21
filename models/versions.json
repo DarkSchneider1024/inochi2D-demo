@@ -3439,9 +3439,9 @@
     ]
   },
   "male2": {
-    "version": "2026-11-21-eye1",
-    "build": "20261121-eye1",
-    "note": "眼部動態升級 Phase 1（測試版，回歸中）：半瞇 Eye:: L/R:: Squint（雙眼皮跟著下壓）、瞇眼笑 Eye:: Smile、2D 視線 Eye:: Gaze、眉形 Brow:: L/R:: Form、果凍眼彈簧 Eye:: Jelly:: Physics；新動作 動作/半瞇挑眉、動作/視線遊移，新表情 表情/瞇眼笑、表情/冷酷半瞇",
+    "version": "2026-11-21-eye2",
+    "build": "20261121-eye2",
+    "note": "眼部動態升級 Phase 2（測試版，回歸中）：瞳孔、高光拆成獨立圖層（ChatGPT 透明部件 6 張，眼白遮罩），新增 Eye:: Pupil Scale；Phase 1 的半瞇、瞇眼笑、2D 視線、眉形、果凍眼彈簧；揮手擺動改剛性（T12）",
     "history": [
       {
         "version": "2026-11-13-r2",
@@ -3462,6 +3462,11 @@
         "version": "2026-11-21-eye1",
         "build": "20261121-eye1",
         "note": "眼部動態升級 Phase 1（測試版，回歸中）：半瞇 Eye:: L/R:: Squint（雙眼皮跟著下壓）、瞇眼笑 Eye:: Smile、2D 視線 Eye:: Gaze、眉形 Brow:: L/R:: Form、果凍眼彈簧 Eye:: Jelly:: Physics；新動作 動作/半瞇挑眉、動作/視線遊移，新表情 表情/瞇眼笑、表情/冷酷半瞇"
+      },
+      {
+        "version": "2026-11-21-eye2",
+        "build": "20261121-eye2",
+        "note": "眼部動態升級 Phase 2（測試版，回歸中）：瞳孔、高光拆成獨立圖層（ChatGPT 透明部件 6 張，眼白遮罩），新增 Eye:: Pupil Scale；Phase 1 的半瞇、瞇眼笑、2D 視線、眉形、果凍眼彈簧；揮手擺動改剛性（T12）"
       }
     ]
   },
