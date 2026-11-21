@@ -971,5 +971,12 @@
     "build": "2026-11-18-test",
     "private": false,
     "category": "story"
+  },
+  {
+    "id": "new_huihui",
+    "name": "new_huihui",
+    "build": "2026-11-21",
+    "private": false,
+    "category": "story"
   }
 ]
