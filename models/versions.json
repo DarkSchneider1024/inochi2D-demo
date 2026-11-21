@@ -3439,9 +3439,9 @@
     ]
   },
   "male2": {
-    "version": "2026-11-21-eye2",
-    "build": "20261121-eye2",
-    "note": "眼部動態升級（回歸第 21 輪 PASS）：瞳孔、高光拆成獨立圖層（ChatGPT 透明部件 6 張，眼白遮罩）、Eye:: Pupil Scale；半瞇 Squint（雙眼皮跟著下壓）、瞇眼笑 Eye:: Smile、2D 視線 Eye:: Gaze、眉形 Brow:: Form、果凍眼彈簧 Eye:: Jelly:: Physics；新動作 半瞇挑眉、視線遊移，新表情 瞇眼笑、冷酷半瞇；揮手擺動改剛性（T12）",
+    "version": "2026-11-21-office1",
+    "build": "20261121-office1",
+    "note": "上班族衣裝（Outfit:: Office 辦公室襯衫，可拿掉領帶；領帶結在衣領下）＋雪狐衣裝（Acc:: Fox Ears／Fox Tail 狐耳狐尾，任何衣裝可開，尾巴兩段剛性物理）＋右太陽穴新髮片 前髮_額角_L。測試版：回歸中／未通過",
     "history": [
       {
         "version": "2026-11-13-r2",
@@ -3467,6 +3467,11 @@
         "version": "2026-11-21-eye2",
         "build": "20261121-eye2",
         "note": "眼部動態升級（回歸第 21 輪 PASS）：瞳孔、高光拆成獨立圖層（ChatGPT 透明部件 6 張，眼白遮罩）、Eye:: Pupil Scale；半瞇 Squint（雙眼皮跟著下壓）、瞇眼笑 Eye:: Smile、2D 視線 Eye:: Gaze、眉形 Brow:: Form、果凍眼彈簧 Eye:: Jelly:: Physics；新動作 半瞇挑眉、視線遊移，新表情 瞇眼笑、冷酷半瞇；揮手擺動改剛性（T12）"
+      },
+      {
+        "version": "2026-11-21-office1",
+        "build": "20261121-office1",
+        "note": "上班族衣裝（Outfit:: Office 辦公室襯衫，可拿掉領帶；領帶結在衣領下）＋雪狐衣裝（Acc:: Fox Ears／Fox Tail 狐耳狐尾，任何衣裝可開，尾巴兩段剛性物理）＋右太陽穴新髮片 前髮_額角_L。測試版：回歸中／未通過"
       }
     ]
   },
