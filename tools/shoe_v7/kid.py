@@ -1,6 +1,8 @@
 """《鞋匠與小矮人》V7 小弟弟 shoe_kid_boyv3：少年亞瑟小孩模 arthur_boy_v3 的換裝（2026-11-22）。
 
     python -X utf8 tools/shoe_v7/kid.py            -> inochi2D-demo/models/shoe_kid_boyv3.inp
+    python -X utf8 tools/story_think.py shoe_kid_boyv3   # 重建後要再套思考（kid.py 存檔只自動補講解）
+    python -X utf8 tools/shoe_v7/kid_side.py
 
 底圖 carrot-youtube/人物形象/30_鞋匠與小矮人V7換裝/shoe_kid_boyv3_底圖_v1.png（淡紫亂髮、紅鼻子、米色粗布短袖、吊帶、
 補丁深灰七分褲、赤腳）。讀 arthur_boy_v3，每層照原網格換貼圖、綁定不動；臉、眼、眉、頭髮一層都不動（光頭臉和小孩模相同）。
@@ -89,7 +91,7 @@ def frame(mask):
     return m, d, np.array([-d[1], d[0]])
 
 
-def tube(mask, k_of_t, lo=0.0, hi=1.0, smooth=15):
+def tube(mask, k_of_t, lo=0.0, hi=1.0, smooth=15, hw=None):
     """a clean tube along the mask's axis: per position t the centre of the old mask, half width × k(t).
     returns (new mask, t in 0..1 along, u in 0..1 across)"""
     H, W = mask.shape
@@ -116,7 +118,7 @@ def tube(mask, k_of_t, lo=0.0, hi=1.0, smooth=15):
     tt = (T - t0) / (t1 - t0 + 1e-6)
     bi = np.clip((tt * nb).astype(int), 0, nb - 1)
     kk = k_of_t(np.clip(tt, 0, 1))
-    hh = h[bi] * kk
+    hh = h[bi] * kk if hw is None else hw(np.clip(tt, 0, 1)) * kk   # hw: absolute half width (texture px) along t
     new = (np.abs(S - c[bi]) <= hh) & (tt >= lo) & (tt <= hi)
     u = (S - c[bi] + hh) / np.maximum(1, 2 * hh)
     if n[0] < 0:
@@ -144,40 +146,87 @@ def fray(s, period=9.0, amp=3.0):
 
 
 # ============================================================================================ arms
-def sleeve_arm(M, name, cut=.5, skin_k=.78):
-    """upper arm: beige short sleeve down to `cut` (frayed hem), bare arm below"""
+# 2026-11-22 統籌：「小弟弟手臂太細太長像竹竿、手肘關節明顯……手腕不可比前臂粗」→ 寬度照底圖量（底圖 px，垂直於手臂量）：
+# 袖口下的上臂約 56、手肘約 48、前臂上段約 46、手腕約 38（換裝底圖的軀幹比小孩模寬約 1.4 倍，所以寫進模型時依軀幹比例放大）；前臂上端不畫線、和上臂下端同寬，手肘看不出接縫；手掌上緣收到手腕寬。
+UP_HW = (38.0, 33.0)     # 上臂露出段：袖口下 → 手肘（半寬，模型底圖 px；小孩模軀幹比換裝底圖窄，手臂和軀幹的比例照底圖放大）
+FORE_HW = (33.0, 25.0)   # 前臂：手肘 → 手腕
+
+
+def ppb(M, name, H):
+    """texture px per base px (arms hang roughly vertically at rest)"""
+    b = mix.wbox(M, M.parts[name])
+    return H / ((b[3] - b[1]) / 1.3)
+
+
+def edge_line(rgb, region, long_region, line, wpx):
+    """outline of `region` drawn only along the edges of `long_region` (the limb extended past its joint ends): no line
+    across the joint ends, so elbow and wrist joins show no seam"""
+    d = ndi.distance_transform_edt(long_region)
+    ol = np.clip(1 - (d - .5) / wpx, 0, 1) * .9 * region
+    return rgb * (1 - ol[..., None]) + hexrgb(line) * ol[..., None]
+
+
+def sleeve_arm(M, name, cut=.5):
+    """upper arm: beige short sleeve (a little wider than the arm) down to `cut` (frayed hem), bare arm below"""
     a = arr_of(M, name)
     mask = a[..., 3] > 100
     H, W = mask.shape
-    sl, tt, u = tube(mask, lambda t: np.ones_like(t) * 1.0)
-    sl &= mask
-    ar, tt2, u2 = tube(mask, lambda t: skin_k - .2 * np.clip((t - cut) / (1 - cut), 0, 1), hi=.92)
+    k = ppb(M, name, H)
+    sl, tt, u = tube(mask, lambda t: np.ones_like(t), hw=lambda t: k * UP_HW[0] * 1.22 + 0 * t)
+    sl &= ndi.binary_dilation(mask, iterations=int(k * 14))
+    hw = lambda t: k * (UP_HW[0] + (UP_HW[1] - UP_HW[0]) * np.clip((t - cut) / (1 - cut), 0, 1))
+    ar, tt2, u2 = tube(mask, lambda t: np.ones_like(t), hi=.9, hw=hw, smooth=61)     # the old sleeve's flared cuff at the bottom is not followed
+    along, _, _ = tube(mask, lambda t: np.ones_like(t), lo=-1, hi=3, hw=hw, smooth=61)
     scale = W / 120
     m, d, n = frame(mask)
     yy, xx = np.mgrid[0:H, 0:W]
     S = (xx - m[0]) * n[0] + (yy - m[1]) * n[1]
     hem = tt < cut + fray(S, 9 * scale, 2.6 * scale) / max(1, H)
     sleeve = sl & hem
-    arm = ar & ~sleeve & (tt > cut - .12)
+    arm = ar & ~sleeve & (tt > cut - .06)
     rgb = np.zeros((H, W, 3))
     rgb[arm] = cyl(u2, SKIN)[arm]
-    rgb = outline(rgb, arm, SKIN_LINE, 1.6 * scale, open_bottom=True)
-    srgb = cyl(u, SHIRT)
-    # a couple of cloth creases
-    srgb = outline(srgb, sleeve, SHIRT_LINE, 1.8 * scale)
+    rgb = edge_line(rgb, arm, along, SKIN_LINE, 1.6 * scale)
+    srgb = outline(cyl(u, SHIRT), sleeve, SHIRT_LINE, 1.8 * scale)
     rgb[sleeve] = srgb[sleeve]
     alpha = np.maximum(soft(arm), soft(sleeve))
     put(M, name, rgb, alpha)
 
 
-def bare_forearm(M, name, k=(.66, .74), cap=.07):
+def bare_forearm(M, name, cap=.06, fade=.12):
     a = arr_of(M, name)
     mask = a[..., 3] > 100
     H, W = mask.shape
-    ar, tt, u = tube(mask, lambda t: (k[0] + (k[1] - k[0]) * t) * np.sqrt(np.clip(1 - ((cap - np.minimum(t, cap)) / cap) ** 2, 0, 1)))
-    ar &= ndi.binary_dilation(mask, iterations=2)
-    rgb = outline(cyl(u, SKIN), ar, SKIN_LINE, 1.6 * W / 120, open_bottom=True)
-    put(M, name, rgb, soft(ar))
+    k = ppb(M, name, H)
+    hw = lambda t: k * (FORE_HW[0] + (FORE_HW[1] - FORE_HW[0]) * np.clip(t, 0, 1))
+    ar, tt, u = tube(mask, lambda t: np.sqrt(np.clip(1 - ((cap - np.minimum(t, cap)) / cap) ** 2, .35, 1)), hw=hw)
+    along, _, _ = tube(mask, lambda t: np.ones_like(t), lo=-1, hi=3, hw=hw)
+    rgb = edge_line(cyl(u, SKIN), ar, along, SKIN_LINE, 1.6 * W / 120)
+    alpha = soft(ar) * np.clip((1 - tt) / fade, 0, 1)        # the wrist end fades into the hand underneath (same skin)
+    put(M, name, rgb, alpha)
+
+
+def trim_hand(M, name, top=.22, full=.5):
+    """the hand's top edge narrowed to the wrist (the old cuff hid a wide top): never wider than the forearm's end"""
+    a = arr_of(M, name)
+    mask = a[..., 3] > 30
+    H, W = mask.shape
+    k = ppb(M, name, H)
+    rows = np.where(mask.any(1))[0]
+    r0, r1 = rows[0], rows[-1]
+    yy, xx = np.mgrid[0:H, 0:W]
+    lim = np.full(H, 1e9)
+    for r in range(r0, r1 + 1):
+        c = np.where(mask[r])[0]
+        f = (r - r0) / max(1, r1 - r0)
+        if f < full:
+            g = np.clip((f - top) / (full - top), 0, 1)
+            lim[r] = k * FORE_HW[1] * 1.0 + g * 60 * k
+    cen = np.array([np.where(mask[r])[0].mean() if mask[r].any() else W / 2 for r in range(H)])
+    cen = ndi.uniform_filter1d(cen, 15)
+    keep = np.abs(xx - cen[:, None]) <= lim[:, None]
+    alpha = a[..., 3] / 255 * np.clip(lim[:, None] + 1 - np.abs(xx - cen[:, None]), 0, 1)
+    put(M, name, a[..., :3], alpha)
 
 
 def wave_fore(M, name):
@@ -190,9 +239,10 @@ def wave_fore(M, name):
     green = ndi.binary_closing(green | (dark & ndi.binary_dilation(green, iterations=3)), iterations=2)
     hand = al & ~green & (r > 140) & (r >= g) & (g >= b - 10) & (r - b < 120)
     hand = ndi.binary_closing(hand, iterations=1) & al & ~green
-    hand = ndi.binary_opening(hand, iterations=1)
+    hand = ndi.binary_opening(hand, iterations=1) & ~((r > 180) & (g > 120) & (b < 110))   # no cuff button
     H, W = al.shape
-    ar, tt, u = tube(green, lambda t: np.ones_like(t) * .55)
+    k = ppb(M, name, H) * .5
+    ar, tt, u = tube(green, lambda t: np.ones_like(t), hw=lambda t: k * (FORE_HW[0] + (FORE_HW[1] - FORE_HW[0]) * t) * 2)
     ar &= ~hand
     rgb = outline(cyl(u, SKIN), ar, SKIN_LINE, 1.6 * W / 120, open_bottom=True)
     rgb[hand] = rgb0[hand]
@@ -446,6 +496,7 @@ def build():
             sleeve_arm(M, f'舉手上臂_上臂_{s}', .48)
         bare_forearm(M, f'下臂_{s}')
         wave_fore(M, f'揮手前臂_{s}')
+        trim_hand(M, f'手掌_{s}')
         bare_foot(M, f'鞋_{s}', s == 'L')
     shirt(M)
     collar_front(M)

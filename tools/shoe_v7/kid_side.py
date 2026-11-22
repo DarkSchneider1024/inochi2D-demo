@@ -6,7 +6,7 @@
 沿用少年亞瑟小孩模的側面（story_boy/side.py，V1 做法：正面部件轉 3/4 掛走路骨架＋九軸正臉 30 度），只改：
   - 鞋 → 赤腳（側面的小腿、腳踝、朝前進方向的腳掌與腳趾，手繪 SVG）；
   - 步幅再小一點（小孩：STRIDE_K 0.95 → 0.85）；
-  - 不拿石中劍，腰臀那塊改深灰七分褲色，講解／思考的手層不帶進側面。
+  - 不拿石中劍，腰臀那塊改深灰七分褲色、縮到和上衣下襬同寬（不凸出），講解／思考的手層不帶進側面。
 """
 import sys
 from pathlib import Path
@@ -49,6 +49,27 @@ def build():
     S.side_boot = bare_foot
     S.STRIDE_K = .85
     S.build(front=MID, sid=MID + '_side', title='小弟弟（鞋匠與小矮人 V7）說故事 v3・側面')
+    narrow_hips(MID + '_side')
+
+
+def narrow_hips(sid):
+    """(2026-11-22 統籌：「側面褲子前面那塊凸出的方塊……看起來像穿幫」) 側面腳本的腰臀方塊照正面褲頭寬度畫，
+    比轉過去的上衣下襬寬，前後各凸出一塊：縮到和上衣下襬同寬（置中對齊上衣），藏在下襬下面"""
+    sys.path.insert(0, str(HERE.parent / 'story_mix'))
+    import mix
+    M = mix.load(sid)
+    sb = mix.wbox(M, M.parts['胸腔'])
+    hip = M.parts['褲頭']
+    P = mix.wverts(M, hip)
+    hb = P[:, 0].min(), P[:, 0].max()
+    tw = (sb[2] - sb[0]) * .96
+    k = tw / (hb[1] - hb[0])
+    cx_new = (sb[0] + sb[2]) / 2
+    cx_old = (hb[0] + hb[1]) / 2
+    P[:, 0] = cx_new + (P[:, 0] - cx_old) * k
+    mix.set_wverts(M, hip, P)
+    M.save()
+    print('hips', round(hb[1] - hb[0]), '->', round(tw), 'shift', round(cx_new - cx_old, 1))
 
 
 if __name__ == '__main__':

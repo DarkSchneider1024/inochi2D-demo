@@ -170,12 +170,100 @@ def lock_svg(side):
     return s
 
 
+# ---------------------------------------------------------------- 2026-11-22 第二版頭髮：蓬鬆捲盤髮（hair_locks 規則手繪髮束）
+# 統籌看對照圖：「頭髮像一頂紫色安全帽（瀏海平貼、整塊輪廓）」→ 照底圖量（底圖 px）：側分（分線約 (518,74)），
+# 左半往畫面左上捲起、右半往後梳，額頭露出（髮際線 (455,138)→(518,76)→(585,135)）；後面是蓬鬆的盤髮外形；
+# 兩側捲髮從耳前垂到下巴高度。髮束一律 hair_locks.Hair.lock（中心線＋葉形寬度、根深尖亮、一道高光、等寬外框）。
+sys.path.insert(0, str(TOOLS / 'aubergine_story_v4'))
+import hair_locks as HL                     # noqa: E402
+
+HPAL = ('#1c0f26', '#2f1c3b', '#46305a', '#664a80', '#9c7fb4', HAIR['line'], HAIR['line'])
+HAIRLINE = [(452, 150), (458, 136), (472, 116), (490, 99), (505, 86), (518, 76), (534, 78), (550, 86), (562, 100), (573, 118), (586, 136), (592, 150)]
+
+
+def _H():
+    return HL.Hair(HPAL)
+
+
+def _defs(h):
+    return '<defs>' + ''.join(h.defs) + '</defs>'
+
+
+def _wave_outline(pts, amp=5.0, n=7):
+    """a closed silhouette with soft scallops (big curls), not circles: every edge bulges outwards a little"""
+    P = np.array(pts, float)
+    c = P.mean(0)
+    out = []
+    for i in range(len(P)):
+        a, b = P[i], P[(i + 1) % len(P)]
+        out.append(tuple(a))
+        m = (a + b) / 2
+        v = m - c
+        out.append(tuple(m + v / (np.linalg.norm(v) + 1e-6) * amp))
+    return HL.smooth(out)
+
+
+def back_svg():
+    h = _H()
+    sil = [(512, 4), (556, 8), (592, 24), (614, 52), (624, 88), (620, 122), (610, 150), (602, 190), (596, 218), (578, 212),
+           (566, 170), (512, 150), (458, 170), (446, 212), (428, 218), (422, 190), (412, 150), (404, 122), (406, 86), (418, 50),
+           (440, 22), (474, 8)]
+    d = _wave_outline(sil, 6)
+    h.defs.append('<linearGradient id="bk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="%s"/><stop offset=".55" stop-color="%s"/>'
+                  '<stop offset="1" stop-color="%s"/></linearGradient>' % (HPAL[2], HPAL[1], HPAL[0]))
+    cl = h.clip('bkc', d)
+    body = f'<path d="{d}" fill="url(#bk)"/><g {cl}>'
+    for r, c, t, w in (((512, 10), (462, 18), (420, 80), 34), ((512, 10), (562, 18), (608, 80), 34),
+                       ((470, 30), (420, 70), (414, 150), 30), ((554, 30), (606, 70), (612, 150), 30),
+                       ((444, 100), (414, 150), (436, 210), 24), ((584, 100), (614, 150), (592, 210), 24)):
+        body += h.lock(HL.centre_quad(r, c, t), w, tone=1, shine=False)[0]
+    body += '</g>' + f'<path d="{d}" fill="none" stroke="{HPAL[6]}" stroke-width="2.4" stroke-linejoin="round"/>'
+    return _defs(h) + body
+
+
+def fringe_svg(side):
+    """the front hair over the scalp, from the skull's top down to the hairline, with the swept locks on it"""
+    h = _H()
+    if side == 'R':
+        sil = [(522, -2), (486, 2), (452, 14), (424, 40), (408, 76), (404, 110), (410, 142), (426, 162), (444, 160)] + \
+              [p for p in HAIRLINE if p[0] <= 518][::-1][:-1] + [(518, 76), (522, 60)]
+        sil = [(522, -2), (486, 2), (452, 14), (424, 40), (408, 76), (404, 110), (410, 142), (426, 162), (446, 160),
+               (452, 150), (458, 136), (472, 116), (490, 99), (505, 86), (518, 76), (522, 60)]
+        locks = [((518, 74), (470, 36), (418, 92), 34, 1), ((520, 8), (466, 8), (424, 62), 30, 1), ((506, 86), (452, 72), (414, 134), 28, 0),
+                 ((494, 98), (458, 104), (430, 156), 22, 0), ((478, 112), (452, 126), (446, 156), 16, 2)]
+    else:
+        sil = [(506, -2), (546, 2), (580, 14), (606, 40), (620, 76), (624, 110), (620, 142), (612, 160), (604, 156),
+               (596, 136), (580, 116), (562, 100), (550, 86), (534, 78), (518, 76), (508, 60)]
+        locks = [((518, 74), (562, 36), (610, 90), 32, 1), ((508, 8), (566, 8), (606, 60), 30, 1), ((536, 80), (584, 76), (614, 128), 26, 0),
+                 ((552, 90), (590, 102), (612, 152), 20, 0), ((568, 104), (592, 120), (600, 150), 14, 2)]
+    d = HL.smooth(sil)
+    h.defs.append('<linearGradient id="fr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="%s"/><stop offset="1" stop-color="%s"/>'
+                  '</linearGradient>' % (HPAL[1], HPAL[2]))
+    cl = h.clip('frc', d)
+    body = f'<path d="{d}" fill="url(#fr)"/><g {cl}>'
+    for r, c, t, w, tone in locks:
+        body += h.lock(HL.centre_quad(r, c, t), w, tone=tone)[0]
+    body += '</g>' + f'<path d="{d}" fill="none" stroke="{HPAL[6]}" stroke-width="2.2" stroke-linejoin="round"/>'
+    return _defs(h) + body
+
+
+def lock_svg(side):
+    """curly tendrils from in front of the ear down to the jaw (two wavy locks)"""
+    h = _H()
+    m = (lambda p: p) if side == 'R' else (lambda p: (1028 - p[0], p[1]))
+    sg = 1 if side == 'R' else -1
+    body = ''
+    for r, c, t, w, amp, cyc, ph in (((438, 142), (414, 190), (450, 244), 16, 7, 1.4, 0.0), ((446, 152), (436, 200), (462, 238), 11, 5, 1.8, 1.2)):
+        body += h.lock(HL.centre_quad(m(r), m(c), m(t), amp * sg, cyc, ph), w, tone=0)[0]
+    return _defs(h) + body
+
+
 HAIR_LAYERS = {   # name: (root box, svg fn, grid)
     '後髮_短': (b2r(374, -16) + b2r(650, 248), back_svg, (7, 7)),
     '瀏海_R': (b2r(394, 0) + b2r(522, 170), lambda: fringe_svg('R'), (6, 6)),
     '瀏海_L': (b2r(510, 0) + b2r(632, 170), lambda: fringe_svg('L'), (6, 6)),
-    '鬢角_R': (b2r(414, 120) + b2r(470, 266), lambda: lock_svg('R'), (4, 6)),
-    '鬢角_L': (b2r(554, 120) + b2r(610, 266), lambda: lock_svg('L'), (4, 6)),
+    '鬢角_R': (b2r(396, 120) + b2r(470, 266), lambda: lock_svg('R'), (4, 6)),
+    '鬢角_L': (b2r(558, 120) + b2r(632, 266), lambda: lock_svg('L'), (4, 6)),
 }
 CLEAR = ('馬尾_R', '馬尾_L', '瀏海_中', '馬尾梢_R', '馬尾梢_L', '髮片_L0', '髮片_L1', '髮片_R0', '髮片_R1', '髮片_R2', '碎髮_R', '碎髮_L')
 

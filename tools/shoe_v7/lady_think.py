@@ -10,7 +10,7 @@ gemini 生成比對圖即可」→ 用 Gemini 照底圖原位生一張太太的�
 程式手繪成兩層，不用 GPT 部件：
   - 思考臂_R：角色右手（畫面左）——泡泡袖上臂垂在身側、前臂泡泡袖往上、袖口、握拳托下巴（食指彎在下巴下）。
   - 思考臂_L：角色左手（畫面右）——上臂垂在身側、前臂橫在腰前、袖口、手掌從下面托住右手肘（在思考臂_R 前面）。
-Arm:: Think 0.25→0.55：原本的手臂層（story_think 轉動中的上臂、下臂、手掌、握拳）淡出，這兩層淡入；前半段仍是 story_think 的抬手動作。
+Arm:: Think 在 10/24→11/24 兩個關鍵格之間（約 0.02 秒）：原本的手臂層（story_think 轉動中的上臂、下臂、手掌、握拳）淡出，這兩層淡入；前半段仍是 story_think 的抬手動作。
 story_think.py 重跑會拿掉整個 Arm:: Think 參數，之後要再跑本檔（冪等：先拿掉自己的兩層）。
 """
 import sys
@@ -31,7 +31,7 @@ from build_story_trio import set_part_image  # noqa: E402
 MID = 'shoe_lady_aubv3'
 THINK = 'Arm:: Think'
 K = 1.3
-FADE = (.25, .55)
+FADE = (.4166, .4584)   # 兩個相鄰關鍵格之間換手：重疊只有 1/24 的參數（動畫約 0.02 秒），看不出半透明
 LAYERS = ('思考臂_R', '思考臂_L')
 
 LINE, SKIN_LINE = '#3e0c16', '#a4675a'

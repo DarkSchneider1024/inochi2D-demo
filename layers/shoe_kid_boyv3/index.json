@@ -423,10 +423,10 @@
   {
    "name": "指手_R",
    "file": "26.webp",
-   "x": 25,
-   "y": 956,
-   "w": 172,
-   "h": 228,
+   "x": 27,
+   "y": 948,
+   "w": 174,
+   "h": 237,
    "group": "Body",
    "hidden": true,
    "backing": false,
@@ -436,10 +436,10 @@
   {
    "name": "握拳_R",
    "file": "27.webp",
-   "x": 57,
-   "y": 960,
-   "w": 129,
-   "h": 128,
+   "x": 61,
+   "y": 952,
+   "w": 128,
+   "h": 127,
    "group": "Body",
    "hidden": true,
    "backing": false,
@@ -462,10 +462,10 @@
   {
    "name": "指手_L",
    "file": "29.webp",
-   "x": 651,
-   "y": 956,
-   "w": 172,
-   "h": 228,
+   "x": 648,
+   "y": 948,
+   "w": 173,
+   "h": 237,
    "group": "Body",
    "hidden": true,
    "backing": false,
@@ -483,18 +483,7 @@
    "hidden": true,
    "backing": false,
    "z": 0.452,
-   "suspects": [
-    {
-     "type": "碎塊",
-     "box": [
-      125,
-      495,
-      12,
-      12
-     ],
-     "n": 11
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "揮手前臂_L",
@@ -507,18 +496,7 @@
    "hidden": true,
    "backing": false,
    "z": 0.451,
-   "suspects": [
-    {
-     "type": "碎塊",
-     "box": [
-      710,
-      495,
-      12,
-      12
-     ],
-     "n": 11
-    }
-   ]
+   "suspects": []
   },
   {
    "name": "耳朵_R",

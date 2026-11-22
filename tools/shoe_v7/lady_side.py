@@ -17,6 +17,7 @@ spec.loader.exec_module(GS)
 S = GS.S
 
 GS.FRONT, GS.SID = 'shoe_lady_aubv3', 'shoe_lady_aubv3_side'
+GS.DROP_MORE = tuple(GS.DROP_MORE) + ('思考臂_', '握拳_')   # 正面的思考手繪臂、握拳手不帶進側面
 GS.OUTFIT = dict(
     shoe='flat',
     ear_hair=('#2a1838', '#4a3060', '#6d4d86'), ear_hair_line='#120818',
