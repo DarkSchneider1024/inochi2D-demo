@@ -1006,5 +1006,47 @@
     "build": "1.0-alpha",
     "private": false,
     "category": "story"
-  }
+  },
+ {
+  "id": "shoe_lady_aubv3",
+  "name": "shoe_lady_aubv3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "shoe_lady_aubv3_side",
+  "name": "shoe_lady_aubv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "shoe_farmer_burlyv3",
+  "name": "shoe_farmer_burlyv3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "shoe_farmer_burlyv3_side",
+  "name": "shoe_farmer_burlyv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "shoe_kid_boyv3",
+  "name": "shoe_kid_boyv3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "shoe_kid_boyv3_side",
+  "name": "shoe_kid_boyv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ }
 ]
