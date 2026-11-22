@@ -978,5 +978,33 @@
     "build": "2026-11-21",
     "private": false,
     "category": "story"
+  },
+  {
+    "id": "shoemaker_gpv3",
+    "name": "shoemaker_gpv3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "shoemaker_gpv3_side",
+    "name": "shoemaker_gpv3_side",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "shoe_wife_elderfv3",
+    "name": "shoe_wife_elderfv3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "shoe_wife_elderfv3_side",
+    "name": "shoe_wife_elderfv3_side",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
   }
 ]
