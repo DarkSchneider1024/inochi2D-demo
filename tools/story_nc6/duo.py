@@ -28,8 +28,8 @@ L.SPECS[MID] = dict(
     recolor={'bang_right': GOLD, 'bang_center': GOLD, 'side_lock': GOLD, 'glove': 'hand@.6-1.0'},
     layers={
         '後髮_短': dict(group='cap', crop=(360, 95, 304, 350)),
-        '馬尾_R': dict(group='side_lock_long', crop=(356, 192, 74, 400)),
-        '馬尾_L': dict(group='side_lock_long', crop=(594, 192, 74, 400), mirror=True),
+        '馬尾_R': dict(group='side_lock_long', crop=(360, 192, 74, 272)),
+        '馬尾_L': dict(group='side_lock_long', crop=(590, 192, 74, 272), mirror=True),
         '葉飾_R': dict(group='bun', crop=(360, 22, 132, 128)),
         '葉飾_L': dict(group='bun', crop=(532, 22, 132, 128), mirror=True),
         '領子_R': dict(group='collar', crop=(448, 358, 128, 62)),
@@ -40,8 +40,9 @@ L.SPECS[MID] = dict(
         '呆毛': dict(hide=True), '髮夾': dict(hide=True), '腰': dict(hide=True),
         '領巾_R': dict(hide=True), '領巾尾_R': dict(hide=True), '領巾尾_L': dict(hide=True), '領巾結': dict(hide=True),
     },
-    # 雙丸子在瀏海後面（瀏海蓋住丸子的根）；兩側長髮在臉後、上臂與肩膀前面
-    z={'葉飾_R': .155, '葉飾_L': .154, '馬尾_R': .592, '馬尾_L': .591},
+    # 雙丸子在瀏海後面（瀏海蓋住丸子的根）；兩側長髮（2026-11-23 統籌：到背中間、不要蓋住手臂）縮短到胸口，
+    # 排在胸前、上臂後面（手臂蓋住頭髮）
+    z={'葉飾_R': .155, '葉飾_L': .154, '馬尾_R': .675, '馬尾_L': .674},
     clones=[],
     wave=('babypink@.45-1.1', 'hand@.6-1.0'),
 )

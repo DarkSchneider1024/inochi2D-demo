@@ -37,14 +37,14 @@ REF = 'carrot-youtube/人物形象/32_國王的新衣V6換裝/{mid}_思考比對
 # 量自 Gemini 比對圖（底圖 px；角色右手＝畫面左托下巴）
 CAST = {
     'thread': dict(
-        mid='thread_nc_burlyv3', scale=1.3,
+        mid='thread_nc_burlyv3', scale=1.3, origin=(512, 750),
         SR=(300, 382), ER=(386, 612), WR=(492, 366), CHIN=(514, 272),
         SL=(724, 382), EL=(774, 628), WL=(462, 634),
         w_up=(56, 50), w_fore=(44, 34), fist=(40, 36), hand=1.0, sleeve_to=.86,
         sleeve=('#fbf6e6', '#efe5cc', '#cdbd98', '#6e5a3a'), skin=('#f6b98c', '#eba274', '#d4865c', '#84452c'),
         hair=True, z=(.44, .385)),
     'duo': dict(
-        mid='duo_nc_carolv3', scale=1.257,
+        mid='duo_nc_carolv3', scale=1.257, origin=(512, 742),
         SR=(420, 418), ER=(404, 590), WR=(494, 412), CHIN=(510, 326),
         SL=(604, 418), EL=(656, 598), WL=(512, 626),
         w_up=(30, 21), w_fore=(17, 13), fist=(28, 24), fist_t=.6, hand=.55, sleeve_to=.5,
@@ -177,30 +177,28 @@ def render(page, svg, box, k=2.0):
 def new_layer(model, c, name, img, box, z):
     """a copy of 胸腔 (all its bindings: breath, sway, squat) carrying the picture on the box (base px)"""
     import build_carol_leads as L
-    from build_carol_hand_limbs import fit_grid
     part = L.clone_part(model, '胸腔', name, z)
     part['masks'] = []
     part['opacity'] = 1
     set_part_image(model, part, img)
     x0, y0, x1, y1 = box
-    if c['mid'].endswith('carolv3'):
-        fit_grid(part, (x0, y0, x1 - x0, y1 - y0))
-    else:
-        _fit_burly(model, part, box, c['scale'])
+    # placed in true root space (the parent's actual origin): body.py moves the Body node when it rescales the body,
+    # so carol's fit_grid (fixed Body frame) would put the layer off by that shift
+    _fit_burly(model, part, box, c['scale'], origin=c['origin'])
     # the chest's deform bindings were for its own mesh: drop them (only transforms / opacity follow the chest)
     for p in model.params.values():
         p['bindings'] = [b for b in p['bindings'] if not (b['node'] == part['uuid'] and b['param_name'] == 'deform')]
     return part
 
 
-def _fit_burly(model, part, box, k, cols=6, rows=8):
-    """an even grid over the box (base px) in the part's own parent space (root = (base - (512, 750)) * k)"""
+def _fit_burly(model, part, box, k, cols=6, rows=8, origin=(512, 750)):
+    """an even grid over the box (base px) in the part's own parent space (root = (base - origin) * k)"""
     root = model.parts['Root']
     ox, oy = model.position(part, root)
     tx, ty = part['transform']['trans'][:2]
     px, py = ox - tx, oy - ty                     # parent origin in root space
     x0, y0, x1, y1 = box
-    cx, cy = ((x0 + x1) / 2 - 512) * k, ((y0 + y1) / 2 - 750) * k
+    cx, cy = ((x0 + x1) / 2 - origin[0]) * k, ((y0 + y1) / 2 - origin[1]) * k
     part['transform']['trans'][0], part['transform']['trans'][1] = cx - px, cy - py
     W, H = (x1 - x0) * k, (y1 - y0) * k
     verts, uvs, idx = [], [], []
@@ -216,6 +214,25 @@ def _fit_burly(model, part, box, k, cols=6, rows=8):
     part['mesh'].update(verts=verts, uvs=uvs, indices=idx, origin=[0, 0])
 
 
+def reshaped(c, meta):
+    """(2026-11-23 體型 body.py) 肩、肘、垂下的手跟著身體的寬度曲線與等比縮放移動；托下巴的手腕、下巴在頭旁不動；粗細乘身體比例"""
+    if not meta:
+        return c
+    sys.path.insert(0, str(HERE))
+    import body as BD
+    f = BD.body_map(meta)
+    k, (ox, oy) = c['scale'], c['origin']
+    c = dict(c)
+    for key in ('SR', 'ER', 'SL', 'EL', 'WL'):
+        x, y = f((c[key][0] - ox) * k, (c[key][1] - oy) * k)
+        c[key] = (round(x / k + ox, 1), round(y / k + oy, 1))
+    s = meta['body']['scale'] * (1 + (meta['body'].get('arm', 1) - 1) * .5)
+    for key in ('w_up', 'w_fore', 'fist'):
+        c[key] = tuple(v * s for v in c[key])
+    c['hand'] = c['hand'] * s
+    return c
+
+
 def main(who):
     c = CAST[who]
     model = Model(c['mid'])
@@ -223,6 +240,7 @@ def main(who):
         raise SystemExit('先跑 story_think.py ' + c['mid'])
     if 'storyThinkDrawn' in model.json['meta']:
         raise SystemExit('已有手繪思考手臂：先從 builder 重建、story_explain、story_think 再跑')
+    c = reshaped(c, model.json['meta'].get('storyNc6Body'))
     xs = [c[k][0] for k in ('SR', 'ER', 'WR', 'SL', 'EL', 'WL')]
     ys = [c[k][1] for k in ('SR', 'ER', 'WR', 'SL', 'EL', 'WL')]
     pad = c['w_up'][0] + 30
