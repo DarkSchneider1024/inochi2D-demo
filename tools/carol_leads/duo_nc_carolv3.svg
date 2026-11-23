@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536">
+  <!-- 小朵（國王的新衣 V6，卡洛兒 v3 骨架）2026-11-23。造型照 carrot-youtube/人物形象/32_國王的新衣V6換裝/duo_nc_carolv3_底圖_v1.png，
+       座標畫在卡洛兒 v3 底圖的畫布上（同骨架）；瀏海、鬢角沿用卡洛兒 v3 換金色，臉不畫。story_nc6/duo.py 使用。 -->
+  <defs>
+    <linearGradient id="duo_gold" x2=".7" y2="1"><stop stop-color="#fff3b0"/><stop offset=".3" stop-color="#f8d860"/><stop offset=".65" stop-color="#e8b830"/><stop offset="1" stop-color="#b8861c"/></linearGradient>
+    <linearGradient id="duo_gold_bun" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff6c4"/><stop offset=".35" stop-color="#f8d864"/><stop offset=".75" stop-color="#e2ae2a"/><stop offset="1" stop-color="#a87818"/></linearGradient>
+    <linearGradient id="duo_pink" x2="1" y2=".2"><stop stop-color="#eab0bc"/><stop offset=".35" stop-color="#f8cdd4"/><stop offset=".7" stop-color="#fbd8de"/><stop offset="1" stop-color="#e6a8b4"/></linearGradient>
+    <linearGradient id="duo_skirt" x2="1" y2="0"><stop stop-color="#f2bfc8"/><stop offset=".22" stop-color="#f9e6b4"/><stop offset=".5" stop-color="#fdf1c0"/><stop offset=".78" stop-color="#f9e6b4"/><stop offset="1" stop-color="#f0bcc6"/></linearGradient>
+    <linearGradient id="duo_cream" x2=".8" y2="1"><stop stop-color="#fffdf2"/><stop offset=".6" stop-color="#fbf2d4"/><stop offset="1" stop-color="#eedcaa"/></linearGradient>
+    <linearGradient id="duo_sock" x2="1" y2=".15"><stop stop-color="#cfcbc8"/><stop offset=".35" stop-color="#f6f4f1"/><stop offset=".7" stop-color="#ffffff"/><stop offset="1" stop-color="#dedad6"/></linearGradient>
+    <linearGradient id="duo_skin" x2="1" y2="0"><stop stop-color="#dca294"/><stop offset=".38" stop-color="#f7d5c6"/><stop offset=".66" stop-color="#ffeadc"/><stop offset="1" stop-color="#eab4a4"/></linearGradient>
+    <linearGradient id="duo_leg" x2="1" y2="0"><stop stop-color="#e9b7a8"/><stop offset=".3" stop-color="#fbdccf"/><stop offset=".65" stop-color="#fde6dc"/><stop offset="1" stop-color="#ecbcae"/></linearGradient>
+    <linearGradient id="duo_shoe" x2=".8" y2=".9"><stop stop-color="#0c0c10"/><stop offset=".4" stop-color="#2a2a33"/><stop offset=".6" stop-color="#454552"/><stop offset="1" stop-color="#101014"/></linearGradient>
+    <clipPath id="duo_bclip"><path d="M471 368 Q482 372 498 385 Q512 392 528 385 Q541 376 552 369 C570 374 599 384 611 399 C615 421 604 450 600 478 Q593 502 589 521 Q586 537 589 555 C592 574 599 593 609 609 Q583 628 551 635 Q515 642 476 635 Q442 629 418 609 C427 589 434 570 436 553 Q439 535 433 516 C427 479 414 440 410 410 Q414 385 471 368Z"/></clipPath>
+    <linearGradient id="duo_fade_t" gradientUnits="userSpaceOnUse" x1="0" y1="1052" x2="0" y2="1088"><stop stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>
+    <mask id="duo_mthigh" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1536"><rect x="0" y="0" width="1024" height="1536" fill="url(#duo_fade_t)"/></mask>
+    <linearGradient id="duo_fade_b" gradientUnits="userSpaceOnUse" x1="0" y1="1268" x2="0" y2="1294"><stop stop-color="#000"/><stop offset="1" stop-color="#fff"/></linearGradient>
+    <mask id="duo_mboot" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1536"><rect x="0" y="0" width="1024" height="1536" fill="url(#duo_fade_b)"/></mask>
+  </defs>
+  <g id="cap">
+    <path d="M410 185 Q433 109 511 102 Q591 104 614 183 Q636 230 646 300 Q654 360 650 418 Q634 432 614 424 Q594 438 570 426 L454 426 Q430 438 410 424 Q390 432 374 418 Q370 360 378 300 Q388 230 410 185Z"
+      fill="url(#duo_gold)" stroke="#a87418" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M398 260 Q384 340 388 410 M428 230 Q414 330 422 420 M626 260 Q640 340 636 410 M596 230 Q610 330 602 420" fill="none" stroke="#c99a24" stroke-width="2.2" opacity=".6" stroke-linecap="round"/>
+    <path d="M404 280 Q394 350 398 400 Q410 350 420 296Z M620 280 Q630 350 626 400 Q614 350 604 296Z" fill="#fff6c6" opacity=".55"/>
+  </g>
+  <g id="side_lock_long">
+    <path d="M408 200 C392 240 384 300 382 360 C380 420 384 480 380 530 C378 552 372 566 362 578 Q382 576 392 562 Q396 578 404 586 Q408 562 410 540 C414 480 418 420 420 360 C422 300 424 240 408 200Z"
+      fill="url(#duo_gold)" stroke="#a87418" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M400 236 Q390 330 390 420 Q390 500 384 556 M412 270 Q408 380 404 470 Q402 530 402 574" fill="none" stroke="#c99a24" stroke-width="1.8" opacity=".65" stroke-linecap="round"/>
+    <path d="M404 246 Q394 330 394 420 Q394 480 390 520 Q402 440 408 330Z" fill="#fff7cc" opacity=".6"/>
+  </g>
+  <g id="bun">
+    <path d="M454 132 Q426 140 404 126 Q376 108 380 76 Q386 46 418 38 Q452 32 470 58 Q484 84 474 112 Q468 126 454 132Z"
+      fill="url(#duo_gold_bun)" stroke="#a87418" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M396 86 Q404 56 432 52 Q460 52 464 80 Q462 104 438 110 Q414 110 410 90 Q412 72 430 70 Q446 72 446 86" fill="none" stroke="#c99a24" stroke-width="2.2" opacity=".75" stroke-linecap="round"/>
+    <path d="M392 108 Q414 124 446 122 M406 60 Q418 46 440 44" fill="none" stroke="#c99a24" stroke-width="1.8" opacity=".6" stroke-linecap="round"/>
+    <path d="M404 70 Q414 52 436 50 Q420 60 412 78Z" fill="#fffbe0" opacity=".75"/>
+    <path d="M420 38 Q408 24 396 26 M462 50 Q474 36 486 40 M384 92 Q370 96 366 108" fill="none" stroke="#d9a62a" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <g id="collar">
+    <path d="M512 380 C496 368 470 364 458 372 C452 388 462 408 486 412 C502 414 510 402 512 390Z M512 380 C528 368 554 364 566 372 C572 388 562 408 538 412 C522 414 514 402 512 390Z"
+      fill="url(#duo_cream)" stroke="#c9ae6a" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M462 380 Q466 402 488 406 Q504 406 509 394 M562 380 Q558 402 536 406 Q520 406 515 394" fill="none" stroke="#f0d070" stroke-width="2.2" opacity=".9"/>
+  </g>
+  <g id="bodice">
+    <g clip-path="url(#duo_bclip)">
+      <rect x="400" y="360" width="224" height="290" fill="url(#duo_skirt)"/>
+      <path d="M400 360 H624 V470 Q512 480 400 470Z" fill="url(#duo_pink)"/>
+      <path d="M498 384 L526 384 L524 474 L500 474Z" fill="url(#duo_cream)" stroke="#d8bf86" stroke-width="1.3"/>
+      <path d="M400 468 Q512 478 624 468 L624 478 Q512 488 400 478Z" fill="#f6e2a0" stroke="#d8bf86" stroke-width="1.2"/>
+      <path d="M452 490 Q448 560 440 630 M480 488 Q478 560 474 636 M512 490 L512 640 M544 488 Q546 560 550 636 M572 490 Q576 560 584 630" fill="none" stroke="#e8cf86" stroke-width="2" opacity=".7"/>
+      <path d="M430 400 Q422 430 424 460 Q436 430 446 404Z M594 400 Q602 430 600 460 Q588 430 578 404Z" fill="#ffffff" opacity=".35"/>
+    </g>
+    <path d="M471 368 Q482 372 498 385 Q512 392 528 385 Q541 376 552 369 C570 374 599 384 611 399 C615 421 604 450 600 478 Q593 502 589 521 Q586 537 589 555 C592 574 599 593 609 609 Q583 628 551 635 Q515 642 476 635 Q442 629 418 609 C427 589 434 570 436 553 Q439 535 433 516 C427 479 414 440 410 410 Q414 385 471 368Z"
+      fill="none" stroke="#c9a090" stroke-width="2"/>
+    <circle cx="512" cy="416" r="4.5" fill="#fffdf6" stroke="#c9ae6a" stroke-width="1.3"/><circle cx="512" cy="446" r="4.5" fill="#fffdf6" stroke="#c9ae6a" stroke-width="1.3"/>
+  </g>
+  <g id="upper">
+    <path d="M365 525 Q387 528 412 535 C404 554 399 574 394 596 Q388 610 375 616 L347 604 Q349 583 357 562Z" fill="url(#skin)" stroke="#ca9286" stroke-width="1.4"/>
+    <path d="M411 384 C383 388 376 416 366 440 C356 466 344 492 340 512 Q372 532 430 534 L437 506 C438 470 438 440 431 412 Q425 392 411 384Z"
+      fill="url(#duo_pink)" stroke="#c98a98" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M398 404 Q380 440 372 486 Q392 446 412 410Z" fill="#ffffff" opacity=".45"/>
+    <path d="M384 430 Q392 470 388 510 M416 420 Q420 466 416 512" fill="none" stroke="#dc9aa8" stroke-width="1.6" opacity=".6"/>
+    <path d="M341 510 Q376 530 431 531 L428 547 Q376 548 338 524Z" fill="#f8e6a4" stroke="#d8bf86" stroke-width="1.3"/>
+  </g>
+  <g id="dress_skirt">
+    <path d="M418 602 Q466 622 512 622 Q558 622 606 602 C628 660 644 720 664 780 Q684 840 700 918 Q672 934 640 930 Q610 942 576 936 Q544 946 512 940 Q480 946 448 936 Q414 942 384 930 Q352 934 324 918 Q340 840 362 780 C380 720 396 660 418 602Z"
+      fill="url(#duo_skirt)" stroke="#c9a070" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M450 624 Q420 760 380 926 M480 630 Q468 780 450 934 M512 632 L512 938 M544 630 Q556 780 574 934 M574 624 Q604 760 644 926" fill="none" stroke="#e6c47a" stroke-width="2.4" opacity=".6"/>
+    <path d="M462 630 Q446 760 420 920 Q434 780 470 632Z M528 632 Q538 760 548 930 Q546 780 536 632Z" fill="#ffffff" opacity=".4"/>
+    <path d="M326 914 Q352 928 384 926 Q414 938 448 932 Q480 942 512 936 Q544 942 576 932 Q610 938 640 926 Q672 928 698 914" fill="none" stroke="#f3d27a" stroke-width="3" opacity=".8"/>
+  </g>
+  <g id="thigh"><g mask="url(#duo_mthigh)">
+    <path d="M400 652 Q457 643 516 654 L516 768 Q497 800 480 849 C482 879 480 923 478 950 Q474 980 476 1006 C476 1025 466 1049 460 1075 Q438 1088 414 1068 C410 1041 412 1021 413 997 C414 958 406 917 399 885 C395 840 392 760 400 652Z" fill="url(#duo_skin)"/>
+    <path d="M480 849 C482 879 480 923 478 950 Q474 980 476 1006 C476 1025 470 1038 466 1048 M399 885 C395 840 392 760 400 652 M399 885 C406 917 414 958 413 997 C411 1021 411 1034 412 1046" fill="none" stroke="#c98f80" stroke-width="1.6"/>
+    <path d="M420 1014 Q435 1026 452 1016" fill="none" stroke="#ca8b77" stroke-width="1.3" opacity=".45"/>
+</g>
+  </g>
+  <g id="calf">
+    <path d="M410 1066 Q438 1034 466 1066 L468 1100 C464 1130 456 1156 450 1180 C444 1206 436 1250 432 1296 L388 1296 C388 1270 387 1240 386 1214 C385 1180 392 1160 400 1140 C404 1124 408 1112 410 1100 Z" fill="url(#duo_skin)"/>
+    <path d="M468 1108 C464 1134 456 1158 450 1180 C444 1206 436 1250 432 1290 M388 1290 C388 1270 387 1240 386 1214 C385 1180 392 1160 400 1140 C403 1128 407 1118 409 1110" fill="none" stroke="#c99486" stroke-width="1.5"/>
+    <path d="M414 1150 Q404 1190 408 1230 L410 1270 Q420 1230 420 1196 Q424 1166 428 1150Z" fill="#fff4ee" opacity=".45"/>
+  </g>
+  <g id="boot">
+    <g mask="url(#duo_mboot)"><path d="M386 1266 L434 1266 Q431 1300 431 1340 Q428 1380 429 1410 L431 1420 L382 1420 Q385 1400 385 1380 Q386 1350 385 1320 Q386 1290 386 1266Z" fill="url(#duo_skin)"/>
+    <path d="M431 1272 Q432 1300 431 1340 Q428 1380 429 1410 M385 1320 Q386 1350 385 1380 Q385 1400 383 1410 M385 1320 Q386 1296 387 1276" fill="none" stroke="#c99486" stroke-width="1.5"/></g>
+    <path d="M381 1398 Q408 1404 433 1398 Q432 1420 437 1442 L379 1442 Q383 1420 381 1398Z" fill="url(#duo_sock)" stroke="#b9b1ad" stroke-width="1.6"/>
+    <path d="M381 1398 Q408 1404 433 1398 L433 1410 Q408 1416 381 1410Z" fill="#ffffff" stroke="#c4bcb8" stroke-width="1.2"/>
+    <path d="M392 1402 V1410 M402 1403 V1411 M412 1403 V1411 M422 1402 V1410" stroke="#d4ceca" stroke-width="1.2"/>
+    <path d="M372 1438 Q380 1428 396 1431 Q412 1440 430 1431 Q446 1430 449 1446 Q457 1468 455 1487 Q453 1500 440 1503 Q404 1510 372 1503 Q359 1498 358 1484 Q357 1460 372 1438Z"
+      fill="url(#duo_shoe)" stroke="#121216" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M382 1437 Q408 1447 441 1437 L442 1447 Q408 1458 381 1447Z" fill="url(#duo_shoe)" stroke="#121216" stroke-width="1.4"/>
+    <circle cx="432" cy="1442" r="4" fill="#c9ccd4" stroke="#6a6e78" stroke-width="1.2"/>
+    <path d="M374 1466 Q388 1452 410 1456 Q396 1466 378 1474Z" fill="#ffffff" opacity=".42"/>
+    <path d="M358 1487 Q404 1500 455 1487 L453 1500 Q404 1513 360 1502Z" fill="#1a1a20" stroke="#0c0c10" stroke-width="1.2"/>
+  </g>
+  <g id="glove">
+    <path xmlns="http://www.w3.org/2000/svg" d="M292 714 Q310 714 333 730 C327 747 324 760 315 772       Q306 780 304 798 C301 809 295 825 286 825       Q281 824 284 815 L289 796 C283 799 279 803 275 809       L259 834 Q252 840 248 835 Q246 832 249 826 L263 804       Q254 810 250 816 L234 836 Q227 843 223 838 Q221 834 226 828 L245 806       Q234 810 228 817 L221 827 Q215 834 211 830 Q208 826 213 821 L229 803       Q218 805 208 811 Q201 816 201 810 Q203 805 212 798       L249 779 Q265 763 272 746 Q284 731 292 714Z" fill="url(#skin)" stroke="#c99486" stroke-width="1.5" stroke-linejoin="round" />
+    <path xmlns="http://www.w3.org/2000/svg" d="M291 735 Q303 731 318 744 M269 783 Q283 773 297 777 M278 791 Q282 789 286 788" fill="none" stroke="#d9a898" stroke-width="1.4" stroke-linecap="round" />
+  </g>
+</svg>

@@ -1076,5 +1076,33 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "thread_nc_burlyv3",
+  "name": "thread_nc_burlyv3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "thread_nc_burlyv3_side",
+  "name": "thread_nc_burlyv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "duo_nc_carolv3",
+  "name": "duo_nc_carolv3",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
+ },
+ {
+  "id": "duo_nc_carolv3_side",
+  "name": "duo_nc_carolv3_side",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
