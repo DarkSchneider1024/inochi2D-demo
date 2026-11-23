@@ -5160,10 +5160,15 @@
   ]
  },
  "new_carrot_side": {
-  "version": "2026-11-23-wholearm-test",
-  "build": "20261123-wholearm",
-  "note": "測試版（回歸中）：指、講解（綠裝與魔法師）改成 GPT 畫的整條遠側手臂；垂手上臂、前臂 GPT 重畫",
+  "version": "2026-11-24-onepiece-test",
+  "build": "20261124-onepiece",
+  "note": "測試版（回歸中）：側面手腳改成一整條（綠裝、魔法師都是 GPT 重畫的肩到指尖、髖到靴底），走路不再從手肘、膝蓋斷開；揮手時才換成上臂＋前臂兩層，指、講解換整條姿勢手臂",
   "history": [
+   {
+    "version": "2026-11-23-wholearm-test",
+    "build": "20261123-wholearm",
+    "note": "測試版（回歸中）：指、講解（綠裝與魔法師）改成 GPT 畫的整條遠側手臂；垂手上臂、前臂 GPT 重畫"
+   },
    {
     "version": "2026-11-19-t20b",
     "build": "20261119-t20b",
