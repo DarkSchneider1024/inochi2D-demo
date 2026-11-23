@@ -1104,5 +1104,12 @@
   "build": "1.0-alpha",
   "private": false,
   "category": "story"
+ },
+ {
+  "id": "cheshire_v7",
+  "name": "cheshire_v7",
+  "build": "1.0-alpha",
+  "private": false,
+  "category": "story"
  }
 ]
