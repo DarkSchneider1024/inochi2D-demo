@@ -46,7 +46,28 @@ HAIR, HAIR_L, HAIR_D, HAIR_LINE = '#7a5a46', '#9a785e', '#5a3f30', '#2e1f17'
 INK = '#2a1a14'
 
 # =================================================================== joints (base px, character right = image left)
-S_ARM, E_ARM, W_ARM = (292.0, 462.0), (222.0, 712.0), (182.0, 876.0)
+S_ARM, E_ARM, W_ARM = (300.0, 480.0), (222.0, 712.0), (182.0, 876.0)   # (第二輪) 肩關節移到圓頭袖山的圓心
+
+# =================================================================== body shape (2026-11-23 統籌第二輪：「身材不夠胖」)
+# 腿短粗：腿以髖（y 860）為定點垂直壓 LEG_Y、以褲管中心 x 400 為中心加寬 LEG_X；鞋跟著腳踝往上 LEG_SHIFT、略加寬
+HIP_Y, LEG_CX = 860.0, 400.0
+LEG_X, LEG_Y = 1.16, .84
+ANKLE_Y = 1395.0
+LEG_SHIFT = (1 - LEG_Y) * (ANKLE_Y - HIP_Y)       # 85.6：鞋底 1500 → 1414.4
+BOOT_X = 1.10
+LEG_TF = f'matrix({LEG_X} 0 0 {LEG_Y} {LEG_CX * (1 - LEG_X):.3f} {HIP_Y * (1 - LEG_Y):.3f})'
+BOOT_TF = f'matrix({BOOT_X} 0 0 1 {380 * (1 - BOOT_X):.3f} {-LEG_SHIFT:.3f})'
+
+
+def leg_pt(p):
+    return (LEG_CX + (p[0] - LEG_CX) * LEG_X, HIP_Y + (p[1] - HIP_Y) * LEG_Y)
+
+
+def boot_pt(p):
+    return (380 + (p[0] - 380) * BOOT_X, p[1] - LEG_SHIFT)
+
+
+SOLE = 1500.0 - LEG_SHIFT
 
 # =================================================================== arms
 UPPER_R = [(372, 380), (345, 392), (318, 407), (290, 425), (265, 450), (245, 480), (230, 515), (216, 555), (200, 590), (182, 612), (168, 628),
@@ -56,13 +77,24 @@ CUFF_TOP = [(166, 630), (200, 646), (240, 664), (292, 690)]
 FORE_R = [(157, 682), (176, 697), (210, 713), (245, 728), (271, 739), (274, 752), (262, 770), (250, 792), (236, 818), (226, 850), (222, 882),
           (140, 886), (141, 850), (146, 810), (150, 770), (153, 730), (155, 700)]
 SHOULDER, ELBOW, WRIST = S_ARM, E_ARM, W_ARM
+# (2026-11-23 第二輪，T12：「思考、揮手時肩膀袖子往外翹成小翅膀」) 袖子上端原本是一路畫到領口的長尖角（插肩），繞肩關節
+# 剛體轉時那個尖角甩到肩膀外面。改成以肩關節 S 為圓心的圓頭袖山（半徑 CAP_R）：袖子怎麼轉，上端都留在同一個圓裡；
+# 圓外的肩膀由襯衫軀幹（CHEST_R）畫。
+CAP_R = 45.0
+
+
+def _sleeve_pts():
+    a0, a1 = math.atan2(20, 40), math.atan2(18, -42) - 2 * math.pi        # inner seam → over the top → outer edge
+    arc = [(S_ARM[0] + CAP_R * math.cos(a0 + (a1 - a0) * i / 12), S_ARM[1] + CAP_R * math.sin(a0 + (a1 - a0) * i / 12)) for i in range(13)]
+    low = UPPER_R[UPPER_R.index((230, 515)):UPPER_R.index((318, 500)) + 1]
+    return arc + low
 
 
 def sleeve(colors=None):
     """捲到手肘的米白袖子：上半是袖管、下半是捲起的袖口（兩層布邊）"""
     c = colors or dict(fill=SHIRT, light=SHIRT_L, dark=SHIRT_D, deep=SHIRT_DD, line=SHIRT_LINE)
     g = G('upper')
-    d = curve_d(UPPER_R, True, 6)
+    d = curve_d(_sleeve_pts(), True, 6)
     fill = g.lin(156, 0, 372, 0, [(0, c['dark']), (.25, c['fill']), (.6, c['light']), (1, c['fill'])])
     b = g.blur(4)
     cuff = poly_d(curve_pts(CUFF_TOP, False, 6) + [(300, 760), (140, 760)])
@@ -118,12 +150,14 @@ def leg_inner(g, pts=None, colors=None):
            f'<path d="M370 900 Q362 1060 370 1220" fill="none" stroke="{c["light"]}" stroke-width="12" stroke-linecap="round" opacity=".35" filter="{b}"/>'
            + folds)
     cl = g.clip(d)
-    return f'<path d="{d}" fill="{fill}"/><g clip-path="{cl}">{ins}</g>' + path(d, 'none', c['line'], 2.2)
+    return (f'<g transform="{LEG_TF}"><path d="{d}" fill="{fill}"/><g clip-path="{cl}">{ins}</g>' + path(d, 'none', c['line'], 2.2)
+            + '</g>')
 
 
 def leg_window(name, y0, y1, colors=None):
     g = G(name)
-    c = g.clip(f'M260 {y0}H530V{y1}H260Z')
+    y0, y1 = (HIP_Y + (y - HIP_Y) * LEG_Y for y in (y0, y1))
+    c = g.clip(f'M230 {y0:.1f}H560V{y1:.1f}H230Z')
     g.add(f'<g clip-path="{c}">{leg_inner(g, colors=colors)}</g>')
     return g
 
@@ -132,15 +166,15 @@ def pants_top(colors=None):
     """褲頭（兩條腿上段＋胯下，蓋住大腿頂端的接縫）"""
     c = colors or dict(fill=PANTS, light=PANTS_L, dark=PANTS_D, line=PANTS_LINE)
     g = G('pants_top')
-    cl = g.clip('M270 800H760V960H270Z')
+    cl = g.clip('M250 800H780V960H250Z')
     fill = g.lin(290, 0, 737, 0, [(0, c['dark']), (.2, c['fill']), (.5, c['light']), (.8, c['fill']), (1, c['dark'])])
     g2 = G('pants_top_m')
     left = leg_inner(g, colors=colors)
     right = leg_inner(g2, colors=colors)
     g.defs += g2.defs
-    g.add(f'<g clip-path="{cl}"><path d="M292 800H735V900H292Z" fill="{fill}"/>{left}<g transform="{MIRROR}">{right}</g>'
+    g.add(f'<g clip-path="{cl}"><path d="M{AXIS - 238} 800H{AXIS + 238}V900H{AXIS - 238}Z" fill="{fill}"/>{left}<g transform="{MIRROR}">{right}</g>'
           f'<path d="M{AXIS} 850V960" fill="none" stroke="{c["line"]}" stroke-width="1.6"/>'
-          f'<path d="M300 850 Q318 900 326 950 M{2 * AXIS - 300} 850 Q{2 * AXIS - 318} 900 {2 * AXIS - 326} 950" fill="none" stroke="{c["line"]}" stroke-width="1.8"/>'
+          f'<path d="M286 860 Q304 900 312 940 M{2 * AXIS - 286} 860 Q{2 * AXIS - 304} 900 {2 * AXIS - 312} 940" fill="none" stroke="{c["line"]}" stroke-width="1.8"/>'
           f'<path d="M{AXIS - 16} 856 Q{AXIS - 18} 900 {AXIS} 916" fill="none" stroke="{c["dark"]}" stroke-width="1.6"/></g>')
     return g
 
@@ -161,13 +195,16 @@ def boot():
            f'<path d="M296 1440 Q340 1430 372 1446" fill="none" stroke="{SHOE_D}" stroke-width="2" opacity=".8"/>'
            + lace)
     shape(g, d, fill, SHOE_LINE, 2.2, ins)
+    g.body = [f'<g transform="{BOOT_TF}">' + ''.join(g.body) + '</g>']
     return g
 
 
 # =================================================================== torso
-CHEST_R = [(AXIS, 452), (497, 428), (478, 402), (458, 376), (440, 358), (418, 352), (395, 362), (372, 378), (345, 392), (322, 410), (306, 450),
-           (299, 510), (296, 570), (292, 630), (287, 690), (284, 745), (288, 782), (306, 800), (350, 812), (410, 818), (470, 821), (AXIS, 822)]
-BUTTONS = [476, 552, 627, 708, 786]
+# (2026-11-23 第二輪) 圓滾滾的啤酒肚：腰側比胸寬往外鼓，肚子下緣圓弧垂到腰帶前面（中間最低）
+CHEST_R = [(AXIS, 452), (497, 428), (478, 402), (458, 376), (440, 358), (418, 352), (395, 362), (372, 378), (345, 392), (318, 407), (292, 424),
+           (270, 446), (260, 474), (261, 515), (265, 565), (262, 625), (254, 690), (256, 745), (270, 795), (302, 832), (350, 856), (410, 869), (470, 875), (AXIS, 877)]
+BUTTONS = [476, 560, 644, 728, 812]
+BELT_TOP = (812.0, 900.0)       # 腰帶上緣：兩側 y、二次曲線控制點 y（中間下垂到 856）
 
 
 def chest(colors=None):
@@ -176,16 +213,17 @@ def chest(colors=None):
     g = G('shirt')
     pts = CHEST_R + mir(CHEST_R[1:-1])[::-1]
     d = curve_d(pts, True, 5)
-    fill = g.lin(284, 0, 743, 0, [(0, c['dark']), (.18, c['fill']), (.45, c['light']), (.7, c['fill']), (1, c['dark'])])
+    fill = g.lin(250, 0, 777, 0, [(0, c['dark']), (.18, c['fill']), (.45, c['light']), (.7, c['fill']), (1, c['dark'])])
     b = g.blur(9)
     A = AXIS
-    belly = (f'<ellipse cx="{A}" cy="660" rx="200" ry="150" fill="{c["light"]}" opacity=".55" filter="{b}"/>'
-             f'<path d="M300 700 Q{A} 860 {2 * A - 300} 700 L{2 * A - 280} 830 L280 830Z" fill="{c["dark"]}" opacity=".55" filter="{b}"/>'
-             f'<path d="M296 520 Q330 640 300 760 L284 760 L284 520Z" fill="{c["deep"]}" opacity=".5" filter="{b}"/>'
-             f'<path d="M{2 * A - 296} 520 Q{2 * A - 330} 640 {2 * A - 300} 760 L{2 * A - 284} 760 L{2 * A - 284} 520Z" fill="{c["deep"]}" opacity=".5" filter="{b}"/>'
+    belly = (f'<ellipse cx="{A + 10}" cy="680" rx="226" ry="168" fill="{c["light"]}" opacity=".6" filter="{b}"/>'
+             f'<ellipse cx="{A - 60}" cy="640" rx="70" ry="60" fill="#ffffff" opacity=".35" filter="{b}"/>'
+             f'<path d="M262 730 Q{A} 930 {2 * A - 262} 730 L{2 * A - 240} 900 L240 900Z" fill="{c["dark"]}" opacity=".6" filter="{b}"/>'
+             f'<path d="M270 540 Q306 680 272 820 L248 820 L248 540Z" fill="{c["deep"]}" opacity=".5" filter="{b}"/>'
+             f'<path d="M{2 * A - 270} 540 Q{2 * A - 306} 680 {2 * A - 272} 820 L{2 * A - 248} 820 L{2 * A - 248} 540Z" fill="{c["deep"]}" opacity=".5" filter="{b}"/>'
              f'<path d="M420 590 Q460 584 500 588 M{2 * A - 420} 590 Q{2 * A - 460} 584 {2 * A - 500} 588" fill="none" stroke="{c["deep"]}" stroke-width="3" stroke-linecap="round" opacity=".55" filter="{g.blur(1.5)}"/>'
-             f'<path d="M330 760 Q360 790 400 800 M{2 * A - 330} 760 Q{2 * A - 360} 790 {2 * A - 400} 800" fill="none" stroke="{c["deep"]}" stroke-width="3" stroke-linecap="round" opacity=".5" filter="{g.blur(1.5)}"/>'
-             f'<path d="M{A - 11} 450 V818" fill="none" stroke="{c["line"]}" stroke-width="1.6" opacity=".8"/>')
+             f'<path d="M300 800 Q340 836 400 852 M{2 * A - 300} 800 Q{2 * A - 340} 836 {2 * A - 400} 852" fill="none" stroke="{c["deep"]}" stroke-width="3" stroke-linecap="round" opacity=".5" filter="{g.blur(1.5)}"/>'
+             f'<path d="M{A - 11} 450 V872" fill="none" stroke="{c["line"]}" stroke-width="1.6" opacity=".8"/>')
     if not colors or colors.get('buttons', True):
         belly += ''.join(f'<circle cx="{A + 1}" cy="{y}" r="5.4" fill="{c["light"]}" stroke="{c["line"]}" stroke-width="1.8"/>'
                          f'<circle cx="{A + 1}" cy="{y}" r="1.6" fill="{c["line"]}" opacity=".6"/>' for y in BUTTONS)
@@ -243,19 +281,38 @@ def collar(front, colors=None):
 STRAP_TOP, STRAP_BOT = 362.0, 800.0
 
 
+STRAP_BEND, STRAP_DROP = 24.0, 32.0
+
+
+def strap_pt(x, y):
+    """吊帶跟著肚子彎：中段往外（畫面左）推 STRAP_BEND，下端往下伸 STRAP_DROP 夾到垂下來的腰帶"""
+    u = min(1.0, max(0.0, (y - 420) / (830 - 420)))
+    return x - STRAP_BEND * math.sin(math.pi * u) ** .8, STRAP_TOP + (y - STRAP_TOP) * (1 + STRAP_DROP / (808 - STRAP_TOP))
+
+
 def strap():
     """吊帶（右片；左片鏡像）：深褐帶子、調整扣、下端金屬夾"""
     g = G('strap')
-    d = curve_d(M['strap'][::3], True, 3)
-    fill = g.lin(330, 0, 410, 0, [(0, STRAP_D), (.4, STRAP), (.7, STRAP_L), (1, STRAP_D)])
-    clipd = f'M336 772 H406 V808 Q370 822 334 808Z'
-    ins = (f'<rect x="338" y="498" width="44" height="17" rx="5" fill="{METAL}" stroke="{METAL_D}" stroke-width="1.6"/>'
-           f'<path d="M342 503 H378" stroke="{METAL_L}" stroke-width="2" stroke-linecap="round"/>'
-           f'<path d="M380 380 Q370 560 362 770" fill="none" stroke="{STRAP_L}" stroke-width="2" opacity=".5"/>')
+
+    def sp(x, y):
+        q = strap_pt(x, y)
+        return f'{q[0]:.1f} {q[1]:.1f}'
+    pts = [strap_pt(x, y) for x, y in M['strap'][::3]]
+    d = curve_d(pts, True, 3)
+    fill = g.lin(300, 0, 410, 0, [(0, STRAP_D), (.4, STRAP), (.7, STRAP_L), (1, STRAP_D)])
+    dy = STRAP_DROP
+    bx = strap_pt(370, 790)[0] - 370
+    X = lambda v: f'{v + bx:.1f}'
+    clipd = f'M{X(336)} {772 + dy} H{X(406)} V{808 + dy} Q{X(370)} {822 + dy} {X(334)} {808 + dy}Z'
+    rx, ry = strap_pt(360, 506)
+    ins = (f'<rect x="{rx - 22:.1f}" y="{ry - 8:.1f}" width="44" height="17" rx="5" fill="{METAL}" stroke="{METAL_D}" stroke-width="1.6"/>'
+           f'<path d="M{rx - 18:.1f} {ry - 3:.1f} H{rx + 18:.1f}" stroke="{METAL_L}" stroke-width="2" stroke-linecap="round"/>'
+           f'<path d="M{sp(380, 380)} Q{sp(370, 560)} {sp(362, 770)}" fill="none" stroke="{STRAP_L}" stroke-width="2" opacity=".5"/>')
     shape(g, d, fill, INK, 2.0, ins)
     g.add(f'<path d="{clipd}" fill="{METAL}" stroke="{METAL_D}" stroke-width="1.6"/>'
-          f'<path d="M346 780 H396" stroke="{METAL_L}" stroke-width="2" stroke-linecap="round"/>'
-          f'<path d="M352 806 Q370 830 388 806 L388 824 Q370 840 352 824Z" fill="{STRAP}" stroke="{INK}" stroke-width="1.6"/>')
+          f'<path d="M{X(346)} {780 + dy} H{X(396)}" stroke="{METAL_L}" stroke-width="2" stroke-linecap="round"/>'
+          f'<path d="M{X(352)} {806 + dy} Q{X(370)} {830 + dy} {X(388)} {806 + dy} L{X(388)} {824 + dy} Q{X(370)} {840 + dy} {X(352)} {824 + dy}Z" '
+          f'fill="{STRAP}" stroke="{INK}" stroke-width="1.6"/>')
     return g
 
 
@@ -264,12 +321,13 @@ def belt(colors=None):
     c = colors or dict(fill=PANTS, light=PANTS_L, dark=PANTS_D, line=PANTS_LINE)
     g = G('belt')
     A = AXIS
-    fill = g.lin(0, 796, 0, 852, [(0, c['light']), (.5, c['fill']), (1, c['dark'])])
-    band = f'M290 798 Q{A} 818 {2 * A - 290} 798 L{2 * A - 292} 840 Q{A} 860 292 840Z'
+    fill = g.lin(0, 810, 0, 900, [(0, c['light']), (.5, c['fill']), (1, c['dark'])])
+    y0, cy = BELT_TOP           # (第二輪) 腰帶在肚子下面往下彎（中間被肚子蓋住）
+    band = f'M{A - 238} {y0} Q{A} {cy} {A + 238} {y0} L{A + 236} {y0 + 42} Q{A} {cy + 42} {A - 236} {y0 + 42}Z'
     s = path(band, fill, c['line'], 2.0)
-    for x in (405, 2 * A - 405):
-        s += f'<rect x="{x - 8}" y="806" width="16" height="44" rx="3" fill="{c["fill"]}" stroke="{c["line"]}" stroke-width="1.6"/>'
-    s += f'<circle cx="{A + 1}" cy="842" r="7" fill="{c["dark"]}" stroke="{c["line"]}" stroke-width="1.8"/>'
+    yb = lambda x: y0 + (cy - y0) / 2 * (1 - ((x - A) / 238) ** 2)
+    for x in (A - 150, A + 150):
+        s += f'<rect x="{x - 8}" y="{yb(x) + 6:.1f}" width="16" height="36" rx="3" fill="{c["fill"]}" stroke="{c["line"]}" stroke-width="1.6"/>'
     g.add(s)
     return g
 
@@ -278,8 +336,18 @@ def belt(colors=None):
 CROWN = (505.0, 96.0)
 
 
+def _smooth_ring(r, sigma=2.5):
+    from scipy.ndimage import gaussian_filter1d
+    a = np.asarray(r, float)
+    if len(a) < 12:
+        return [tuple(q) for q in a]
+    a = np.stack([gaussian_filter1d(a[:, 0], sigma, mode='wrap'), gaussian_filter1d(a[:, 1], sigma, mode='wrap')], 1)
+    return [tuple(q) for q in a[::2]]
+
+
 def _rings_d():
-    return ' '.join(poly_d(r) for r in M['hair_front_rings'])
+    # (第二輪) 量來的環是像素輪廓、髮際線一階一階的：沿環高斯平滑再畫成曲線
+    return ' '.join(curve_d(_smooth_ring(r), True, 3) for r in M['hair_front_rings'])
 
 
 def hair_flows():

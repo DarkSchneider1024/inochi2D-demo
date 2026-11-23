@@ -29,6 +29,7 @@ ROOT = HERE.parents[2]
 MODELS = ROOT / 'inochi2D-demo/models'
 FRONT, SID = 'chubby_hand_v3', 'chubby_hand_v3_side'
 SCALE = 1.25
+BELLY_FWD, BELLY_Y, BELLY_S = .24, 700.0, 150.0     # 側面啤酒肚：往前撐開的比例、中心高度、範圍（底圖 px）
 BODY_YAW = 37.0      # 軀幹外輪廓縮成正面的 cos37°＝0.80（V1 卡洛兒 0.83、V1 卡洛特 0.78）
 FRONT_SWING = .45
 ARM_IN, ARM_W = .58, .86   # 手臂往身體中線靠、略窄（V1：0.52～0.57、0.80～0.83）
@@ -44,7 +45,7 @@ NECK_DX, NECK_K = 16.0, 1.19   # 標準脖子在 3/4 時往前進方向挪幾 px
 DEPTH = .55          # 軀幹前後厚度 ÷ 半寬
 CX = (A.AXIS - 512) * SCALE
 TORSO = ('脖子', '後領', '胸腔', '前領', '腰帶', '褲頭', '背心_R', '背心_L')
-HALF = {n: 290.0 for n in ('胸腔', '後領', '前領', '腰帶', '褲頭', '背心_R', '背心_L')}   # 啤酒肚：整個軀幹同一個柱面   # 半寬（模型單位）；沒列的用該層自己的
+HALF = {n: 340.0 for n in ('胸腔', '後領', '前領', '腰帶', '褲頭', '背心_R', '背心_L')}   # 啤酒肚：整個軀幹同一個柱面   # 半寬（模型單位）；沒列的用該層自己的
 DROP_PARAMS = ('Head:: Yaw-Pitch', 'Head:: Roll', 'Arm:: Think', 'Arm:: Wave', 'Arm:: Wave:: Sway', 'Arm:: Right:: Greeting', 'Body:: Squat', 'Acc:: Glasses Off')
 DROP_PREFIX = ('Arm:: Right::', 'Arm:: Left::', 'Hand::', 'Leg:: Right::', 'Leg:: Left::')
 DROP_PARTS = ('揮手', '舉手上臂_', '握手_', '無掌_', '指手', '握拳', '推鏡', '托腮', '思考', '講解臂')
@@ -334,6 +335,11 @@ def build(front=FRONT, sid=SID, extra_torso=(), title='胖大叔說故事 v3・�
                 if v[k + 1] < yref:
                     v[k + 1] = yref - (yref - v[k + 1]) * (.62 - .25 * u)
             v[k] = turn_x(v[k] + px, half) - px
+            # (2026-11-23 第二輪) 啤酒肚往前鼓：肚子高度（底圖 y≈700）的軀幹往前進方向（+x）撐開，後面只鼓一點
+            yb = (v[k + 1] + py) / SCALE + 750
+            gb = BELLY_FWD * math.exp(-((yb - BELLY_Y) / BELLY_S) ** 2)
+            dx = v[k] + px - CX
+            v[k] = CX + dx * (1 + (gb if dx > 0 else .25 * gb)) - px
     nv = model.parts['脖子']['mesh']['verts']
     ncx = (min(nv[::2]) + max(nv[::2])) / 2
     nv[::2] = [ncx + (x - ncx) * NECK_K + NECK_DX * SCALE for x in nv[::2]]
@@ -350,7 +356,7 @@ def build(front=FRONT, sid=SID, extra_torso=(), title='胖大叔說故事 v3・�
         mx = (lambda p: p) if side == 'R' else (lambda p: (2 * A.AXIS - p[0], p[1]))
         S, E = (B.world(*mx(p)) for p in (B.SHOULDER, B.ELBOW))
         hip = B.world(*mx((400.0, 860.0)))
-        knee, ankle = B.world(*mx((400.0, 1190.0))), B.world(*mx((397.0, 1395.0)))
+        knee, ankle = B.world(*mx(A.leg_pt((400.0, 1190.0)))), B.world(*mx(A.leg_pt((397.0, 1395.0))))   # 腿短粗（art.LEG_Y）
         ax = lambda x: CX + (x - CX) * ARM_IN        # where an arm point's column goes
         lx = lambda x: CX + (x - CX) * LEG_IN
         arm = new_node(model, f'Arm {tag}', body, ax(S[0]), S[1])
@@ -407,7 +413,7 @@ def build(front=FRONT, sid=SID, extra_torso=(), title='胖大叔說故事 v3・�
             img, (x0, y0, x1, y1) = render(page, g.out())
             part = model.parts[f'鞋_{side}']
             jx, jy = wpos(model, J[f'Foot {tag}'])
-            sole = max(p[1] for p in A.M['boot'])
+            sole = max(p[1] for p in A.M['boot']) - A.LEG_SHIFT
             k = ((sole - 750) * SCALE - jy + 22) / h          # scaled so the sole lands where the front boot's does
             w_, h_ = (x1 - x0) * k * BOOT_W, (y1 - y0) * k
             cx, cy = jx + (x0 + x1) / 2 * k * BOOT_W, jy - 22 + (y0 + y1) / 2 * k
