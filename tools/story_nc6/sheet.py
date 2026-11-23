@@ -2,7 +2,7 @@
 
     python -X utf8 tools/story_nc6/sheet.py [輸出路徑] [id,id]      （要本機 8876 伺服器，專案根 python -m http.server 8876）
 
-一人一列：底圖｜正面｜臉特寫｜思考｜側面站姿｜側面走路 4 格（照 shoe_v7/sheet.py）。
+一人一列：底圖｜正面｜臉特寫｜思考｜側面站姿｜側面走路 4 格｜側面頭部特寫｜轉頭 3/4（照 shoe_v7/sheet.py）。
 """
 import math
 import sys
@@ -54,6 +54,9 @@ def main():
                  label(full(mid, {'Arm:: Think': [1, 0]}), '思考'),
                  label(full(side), '側面站姿')]
             t += [label(full(side, walkpose(2 * math.pi * i / 8)), f'走路 {i // 2 + 1}/4') for i in range(0, 8, 2)]
+            # (2026-11-23 統籌) 後腦：側面頭部特寫＋正面轉頭到底（3/4）
+            t += [label(sh.shot(side, {}, focus=(0, fy, 1.2), size=(W, H)), '側面頭部特寫'),
+                  label(sh.shot(mid, {'Head:: Yaw-Pitch': [1, .5]}, focus=(0, fy, 1.2), size=(W, H)), '轉頭 3/4')]
             rows.append(t)
     o = Image.new('RGB', (W * max(map(len, rows)), H * len(rows)), '#808080')
     for r, t in enumerate(rows):

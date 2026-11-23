@@ -17,14 +17,14 @@ INFO = {
                           '國王的新衣 V6：柏達克臉模換裝，騙子裁縫線先生（圓潤矮壯：圓肚子、腿短粗）：米色捲袖襯衫、綠條紋背心、皮帶掛腰包與線軸、棕褲棕靴；講解；思考是照 Gemini 比對圖手繪的托下巴手臂'),
     'thread_nc_burlyv3_side': ('線先生（國王的新衣・側面）', '側面走路（V1 式 3/4 側身＋九軸正臉）'),
     'duo_nc_carolv3': ('小朵（國王的新衣，卡洛兒 v3）',
-                       '國王的新衣 V6：卡洛兒 v3 換裝成 6～7 歲小女孩（臉不變、身體縮成約 4 頭身）：金髮雙丸子頭、到胸口的兩側長髮、粉色上身奶油前襟的黃色圓領短袖洋裝、白短襪黑娃娃鞋；講解；思考是照 Gemini 比對圖手繪的托下巴手臂'),
+                       '國王的新衣 V6：卡洛兒 v3 換裝成 6～7 歲小女孩（臉不變、身體縮成約 4 頭身）：金髮雙丸子頭（沒有垂下的長髮）、粉色上身奶油前襟的黃色圓領短袖洋裝、白短襪黑娃娃鞋；講解；思考是照 Gemini 比對圖手繪的托下巴手臂'),
     'duo_nc_carolv3_side': ('小朵（國王的新衣・側面）', '側面走路（V1 式 3/4 側身＋九軸正臉，黑娃娃鞋白短襪）'),
 }
 ORDER = list(INFO)
 ANCHORS = ('king_undies_m2v3_side', 'king_nc_m2v3_side', 'shoe_kid_boyv3_side', 'shoe_farmer_burlyv3_side', 'red_hood_carolv3_side')
 
 
-def main(clone, build='20261123-nc6-td2', only=''):
+def main(clone, build='20261123-nc6-td3', only=''):
     clone = Path(clone)
     order = [m for m in ORDER if not only or m in only.split(',')]
     for mid in order:

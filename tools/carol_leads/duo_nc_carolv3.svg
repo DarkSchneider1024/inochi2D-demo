@@ -20,10 +20,11 @@
     <mask id="duo_mboot" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1536"><rect x="0" y="0" width="1024" height="1536" fill="url(#duo_fade_b)"/></mask>
   </defs>
   <g id="cap">
-    <path d="M410 185 Q433 109 511 102 Q591 104 614 183 Q636 230 646 300 Q654 360 650 418 Q634 432 614 424 Q594 438 570 426 L454 426 Q430 438 410 424 Q390 432 374 418 Q370 360 378 300 Q388 230 410 185Z"
+    <!-- 包頭的後腦（2026-11-23）：頭髮往上梳進兩顆丸子，後腦圓、收到後頸，不垂到肩膀 -->
+    <path d="M404 190 Q426 102 512 96 Q598 102 620 190 Q632 236 626 272 Q614 302 590 318 Q552 340 512 342 Q472 340 434 318 Q410 302 398 272 Q392 236 404 190Z"
       fill="url(#duo_gold)" stroke="#a87418" stroke-width="2" stroke-linejoin="round"/>
-    <path d="M398 260 Q384 340 388 410 M428 230 Q414 330 422 420 M626 260 Q640 340 636 410 M596 230 Q610 330 602 420" fill="none" stroke="#c99a24" stroke-width="2.2" opacity=".6" stroke-linecap="round"/>
-    <path d="M404 280 Q394 350 398 400 Q410 350 420 296Z M620 280 Q630 350 626 400 Q614 350 604 296Z" fill="#fff6c6" opacity=".55"/>
+    <path d="M404 266 Q420 230 452 196 M620 266 Q604 230 572 196 M420 300 Q444 270 470 248 M604 300 Q580 270 554 248 M456 330 Q480 306 500 286 M568 330 Q544 306 524 286" fill="none" stroke="#c99a24" stroke-width="2" opacity=".6" stroke-linecap="round"/>
+    <path d="M410 220 Q408 256 420 288 Q416 254 422 222Z M614 220 Q616 256 604 288 Q608 254 602 222Z" fill="#fff6c6" opacity=".5"/>
   </g>
   <g id="side_lock_long"><g transform="translate(6 200) scale(1 .66) translate(0 -200)">
     <path d="M408 200 C392 240 384 300 382 360 C380 420 384 480 380 530 C378 552 372 566 362 578 Q382 576 392 562 Q396 578 404 586 Q408 562 410 540 C414 480 418 420 420 360 C422 300 424 240 408 200Z"

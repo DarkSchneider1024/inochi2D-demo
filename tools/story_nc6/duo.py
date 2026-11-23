@@ -8,7 +8,8 @@
 做法照愛麗絲 alice_carolv3（build_carol_leads.py 的 SPECS 機制，不改那支檔）：在這裡登記自己的 SPECS／RAMPS，部件 SVG 在
 tools/carol_leads/duo_nc_carolv3.svg（手繪，座標畫在卡洛兒 v3 的畫布上：同骨架，形狀照底圖的比例量，不描底圖）。
 臉、眼、眉、嘴、脖子一層都不動（光頭臉和 carol_hand_v3 逐像素相同；check_carol_leads.py 驗）。
-雙丸子頭用卡洛兒的「葉飾」兩層（頭頂兩側、跟頭走、Acc:: Hair Off 一起關），兩側長髮用「馬尾」兩層（排在肩膀、上臂前面）。
+雙丸子頭用卡洛兒的「葉飾」兩層（頭頂兩側、跟頭走、Acc:: Hair Off 一起關）。2026-11-23 使用者「後髮就不要了，跟原圖一樣，兩包頭」：
+馬尾兩層隱藏，後髮改成收到後頸的包頭後腦。
 小孩比例：模型本身和卡洛兒同骨架同大小，影片裡由 heights.json 縮成小孩身高（見 doc/角色模型/國王的新衣V6角色.md）。
 毯子：不畫進模型（站姿不抱毯子）；劇情的小毯子是道具圖 carrot-video/國王的新衣/v6/props/blanket_duo.png（story_nc6/blanket.py）。
 """
@@ -27,9 +28,8 @@ L.SPECS[MID] = dict(
     name='小朵（國王的新衣，卡洛兒 v3）', story='國王的新衣', replaces=['kid'],
     recolor={'bang_right': GOLD, 'bang_center': GOLD, 'side_lock': GOLD, 'glove': 'hand@.6-1.0'},
     layers={
-        '後髮_短': dict(group='cap', crop=(360, 95, 304, 350)),
-        '馬尾_R': dict(group='side_lock_long', crop=(360, 192, 74, 272)),
-        '馬尾_L': dict(group='side_lock_long', crop=(590, 192, 74, 272), mirror=True),
+        '後髮_短': dict(group='cap', crop=(386, 90, 252, 258)),
+        '馬尾_R': dict(hide=True), '馬尾_L': dict(hide=True),     # 2026-11-23 使用者：「後髮就不要了，跟原圖一樣，兩包頭」
         '葉飾_R': dict(group='bun', crop=(360, 22, 132, 128)),
         '葉飾_L': dict(group='bun', crop=(532, 22, 132, 128), mirror=True),
         '領子_R': dict(group='collar', crop=(448, 358, 128, 62)),
@@ -40,9 +40,8 @@ L.SPECS[MID] = dict(
         '呆毛': dict(hide=True), '髮夾': dict(hide=True), '腰': dict(hide=True),
         '領巾_R': dict(hide=True), '領巾尾_R': dict(hide=True), '領巾尾_L': dict(hide=True), '領巾結': dict(hide=True),
     },
-    # 雙丸子在瀏海後面（瀏海蓋住丸子的根）；兩側長髮（2026-11-23 統籌：到背中間、不要蓋住手臂）縮短到胸口，
-    # 排在胸前、上臂後面（手臂蓋住頭髮）
-    z={'葉飾_R': .155, '葉飾_L': .154, '馬尾_R': .675, '馬尾_L': .674},
+    # 雙丸子在瀏海後面（瀏海蓋住丸子的根）。沒有垂下的長髮：後髮只是包頭的後腦（收到後頸），臉旁只留卡洛兒的短鬢角
+    z={'葉飾_R': .155, '葉飾_L': .154},
     clones=[],
     wave=('babypink@.45-1.1', 'hand@.6-1.0'),
 )

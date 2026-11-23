@@ -2,7 +2,7 @@
  "id": "duo_nc_carolv3_side",
  "private": false,
  "name": "duo_nc_carolv3_side",
- "W": 797,
+ "W": 817,
  "H": 1505,
  "build": "1.0-alpha",
  "layers": [
@@ -33,8 +33,21 @@
    "suspects": []
   },
   {
-   "name": "馬尾梢_L",
+   "name": "馬尾_R",
    "file": "02.webp",
+   "x": 38,
+   "y": 168,
+   "w": 289,
+   "h": 538,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.89,
+   "suspects": []
+  },
+  {
+   "name": "馬尾梢_L",
+   "file": "03.webp",
    "x": 629,
    "y": 655,
    "w": 163,
@@ -46,21 +59,34 @@
    "suspects": []
   },
   {
+   "name": "馬尾_L",
+   "file": "04.webp",
+   "x": 544,
+   "y": 168,
+   "w": 269,
+   "h": 538,
+   "group": "Body/Head",
+   "hidden": true,
+   "backing": false,
+   "z": 0.88,
+   "suspects": []
+  },
+  {
    "name": "後髮_短",
-   "file": "03.webp",
-   "x": 237,
-   "y": 116,
-   "w": 382,
-   "h": 440,
+   "file": "05.webp",
+   "x": 270,
+   "y": 109,
+   "w": 317,
+   "h": 324,
    "group": "Body/Head",
    "hidden": false,
-   "backing": false,
+   "backing": true,
    "z": 0.87,
    "suspects": []
   },
   {
    "name": "大腿_L",
-   "file": "04.webp",
+   "file": "06.webp",
    "x": 357,
    "y": 742,
    "w": 146,
@@ -73,7 +99,7 @@
   },
   {
    "name": "小腿_L",
-   "file": "05.webp",
+   "file": "07.webp",
    "x": 375,
    "y": 1133,
    "w": 105,
@@ -86,7 +112,7 @@
   },
   {
    "name": "靴筒_L",
-   "file": "06.webp",
+   "file": "08.webp",
    "x": 375,
    "y": 1275,
    "w": 105,
@@ -99,7 +125,7 @@
   },
   {
    "name": "鞋_L",
-   "file": "07.webp",
+   "file": "09.webp",
    "x": 375,
    "y": 1350,
    "w": 202,
@@ -123,7 +149,7 @@
   },
   {
    "name": "大腿_R",
-   "file": "08.webp",
+   "file": "10.webp",
    "x": 305,
    "y": 740,
    "w": 142,
@@ -136,7 +162,7 @@
   },
   {
    "name": "小腿_R",
-   "file": "09.webp",
+   "file": "11.webp",
    "x": 323,
    "y": 1136,
    "w": 105,
@@ -149,7 +175,7 @@
   },
   {
    "name": "靴筒_R",
-   "file": "10.webp",
+   "file": "12.webp",
    "x": 323,
    "y": 1278,
    "w": 105,
@@ -162,7 +188,7 @@
   },
   {
    "name": "鞋_R",
-   "file": "11.webp",
+   "file": "13.webp",
    "x": 313,
    "y": 1350,
    "w": 202,
@@ -175,7 +201,7 @@
   },
   {
    "name": "手指_L",
-   "file": "12.webp",
+   "file": "14.webp",
    "x": 400,
    "y": 921,
    "w": 76,
@@ -188,7 +214,7 @@
   },
   {
    "name": "手掌_L",
-   "file": "13.webp",
+   "file": "15.webp",
    "x": 468,
    "y": 776,
    "w": 182,
@@ -201,7 +227,7 @@
   },
   {
    "name": "下臂_L",
-   "file": "14.webp",
+   "file": "16.webp",
    "x": 439,
    "y": 657,
    "w": 140,
@@ -214,7 +240,7 @@
   },
   {
    "name": "上臂_L",
-   "file": "15.webp",
+   "file": "17.webp",
    "x": 420,
    "y": 466,
    "w": 131,
@@ -227,7 +253,7 @@
   },
   {
    "name": "裙_後",
-   "file": "16.webp",
+   "file": "18.webp",
    "x": 227,
    "y": 748,
    "w": 367,
@@ -240,7 +266,7 @@
   },
   {
    "name": "領子_後",
-   "file": "17.webp",
+   "file": "19.webp",
    "x": 325,
    "y": 451,
    "w": 173,
@@ -253,7 +279,7 @@
   },
   {
    "name": "脖子",
-   "file": "18.webp",
+   "file": "20.webp",
    "x": 369,
    "y": 339,
    "w": 109,
@@ -266,7 +292,7 @@
   },
   {
    "name": "頸圈",
-   "file": "19.webp",
+   "file": "21.webp",
    "x": 394,
    "y": 448,
    "w": 51,
@@ -279,7 +305,7 @@
   },
   {
    "name": "胸腔",
-   "file": "20.webp",
+   "file": "22.webp",
    "x": 314,
    "y": 450,
    "w": 192,
@@ -292,7 +318,7 @@
   },
   {
    "name": "胸_R",
-   "file": "21.webp",
+   "file": "23.webp",
    "x": 362,
    "y": 554,
    "w": 63,
@@ -305,7 +331,7 @@
   },
   {
    "name": "胸_L",
-   "file": "22.webp",
+   "file": "24.webp",
    "x": 427,
    "y": 554,
    "w": 50,
@@ -318,7 +344,7 @@
   },
   {
    "name": "腰",
-   "file": "23.webp",
+   "file": "25.webp",
    "x": 324,
    "y": 684,
    "w": 174,
@@ -331,7 +357,7 @@
   },
   {
    "name": "裙_擺_R",
-   "file": "24.webp",
+   "file": "26.webp",
    "x": 228,
    "y": 924,
    "w": 186,
@@ -344,7 +370,7 @@
   },
   {
    "name": "裙_R",
-   "file": "25.webp",
+   "file": "27.webp",
    "x": 230,
    "y": 766,
    "w": 172,
@@ -357,7 +383,7 @@
   },
   {
    "name": "裙_擺_L",
-   "file": "26.webp",
+   "file": "28.webp",
    "x": 413,
    "y": 924,
    "w": 177,
@@ -370,7 +396,7 @@
   },
   {
    "name": "裙_L",
-   "file": "27.webp",
+   "file": "29.webp",
    "x": 434,
    "y": 766,
    "w": 158,
@@ -383,7 +409,7 @@
   },
   {
    "name": "裙_中",
-   "file": "28.webp",
+   "file": "30.webp",
    "x": 228,
    "y": 680,
    "w": 363,
@@ -396,7 +422,7 @@
   },
   {
    "name": "腰包",
-   "file": "29.webp",
+   "file": "31.webp",
    "x": 334,
    "y": 758,
    "w": 151,
@@ -409,7 +435,7 @@
   },
   {
    "name": "領巾_R",
-   "file": "30.webp",
+   "file": "32.webp",
    "x": 328,
    "y": 475,
    "w": 170,
@@ -418,32 +444,6 @@
    "hidden": true,
    "backing": false,
    "z": 0.68,
-   "suspects": []
-  },
-  {
-   "name": "馬尾_R",
-   "file": "31.webp",
-   "x": 256,
-   "y": 238,
-   "w": 108,
-   "h": 342,
-   "group": "Body/Head",
-   "hidden": false,
-   "backing": false,
-   "z": 0.675,
-   "suspects": []
-  },
-  {
-   "name": "馬尾_L",
-   "file": "32.webp",
-   "x": 531,
-   "y": 238,
-   "w": 83,
-   "h": 342,
-   "group": "Body/Head",
-   "hidden": false,
-   "backing": false,
-   "z": 0.674,
    "suspects": []
   },
   {
