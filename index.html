@@ -141,6 +141,23 @@
     nav.tabs a { padding: 3px 9px; font-size: 12px; }
     .status { font-size: 10px; left: 8px; top: 6px; }
   }
+  /* 2026-11-23 角色清單改成和角色工坊一樣的分類欄（搜尋＋可展開分類） */
+  .pnav { margin: 0 0 12px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  #pnavToggle { display: flex; justify-content: space-between; gap: 8px; width: 100%; border: 0; background: var(--bg2); color: var(--ink); font: inherit; font-weight: 600; padding: 9px 12px; cursor: pointer; text-align: left; }
+  #pnavToggle span { flex: 1; min-width: 0; color: var(--muted); font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+  #pnavBody { display: none; flex-direction: column; padding: 8px; max-height: 60vh; }
+  .pnav.open #pnavBody { display: flex; }
+  #pnavSearch { font: inherit; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; margin-bottom: 6px; background: transparent; color: var(--ink); }
+  #pnavTree { overflow: auto; min-height: 0; }
+  .pn-cat { margin: 8px 0 3px; font-weight: 700; font-size: .92rem; color: var(--accent); border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+  .pn-sub { border: 0; margin: 0; }
+  .pn-sub > summary { cursor: pointer; padding: 3px 2px; font-size: .9rem; list-style: none; }
+  .pn-sub > summary::before { content: "A "; color: var(--muted); }
+  .pn-sub[open] > summary::before { content: "4 "; }
+  .pn-sub > summary .n { color: var(--muted); font-size: .78rem; }
+  .pn-item { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: inherit; font-size: .86rem; padding: 3px 4px 3px 16px; border-radius: 6px; cursor: pointer; }
+  .pn-item:hover { background: var(--bg2); }
+  .pn-item.active { background: var(--bg2); color: var(--accent); font-weight: 600; }
 </style>
 <style>/* (2026-10-30 user: 頁籤好醜) one tidy pill row: never squeezed into a vertical column, scrolls sideways */
 nav.tabs { display: flex !important; flex-wrap: nowrap !important; gap: 6px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
@@ -165,8 +182,11 @@ nav.tabs a { flex: none !important; white-space: nowrap !important; }
     <nav class="tabs"><a href="gallery.html">作品集</a><a href="official.html">精緻展示作品</a><a href="head90.html">90° 九軸素體</a><a href="layers.html">圖層檢查</a><a href="voice/">角色聲音</a><a href="model3d.html">3D 模型</a><a href="secret.html">🔒 專屬區</a></nav>
     <h1 id="title">Inochi2D</h1>
     <p class="sub" id="sub">由 PSD 自動綁定的 Inochi2D 模型，用自寫的 WebGL 播放器即時渲染。</p>
-    <label for="pick" class="sub" style="display:block;margin-bottom:4px">角色</label>
-    <select id="pick"></select>
+    <div class="sub" style="margin-bottom:4px">角色</div>
+    <div class="pnav" id="pnav">
+      <button type="button" id="pnavToggle" aria-expanded="false">📂 角色分類<span id="pnavCurrent"></span></button>
+      <div id="pnavBody"><input id="pnavSearch" type="search" placeholder="搜尋角色名稱…" aria-label="搜尋角色"><div id="pnavTree"></div></div>
+    </div>
     <h2>自動動作</h2>
     <div class="toggles">
       <label><input type="checkbox" id="tLook" checked> 視線跟著滑鼠／手指（手機：點或滑角色畫面）</label>
@@ -265,9 +285,58 @@ const models = await (await fetch('./models.json', { cache: 'no-cache' })).json(
 const { vurl, vlabel } = await import('./versions.js');
 const wanted = new URLSearchParams(location.search).get('model');
 const model = models.find((m) => m.id === wanted) || models[0];
-const pick = document.getElementById('pick');
-for (const m of models) pick.add(new Option(m.name + (vlabel(m.file) ? `　${vlabel(m.file)}` : ''), m.id, false, m.id === model.id));
-pick.onchange = () => { location.search = '?model=' + pick.value; };
+// (2026-11-23 使用者：「人物太多 demo 很難選角色，清單做成跟工作坊一樣」) 分類欄：搜尋＋可展開的分類／小組，目前這隻自動展開
+function groupOf(m) {
+  if (m.group) return m.group.split('｜');
+  const id = m.id, nm = m.name;
+  if (/【測試版/.test(nm)) return ['測試版（回歸中）', ''];
+  if (id.startsWith('journey_')) return ['說故事角色', '西遊記前傳'];
+  if (/^(red_hood|wolf|hunter|grandma)/.test(id)) return ['說故事角色', '小紅帽'];
+  if (/^(princess|frog_prince|king|guard|prince|gardener|potter|girl_)/.test(id)) return ['說故事角色', '其他童話'];
+  if (/^(carol|aka_carol)/.test(id)) return ['卡洛特系列主角', '卡洛兒姐姐'];
+  if (/^(mr_carrot)/.test(id)) return ['卡洛特系列主角', '卡洛特先生'];
+  if (/^(bobo|rabbit)/.test(id)) return ['卡洛特系列主角', '兔子波波'];
+  return ['其他與技術樣板', ''];
+}
+const CAT_ORDER = ['測試版（回歸中）', '卡洛特系列主角', '說故事角色', '其他與技術樣板'];
+function buildPickNav() {
+  const q = document.getElementById('pnavSearch').value.trim().toLowerCase();
+  const cats = new Map();
+  for (const m of models) {
+    const label = m.name + (vlabel(m.file) ? `　${vlabel(m.file)}` : '');
+    if (q && !(m.name + ' ' + m.id).toLowerCase().includes(q)) continue;
+    const [cat, sub] = groupOf(m);
+    if (!cats.has(cat)) cats.set(cat, new Map());
+    const subs = cats.get(cat); const k = sub || '全部';
+    if (!subs.has(k)) subs.set(k, []);
+    subs.get(k).push([m, m.name, label]);
+  }
+  const nodes = [];
+  for (const cat of [...cats.keys()].sort((a, b) => (CAT_ORDER.indexOf(a) + 1 || 99) - (CAT_ORDER.indexOf(b) + 1 || 99))) {
+    const h = document.createElement('div'); h.className = 'pn-cat'; h.textContent = cat; nodes.push(h);
+    for (const [sub, items] of cats.get(cat)) {
+      const d = document.createElement('details'); d.className = 'pn-sub';
+      d.open = !!q || items.some(([m]) => m.id === model.id) || cat === '測試版（回歸中）';
+      const sm = document.createElement('summary'); sm.append(sub + ' ');
+      const n = document.createElement('span'); n.className = 'n'; n.textContent = `(${items.length})`; sm.append(n); d.append(sm);
+      for (const [m, short, label] of items) {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'pn-item' + (m.id === model.id ? ' active' : '');
+        b.textContent = short; b.title = label; b.onclick = () => { location.search = '?model=' + m.id; };
+        d.append(b);
+      }
+      nodes.push(d);
+    }
+  }
+  document.getElementById('pnavTree').replaceChildren(...nodes);
+}
+document.getElementById('pnavCurrent').textContent = model.name;
+document.getElementById('pnavToggle').onclick = () => {
+  const open = document.getElementById('pnav').classList.toggle('open');
+  document.getElementById('pnavToggle').setAttribute('aria-expanded', String(open));
+};
+document.getElementById('pnavSearch').addEventListener('input', buildPickNav);
+buildPickNav();
+if (window.innerWidth > 760) { document.getElementById('pnav').classList.add('open'); document.getElementById('pnavToggle').setAttribute('aria-expanded', 'true'); }
 
 // 前後切換按鈕控制（對應畫面上「前」「後」按鈕）
 const curIdx = models.findIndex((m) => m.id === model.id);
