@@ -579,5 +579,18 @@
     "file": "models/wolf_grandma_beastv3_side.inp",
     "thumb": "thumbs/wolf_grandma_beastv3_side.png",
     "desc": "外婆裝大野狼的側面走路模型。"
+  },
+  {
+    "id": "guinevere_aubv3",
+    "name": "桂妮薇兒（茄子小姐臉・亞瑟王）【測試版・回歸中】",
+    "file": "models/guinevere_aubv3.inp",
+    "side": "guinevere_aubv3_side",
+    "desc": "2026-11-23 亞瑟王 V9d：盾牌放大 1.5 倍（舉盾擋時不再露出長戟）。武器動作在「動作/武器・舉盾」。回歸中／未通過。"
+  },
+  {
+    "id": "tristan_m2v3_archer",
+    "name": "崔斯坦（拉弓姿勢）【測試版・回歸中】",
+    "file": "models/tristan_m2v3_archer.inp",
+    "desc": "2026-11-23 亞瑟王 V9d：3/4 側身拉弓姿勢，參數 Bow:: Aim（0→1 舉到搭箭，前手水平握弓、後手到胸前弦上）、Bow:: Draw（0→1 後手拉弦到臉頰）。弓、弦、箭目前由影片劇本層（fx_v9.js）畫，尚未做成模型圖層。回歸中／未通過。"
   }
 ]
