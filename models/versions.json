@@ -4988,7 +4988,18 @@
       }
     ]
   },
-  "new_carol_side": "2026-11-20-point-explain-test",
+  "new_carol_side": {
+    "version": "2026-11-23-wholearm-test",
+    "build": "20261123-wholearm",
+    "note": "測試版（回歸中）：指、講解改成 GPT 畫的整條遠側手臂（姿勢時關上臂與前臂）；垂手上臂、前臂 GPT 重畫，手肘往上",
+    "history": [
+      {
+        "version": "2026-11-20-point-explain-test",
+        "build": "2026-11-20-point-explain-test",
+        "note": ""
+      }
+    ]
+  },
   "new_carol_sit": {
     "version": "2026-11-15-r3",
     "build": "2026-11-15-r3",
@@ -5239,7 +5250,18 @@
       }
     ]
   },
-  "newton_m2_side": "2026-11-20-point-test",
+  "newton_m2_side": {
+    "version": "2026-11-23-wholearm-test",
+    "build": "20261123-wholearm",
+    "note": "測試版（回歸中）：指改成 GPT 畫的整條遠側手臂；垂手上臂、前臂 GPT 重畫（手肘往上、遠側上臂收進大衣）",
+    "history": [
+      {
+        "version": "2026-11-20-point-test",
+        "build": "2026-11-20-point-test",
+        "note": ""
+      }
+    ]
+  },
   "newton_m2v3": {
     "version": "2026-11-15-explain",
     "build": "20261115-explain",
