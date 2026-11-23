@@ -566,12 +566,38 @@ function eatState(t) {
 const waveBtn = document.getElementById('waveBtn');
 // ---- 動作: one action at a time; it overrides its own parameters on top of everything else, then hands back
 const act = { a: null, t0: 0, btns: [], touched: new Set() };
-for (const a of myActs() || []) {
+// (2026-11-23 使用者：「沒看到武器使用的動作選項」) 模型自帶的動作 clip（puppet.json.animations，例如 動作/武器・舉盾）也列成按鈕，
+// 逐格內插每條 lane 的參數值（frame × timestep），播放方式和上面的動作一樣：點一下連續播放、再按停止
+function clipActions() {
+  const anims = (puppet.json && puppet.json.animations) || {};
+  const byUuid = new Map(puppet.params.map((p) => [p.uuid, p]));
+  const out = [];
+  for (const [name, c] of Object.entries(anims)) {
+    if (/^表情\//.test(name)) continue;
+    const lanes = (c.lanes || []).map((l) => ({ p: byUuid.get(l.uuid), axis: l.target || 0, kf: l.keyframes })).filter((l) => l.p && l.kf.length);
+    if (!lanes.length) continue;
+    const ts = c.timestep || 1 / 30, dur = Math.max(0.5, (c.length || 30) * ts);
+    out.push({ id: 'clip:' + name, label: (/武器/.test(name) ? '⚔ ' : '') + name.replace(/^動作\//, ''), hint: '模型內建動作（' + name + '）', dur,
+      f: (t) => {
+        const fr = Math.min(t / ts, c.length || 30), res = {};
+        for (const l of lanes) {
+          const k = l.kf; let v = k[k.length - 1].value;
+          if (fr <= k[0].frame) v = k[0].value;
+          else for (let i = 1; i < k.length; i++) if (fr <= k[i].frame) { const u = (fr - k[i - 1].frame) / Math.max(1e-6, k[i].frame - k[i - 1].frame); v = k[i - 1].value + (k[i].value - k[i - 1].value) * u; break; }
+          const n = l.p.name; if (l.p.is_vec2) { const cur = res[n] || [l.p.defaults[0], l.p.defaults[1]]; cur[l.axis] = v; res[n] = cur; } else res[n] = v;
+        }
+        return res;
+      } });
+  }
+  return out;
+}
+const allActs = () => [...(myActs() || []), ...clipActions()];
+for (const a of allActs()) {
   const b = document.createElement('button'); b.textContent = a.label; b.title = a.hint; b.setAttribute('aria-pressed', 'false');
   b.onclick = () => { const now = performance.now() / 1000; if (act.a === a) act.a = null; else { act.a = a; act.t0 = now; } };
   document.getElementById('acts').appendChild(b); act.btns.push([a, b]);
 }
-window.demo.act = (id) => { act.a = (myActs() || []).find((a) => a.id === id) || null; act.t0 = performance.now() / 1000; };
+window.demo.act = (id) => { act.a = allActs().find((a) => a.id === id) || null; act.t0 = performance.now() / 1000; };
 function applyAction(t) {
   // (2026-10-13, user) an action plays on a loop until its button is pressed again (or another action is picked);
   // every action starts and ends at rest, so the loop seam is clean
