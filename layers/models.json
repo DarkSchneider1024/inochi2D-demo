@@ -994,6 +994,34 @@
     "category": "story"
   },
   {
+    "id": "minister_nc_gpv3",
+    "name": "minister_nc_gpv3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "minister_nc_gpv3_side",
+    "name": "minister_nc_gpv3_side",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "needle_nc_m2v3",
+    "name": "needle_nc_m2v3",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
+    "id": "needle_nc_m2v3_side",
+    "name": "needle_nc_m2v3_side",
+    "build": "1.0-alpha",
+    "private": false,
+    "category": "story"
+  },
+  {
     "id": "shoe_wife_elderfv3",
     "name": "shoe_wife_elderfv3",
     "build": "1.0-alpha",
