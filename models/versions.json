@@ -199,10 +199,15 @@
     ]
   },
   "alice_carolv3": {
-    "version": "2026-11-23-think",
-    "build": "20261123-think1",
-    "note": "測試版（回歸中）：新增思考動作 Arm:: Think（動作按鈕「思考」；story_think 剛體手臂，拳頭還沒到下巴，之後換照 Gemini 比對圖手繪的思考手臂）",
+    "version": "2026-11-23-think2",
+    "build": "20261123-think2",
+    "note": "測試版（回歸中）：思考動作 Arm:: Think 改成照 Gemini 比對圖手繪的思考手臂（握拳托下巴、腰前手托手肘），動作按鈕「思考」",
     "history": [
+      {
+        "version": "2026-11-23-think2",
+        "build": "20261123-think2",
+        "note": "測試版（回歸中）：思考動作 Arm:: Think 改成照 Gemini 比對圖手繪的思考手臂（握拳托下巴、腰前手托手肘），動作按鈕「思考」"
+      },
       {
         "version": "2026-11-23-think",
         "build": "20261123-think1",
@@ -2318,10 +2323,15 @@
     ]
   },
   "heart_queen_aubv3": {
-    "version": "2026-11-23-think",
-    "build": "20261123-think1",
-    "note": "測試版（回歸中）：新增思考動作 Arm:: Think（動作按鈕「思考」；story_think 剛體手臂，拳頭還沒到下巴，之後換照 Gemini 比對圖手繪的思考手臂）",
+    "version": "2026-11-23-think2",
+    "build": "20261123-think2",
+    "note": "測試版（回歸中）：思考動作 Arm:: Think 改成照 Gemini 比對圖手繪的思考手臂（握拳托下巴、腰前手托手肘），動作按鈕「思考」",
     "history": [
+      {
+        "version": "2026-11-23-think2",
+        "build": "20261123-think2",
+        "note": "測試版（回歸中）：思考動作 Arm:: Think 改成照 Gemini 比對圖手繪的思考手臂（握拳托下巴、腰前手托手肘），動作按鈕「思考」"
+      },
       {
         "version": "2026-11-23-think",
         "build": "20261123-think1",
