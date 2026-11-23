@@ -599,5 +599,20 @@
     "file": "models/pellinore_burlymix_side_hammer.inp",
     "desc": "2026-11-23 亞瑟王：裴里諾王側面手持巨錘，動作「巨錘・敲地」：舉過頭頂→砸向地面→收回；也有舉起／揮砍／刺出／收回背上／拔出。巨錘是模型圖層（跟手剛體轉）。回歸中／未通過。",
     "group": "測試版（回歸中）"
+  },
+  {
+    "id": "kay_burlyv3_bento",
+    "name": "凱伊（拿便當）【測試版・回歸中】",
+    "file": "models/kay_burlyv3_bento.inp",
+    "desc": "2026-11-23 亞瑟王：便當做成手持物件，和握拳同一個關節節點綁定（Hold／Stow）；回歸中／未通過。",
+    "group": "測試版（回歸中）",
+    "side": "kay_burlyv3_side_bento"
+  },
+  {
+    "id": "kay_burlyv3_side_bento",
+    "name": "凱伊（拿便當・側面）【測試版・回歸中】",
+    "file": "models/kay_burlyv3_side_bento.inp",
+    "desc": "2026-11-23 亞瑟王：便當做成手持物件，和握拳同一個關節節點綁定（Hold／Stow）；回歸中／未通過。",
+    "group": "測試版（回歸中）"
   }
 ]
