@@ -1161,7 +1161,12 @@ function applyMoves(dt) {
   // (2026-10-31 user: 微笑跟貓嘴點了沒反應) the mouth swaps too: Mouth:: Smile stayed at 1 after 開心 / 微笑 and its open smile
   // covered every later mouth
   // (2026-11-01, user: 嘴巴重疊) Mouth:: Close too: 微笑's closed line stayed under every mouth of the next feeling
-  for (const p of P.params) if (/^(Expression|Face)::|^Mouth:: (Close|Smile|Cat|Fang|Tongue|Swap \w+)$/.test(p.name.trim()) && !manual.has(p.name.trim())) p.value = [...p.defaults];
+  // (2026-11-23 香皮尼 male2，使用者：「微笑跟驚訝的眼睛壞了」) the 11-21 eye params (Eye:: Smile, Eye:: X:: Squint, Eye:: Gaze,
+  // Brow:: X:: Form) had no per-frame reset either: a feeling's 'add' piled them up to the max (瞇眼笑 0.85 -> 1) and they stayed
+  // after it, so 微笑 / 驚訝 pressed later showed the leftover squint + smiling lids (a slit, one eye shut). Reset them like the face swaps
+  for (const p of P.params) if (/^(Expression|Face)::|^Mouth:: (Close|Smile|Cat|Fang|Tongue|Swap \w+)$|^Eye:: (Smile|Gaze|(Left|Right):: Squint)$|^Brow:: (Left|Right):: Form$/.test(p.name.trim()) && !manual.has(p.name.trim())) p.value = [...p.defaults];
+  // with the auto blink off nothing put a feeling's half blink (微笑 0.25) back after it ended
+  if (!auto.blink) for (const p of P.params) if (/^Eye:: (Left|Right):: Blink$/.test(p.name.trim()) && !manual.has(p.name.trim())) p.value = [...p.defaults];
   // 表情: the old one eases out first, then the new one eases in (never a cut)
   if (feel.shown !== feel.want) { feel.w = Math.max(0, feel.w - dt * 6); if (feel.w <= 0) { feel.shown = feel.want; feel.t0 = time; } }
   else feel.w = feel.shown ? Math.min(1, feel.w + dt * 4) : 0;
