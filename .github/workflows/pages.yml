@@ -42,6 +42,27 @@ jobs:
         with:
           path: _site
 
+      # 2026-11-24: deploy-pages often fails right after a large upload with "No artifacts named github-pages"
+      # although the artifact is there (runs #882 #887 #891 #894-#900); wait and retry twice
       - name: Deploy Pages
         id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait before retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 120
+
+      - name: Deploy Pages (retry 1)
+        id: deployment2
+        if: steps.deployment.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait before retry 2
+        if: steps.deployment.outcome == 'failure' && steps.deployment2.outcome == 'failure'
+        run: sleep 240
+
+      - name: Deploy Pages (retry 2)
+        if: steps.deployment.outcome == 'failure' && steps.deployment2.outcome == 'failure'
         uses: actions/deploy-pages@v4
