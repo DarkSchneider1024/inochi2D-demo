@@ -4690,9 +4690,14 @@
  },
  "needle_nc_m2v3": {
   "version": "2026-11-24",
-  "build": "20261124-needle-tied2",
-  "note": "測試版，回歸中：綁髮第二版，後頸髮往下補到脖子後面（轉頭時下巴和脖子間不透背景）",
+  "build": "20261124-needle-samurai",
+  "note": "測試版，回歸中：髮型改武士頭（側掃瀏海、往後梳、後頸短馬尾垂到肩上，黃色綁繩）",
   "history": [
+   {
+    "version": "2026-11-24",
+    "build": "20261124-needle-samurai",
+    "note": "測試版，回歸中：髮型改武士頭（側掃瀏海、往後梳、後頸短馬尾垂到肩上，黃色綁繩）"
+   },
    {
     "version": "2026-11-24",
     "build": "20261124-needle-tied2",
@@ -4712,9 +4717,14 @@
  },
  "needle_nc_m2v3_side": {
   "version": "2026-11-24",
-  "build": "20261124-needle-tied2",
-  "note": "測試版，回歸中：側面同步綁髮第二版",
+  "build": "20261124-needle-samurai",
+  "note": "測試版，回歸中：側面同步改武士頭",
   "history": [
+   {
+    "version": "2026-11-24",
+    "build": "20261124-needle-samurai",
+    "note": "測試版，回歸中：側面同步改武士頭"
+   },
    {
     "version": "2026-11-24",
     "build": "20261124-needle-tied2",
