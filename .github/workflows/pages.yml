@@ -27,10 +27,20 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      # 2026-11-24: the full repo (~3.1 GB) made the Pages artifact ~2.2 GB and deploys kept failing
+      # ("No artifacts named github-pages"). The player only loads .inp, so the .inx twins (~1.1 GB, Creator
+      # download copies) and backup files stay in the repo but are not published; base_head_90deg_9axis.inx
+      # (linked as a download on head90.html) is kept.
+      - name: Build site folder (without .inx twins and backups)
+        run: |
+          mkdir -p _site
+          rsync -a --exclude '.git' --exclude '.github' --exclude '_site'                 --include 'base_head_90deg_9axis.inx' --exclude '*.inx'                 --exclude '*.bak*' --exclude '*_bak_*' ./ _site/
+          du -sh _site
+
       - name: Upload static site
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: _site
 
       - name: Deploy Pages
         id: deployment
