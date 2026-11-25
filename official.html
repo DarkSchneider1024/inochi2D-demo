@@ -316,9 +316,7 @@ const MODELS = [
   { id: 'new_carol', name: '新卡洛兒姐姐', desc: '橘髮雙馬尾水手服（百褶裙、領巾、葉子髮飾、蘿蔔髮夾；GPT 部件圖層，第一套衣服）', file: 'models/new_carol.inp', own: 'make_new_carol_puppet.py' },
   { id: 'new_carol_sit', name: '新卡洛兒姐姐（坐姿）', desc: '水手服坐在紅色圓凳上，雙手戴白手套交疊放在膝上，頭微偏 3/4（GPT 部件圖層，凳子單獨一層）', file: 'models/new_carol_sit.inp', own: 'make_new_carol_sit_puppet.py' },
   { id: 'new_aubergine', name: '新歐蓓樂希姊姊', desc: '紫黑長捲髮、披肩束腰、燈籠袖、長靴（GPT 部件圖層；生氣嘟嘴、難過水汪汪大眼）', file: 'models/new_aubergine.inp', own: 'make_new_aubergine_puppet.py' },
-  { id: 'new_bobo', name: '新兔子波波', desc: '精緻版兔子波波（GPT 部件圖層；九軸、眨眼、^^ 笑眼、開心／生氣／難過含淚／驚訝／害怕／害羞、紅暈三級、果凍眼、耳朵圍巾尾巴物理）。2026-11-25 新增「學院服」（小巫師帽、深藍金邊外套、橘領結、百褶裙、皮帶、小包、照底圖換身體；袖子在紅蘿蔔後、手掌在前）與聖誕裝開關 Outfit:: Xmas（測試版，回歸中）', file: 'models/new_bobo.inp', own: 'make_new_bobo_puppet.py' },
-  { id: 'new_carol_xmas', name: '新卡洛兒姐姐（聖誕帽・測試版）', desc: '精緻版卡洛兒聖誕服：紅色聖誕帽、白毛領披肩、紅洋裝、紅白條紋過膝襪、棕靴；金髮；手臂沿用水手服（白手套），所有手勢都能用（GPT 部件圖層；回歸中）', file: 'models/new_carol_xmas.inp', own: 'make_new_carol_xmas_puppet.py' },
-  { id: 'new_bobo_xmas', name: '新兔子波波（聖誕裝・測試版）', desc: '精緻版兔子波波換裝：兩耳之間的小紅聖誕帽（帽尖絨球會擺）、紅綠格紋圍巾（垂尾會擺）；臉、表情、九軸、動作同 new_bobo（GPT 部件圖層）', file: 'models/new_bobo_xmas.inp', own: 'make_new_bobo_xmas_puppet.py' },
+  { id: 'new_bobo', name: '新兔子波波', desc: '精緻版兔子波波（GPT 部件圖層；九軸、眨眼、^^ 笑眼、開心／生氣／難過含淚／驚訝／害怕／害羞、紅暈三級、果凍眼、耳朵圍巾尾巴物理）。2026-11-25 新增「學院服」（小巫師帽、深藍金邊外套、橘領結、百褶裙、皮帶、小包、照底圖換身體；袖子在紅蘿蔔後、手掌在前）與聖誕裝開關 Outfit:: Xmas（聖誕帽＋圍巾；回歸 PASS）', file: 'models/new_bobo.inp', own: 'make_new_bobo_puppet.py' },
   { id: 'new_bobo_side', name: '新兔子波波（側面・波波跳）', desc: '3/4 側身、頭朝前進方向，抱胡蘿蔔跳（動作「波波跳」：六組 GPT 跳躍腳＋肚子連續收放；GPT 部件圖層；眨眼、說話；表情：開心 ^^、驚訝、著急、撲空失望、生氣嘟嘴、害羞）', file: 'models/new_bobo_side.inp', own: 'make_new_bobo_side_puppet.py' },
   { id: 'new_huihui', name: '小灰狼灰灰', desc: '精緻版小灰狼（GPT 部件圖層；九軸、眨眼、^^ 笑眼、開心／生氣／難過含淚／驚訝／害怕／害羞、紅暈三級、果凍眼、耳朵／尾巴／領巾結物理、搖尾巴）', file: 'models/new_huihui.inp', own: 'make_new_huihui_puppet.py' },
   { id: 'new_carol_side', name: '新卡洛兒（側面走路・測試版）', desc: '奧丁式 3/4 側身走路，頭朝前進方向（GPT 部件圖層；果凍眼、眨眼、說話、表情、揮手）。回歸第 8 輪 PASS，頭部側面特寫待使用者定稿', file: 'models/new_carol_side.inp', own: 'make_new_carol_side_puppet.py' },
@@ -401,7 +399,7 @@ const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: 
 const { verOf, vurl, vlabel } = await import('./versions.js');
 
 // ---- model picker ----
-const FEATURED_IDS = ['yanli', 'aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'new_carol', 'new_carol_sit', 'new_aubergine', 'new_bobo', 'new_bobo_xmas', 'new_carol_xmas', 'new_bobo_side', 'new_huihui', 'new_carol_side', 'new_carrot_side', 'male2', 'newton_m2_side', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
+const FEATURED_IDS = ['yanli', 'aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'new_carol', 'new_carol_sit', 'new_aubergine', 'new_bobo', 'new_bobo_side', 'new_huihui', 'new_carol_side', 'new_carrot_side', 'male2', 'newton_m2_side', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
 for (const id of ['aubergine_academy_gestures', ...FEATURED_IDS]) {
   const m = MODELS.find(m => m.id === id);
   const option = document.createElement('option');
@@ -524,7 +522,7 @@ $('duoBtn').onclick = () => { duoOn = !duoOn; if (duoOn) { academy = false; xmas
 // 聖誕換裝 (2026-11-01, 卡洛兒) / 聖誕麋鹿裝 (波波): one button each; 聖誕 and 學院 exclude each other
 let xmasOn = false, deerOn = false;
 function showXmas() { $('xmasBtn').setAttribute('aria-pressed', xmasOn); $('deerBtn').setAttribute('aria-pressed', deerOn); }
-$('xmasBtn').onclick = () => { xmasOn = !xmasOn; if (xmasOn) { academy = false; showWear(); } showXmas(); };
+$('xmasBtn').onclick = () => { xmasOn = !xmasOn; if (xmasOn) { academy = false; showWear(); if (P.has('Outfit:: Xmas') && P.has('Outfit:: Gold Magic')) { carolStyle.hair = 'gold'; showStyle(); } } showXmas(); };   // (2026-11-26 聖誕服併回 new_carol：Outfit:: Xmas 配金髮)
 $('deerBtn').onclick = () => { deerOn = !deerOn; if (deerOn) { academy = false; showWear(); } showXmas(); };
 $('bustBtn').onclick = () => { bigBust = !bigBust; $('bustBtn').setAttribute('aria-pressed', bigBust); };
 $('blazerBtn').onclick = () => { blazerOff = !blazerOff; $('blazerBtn').setAttribute('aria-pressed', blazerOff); };
@@ -636,7 +634,7 @@ async function open(id) { if (window.demo) window.demo.modelId = id;
   vestOff = false; $('vestBtn').hidden = !P.has('Outfit:: Vest Off'); $('vestBtn').setAttribute('aria-pressed', 'false'); $('vestBtn').textContent = '👔 拿掉背心'; if (P.has('Outfit:: Vest Off')) $('decorSec').hidden = false;
   glassesOff = false; $('glassesBtn').hidden = !P.has('Acc:: Glasses Off'); $('glassesBtn').setAttribute('aria-pressed', 'false'); $('glassesBtn').textContent = '👓 拿掉眼鏡'; if (P.has('Acc:: Glasses Off')) $('decorSec').hidden = false;
   hairOff = false; $('hairOffBtn').hidden = !P.has('Acc:: Hair Off'); $('hairOffBtn').setAttribute('aria-pressed', 'false'); $('hairOffBtn').textContent = '💇 拿掉頭髮'; if (P.has('Acc:: Hair Off')) $('decorSec').hidden = false;
-  headUp = false; $('uprightBtn').hidden = !P.has('Head:: Upright'); handPose = 0; showHand(); $('handRow').hidden = !P.has('Hand:: Pose'); poseOn = ''; showPoses(); kneelOn = false; $('kneelBtn').hidden = !P.has('Pose:: Kneel'); academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); academy = false; redHood = false; alice = false; elfR = false; elfN = false; bfOn = false; gvOn = false; lyOn = false; duoOn = false; $('acadBtn').hidden = !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); if ($('redHoodBtn')) $('redHoodBtn').hidden = !P.has('Outfit:: Red Hood'); if ($('aliceBtn')) $('aliceBtn').hidden = !P.has('Outfit:: Alice'); if ($('elfRBtn')) $('elfRBtn').hidden = !P.has('Outfit:: Elf Rags'); if ($('elfNBtn')) $('elfNBtn').hidden = !P.has('Outfit:: Elf New'); elfHat = false; if ($('elfHatBtn')) $('elfHatBtn').hidden = !P.has('Acc:: Elf Hat'); if ($('bfBtn')) $('bfBtn').hidden = !P.has('Outfit:: Blue Fairy'); if ($('gvBtn')) $('gvBtn').hidden = !P.has('Outfit:: Guinevere'); if ($('duoBtn')) $('duoBtn').hidden = !P.has('Outfit:: Duo'); if ($('lyBtn')) $('lyBtn').hidden = !P.has('Outfit:: Lynette'); showWear(); xmasOn = false; deerOn = false; showXmas(); $('xmasBtn').hidden = !P.has('Outfit:: Christmas'); $('deerBtn').hidden = !P.has('Outfit:: Reindeer'); if (P.has('Outfit:: Reindeer') || P.has('Outfit:: Christmas') || P.has('Outfit:: Red Hood')) $('decorSec').hidden = false;
+  headUp = false; $('uprightBtn').hidden = !P.has('Head:: Upright'); handPose = 0; showHand(); $('handRow').hidden = !P.has('Hand:: Pose'); poseOn = ''; showPoses(); kneelOn = false; $('kneelBtn').hidden = !P.has('Pose:: Kneel'); academy = false; blazerOff = false; $('blazerBtn').hidden = true; $('blazerBtn').setAttribute('aria-pressed', 'false'); academy = false; redHood = false; alice = false; elfR = false; elfN = false; bfOn = false; gvOn = false; lyOn = false; duoOn = false; $('acadBtn').hidden = !P.has('Outfit:: Academy') && !P.has('Mix:: Top:: Off'); if ($('redHoodBtn')) $('redHoodBtn').hidden = !P.has('Outfit:: Red Hood'); if ($('aliceBtn')) $('aliceBtn').hidden = !P.has('Outfit:: Alice'); if ($('elfRBtn')) $('elfRBtn').hidden = !P.has('Outfit:: Elf Rags'); if ($('elfNBtn')) $('elfNBtn').hidden = !P.has('Outfit:: Elf New'); elfHat = false; if ($('elfHatBtn')) $('elfHatBtn').hidden = !P.has('Acc:: Elf Hat'); if ($('bfBtn')) $('bfBtn').hidden = !P.has('Outfit:: Blue Fairy'); if ($('gvBtn')) $('gvBtn').hidden = !P.has('Outfit:: Guinevere'); if ($('duoBtn')) $('duoBtn').hidden = !P.has('Outfit:: Duo'); if ($('lyBtn')) $('lyBtn').hidden = !P.has('Outfit:: Lynette'); showWear(); xmasOn = false; deerOn = false; showXmas(); $('xmasBtn').hidden = !P.has('Outfit:: Christmas') && !P.has('Outfit:: Xmas'); $('deerBtn').hidden = !P.has('Outfit:: Reindeer'); if (P.has('Outfit:: Reindeer') || P.has('Outfit:: Christmas') || P.has('Outfit:: Xmas') || P.has('Outfit:: Red Hood')) $('decorSec').hidden = false;
   buildDecos();
   hairStyle = 0; $('hairRow').hidden = !P.has('Hair:: Style');
   uniform = 0; swim = 0; bustOut = 0; $('uniBtn_bs').hidden = !P.has('Outfit:: Bust'); $('uniBtn_sw').hidden = $('uniBtn_bk').hidden = $('uniBtn_wt').hidden = !P.has('Outfit:: Swim'); $('uniRow').hidden = !P.has('Outfit:: Uniform'); document.querySelectorAll('#uniRow button').forEach(x => x.setAttribute('aria-pressed', x.id === 'uniBtn_main'));
@@ -958,6 +956,7 @@ function drive(dt) {
   if (P.has('Outfit:: Fur')) set('Outfit:: Fur', furVal);
   if (P.has('Acc:: Hair Off')) set('Acc:: Hair Off', hairOff ? 1 : 0);
   if (P.has('Outfit:: Christmas')) set('Outfit:: Christmas', xmasOn ? 1 : 0);
+  if (P.has('Outfit:: Xmas')) set('Outfit:: Xmas', xmasOn ? 1 : 0);
   if (P.has('Outfit:: Reindeer')) set('Outfit:: Reindeer', deerOn ? 1 : 0);
   if (P.has('Outfit:: Blazer Off')) set('Outfit:: Blazer Off', blazerOff ? 1 : 0);
   if (P.has('Pose:: Kneel')) set('Pose:: Kneel', kneelOn ? 1 : 0);
