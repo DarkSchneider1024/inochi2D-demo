@@ -317,6 +317,7 @@ const MODELS = [
   { id: 'new_carol_sit', name: '新卡洛兒姐姐（坐姿）', desc: '水手服坐在紅色圓凳上，雙手戴白手套交疊放在膝上，頭微偏 3/4（GPT 部件圖層，凳子單獨一層）', file: 'models/new_carol_sit.inp', own: 'make_new_carol_sit_puppet.py' },
   { id: 'new_aubergine', name: '新歐蓓樂希姊姊', desc: '紫黑長捲髮、披肩束腰、燈籠袖、長靴（GPT 部件圖層；生氣嘟嘴、難過水汪汪大眼）', file: 'models/new_aubergine.inp', own: 'make_new_aubergine_puppet.py' },
   { id: 'new_bobo', name: '新兔子波波', desc: '精緻版兔子波波（GPT 部件圖層；九軸、眨眼、^^ 笑眼、開心／生氣／難過含淚／驚訝／害怕／害羞、紅暈三級、果凍眼、耳朵圍巾尾巴物理）。2026-11-25 新增「學院服」（小巫師帽、深藍金邊外套、橘領結、百褶裙、皮帶、小包、照底圖換身體；袖子在紅蘿蔔後、手掌在前）與聖誕裝開關 Outfit:: Xmas（測試版，回歸中）', file: 'models/new_bobo.inp', own: 'make_new_bobo_puppet.py' },
+  { id: 'new_carol_xmas', name: '新卡洛兒姐姐（聖誕帽・測試版）', desc: '精緻版卡洛兒聖誕服：紅色聖誕帽、白毛領披肩、紅洋裝、紅白條紋過膝襪、棕靴；金髮；手臂沿用水手服（白手套），所有手勢都能用（GPT 部件圖層；回歸中）', file: 'models/new_carol_xmas.inp', own: 'make_new_carol_xmas_puppet.py' },
   { id: 'new_bobo_xmas', name: '新兔子波波（聖誕裝・測試版）', desc: '精緻版兔子波波換裝：兩耳之間的小紅聖誕帽（帽尖絨球會擺）、紅綠格紋圍巾（垂尾會擺）；臉、表情、九軸、動作同 new_bobo（GPT 部件圖層）', file: 'models/new_bobo_xmas.inp', own: 'make_new_bobo_xmas_puppet.py' },
   { id: 'new_bobo_side', name: '新兔子波波（側面・波波跳）', desc: '3/4 側身、頭朝前進方向，抱胡蘿蔔跳（動作「波波跳」：六組 GPT 跳躍腳＋肚子連續收放；GPT 部件圖層；眨眼、說話；表情：開心 ^^、驚訝、著急、撲空失望、生氣嘟嘴、害羞）', file: 'models/new_bobo_side.inp', own: 'make_new_bobo_side_puppet.py' },
   { id: 'new_huihui', name: '小灰狼灰灰', desc: '精緻版小灰狼（GPT 部件圖層；九軸、眨眼、^^ 笑眼、開心／生氣／難過含淚／驚訝／害怕／害羞、紅暈三級、果凍眼、耳朵／尾巴／領巾結物理、搖尾巴）', file: 'models/new_huihui.inp', own: 'make_new_huihui_puppet.py' },
@@ -400,7 +401,7 @@ const autoLabels = { follow: '👀 視線跟隨', blink: '😌 眨眼', breath: 
 const { verOf, vurl, vlabel } = await import('./versions.js');
 
 // ---- model picker ----
-const FEATURED_IDS = ['yanli', 'aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'new_carol', 'new_carol_sit', 'new_aubergine', 'new_bobo', 'new_bobo_xmas', 'new_bobo_side', 'new_huihui', 'new_carol_side', 'new_carrot_side', 'male2', 'newton_m2_side', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
+const FEATURED_IDS = ['yanli', 'aka_carol', 'aka_gemini', 'base_head_90deg_9axis', 'mr_carrot_sci', 'mr_carrot_mage', 'carol_v3', 'bobo_v3', 'linda_nyan', 'acad_carrot', 'new_carrot', 'new_carol', 'new_carol_sit', 'new_aubergine', 'new_bobo', 'new_bobo_xmas', 'new_carol_xmas', 'new_bobo_side', 'new_huihui', 'new_carol_side', 'new_carrot_side', 'male2', 'newton_m2_side', 'aubergine', 'aubergine_v2', 'aka', 'midori'];
 for (const id of ['aubergine_academy_gestures', ...FEATURED_IDS]) {
   const m = MODELS.find(m => m.id === id);
   const option = document.createElement('option');
