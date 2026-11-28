@@ -328,9 +328,9 @@
    "name": "眼球_R",
    "file": "11.webp",
    "x": 231,
-   "y": 377,
+   "y": 370,
    "w": 147,
-   "h": 180,
+   "h": 188,
    "group": "Head/Eye R/EyeBall R",
    "hidden": false,
    "backing": false,
@@ -339,22 +339,22 @@
     {
      "type": "藏線",
      "box": [
-      302,
-      380,
-      81,
-      146
+      276,
+      373,
+      108,
+      161
      ],
-     "n": 264
+     "n": 818
     },
     {
      "type": "藏線",
      "box": [
-      270,
-      540,
-      42,
-      19
+      269,
+      539,
+      43,
+      20
      ],
-     "n": 51
+     "n": 59
     }
    ]
   },
@@ -377,7 +377,7 @@
    "x": 258,
    "y": 399,
    "w": 82,
-   "h": 132,
+   "h": 129,
    "group": "Head/Eye R/EyeBall R",
    "hidden": false,
    "backing": false,
@@ -387,11 +387,11 @@
      "type": "碎塊",
      "box": [
       323,
-      514,
+      511,
       18,
       19
      ],
-     "n": 88
+     "n": 90
     }
    ]
   },
@@ -412,9 +412,9 @@
    "name": "上眼線_R",
    "file": "15.webp",
    "x": 155,
-   "y": 352,
-   "w": 230,
-   "h": 149,
+   "y": 359,
+   "w": 229,
+   "h": 142,
    "group": "Head/Eye R",
    "hidden": false,
    "backing": false,
@@ -425,9 +425,9 @@
    "name": "笑眼線_R",
    "file": "16.webp",
    "x": 155,
-   "y": 352,
-   "w": 230,
-   "h": 149,
+   "y": 359,
+   "w": 229,
+   "h": 142,
    "group": "Head/Eye R",
    "hidden": true,
    "backing": false,
@@ -438,9 +438,9 @@
    "name": "笑眼線大笑_R",
    "file": "17.webp",
    "x": 155,
-   "y": 352,
-   "w": 230,
-   "h": 149,
+   "y": 359,
+   "w": 229,
+   "h": 142,
    "group": "Head/Eye R",
    "hidden": true,
    "backing": false,
@@ -464,9 +464,9 @@
    "name": "眼球_L",
    "file": "19.webp",
    "x": 536,
-   "y": 377,
+   "y": 370,
    "w": 147,
-   "h": 180,
+   "h": 188,
    "group": "Head/Eye L/EyeBall L",
    "hidden": false,
    "backing": false,
@@ -475,22 +475,22 @@
     {
      "type": "藏線",
      "box": [
-      531,
-      380,
-      81,
-      146
+      530,
+      373,
+      108,
+      161
      ],
-     "n": 263
+     "n": 817
     },
     {
      "type": "藏線",
      "box": [
       602,
-      540,
-      42,
-      19
+      539,
+      43,
+      20
      ],
-     "n": 51
+     "n": 59
     }
    ]
   },
@@ -513,7 +513,7 @@
    "x": 574,
    "y": 399,
    "w": 82,
-   "h": 132,
+   "h": 129,
    "group": "Head/Eye L/EyeBall L",
    "hidden": false,
    "backing": false,
@@ -523,11 +523,11 @@
      "type": "碎塊",
      "box": [
       573,
-      514,
+      511,
       18,
       19
      ],
-     "n": 88
+     "n": 90
     }
    ]
   },
@@ -547,10 +547,10 @@
   {
    "name": "上眼線_L",
    "file": "23.webp",
-   "x": 529,
-   "y": 352,
-   "w": 230,
-   "h": 149,
+   "x": 530,
+   "y": 359,
+   "w": 229,
+   "h": 142,
    "group": "Head/Eye L",
    "hidden": false,
    "backing": false,
@@ -560,10 +560,10 @@
   {
    "name": "笑眼線_L",
    "file": "24.webp",
-   "x": 529,
-   "y": 352,
-   "w": 230,
-   "h": 149,
+   "x": 530,
+   "y": 359,
+   "w": 229,
+   "h": 142,
    "group": "Head/Eye L",
    "hidden": true,
    "backing": false,
@@ -573,10 +573,10 @@
   {
    "name": "笑眼線大笑_L",
    "file": "25.webp",
-   "x": 529,
-   "y": 352,
-   "w": 230,
-   "h": 149,
+   "x": 530,
+   "y": 359,
+   "w": 229,
+   "h": 142,
    "group": "Head/Eye L",
    "hidden": true,
    "backing": false,
